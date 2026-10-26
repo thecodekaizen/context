@@ -1,0 +1,11 @@
+.thread-cache/
+__pycache__/
+*.py[cod]
+.venv/
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example

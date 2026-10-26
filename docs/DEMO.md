@@ -13,8 +13,8 @@ The submission requires a three-minute demo video. Keep the story to one project
 1. **Introduce the archive.** Use a rights-safe synthetic creative-project archive spanning several dates. Show that each item has a source and date.
 2. **Discover.** Run the Meta-backed CLI discovery result prepared for the demo; show one specific evolution claim about the creative work.
 3. **Inspect evidence.** Open a timeline and source fragments. Show supporting evidence and one counterexample or uncertainty.
-4. **Challenge.** The user questions or corrects the interpretation. THREAD acknowledges the correction and revises, rejects, or reframes the candidate.
-5. **Interview.** Ask a grounded question that helps the user articulate what the pattern means.
+4. **ECHO interview, question one.** Ask what changed between the earlier and later work, and what original need still matters.
+5. **ECHO interview, question two.** Reflect the creator’s first answer and ask what a visitor should encounter first. Preserve both answers as creator context before offering a provisional interpretation.
 6. **Confirm.** User explicitly confirms or edits the insight.
 7. **Create.** Generate one artifact grounded in the confirmed insight, with its evidence lineage visible.
 

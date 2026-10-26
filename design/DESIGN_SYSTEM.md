@@ -16,6 +16,10 @@ A living research journal and intelligence map: calm, editorial, evidence-forwar
 
 Use a warm paper-like neutral base, dark ink text, and one restrained accent for active inquiry, with a distinct secondary signal for counter-evidence. Favor editorial serif display typography paired with a highly legible sans-serif interface face; use a mono face sparingly for dates and provenance. Fine rules, timeline marks, and restrained node/connection motifs can carry the intelligence-map feel. Confirm actual tokens, typefaces, and contrast after the first mockup.
 
+## Hackathon UI constraint
+
+The pre-event board is a visual reference only. Keep the implementation focused on the discovery/investigation workflow; do not make a dashboard the main feature. Lead with one specific project evolution claim and its evidence, then let the creator inspect and challenge it. Charts and archive coverage are supporting context, not the product.
+
 ## Interaction cues
 
 - Discovery is an invitation to inspect, not an answer card.

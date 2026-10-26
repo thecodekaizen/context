@@ -1,5 +1,9 @@
 # Evaluation strategy
 
+## Hackathon judging alignment
+
+The live kickoff rubric weights impact 30%, Meta AI tooling 25%, technical depth 20%, and demo 25%. Stage 1 is pass/fail on theme fit and reasonable Meta-model use. Therefore, verify that THREAD solves a clear creative-work problem, uses the Meta model for a substantive multimodal/temporal step rather than a token API call, has a technically credible evidence-and-counter-evidence pipeline, and tells the story in a three-minute demo.
+
 ## Evaluation objective
 
 Evaluate whether THREAD finds a specific change in a creative project, grounds it in traceable dated artifacts, includes challenging evidence, communicates uncertainty, and responds to creator correction. Fluency alone is not success. Avoid tests that reward personality profiling or generic chat over source documents.
@@ -18,7 +22,7 @@ Evaluate whether THREAD finds a specific change in a creative project, grounds i
 - Calibration/communication: whether caveats match the evidence; do not claim calibrated probabilities without labeled data.
 - Correction: whether user-provided context changes, narrows, or rejects the hypothesis appropriately.
 - Artifact: fidelity to the confirmed project insight, source traceability, and no unsupported additions.
-- Meta-model contribution: identify which task uses the Meta model and inspect its output on the same fixture; the model must be part of the demonstrated working path.
+- Meta-model contribution: compare Muse Spark's constrained summary/theme extraction against the hand-authored fixture annotations, inspect source fidelity and unsupported-detail errors, and use the resulting memories in the same temporal pipeline. Record model ID and provider in every finding; the model must be part of the demonstrated working path. Explain why this is more than a basic RAG lookup.
 
 ## Human review rubric
 
@@ -27,6 +31,10 @@ Score the featured candidate 1–5 for evidence support, specificity to the crea
 ## Minimum evaluation set
 
 Build a small set for clear evolution, false evolution from two unrelated artifacts, missing-date trap, duplicate source, misleading causal leap, and sparse/no-insight case. Each includes the expected claim behavior and known counter-evidence.
+
+## Seed-data baseline
+
+Run `python -m thread_engine.evaluate` from `backend/` to compare fixture discovery with the labeled cases in `datasets/synthetic/evaluation-cases.json`. The set covers a known evolution, a stable project that should produce no finding, and unrelated topics incorrectly grouped into one archive. The disconnected-topics case exposed a false positive in the midpoint/theme-frequency baseline; a conservative shared-content-term guard now blocks that seed. The guard may miss genuine shifts whose vocabulary changes completely, so add such a positive case before treating the guard as reliable. Add new cases with expected behavior before changing the algorithm, so the same archive can reveal regressions.
 
 ## Demo release gate
 

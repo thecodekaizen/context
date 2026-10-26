@@ -1,0 +1,19 @@
+{
+  "cases": [
+    {
+      "name": "neighborhood atlas has an expansion with a route counterexample",
+      "dataset": "creative-evolution.json",
+      "expected": {"earlier_theme": "wayfinding", "later_theme": "oral-history"}
+    },
+    {
+      "name": "steady drawing practice should not produce a shift",
+      "dataset": "stable-practice.json",
+      "expected": null
+    },
+    {
+      "name": "unrelated assignments grouped together should not imply evolution",
+      "dataset": "disconnected-topics.json",
+      "expected": null
+    }
+  ]
+}

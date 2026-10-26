@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "project": {"id": "project-stable-practice", "title": "Daily Drawing Practice"},
+  "artifacts": [],
+  "memories": [
+    {"id":"stable-001","source_id":"sketch-001","date":"2022-01-10","modality":"sketchbook","title":"First daily studies","summary":"Short observational drawings to build a steady practice.","themes":["observation","craft"]},
+    {"id":"stable-002","source_id":"sketch-002","date":"2022-05-18","modality":"sketchbook","title":"Gesture studies","summary":"Daily sketches continue to focus on observation and line craft.","themes":["observation","craft"]},
+    {"id":"stable-003","source_id":"sketch-003","date":"2023-03-22","modality":"sketchbook","title":"Light and form","summary":"A new exercise studies light while keeping observational drawing central.","themes":["observation","craft"]},
+    {"id":"stable-004","source_id":"sketch-004","date":"2024-02-09","modality":"sketchbook","title":"Outdoor studies","summary":"Outdoor drawings continue the same steady observation practice.","themes":["observation","craft"]},
+    {"id":"stable-005","source_id":"sketch-005","date":"2025-06-14","modality":"sketchbook","title":"Color experiments","summary":"Color experiments extend the daily drawing routine.","themes":["observation","craft"]},
+    {"id":"stable-006","source_id":"sketch-006","date":"2025-11-02","modality":"sketchbook","title":"Year-end studies","summary":"The latest studies retain the same observational focus and craft practice.","themes":["observation","craft"]}
+  ]
+}

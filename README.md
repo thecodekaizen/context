@@ -52,14 +52,13 @@ A useful, traceable creative artifact
 
 1. **Discover** a possible thread across a bounded personal archive.
 2. **Inspect** the timeline, source fragments, and evidence on both sides.
-3. **Challenge** the interpretation or add missing context.
-4. **Reflect** through a small number of grounded interview questions.
-5. **Confirm or revise** the insight in the user's own words.
+3. **Interview (ECHO)** in two evidence-grounded turns: explain what changed, then shape how the prototype should express that change.
+4. **Confirm or revise** the insight in the user's own words.
 6. **Create** one artifact that remains connected to its evidence.
 
 ## Hackathon timeline
 
-Kickoff is Oct 26. The official building period is **Oct 27–Nov 4, 2026**. THREAD’s repository foundation and visual direction were prepared before the event; product features will be built during the hackathon and clearly identified in the demo and submission. The deadline is Nov 4 at 9:00 PM EST, and the submission requires a three-minute demo video. See the [execution plan](docs/PLAN.md) and [submission checklist](docs/HACKATHON_CHECKLIST.md).
+Kickoff is Oct 26. The live kickoff said “Hacking starts now”; the guide lists the formal building period as **Oct 27–Nov 4, 2026**. THREAD’s repository foundation and visual direction were prepared before the event. We began the CLI slice after kickoff and are logging event work separately from that foundation. The deadline is Nov 4 at 9:00 PM ET, and the submission requires a three-minute demo video. See the [execution plan](docs/PLAN.md) and [submission checklist](docs/HACKATHON_CHECKLIST.md).
 
 | Path | Purpose |
 |---|---|
@@ -75,8 +74,8 @@ Kickoff is Oct 26. The official building period is **Oct 27–Nov 4, 2026**. THR
 | [`design/mockups/`](design/mockups/) | Initial six-screen direction board |
 | [`design/flows/demo-flow.md`](design/flows/demo-flow.md) | Screen sequence and interaction boundaries |
 | [`datasets/`](datasets/) | Reserved for synthetic, adversarial, and consented evaluation fixtures |
-| [`backend/`](backend/) | Reserved for API, discovery services, and CLI |
-| [`apps/web/`](apps/web/) | Reserved for the web client |
+| [`backend/`](backend/) | Python discovery engine, CLI, and local FastAPI workflow API |
+| [`apps/web/`](apps/web/) | Next.js client for the discovery and confirmation flow |
 
 ## Proposed stack
 
@@ -91,7 +90,7 @@ These choices are proposals to validate early. Confirm supported modalities, acc
 
 ## The CLI-first gate
 
-The discovery engine must work from the CLI **before frontend workflow development begins**. First prove that fixtures can produce structured, source-linked candidates with uncertainty and counter-evidence. Then build the web experience on top of that contract.
+The discovery engine must work from the CLI **before frontend workflow development begins**. This gate has passed on the synthetic fixture: the CLI emits a dated evolution finding with source evidence, late counter-evidence, and uncertainty. The web experience consumes that same finding contract; API routes enforce two interview answers and explicit confirmation before creating an artifact.
 
 ## Hackathon scope
 
@@ -107,7 +106,7 @@ Use only bounded, user-provided or synthetic data for the prototype. Real person
 
 ## Current status
 
-**Pre-kickoff preparation.** THREAD is scoped to evidence-backed evolution in creative projects, not personality analysis. Next: verify Meta Model API access and complete a Meta-backed CLI discovery slice during the official build period. No product features are implemented yet.
+**Hackathon work in progress.** The CLI discovery slice runs on synthetic data; the Meta adapter includes local caching and token/cost accounting. The Next.js flow and local API cover discover → inspect → two-turn ECHO interview → confirm → create using the fixture provider. The Meta-backed path still needs credited API access and a live run before it is part of the verified demo path.
 
 ---
 
