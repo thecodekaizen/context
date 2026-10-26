@@ -3,11 +3,11 @@
   "project": {"id": "project-disconnected-topics", "title": "Collected Ideas"},
   "artifacts": [],
   "memories": [
-    {"id":"mix-001","source_id":"water-001","date":"2022-01-11","modality":"field-note","title":"River sample","summary":"Measured mineral levels at a river site for a short environmental class assignment.","themes":["water-quality"]},
-    {"id":"mix-002","source_id":"water-002","date":"2022-06-04","modality":"field-note","title":"Rainfall log","summary":"Recorded rainfall and runoff for the same class assignment.","themes":["water-quality"]},
-    {"id":"mix-003","source_id":"water-003","date":"2023-03-17","modality":"lab-note","title":"Sample comparison","summary":"Compared water samples and summarized possible sources of variation.","themes":["water-quality"]},
-    {"id":"mix-004","source_id":"oral-001","date":"2024-02-08","modality":"audio-transcript","title":"Grandmother's recipes","summary":"Recorded a family conversation about recipes and holiday traditions.","themes":["oral-history"]},
-    {"id":"mix-005","source_id":"oral-002","date":"2025-05-29","modality":"audio-transcript","title":"A childhood story","summary":"Transcribed a relative's recollection of growing up in another city.","themes":["oral-history"]},
-    {"id":"mix-006","source_id":"oral-003","date":"2025-10-20","modality":"audio-transcript","title":"Family archive","summary":"Organized family recordings into a small personal archive.","themes":["oral-history"]}
+    {"id":"mix-001","project_id":"project-water-quality","source_id":"water-001","date":"2022-01-11","modality":"field-note","title":"River sample","summary":"Measured mineral levels at a river site for a short environmental class assignment.","themes":["water-quality"]},
+    {"id":"mix-002","project_id":"project-water-quality","source_id":"water-002","date":"2022-06-04","modality":"field-note","title":"Rainfall log","summary":"Recorded rainfall and runoff for the same class assignment.","themes":["water-quality"]},
+    {"id":"mix-003","project_id":"project-water-quality","source_id":"water-003","date":"2023-03-17","modality":"lab-note","title":"Sample comparison","summary":"Compared water samples and summarized possible sources of variation.","themes":["water-quality"]},
+    {"id":"mix-004","project_id":"project-family-oral-history","source_id":"oral-001","date":"2024-02-08","modality":"audio-transcript","title":"Grandmother's recipes","summary":"Recorded a family conversation about recipes and holiday traditions.","themes":["oral-history"]},
+    {"id":"mix-005","project_id":"project-family-oral-history","source_id":"oral-002","date":"2025-05-29","modality":"audio-transcript","title":"A childhood story","summary":"Transcribed a relative's recollection of growing up in another city.","themes":["oral-history"]},
+    {"id":"mix-006","project_id":"project-family-oral-history","source_id":"oral-003","date":"2025-10-20","modality":"audio-transcript","title":"Family archive","summary":"Organized family recordings into a small personal archive.","themes":["oral-history"]}
   ]
 }

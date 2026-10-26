@@ -5,22 +5,8 @@ from __future__ import annotations
 from collections import Counter
 from datetime import date
 from hashlib import sha256
-import re
 
 from .contracts import Evidence, EvolutionFinding, Memory
-
-_GENERIC_CONTINUITY_TERMS = {
-    "about", "archive", "draft", "first", "later", "made", "notes", "recorded",
-    "same", "source", "story", "work",
-}
-
-
-def _continuity_terms(memories: list[Memory]) -> set[str]:
-    terms: set[str] = set()
-    for memory in memories:
-        words = re.findall(r"[a-z]{4,}", f"{memory.title} {memory.summary}".lower())
-        terms.update(word for word in words if word not in _GENERIC_CONTINUITY_TERMS)
-    return terms
 
 
 def _parse_date(value: str) -> date:
@@ -57,13 +43,6 @@ def discover_evolution(
 
     midpoint = len(ordered) // 2
     earlier, later = ordered[:midpoint], ordered[midpoint:]
-    # A theme-frequency swing alone can turn two unrelated assignments into a
-    # false project evolution. Require at least one content anchor across time.
-    # This conservative lexical check can miss real shifts that replace all
-    # vocabulary; it is a baseline guard, not a semantic continuity model.
-    if not (_continuity_terms(earlier) & _continuity_terms(later)):
-        return None
-
     earlier_counts = Counter(theme for item in earlier for theme in dict.fromkeys(item.themes))
     later_counts = Counter(theme for item in later for theme in dict.fromkeys(item.themes))
 

@@ -34,7 +34,7 @@ Build a small set for clear evolution, false evolution from two unrelated artifa
 
 ## Seed-data baseline
 
-Run `python -m thread_engine.evaluate` from `backend/` to compare fixture discovery with the labeled cases in `datasets/synthetic/evaluation-cases.json`. The set covers a known evolution, a stable project that should produce no finding, and unrelated topics incorrectly grouped into one archive. The disconnected-topics case exposed a false positive in the midpoint/theme-frequency baseline; a conservative shared-content-term guard now blocks that seed. The guard may miss genuine shifts whose vocabulary changes completely, so add such a positive case before treating the guard as reliable. Add new cases with expected behavior before changing the algorithm, so the same archive can reveal regressions.
+Run `python -m thread_engine.evaluate` from `backend/` to compare fixture discovery with the labeled cases in `datasets/synthetic/evaluation-cases.json`. The set covers a clear shift with counter-evidence, a stable project, an archive mixing unrelated project IDs, and a genuine shift whose vocabulary changes. The mixed-project seed exposed a false positive; dataset loading now rejects it. The vocabulary-change seed confirms that project assignment—not shared words—defines the comparison boundary. This relies on trustworthy project IDs, so a future importer must avoid grouping unrelated sources under one project. Add new cases with expected behavior before changing the algorithm, so the same archive can reveal regressions.
 
 ## Demo release gate
 

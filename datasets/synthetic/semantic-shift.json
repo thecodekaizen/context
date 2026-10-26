@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "project": {
+    "id": "project-memory-atlas",
+    "title": "Memory Atlas",
+    "review_note": "Human-labeled as one continuous project: the creator intentionally changed its focus from practical navigation to preserving resident memories. The artifact vocabulary changes substantially across that transition."
+  },
+  "artifacts": [],
+  "memories": [
+    {"id":"semantic-001","source_id":"map-001","date":"2022-02-12","modality":"sketchbook","title":"Contour study","summary":"Mapped walking routes and street junctions for visitors unfamiliar with the district.","themes":["wayfinding"]},
+    {"id":"semantic-002","source_id":"map-002","date":"2022-07-21","modality":"field-note","title":"Access grid","summary":"Compared paths and crossings, marking step-free directions and useful landmarks.","themes":["wayfinding"]},
+    {"id":"semantic-003","source_id":"map-003","date":"2023-04-09","modality":"prototype","title":"Spatial index","summary":"Tested clearer signposts and a compact index for local navigation.","themes":["wayfinding"]},
+    {"id":"semantic-004","source_id":"voice-001","date":"2024-03-18","modality":"audio-transcript","title":"Voices before the move","summary":"Transcribed elders recalling migration, family rituals, and seasonal celebrations.","themes":["oral-history"]},
+    {"id":"semantic-005","source_id":"voice-002","date":"2025-01-27","modality":"interview-notes","title":"Kitchen memories","summary":"Collected recollections about recipes, household customs, and remembered festivals.","themes":["oral-history"]},
+    {"id":"semantic-006","source_id":"voice-003","date":"2025-10-05","modality":"zine-draft","title":"Story fragments","summary":"Edited spoken memories into a booklet about traditions and displacement.","themes":["oral-history"]}
+  ]
+}

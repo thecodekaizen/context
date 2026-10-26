@@ -27,6 +27,12 @@ def load_dataset(path: Path) -> tuple[str, str, list[Memory]]:
     raw_memories = data.get("memories")
     if not isinstance(raw_memories, list):
         raise ValueError("dataset 'memories' must be a list")
+    if not all(isinstance(item, dict) for item in raw_memories):
+        raise ValueError("each memory must be a JSON object")
+
+    project_ids = {str(item.get("project_id", project["id"])) for item in raw_memories}
+    if project_ids and project_ids != {str(project["id"])}:
+        raise ValueError("dataset mixes project IDs; split the archive or select one project before discovery")
 
     memories = [Memory.from_dict(item) for item in raw_memories]
     source_ids = [memory.source_id for memory in memories]

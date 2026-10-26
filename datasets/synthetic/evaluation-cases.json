@@ -13,7 +13,12 @@
     {
       "name": "unrelated assignments grouped together should not imply evolution",
       "dataset": "disconnected-topics.json",
-      "expected": null
+      "expected": "invalid"
+    },
+    {
+      "name": "one project can change direction while its vocabulary changes",
+      "dataset": "semantic-shift.json",
+      "expected": {"earlier_theme": "wayfinding", "later_theme": "oral-history"}
     }
   ]
 }

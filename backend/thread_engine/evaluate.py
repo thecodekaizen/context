@@ -25,9 +25,7 @@ def evaluate(manifest_path: Path) -> tuple[list[dict[str, Any]], int]:
                 "later_theme": finding["later_theme"],
             }
         except ValueError as exc:
-            if not str(exc).startswith("No sufficiently supported evolution finding"):
-                raise
-            actual = None
+            actual = None if str(exc).startswith("No sufficiently supported evolution finding") else "invalid"
 
         expected = case["expected"]
         passed = actual == expected
