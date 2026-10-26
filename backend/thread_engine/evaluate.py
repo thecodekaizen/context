@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from .cli import DatasetError
 from .service import discover_dataset
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -24,8 +25,10 @@ def evaluate(manifest_path: Path) -> tuple[list[dict[str, Any]], int]:
                 "earlier_theme": finding["earlier_theme"],
                 "later_theme": finding["later_theme"],
             }
+        except DatasetError as exc:
+            actual = f"invalid:{exc.code}"
         except ValueError as exc:
-            actual = None if str(exc).startswith("No sufficiently supported evolution finding") else "invalid"
+            actual = None if str(exc).startswith("No sufficiently supported evolution finding") else "invalid:discovery"
 
         expected = case["expected"]
         passed = actual == expected

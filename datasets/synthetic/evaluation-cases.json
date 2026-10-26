@@ -13,12 +13,22 @@
     {
       "name": "unrelated assignments grouped together should not imply evolution",
       "dataset": "disconnected-topics.json",
-      "expected": "invalid"
+      "expected": "invalid:mixed_projects"
     },
     {
       "name": "one project can change direction while its vocabulary changes",
       "dataset": "semantic-shift.json",
       "expected": {"earlier_theme": "wayfinding", "later_theme": "oral-history"}
+    },
+    {
+      "name": "impossible calendar date is rejected during input loading",
+      "dataset": "invalid-date.json",
+      "expected": "invalid:invalid_date"
+    },
+    {
+      "name": "duplicate source provenance is rejected",
+      "dataset": "duplicate-source.json",
+      "expected": "invalid:duplicate_source"
     }
   ]
 }

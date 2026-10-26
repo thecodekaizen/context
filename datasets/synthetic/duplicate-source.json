@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "project": {"id": "project-duplicate-source", "title": "Duplicated Atlas"},
+  "artifacts": [],
+  "memories": [
+    {"id":"dup-001","source_id":"dup-src-001","date":"2022-02-10","modality":"note","title":"Route plan","summary":"A practical route map for visitors.","themes":["wayfinding"]},
+    {"id":"dup-002","source_id":"dup-src-001","date":"2022-08-10","modality":"note","title":"Access plan","summary":"Improve crossings and path directions.","themes":["wayfinding"]},
+    {"id":"dup-003","source_id":"dup-src-003","date":"2023-02-10","modality":"note","title":"Index sketch","summary":"Make navigation easier with a street index.","themes":["wayfinding"]},
+    {"id":"dup-004","source_id":"dup-src-004","date":"2024-02-10","modality":"interview","title":"Resident memories","summary":"Record elders' memories of the district.","themes":["oral-history"]},
+    {"id":"dup-005","source_id":"dup-src-005","date":"2025-02-10","modality":"interview","title":"Local stories","summary":"Collect stories about traditions and place.","themes":["oral-history"]},
+    {"id":"dup-006","source_id":"dup-src-006","date":"2025-10-10","modality":"draft","title":"Memory booklet","summary":"Edit recorded histories into a booklet.","themes":["oral-history"]}
+  ]
+}

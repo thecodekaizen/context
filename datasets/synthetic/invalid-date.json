@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "project": {"id": "project-invalid-date", "title": "Misdated Atlas"},
+  "artifacts": [],
+  "memories": [
+    {"id":"date-001","source_id":"date-src-001","date":"2022-02-10","modality":"note","title":"Route plan","summary":"A practical route map for visitors.","themes":["wayfinding"]},
+    {"id":"date-002","source_id":"date-src-002","date":"2022-08-10","modality":"note","title":"Access plan","summary":"Improve crossings and path directions.","themes":["wayfinding"]},
+    {"id":"date-003","source_id":"date-src-003","date":"2023-02-10","modality":"note","title":"Index sketch","summary":"Make navigation easier with a street index.","themes":["wayfinding"]},
+    {"id":"date-004","source_id":"date-src-004","date":"2024-02-30","modality":"interview","title":"Resident memories","summary":"Record elders' memories of the district.","themes":["oral-history"]},
+    {"id":"date-005","source_id":"date-src-005","date":"2025-02-10","modality":"interview","title":"Local stories","summary":"Collect stories about traditions and place.","themes":["oral-history"]},
+    {"id":"date-006","source_id":"date-src-006","date":"2025-10-10","modality":"draft","title":"Memory booklet","summary":"Edit recorded histories into a booklet.","themes":["oral-history"]}
+  ]
+}

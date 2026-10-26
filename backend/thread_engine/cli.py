@@ -3,41 +3,65 @@
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import json
+import re
 import sys
+from datetime import date
 from pathlib import Path
 from typing import Any
 
 from .contracts import Memory
 
 
+class DatasetError(ValueError):
+    """A validation problem in the supplied archive, with a stable error code."""
+
+    def __init__(self, code: str, message: str) -> None:
+        super().__init__(message)
+        self.code = code
+
+
 def load_dataset(path: Path) -> tuple[str, str, list[Memory]]:
     try:
         data: dict[str, Any] = json.loads(path.read_text(encoding="utf-8"))
     except OSError as exc:
-        raise ValueError(f"cannot read dataset {path}: {exc}") from exc
+        raise DatasetError("unreadable", f"cannot read dataset {path}: {exc}") from exc
     except json.JSONDecodeError as exc:
-        raise ValueError(f"invalid JSON in {path}: {exc}") from exc
+        raise DatasetError("invalid_json", f"invalid JSON in {path}: {exc}") from exc
 
     if data.get("schema_version") != 1:
-        raise ValueError("dataset must declare schema_version: 1")
+        raise DatasetError("schema", "dataset must declare schema_version: 1")
     project = data.get("project")
     if not isinstance(project, dict) or not project.get("id") or not project.get("title"):
-        raise ValueError("dataset must include project.id and project.title")
+        raise DatasetError("project", "dataset must include project.id and project.title")
     raw_memories = data.get("memories")
     if not isinstance(raw_memories, list):
-        raise ValueError("dataset 'memories' must be a list")
+        raise DatasetError("memories", "dataset 'memories' must be a list")
     if not all(isinstance(item, dict) for item in raw_memories):
-        raise ValueError("each memory must be a JSON object")
+        raise DatasetError("memory_shape", "each memory must be a JSON object")
 
     project_ids = {str(item.get("project_id", project["id"])) for item in raw_memories}
     if project_ids and project_ids != {str(project["id"])}:
-        raise ValueError("dataset mixes project IDs; split the archive or select one project before discovery")
+        raise DatasetError("mixed_projects", "dataset mixes project IDs; split the archive or select one project before discovery")
 
-    memories = [Memory.from_dict(item) for item in raw_memories]
+    try:
+        memories = [Memory.from_dict(item) for item in raw_memories]
+    except (TypeError, ValueError) as exc:
+        raise DatasetError("memory_fields", str(exc)) from exc
+
+    for memory in memories:
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", memory.date):
+            raise DatasetError("invalid_date", f"memory {memory.id!r} has invalid date {memory.date!r}; expected YYYY-MM-DD")
+        try:
+            date.fromisoformat(memory.date)
+        except ValueError as exc:
+            raise DatasetError("invalid_date", f"memory {memory.id!r} has invalid date {memory.date!r}; expected a real calendar date") from exc
+
     source_ids = [memory.source_id for memory in memories]
-    if len(source_ids) != len(set(source_ids)):
-        raise ValueError("each memory must refer to a distinct source_id in this baseline")
+    duplicates = sorted(source_id for source_id, count in Counter(source_ids).items() if count > 1)
+    if duplicates:
+        raise DatasetError("duplicate_source", f"source_id(s) appear more than once: {', '.join(duplicates)}")
     return str(project["id"]), str(project["title"]), memories
 
 
@@ -81,6 +105,9 @@ def main() -> int:
         from .service import discover_dataset
 
         result = discover_dataset(dataset_path=args.dataset, provider_name=args.provider)
+    except DatasetError as exc:
+        print(f"thread-discover: invalid dataset [{exc.code}]: {exc}", file=sys.stderr)
+        return 2
     except ValueError as exc:
         if str(exc).startswith("No sufficiently supported evolution finding"):
             print("No sufficiently supported evolution finding in this dataset.")
