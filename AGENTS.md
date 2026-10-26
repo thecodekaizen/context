@@ -2,11 +2,15 @@
 
 ## Product boundary
 
-THREAD is a multimodal personal creative intelligence system. It turns personal history into time-aware memories, discovers evidence-backed patterns, contradictions, evolution, and cross-domain connections, investigates candidates skeptically, interviews the user to develop human-confirmed insights, and only then creates artifacts.
+THREAD is a multimodal creative-project intelligence system. It turns dated project artifacts into temporal memories, discovers evidence-backed changes in themes and direction, investigates candidates skeptically, lets the creator confirm or correct findings, and only then creates artifacts.
 
-## Day-0 constraints
+## Hackathon constraints
 
-- Do not implement product features before the Day-1 plan and scope are reviewed.
+- The repository, planning docs, and mockups are pre-event groundwork; clearly distinguish them from product features built during Oct 27–Nov 4.
+- The official demo is three minutes and must highlight work created during the event.
+- The public submission must use at least one Meta model in the working product path.
+- Keep the project about evolution in creative work, not personality analysis or generic RAG.
+- Do not implement product features before the kickoff and Day-1 scope are reviewed.
 - The discovery engine must run from the CLI before frontend work begins.
 - Keep P0 narrow; use the kill list in `docs/PLAN.md` to protect the demo.
 - Every surfaced claim must link to inspectable evidence and indicate uncertainty. Never present model-generated interpretation as a fact or user-confirmed insight.

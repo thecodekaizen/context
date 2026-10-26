@@ -4,7 +4,7 @@
 
 ### Find the threads running through your own story.
 
-**Personal creative intelligence, grounded in your history.**
+**Creative intelligence, grounded in the history of your work.**
 
 [Product brief](docs/PRODUCT.md) · [Architecture](docs/ARCHITECTURE.md) · [10-day plan](docs/PLAN.md) · [Demo flow](design/flows/demo-flow.md)
 
@@ -24,7 +24,7 @@ THREAD turns a person's multimodal history into **temporal memories**, then help
 
 ## The idea
 
-Most creative tools start with a blank prompt. THREAD starts with the material of a life: notes, images, recordings, documents, and creative work. It looks for meaningful changes and recurring ideas over time, then makes its reasoning visible so the person can question it.
+Most creative tools start with a blank prompt. THREAD starts with a creator’s dated project artifacts: sketches, notes, drafts, recordings, and documents. It looks for meaningful changes in the work over time, then makes its reasoning visible so the creator can question it.
 
 ```text
 Personal history
@@ -57,9 +57,9 @@ A useful, traceable creative artifact
 5. **Confirm or revise** the insight in the user's own words.
 6. **Create** one artifact that remains connected to its evidence.
 
-## Day-0 repository
+## Hackathon timeline
 
-This repository is the product and engineering foundation for the hackathon. It contains planning documents and visual references; **product implementation starts on Day 1**.
+Kickoff is Oct 26. The official building period is **Oct 27–Nov 4, 2026**. THREAD’s repository foundation and visual direction were prepared before the event; product features will be built during the hackathon and clearly identified in the demo and submission. The deadline is Nov 4 at 9:00 PM EST, and the submission requires a three-minute demo video. See the [execution plan](docs/PLAN.md) and [submission checklist](docs/HACKATHON_CHECKLIST.md).
 
 | Path | Purpose |
 |---|---|
@@ -69,7 +69,8 @@ This repository is the product and engineering foundation for the hackathon. It 
 | [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) | Initial provenance-aware data model |
 | [`docs/EVALS.md`](docs/EVALS.md) | Evaluation dataset, rubric, and demo gate |
 | [`docs/DEMO.md`](docs/DEMO.md) | Hero demo narrative and fallback |
-| [`docs/PLAN.md`](docs/PLAN.md) | Oct 26–Nov 4 plan, P0/P1/P2 scope, and kill list |
+| [`docs/PLAN.md`](docs/PLAN.md) | Official build window, P0/P1/P2 scope, and execution plan |
+| [`docs/HACKATHON_CHECKLIST.md`](docs/HACKATHON_CHECKLIST.md) | Model, demo, repository, and submission requirements |
 | [`design/DESIGN_SYSTEM.md`](design/DESIGN_SYSTEM.md) | Visual direction and implementation cues |
 | [`design/mockups/`](design/mockups/) | Initial six-screen direction board |
 | [`design/flows/demo-flow.md`](design/flows/demo-flow.md) | Screen sequence and interaction boundaries |
@@ -106,7 +107,7 @@ Use only bounded, user-provided or synthetic data for the prototype. Real person
 
 ## Current status
 
-**Day 0 — product and design foundation.** No product features are implemented yet. The next milestone is a fixture-backed CLI discovery slice and an early Meta Model API capability check.
+**Pre-kickoff preparation.** THREAD is scoped to evidence-backed evolution in creative projects, not personality analysis. Next: verify Meta Model API access and complete a Meta-backed CLI discovery slice during the official build period. No product features are implemented yet.
 
 ---
 

@@ -2,15 +2,15 @@
 
 ## One sentence
 
-THREAD is a multimodal personal creative intelligence system that turns personal history into temporal memories, discovers evidence-backed insights, and helps a person investigate and confirm meaning before creating artifacts.
+THREAD is a multimodal creative-project intelligence system that turns a creator’s dated project history into temporal memories, discovers evidence-backed changes in themes and direction, and lets the creator investigate and confirm a finding before creating an artifact.
 
 ## Problem
 
-A person's photos, notes, voice recordings, messages, documents, and creative work hold useful patterns across time. These materials are fragmented, hard to revisit, and easy to misread when an AI compresses them into a confident narrative. Most creative tools start at generation; THREAD starts with evidence and understanding.
+A creator’s sketches, notes, drafts, recordings, and project documents hold evidence of how a body of work changes over time. These materials are fragmented and easy to misread when AI turns them into a confident story. Most creative tools start at generation; THREAD starts by tracing changes in the work back to dated evidence.
 
 ## Product promise
 
-Help people see what has been changing, recurring, conflicting, or connecting across their own history—and make it easy to inspect why THREAD thinks so.
+Help creators see how themes and directions have changed across a bounded set of projects—and make it easy to inspect, challenge, and correct the evidence behind each finding.
 
 ## Core model
 
@@ -22,9 +22,13 @@ Help people see what has been changing, recurring, conflicting, or connecting ac
 
 ## User and use case
 
-Initial user: a reflective, creative person with a small personal archive who wants to understand their evolving interests and turn a meaningful realization into something actionable or expressive.
+Initial user: a creator with a small archive of project artifacts who wants to understand how a specific project’s themes, constraints, or direction have evolved.
 
-Hackathon use case: given a curated sample history, show one surprising but defensible insight across time, let the user inspect evidence and challenge it, interview them to develop it, then create one artifact from the confirmed insight.
+Hackathon use case: given a curated synthetic creative-project archive, show one defensible claim about the work over time, let the creator inspect supporting and challenging evidence, revise or confirm the interpretation, then create one small project artifact from the confirmed insight. The product does not assess the creator’s personality or psychological traits.
+
+## Hackathon model requirement
+
+At least one Meta model must contribute to the working product path. Select the model and task only after checking current access and official documentation; record what the model does, what deterministic code validates, and how source provenance survives the call. A fixture provider is for repeatability and fallback, not a substitute for demonstrating Meta-model use in the final demo.
 
 ## Product principles
 

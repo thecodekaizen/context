@@ -2,31 +2,32 @@
 
 ## Evaluation objective
 
-Evaluate whether THREAD discovers specific, useful interpretations that are supported by traceable evidence, handles uncertainty and contradiction honestly, and incorporates user judgment. Fluency alone is not success.
+Evaluate whether THREAD finds a specific change in a creative project, grounds it in traceable dated artifacts, includes challenging evidence, communicates uncertainty, and responds to creator correction. Fluency alone is not success. Avoid tests that reward personality profiling or generic chat over source documents.
 
-## Dataset tiers
+## Fixture tiers
 
-- **Synthetic:** controlled timelines with known patterns, contradictions, and evolution; use for repeatable checks and edge cases.
-- **Adversarial:** deliberately ambiguous, sparse, contradictory, misdated, duplicated, or tempting-to-overclaim material. Include negative examples with no valid insight.
-- **Real (optional):** only voluntarily supplied and consented material; minimize scope, redact where possible, and never check it into git.
+- **Synthetic:** controlled creative-project timelines with known theme/direction evolution and expected supporting evidence.
+- **Adversarial:** sparse, ambiguous, contradictory, duplicated, or misdated artifacts; include negative cases where no valid evolution claim exists.
+- **Real (optional):** only rights-cleared, voluntarily supplied material. Prefer synthetic for the public demo; never commit private data.
 
 ## Stage metrics
 
-- Extraction: source attribution accuracy, temporal normalization accuracy, unsupported-detail rate.
-- Retrieval: evidence recall and relevance for known target patterns; counter-evidence recall.
-- Discovery: evidence sufficiency, specificity, usefulness, novelty, duplicate rate, and false discovery rate on negative cases.
-- Calibration/communication: confidence ordering and whether caveats match evidence. Do not claim calibrated probability without enough labeled cases.
-- Interview: grounding, non-leading wording, acceptance of correction, and explicit confirmation state.
-- Artifact: fidelity to confirmed insight, source traceability, and no unsupported additions.
+- Extraction: source attribution, temporal normalization, and unsupported-detail rate.
+- Retrieval: recall and relevance for known project changes; counter-evidence recall.
+- Discovery: evidence sufficiency, specificity about the work, usefulness, duplicate rate, and false discovery rate on negative cases.
+- Calibration/communication: whether caveats match the evidence; do not claim calibrated probabilities without labeled data.
+- Correction: whether user-provided context changes, narrows, or rejects the hypothesis appropriately.
+- Artifact: fidelity to the confirmed project insight, source traceability, and no unsupported additions.
+- Meta-model contribution: identify which task uses the Meta model and inspect its output on the same fixture; the model must be part of the demonstrated working path.
 
 ## Human review rubric
 
-For each surfaced candidate, reviewers score 1–5: (1) evidence support, (2) specificity, (3) temporal coherence, (4) usefulness/surprise, (5) uncertainty honesty, and (6) respectfulness. Record major failure labels and whether the reviewer would inspect/interview further.
+Score the featured candidate 1–5 for evidence support, specificity to the creative work, temporal coherence, usefulness, uncertainty honesty, and responsiveness to counter-evidence. Record failure labels and whether the reviewer would inspect/interview further.
 
-## Minimum Day-0 evaluation set
+## Minimum evaluation set
 
-Prepare small, inspectable fixtures: clear recurrence, genuine evolution, apparent contradiction explained by context, cross-domain motif, sparse-data no-insight case, misleading coincidence, date-order trap, duplicate sources, and an unsupported causal leap trap. Each includes expected evidence and known counter-evidence.
+Build a small set for clear evolution, false evolution from two unrelated artifacts, missing-date trap, duplicate source, misleading causal leap, and sparse/no-insight case. Each includes the expected claim behavior and known counter-evidence.
 
-## Release gate for demo
+## Demo release gate
 
-The chosen hero insight must have traceable primary evidence and a plausible counter-reading; the CLI must return source-linked structured output; the interview must allow rejection/revision; generation must require explicit confirmation. Keep a short manual scorecard and document failures rather than hiding them.
+The selected claim has traceable primary evidence and a plausible counter-reading; the Meta model contributes visibly to the workflow; the CLI returns structured source-linked output; the creator can reject or revise; artifact generation requires explicit confirmation. Preserve a short scorecard and document failures rather than hiding them.

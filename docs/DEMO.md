@@ -2,12 +2,16 @@
 
 ## Narrative
 
-“THREAD noticed something changing in my own history, can show me exactly why, and helps me decide what it means before making anything from it.”
+“THREAD traced how this creative project changed over time, showed me the evidence on both sides, and helped me decide what to make next.”
 
-## 3–5 minute flow
+## Three-minute submission video
 
-1. **Introduce the archive.** Use a curated, consented/synthetic multimodal sample spanning several dates. Show that each item has a source and date.
-2. **Discover.** Run the CLI discovery result prepared for the demo; show one strong candidate about a recurring pattern, contradiction, evolution, or cross-domain connection.
+The submission requires a three-minute demo video. Keep the story to one project, one evolution claim, a few source fragments, one challenge/correction, one explicit confirmation, and one small artifact. State which functionality was built during the hackathon; distinguish it from the pre-event repository foundation. Show the Meta model’s actual role in the flow.
+
+## Demo flow
+
+1. **Introduce the archive.** Use a rights-safe synthetic creative-project archive spanning several dates. Show that each item has a source and date.
+2. **Discover.** Run the Meta-backed CLI discovery result prepared for the demo; show one specific evolution claim about the creative work.
 3. **Inspect evidence.** Open a timeline and source fragments. Show supporting evidence and one counterexample or uncertainty.
 4. **Challenge.** The user questions or corrects the interpretation. THREAD acknowledges the correction and revises, rejects, or reframes the candidate.
 5. **Interview.** Ask a grounded question that helps the user articulate what the pattern means.

@@ -1,58 +1,62 @@
-# 10-day hackathon plan
+# Hackathon execution plan
 
-**Dates:** Monday, Oct 26 through Wednesday, Nov 4, 2026 (inclusive). Confirm official submission/demo deadlines and time zone on Day 1. Plan for a working vertical slice by Nov 1 and reserve Nov 2–4 for reliability, demo polish, and submission.
+**Event:** Oct 26–Nov 4, 2026. **Kickoff:** Mon Oct 26, 12:00 PM GMT-5. **Building period:** Tue Oct 27–Wed Nov 4. **Submission deadline:** Wed Nov 4, 9:00 PM EST via the Cerebral Valley platform. The submission needs a public repository and an accessible three-minute demo video. Check the event platform for any schedule updates.
+
+Oct 26 is kickoff and preparation; the nine-day implementation plan starts Oct 27. Do not represent the pre-event repo, docs, or mockups as hackathon-built product features. Keep the existing foundation clearly labeled as pre-event preparation, and make the new product work easy to identify in commits, the demo, and submission text.
+
+## Project framing
+
+THREAD will focus the hackathon demo on **creative-project evolution**: discover how themes, constraints, and directions change across a creator's own dated project artifacts, then let the creator inspect, challenge, and confirm a finding before generating a project brief or another small creative artifact. Do not profile the person or infer personality traits. This is temporal evidence-backed discovery, not a basic RAG answer over documents.
+
+Meta models must be part of the working product path, not just mentioned in the README. On Day 1, verify access and choose a supported model/task from the official Meta Model API docs. Keep a fixture path for repeatability, but the final demo must clearly show where the Meta model contributes.
 
 ## Scope
 
 ### P0 — must work
 
-- One bounded, user-provided or synthetic multimodal archive path (start with the modalities the Meta Model API spike confirms).
-- Temporal memory records with source provenance.
-- CLI discovery for at least two candidate families, evidence links, counter-evidence, and uncertainty.
-- One human review/interview path with confirm, revise, reject.
-- One artifact type gated on confirmed insight.
-- Minimal Next.js flow: discover → inspect timeline/evidence → interview → confirm → artifact.
-- Deterministic fixtures, evaluation scorecard, and demo fallback.
+- One bounded synthetic creative-project archive with dates, source types, and rights-safe contents.
+- One Meta model integrated into the main flow for a verified supported task, behind the provider boundary.
+- Temporal memories that retain source provenance.
+- CLI discovery of **one** specific evolution/pattern claim, with supporting and counter-evidence plus uncertainty.
+- A way for the user to challenge, revise, reject, or confirm the claim.
+- One small artifact gated on explicit confirmation.
+- Minimal end-to-end demo surface only after the CLI gate passes; deterministic fallback and three-minute video.
 
 ### P1 — only after P0 works
 
-- Additional candidate families and stronger deduplication.
-- Better visual timeline/connection map, richer filtering, another artifact type.
-- More than one supported input modality, based on API and time feasibility.
+- A second discovery family (such as cross-project motif or contradiction), more input modalities, richer timeline, or another artifact type.
 
-### P2 — explicitly out of scope unless all P0 is stable
+### P2 — out of scope
 
-- Continuous sync, broad connectors, social graph or collaborative features.
-- Mobile app, accounts/permissions infrastructure, production multi-tenancy.
-- General-purpose agent, autonomous actions, arbitrary artifact studio.
-- Exhaustive multimodal ingestion, fine-tuning, elaborate personalization.
+- Personality analysis, psychological profiling, mental-health advice, generic chat over documents, basic RAG as the core value, continuous sync, broad connectors, mobile, production multi-tenancy, autonomous actions, elaborate personalization, and a general-purpose creation studio.
 
 ## Kill list
 
-Cut these first if schedule slips: extra modalities, extra insight families, multiple artifact formats, animated constellation/map, complex auth, broad import integrations, streaming/live model UX, advanced ranking, and decorative motion. Protect provenance, counter-evidence, the CLI vertical slice, user correction, explicit confirmation, and one complete artifact path.
+Cut these first if time slips: extra modalities, extra insight families, multiple artifact formats, animated constellation/map, complex auth, integrations, live streaming UX, advanced ranking, and decorative motion. Protect Meta model use, temporal source provenance, counter-evidence, the CLI slice, user correction, explicit confirmation, and the three-minute submission video.
 
 ## Day-by-day execution
 
 | Day | Date | Focus | Exit criterion |
 |---|---|---|---|
-| 1 | Mon Oct 26 | Repo and environment check; verify Meta Model API modalities/access; define contracts; synthetic fixtures; CLI spike | One fixture passes through extraction/discovery CLI; risks and confirmed model capabilities documented |
-| 2 | Tue Oct 27 | Source/memory schema; ingestion and provenance | Imported fixture yields inspectable, source-linked temporal memories |
-| 3 | Wed Oct 28 | Retrieval and candidate generation | CLI returns candidates for recurrence/evolution with evidence references |
-| 4 | Thu Oct 29 | Counter-evidence, scoring, dedup, adversarial fixtures | Weak/unsupported candidates are withheld; scorecard run and failures logged |
-| 5 | Fri Oct 30 | Investigation and interview state | User can challenge, revise, reject, or confirm; state is persisted |
-| 6 | Sat Oct 31 | Artifact gate and backend vertical slice | Artifact generation requires confirmed insight and preserves lineage |
-| 7 | Sun Nov 1 | Minimal Next.js workflow wired to backend/fixtures | Full P0 flow works end-to-end once; no frontend precedes CLI proof |
-| 8 | Mon Nov 2 | Visual polish from mockups; accessibility and empty/error states | Readable evidence timeline and clear uncertainty/correction interaction |
-| 9 | Tue Nov 3 | Regression, demo script, fallback recording, rehearsal | Demo completes repeatedly; fallback and model-failure behavior verified |
-| 10 | Wed Nov 4 | Final freeze, submission, final rehearsal | Submitted on time; stable demo build and concise project narrative ready |
+| Kickoff | Mon Oct 26 | Attend kickoff; verify event access/rules; check Meta API account and credit-claim updates; record pre-event baseline | Event requirements captured; no product feature claimed as hackathon work |
+| 1 | Tue Oct 27 | Meta API quickstart and one supported model call; choose source format; create synthetic creative-project fixture; establish CLI contract | One Meta-backed task runs on a rights-safe fixture, or a documented access blocker with an approved open-weight fallback |
+| 2 | Wed Oct 28 | Source and temporal-memory model; provenance; extraction | CLI emits dated, source-linked memories |
+| 3 | Thu Oct 29 | Temporal retrieval and one candidate family | CLI emits one specific evolution hypothesis with evidence references |
+| 4 | Fri Oct 30 | Counter-evidence, uncertainty, adversarial cases; attend open-model workshop if useful | Unsupported or generic claims are withheld; evaluation notes recorded |
+| 5 | Sat Oct 31 | Challenge/revision state and explicit user disposition | Claim can be revised, rejected, deferred, or confirmed |
+| 6 | Sun Nov 1 | Confirmed-insight artifact gate; stabilize backend CLI path | Artifact requires confirmed insight and preserves evidence lineage |
+| 7 | Mon Nov 2 | Minimal web experience on top of the CLI/backend contract | Discover → inspect → challenge → confirm → artifact works end to end |
+| 8 | Tue Nov 3 | Demo polish, three-minute video, accessibility/error states, submission draft | Video and submission draft ready; final questions raised before deadline day |
+| 9 | Wed Nov 4 | Final office hours, freeze, verify public repo/video/contributors, submit before 9 PM EST | Submission receipt recorded before cutoff |
 
 ## Work sequence
 
-**CLI-first gate:** do not build frontend workflows until the discovery engine can run from the CLI against fixtures and return source-linked structured results. The web app may be scaffolded lightly, but product UI work waits for this gate.
+**CLI-first gate:** do not build frontend workflow until the Meta-backed discovery engine can run from the CLI against fixtures and return structured, source-linked results with counter-evidence. The web app can be scaffolded mechanically, but product UI work waits for this gate.
 
 ## Operating cadence
 
-- End each day with a runnable commit, a short decision log, and a named next risk.
-- Keep a 30-minute schedule buffer each day.
-- Make one person responsible for demo data provenance and final narrative.
-- Verify actual event requirements and API terms early; adjust scope from evidence.
+- Keep a concise daily log of what was built during the event and link it to commits.
+- End each day with a runnable state and the next risk.
+- Maintain a spend alert and stay within available model credits.
+- Do not include personal data or assets without clear rights and consent.
+- Keep at least one full evening for the demo video and submission checks.

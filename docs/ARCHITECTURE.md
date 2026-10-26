@@ -7,7 +7,7 @@
 - **Web:** Next.js, TypeScript. Keep the client focused on evidence inspection, candidate review, interview, and artifact presentation.
 - **Model:** Meta Model API accessed through a narrow provider adapter. Use the API only for supported multimodal interpretation/generation tasks; keep orchestration, data contracts, provenance, evaluation, and product policy in our code.
 
-Validate API availability, modalities, rate limits, privacy terms, and output reliability on Day 1. Keep a deterministic/synthetic fixture path so the CLI and demo can run if an external model call is unavailable. Do not claim a capability until verified against current API docs and a small experiment.
+Validate API availability, modalities, rate limits, privacy terms, and output reliability on Day 1. The hackathon rules require Meta models in the project, so a Meta model must contribute to the main demo path; a deterministic/synthetic fixture path makes development repeatable and provides a fallback if a live call fails. Do not claim a capability until verified against current API docs and a small experiment.
 
 ## Logical components
 
