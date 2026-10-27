@@ -1,6 +1,6 @@
 # SHOWME app experience and mockup plan
 
-**Status:** experience outline only; no SHOWME screens or mockups have been built.
+**Status:** experience outline plus two concept mockups. These are visual proposals, not implemented or validated product screens.
 **Gate:** keep app implementation behind the P0 experiment gate in [`SHOWME_BUILD_PLAN.md`](SHOWME_BUILD_PLAN.md). Planning screens now does not mean the capability is proven.
 
 ## Experience principle
@@ -30,11 +30,11 @@ These are states in one guided task flow, not a commitment to seven separate rou
 
 Create in this order, after the physical task and evidence vocabulary are stable:
 
-1. `01-guided-task.png` — normal progress in the camera-first workspace.
-2. `02-divergence.png` — deliberate mistake, grounded highlight, evidence and recovery prompt.
-3. `03-recovery.png` — corrected state recognized and guidance resumed.
-4. `04-what-if.png` — procedural alternative and resulting state visualization, only if P0 passes.
-5. `05-learn-review.png` — expert demonstration with extracted steps and inspectable evidence.
+1. **Done — concept:** [`01-guided-task-states.png`](../design/mockups/01-guided-task-states.png) — normal progress, a missing-washer warning, and recovery, shown as three states of one camera-first workspace.
+2. **Done — concept:** [`02-what-if-procedure-preview.png`](../design/mockups/02-what-if-procedure-preview.png) — alternative step order, predicted process state, and recovery suggestion.
+3. **Later, if P0 passes:** learn/review a demonstration, with extracted steps, uncertain observations, and inspectable evidence frames.
+
+The generated concept mockups use a small motor-mount/washer example only to make the interaction legible. **This is not the selected experiment task or an assertion that SHOWME can detect a missing washer.** Replace the example and revise the screens after the controlled task and evidence vocabulary are chosen. The what-if screen is a procedural state preview, not physics simulation.
 
 For each mockup, record the task state shown, the evidence backing each claim, interaction behavior, and any capability still represented as a prototype. Use SHOWME naming and content. The existing `00-thread-direction-board.png` is archived THREAD exploration, not a SHOWME design reference.
 
@@ -51,5 +51,5 @@ For each mockup, record the task state shown, the evidence backing each claim, i
 ## Current UI inventory
 
 - `apps/web/` is a pre-pivot THREAD prototype. It is not the SHOWME app and should not be shown as hackathon product work.
-- No SHOWME mockup is currently present in `design/mockups/`.
+- Both SHOWME mockups are concepts only; no SHOWME screen has been implemented.
 - The proof-of-magic CLI and evaluation are the active product work until P0 passes.

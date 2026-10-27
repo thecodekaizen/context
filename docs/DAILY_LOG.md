@@ -36,5 +36,5 @@ Run the controlled task with matched clips, inspect the learned process and evid
 | Recognize recovery | Not passed | Separate recovery clip; verify restored valid state |
 | SAM visual grounding | Not started | Begin only after baseline state distinctions pass |
 | Procedural what-if simulation | Not started | Begin only after P0 passes |
-| SHOWME app and visual mockups | Planned, gated | See [`SHOWME_APP_PLAN.md`](SHOWME_APP_PLAN.md) |
+| SHOWME app and visual mockups | Two concept mockups; app implementation gated | See [`SHOWME_APP_PLAN.md`](SHOWME_APP_PLAN.md); example assembly is illustrative only |
 | Demo video and submission | Not started | Only show capabilities that pass evaluation |

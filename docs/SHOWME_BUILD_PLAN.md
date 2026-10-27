@@ -4,7 +4,7 @@
 **Submission:** November 4, 9:00 PM ET
 **Rule:** each phase earns the next. If a phase fails, narrow the task before adding UI.
 
-**Status (Oct 27):** Phase 0 experiment footing is complete. Phase 1 CLI preprocessing, Muse adapter, and process validation are implemented. The stock CaptainCook4D evaluation failed P0: Muse omitted the decisive action and the observer missed the annotated ordering error. A normal control produced no false alarms in a changed setup, so this is confounded and not a pass. No P0 capability claim has passed. The next milestone is a short, safe, visually discrete task with matched learn/correct/error/recovery recordings. The SHOWME screen plan exists, but mockups and product UI are intentionally gated on P0. See the [v2 result](experiments/results/captaincook4d-ordering-observation-v2-2026-10-27.md) and [app plan](SHOWME_APP_PLAN.md).
+**Status (Oct 27):** Phase 0 experiment footing is complete. Phase 1 CLI preprocessing, Muse adapter, and process validation are implemented. The stock CaptainCook4D evaluation failed P0: Muse omitted the decisive action and the observer missed the annotated ordering error. A normal control produced no false alarms in a changed setup, so this is confounded and not a pass. No P0 capability claim has passed. The next milestone is a short, safe, visually discrete task with matched learn/correct/error/recovery recordings. Two exploratory SHOWME concept mockups now exist; product UI remains gated on P0. See the [v2 result](experiments/results/captaincook4d-ordering-observation-v2-2026-10-27.md) and [app plan](SHOWME_APP_PLAN.md).
 
 ## Phase 0 — Repo and experiment footing (Oct 27)
 

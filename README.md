@@ -37,7 +37,7 @@ See the proof-of-magic experiment in docs/SHOWME_PROOF_OF_MAGIC.md for the proto
 - [Current progress and evidence log](docs/DAILY_LOG.md)
 - [Target three-minute demo flow](design/flows/demo-flow.md)
 
-The SHOWME app screens and mockups are planned but not yet designed or implemented. The image under `design/mockups/` is archived THREAD exploration. Product UI follows the P0 experiment gate; `apps/web/` is legacy THREAD UI, not the SHOWME interface.
+Two SHOWME concept mockups are in `design/mockups/`; they illustrate camera guidance/recovery and a bounded procedural what-if. They are not validated behavior or implemented screens, and the example assembly is not the selected experiment task. Product UI follows the P0 experiment gate; the older direction board and `apps/web/` are legacy THREAD work, not the SHOWME interface.
 
 ## Meta models
 

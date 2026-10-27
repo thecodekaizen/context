@@ -8,7 +8,7 @@ SHOWME is the active hackathon project. This file is the short entry point; the 
 - **Phase 1 — learn one demonstration:** in progress; the stock-footage P0 evaluation failed to capture the decisive action.
 - **P0 proof:** not passed. Do not claim reliable process learning, mistake detection, or recovery yet.
 - **Product UI:** intentionally not started. `apps/web/` contains the previous THREAD prototype and is not a SHOWME app.
-- **SHOWME visual mockups:** not created. See [`SHOWME_APP_PLAN.md`](SHOWME_APP_PLAN.md) for the planned screens and order.
+- **SHOWME visual mockups:** two concept boards exist; neither is validated or implemented. See [`SHOWME_APP_PLAN.md`](SHOWME_APP_PLAN.md) for their limits and the remaining screen plan.
 
 ## Source of truth
 
