@@ -57,7 +57,7 @@ The scene supplies geometry and presentation. It does not supply the procedure's
 1. Show the successful demonstrated sequence and current assembly state.
 2. Let the user select an action and move it earlier/later, or ask a spoken/text “what if?” question.
 3. Show the proposed sequence before running it so the user can edit or cancel.
-4. Play the changed sequence as a visual animation of the task, one action at a time, with pause, step, reset, and comparison controls.
+4. Play the changed sequence as a visual state progression of the task, one action at a time, with previous/next step, reset, and comparison controls. The current prototype implements deterministic previous/next stepping; automatic timed playback remains future work.
 5. At divergence, stop on the resulting physical arrangement; highlight the relation/part involved and name the violated prerequisite.
 6. Offer the recovery sequence and allow the user to return to the successful sequence.
 7. Keep the simulated state separate from the real camera state. Clearly label it as a simulation and never claim it observed a physical outcome that only exists in the scene.

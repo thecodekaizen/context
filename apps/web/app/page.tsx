@@ -60,6 +60,7 @@ export default function Home() {
   const [result, setResult] = useState<ReturnType<typeof simulateAction> | null>(null);
   const [sequenceDraft, setSequenceDraft] = useState<string[]>(model.actions.map((action) => action.id));
   const [sequenceResult, setSequenceResult] = useState<ReturnType<typeof simulateSequence> | null>(null);
+  const [sequenceCursor, setSequenceCursor] = useState(-1);
   const [mediaUrl, setMediaUrl] = useState("");
   const [sourceFile, setSourceFile] = useState<File | null>(null);
   const [cameraOn, setCameraOn] = useState(false);
@@ -122,6 +123,7 @@ export default function Home() {
     setResult(null);
     setSequenceDraft(model.actions.map((action) => action.id));
     setSequenceResult(null);
+    setSequenceCursor(-1);
   }
 
   function moveSequenceAction(index: number, offset: -1 | 1) {
@@ -133,14 +135,27 @@ export default function Home() {
       return next;
     });
     setSequenceResult(null);
+    setSequenceCursor(-1);
     setResult(null);
   }
 
   function runSequenceWhatIf() {
     const next = simulateSequence(model, sequenceDraft);
     setSequenceResult(next);
-    setState(next.finalState);
-    setResult(next.steps.at(-1)?.result ?? null);
+    const firstStep = next.steps[0];
+    setSequenceCursor(firstStep ? 0 : -1);
+    setState(firstStep?.result.state ?? next.initialState);
+    setResult(firstStep?.result ?? null);
+  }
+
+  function moveSimulationCursor(offset: -1 | 1) {
+    if (!sequenceResult) return;
+    const nextCursor = Math.max(0, Math.min(sequenceResult.steps.length - 1, sequenceCursor + offset));
+    const step = sequenceResult.steps[nextCursor];
+    if (!step) return;
+    setSequenceCursor(nextCursor);
+    setState(step.result.state);
+    setResult(step.result);
   }
 
   async function startCamera() {
@@ -172,6 +187,7 @@ export default function Home() {
     setState(nextModel.initialState);
     setSequenceDraft(nextModel.actions.map((action) => action.id));
     setSequenceResult(null);
+    setSequenceCursor(-1);
     setResult(null);
     setMode("do");
   }
@@ -198,6 +214,7 @@ export default function Home() {
     setState(SAMPLE_SKILL.initialState);
     setSequenceDraft(SAMPLE_SKILL.actions.map((action) => action.id));
     setSequenceResult(null);
+    setSequenceCursor(-1);
     setResult(null);
     setObservation(null);
     setLearnerFile(null);
@@ -367,7 +384,7 @@ export default function Home() {
                 if (!action) return null;
                 return <div className="sequence-row" key={action.id}><span className="action-number">{String(index + 1).padStart(2, "0")}</span><strong>{action.label}</strong><div className="sequence-movers"><button aria-label={`Move ${action.label} earlier`} disabled={index === 0} onClick={() => moveSequenceAction(index, -1)}>↑</button><button aria-label={`Move ${action.label} later`} disabled={index === sequenceDraft.length - 1} onClick={() => moveSequenceAction(index, 1)}>↓</button></div></div>;
               })}<div className="sequence-controls"><button className="primary-button" onClick={runSequenceWhatIf}>Run this what-if <span>↗</span></button><button className="text-action" onClick={resetSimulation}>Restore demonstrated order</button></div></div>
-              {sequenceResult && <section className={`sequence-report sequence-${sequenceResult.status}`} aria-live="polite"><div className="eyebrow">DETERMINISTIC PROCEDURE SIMULATION</div><strong>{sequenceResult.status === "completed" ? "The proposed sequence reaches its modeled end state." : sequenceResult.status === "blocked" ? "The sequence stops at a confirmed requirement." : "The next transition was not observed from this state."}</strong><ol>{sequenceResult.steps.map(({ index, result: step }) => <li key={`${step.action.id}-${index}`}><span>{step.accepted ? "✓" : step.kind === "blocked" ? "!" : "?"}</span><div><b>{step.action.label}</b><small>{step.accepted ? "Applied to the simulated state." : step.message}{!step.accepted && step.kind === "blocked" && ` Missing: ${step.missing.join(", ")}. Basis: ${step.blockedBy.map((item) => item.source.replaceAll("-", " ")).join(", ")}.`}</small></div></li>)}</ol><small className="sequence-disclaimer">This is a procedural state preview, not a physics simulation or a claim about what happened in the camera view.</small></section>}
+              {sequenceResult && <section className={`sequence-report sequence-${sequenceResult.status}`} aria-live="polite"><div className="eyebrow">DETERMINISTIC PROCEDURE SIMULATION</div><strong>{sequenceResult.status === "completed" ? "The proposed sequence reaches its modeled end state." : sequenceResult.status === "blocked" ? "The sequence stops at a confirmed requirement." : "The next transition was not observed from this state."}</strong>{sequenceResult.steps.length > 0 && <div className="sequence-playback"><span>STEP {sequenceCursor + 1} OF {sequenceResult.steps.length} · {sequenceResult.steps[sequenceCursor]?.result.action.label}</span><div><button className="secondary-button" disabled={sequenceCursor <= 0} onClick={() => moveSimulationCursor(-1)}>← Previous</button><button className="secondary-button" disabled={sequenceCursor >= sequenceResult.steps.length - 1} onClick={() => moveSimulationCursor(1)}>Next →</button></div></div>}<ol>{sequenceResult.steps.map(({ index, result: step }) => <li className={sequenceCursor === index ? "current" : ""} key={`${step.action.id}-${index}`}><span>{step.accepted ? "✓" : step.kind === "blocked" ? "!" : "?"}</span><div><b>{step.action.label}</b><small>{step.accepted ? "Applied to the simulated state." : step.message}{!step.accepted && step.kind === "blocked" && ` Missing: ${step.missing.join(", ")}. Basis: ${step.blockedBy.map((item) => item.source.replaceAll("-", " ")).join(", ")}.`}</small></div></li>)}</ol><small className="sequence-disclaimer">This is a procedural state preview, not a physics simulation or a claim about what happened in the camera view.</small></section>}
             </section>
             <aside className="card model-card">
               <div className="eyebrow">PROCESS MODEL</div><h3>What the skill knows</h3><p className="model-copy">A compact set of objects, states, and action constraints. Teach will eventually replace this fixture with a model inferred from a real demonstration.</p>
