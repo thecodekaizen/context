@@ -20,7 +20,11 @@ PYTHONPATH=backend backend/.venv/bin/uvicorn showme.api:app --reload --port 8000
 
 The browser only calls `/api/skills/learn` after the user presses **Learn this
 skill**. That call may use Meta API credits. The local `.env` file is read by
-the backend and is never sent to the browser.
+the backend and is never sent to the browser. After reviewing and loading a
+candidate, the Do surface can call `/api/skills/observe` with a separate learner
+clip. The model sees the reviewed process and learner video, never evaluation
+labels; the response is validated for timestamps, declared states/objects, and
+recovery evidence before it is shown.
 
 ## Prepare local video
 

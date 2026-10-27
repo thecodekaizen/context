@@ -6,12 +6,14 @@ import os
 from pathlib import Path
 import tempfile
 from typing import Annotated
+import json
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
 from .media import inspect_video, make_model_video
 from .meta import MuseVideoLearner
+from .observe import observe_video, validate_observation
 from .process import validate_references
 
 MAX_UPLOAD_BYTES = 100 * 1024 * 1024
@@ -86,6 +88,61 @@ def learn_skill(
         video.file.close()
 
 
+@app.post("/api/skills/observe")
+def observe_learner(
+    video: Annotated[UploadFile, File(description="Learner attempt video")],
+    process_json: Annotated[str, Form(max_length=100_000)],
+) -> dict:
+    """Compare a learner clip against the reviewed candidate process."""
+    suffix = _validate_video(video)
+    if not os.environ.get("MODEL_API_KEY") and not _repo_key_exists():
+        raise HTTPException(status_code=503, detail="Set MODEL_API_KEY in the repository's local .env file first.")
+    try:
+        process = json.loads(process_json)
+        if not isinstance(process, dict):
+            raise ValueError("The reviewed process must be a JSON object.")
+        source_duration = process.get("_run", {}).get("source", {}).get("duration_seconds")
+        validate_references(process, duration_seconds=source_duration)
+
+        with tempfile.TemporaryDirectory(prefix="showme-do-") as temporary:
+            root = Path(temporary)
+            source = root / f"learner{suffix}"
+            size = _copy_bounded(video, source)
+            if size == 0:
+                raise ValueError("The selected learner video is empty.")
+
+            metadata = inspect_video(source)
+            model_video = root / "model-input.mp4"
+            model_metadata = make_model_video(source, model_video)
+            observation = observe_video(
+                MuseVideoLearner.from_env(),
+                model_video,
+                process,
+                metadata["duration_seconds"],
+            )
+            validate_observation(observation, process, metadata["duration_seconds"])
+            run = observation.get("_run", {})
+            observation["_run"] = {
+                "model": run.get("model"),
+                "prompt_version": run.get("prompt_version"),
+                "usage": run.get("usage", {}),
+            }
+            return {
+                "observation": observation,
+                "status": observation["recovery_status"],
+                "source": {
+                    "filename": Path(video.filename or "learner").name,
+                    "size_bytes": size,
+                    "duration_seconds": metadata["duration_seconds"],
+                },
+                "model_video": model_metadata,
+            }
+    except (OSError, ValueError, RuntimeError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    finally:
+        video.file.close()
+
+
 def _copy_bounded(upload: UploadFile, destination: Path) -> int:
     total = 0
     with destination.open("wb") as output:
@@ -95,6 +152,13 @@ def _copy_bounded(upload: UploadFile, destination: Path) -> int:
                 raise HTTPException(status_code=413, detail="Keep the demonstration video under 100 MB.")
             output.write(chunk)
     return total
+
+
+def _validate_video(video: UploadFile) -> str:
+    suffix = Path(video.filename or "").suffix.lower()
+    if suffix not in ALLOWED_SUFFIXES:
+        raise HTTPException(status_code=415, detail="Choose an MP4, MOV, M4V, or WebM video.")
+    return suffix
 
 
 def _repo_key_exists() -> bool:

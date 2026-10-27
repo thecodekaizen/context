@@ -25,6 +25,13 @@ type LearnedProcess = {
   _run?: { model?: string; usage?: { input_tokens?: number; output_tokens?: number }; source?: { duration_seconds?: number } };
   _validation?: string;
 };
+type LearnerObservation = {
+  events: { time_seconds: number; action: string; state_id: string; assessment: "consistent" | "divergent" | "unclear"; object_ids: string[]; evidence: string }[];
+  divergences: { time_seconds: number; process_difference: string; object_ids: string[]; evidence: string }[];
+  recovery_status: "no_divergence_observed" | "underway" | "recovered" | "unclear";
+  uncertainties: string[];
+  _run?: { model?: string; usage?: { input_tokens?: number; output_tokens?: number } };
+};
 
 function AssemblyView({ state, model }: { state: string[]; model: SkillModel }) {
   if (model.status === "learned-from-demonstration") {
@@ -66,10 +73,17 @@ export default function Home() {
   const [cameraError, setCameraError] = useState("");
   const [narration, setNarration] = useState("");
   const [learnedProcess, setLearnedProcess] = useState<LearnedProcess | null>(null);
+  const [activeProcess, setActiveProcess] = useState<LearnedProcess | null>(null);
   const [candidateReviewed, setCandidateReviewed] = useState(false);
   const [learnError, setLearnError] = useState("");
   const [learning, setLearning] = useState(false);
+  const [learnerFile, setLearnerFile] = useState<File | null>(null);
+  const [learnerUrl, setLearnerUrl] = useState("");
+  const [observation, setObservation] = useState<LearnerObservation | null>(null);
+  const [observeError, setObserveError] = useState("");
+  const [observing, setObserving] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
+  const learnerInput = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
@@ -77,6 +91,10 @@ export default function Home() {
     if (mediaUrl.startsWith("blob:")) URL.revokeObjectURL(mediaUrl);
     streamRef.current?.getTracks().forEach((track) => track.stop());
   }, [mediaUrl]);
+
+  useEffect(() => () => {
+    if (learnerUrl.startsWith("blob:")) URL.revokeObjectURL(learnerUrl);
+  }, [learnerUrl]);
 
   useEffect(() => {
     if (cameraOn && videoRef.current && streamRef.current) videoRef.current.srcObject = streamRef.current;
@@ -117,10 +135,43 @@ export default function Home() {
   function loadReviewedCandidate() {
     if (!learnedProcess) return;
     const nextModel = processToSkill(learnedProcess);
+    setActiveProcess(learnedProcess);
     setModel(nextModel);
     setState(nextModel.initialState);
     setResult(null);
     setMode("simulate");
+  }
+
+  function chooseLearnerVideo(file?: File) {
+    if (!file) return;
+    setLearnerFile(file);
+    setLearnerUrl((previous) => {
+      if (previous.startsWith("blob:")) URL.revokeObjectURL(previous);
+      return URL.createObjectURL(file);
+    });
+    setObservation(null);
+    setObserveError("");
+  }
+
+  async function observeLearnerVideo() {
+    if (!activeProcess || !learnerFile) return;
+    setObserving(true);
+    setObservation(null);
+    setObserveError("");
+    const form = new FormData();
+    form.set("video", learnerFile);
+    form.set("process_json", JSON.stringify(activeProcess));
+    try {
+      const api = process.env.NEXT_PUBLIC_SHOWME_API_URL ?? "http://localhost:8000";
+      const response = await fetch(`${api}/api/skills/observe`, { method: "POST", body: form });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(typeof payload.detail === "string" ? payload.detail : "SHOWME could not observe this learner video.");
+      setObservation(payload.observation as LearnerObservation);
+    } catch (error) {
+      setObserveError(error instanceof Error ? error.message : "SHOWME could not reach the local observation service.");
+    } finally {
+      setObserving(false);
+    }
   }
 
   function chooseVideo(file?: File) {
@@ -180,7 +231,7 @@ export default function Home() {
             <div>
               <div className="eyebrow">SHOWME · {mode === "teach" ? "CAPTURE A DEMONSTRATION" : mode === "do" ? "GUIDED EXECUTION" : "EXPLORE A SKILL MODEL"}</div>
               <h1>{mode === "teach" ? <>Show us<br /><em>how it works.</em></> : mode === "do" ? <>Let’s do<br /><em>this together.</em></> : <>A procedure,<br /><em>in motion.</em></>}</h1>
-              <p className="lead">{mode === "teach" ? "Record a demonstration and narrate the details that matter. SHOWME will turn the observed steps into a skill model." : mode === "do" ? "Bring the learned process beside your workspace. SHOWME’s camera view is ready; automatic observation is the next integration." : "Try an action against the same process model. Dependencies determine what can happen next."}</p>
+              <p className="lead">{mode === "teach" ? "Record a demonstration and narrate the details that matter. SHOWME will turn the observed steps into a skill model." : mode === "do" ? "Bring a learner recording beside the reviewed process. SHOWME compares clips and returns timestamped evidence; the live camera remains preview-only." : "Try a proposed action against the same process model. Confirmed fixture rules can block a step; learned traces only show what was observed."}</p>
             </div>
             <div className="product-thesis"><span>THE IDEA</span><p>Tutorials can show you what to do.<br /><strong>They can’t see what you’re doing.</strong></p></div>
           </div>
@@ -192,21 +243,21 @@ export default function Home() {
           {mode === "simulate" && <div className="work-grid">
             <section className="card simulation-card">
               <div className="card-heading"><div><div className="eyebrow">THE SHARED SKILL MODEL</div><h2>{model.title}</h2></div><button className="text-action" onClick={resetSimulation}>↺ Reset</button></div>
-              <div className="fixture-note"><span>i</span><p>This is an illustrative fixture to make the process model tangible. It has not been learned from a demonstration yet.</p></div>
+              <div className="fixture-note"><span>i</span><p>{model.status === "learned-from-demonstration" ? "This reviewed model represents one observed trace. It does not prove the process is complete or that another order is impossible." : "This is an illustrative fixture to make the process model tangible. It has not been learned from a demonstration yet."}</p></div>
               <AssemblyView state={state} model={model} />
               <div className="state-summary"><div><span className="eyebrow">CURRENT STATE</span><strong>{done.length === model.actions.length ? "Assembly complete" : `${done.length} of ${model.actions.length} actions complete`}</strong></div><span className="state-pip"><i className={result?.accepted === false ? "warning" : ""} /></span></div>
               {result && <div className={`result-callout ${result.accepted ? "success" : result.kind === "unobserved" ? "unobserved" : "blocked"}`} role="status"><span className="result-icon">{result.accepted ? "✓" : result.kind === "unobserved" ? "?" : "!"}</span><div><strong>{result.accepted ? "OBSERVED TRANSITION" : result.kind === "unobserved" ? "ALTERNATIVE NOT OBSERVED" : "CONFIRMED REQUIREMENT NOT MET"}</strong><p>{result.message}</p>{!result.accepted && <small>{result.kind === "unobserved" ? "Evidence needed: another demonstration or human confirmation." : `Missing state: ${result.missing.map((item) => item.replaceAll("_", " ")).join(", ")}`}<br />{result.action.recovery}</small>}</div></div>}
-              <div className="what-if"><span className="what-if-mark">?</span><div><strong>What if I do this next?</strong><p>Choose an action. SHOWME applies its preconditions and previews the resulting process state.</p></div></div>
+              <div className="what-if"><span className="what-if-mark">?</span><div><strong>What if I do this next?</strong><p>{model.status === "learned-from-demonstration" ? "Choose an action. SHOWME advances through an evidenced transition or tells you this alternative was not observed." : "Choose an action. SHOWME applies the fixture’s stated requirements and previews the resulting process state."}</p></div></div>
               <div className="action-list">{model.actions.map((action, index) => {
                 const finished = action.produces.every((condition) => state.includes(condition));
-                return <button className={`action-option ${finished ? "completed" : ""}`} key={action.id} onClick={() => tryAction(action.id)}><span className="action-number">{finished ? "✓" : `0${index + 1}`}</span><span><strong>{action.label}</strong><small>Requires {action.requires.map((condition) => condition.replaceAll("_", " ")).join(" + ")}</small></span><span className="action-arrow">↗</span></button>;
+                return <button className={`action-option ${finished ? "completed" : ""}`} key={action.id} onClick={() => tryAction(action.id)}><span className="action-number">{finished ? "✓" : `0${index + 1}`}</span><span><strong>{action.label}</strong><small>{model.status === "learned-from-demonstration" ? `Observed from: ${action.fromState?.replaceAll("_", " ") ?? "unknown state"}` : `Requires ${action.requires.map((condition) => condition.replaceAll("_", " ")).join(" + ")}`}</small></span><span className="action-arrow">↗</span></button>;
               })}</div>
             </section>
             <aside className="card model-card">
               <div className="eyebrow">PROCESS MODEL</div><h3>What the skill knows</h3><p className="model-copy">A compact set of objects, states, and action constraints. Teach will eventually replace this fixture with a model inferred from a real demonstration.</p>
               <div className="model-section"><span>OBJECTS</span>{model.objects.map((object) => <div className="model-row" key={object.id}><i className={`object-swatch ${object.color}`} /><span>{object.name}</span><small>{state.some((item) => item.startsWith(object.id) || item.includes(object.id)) ? "IN USE" : "READY"}</small></div>)}</div>
               <div className="model-section"><span>{model.status === "learned-from-demonstration" ? "OBSERVED TRANSITIONS" : "CONFIRMED DEPENDENCY"}</span><div className="dependency-flow">{model.actions.map((action, index) => <div className={state.includes(action.toState ?? action.produces[0]) ? "on" : ""} key={action.id}>{action.label}{model.status === "learned-from-demonstration" && <small className="observed-edge">{action.fromState?.replaceAll("_", " ")} → {action.toState?.replaceAll("_", " ")}</small>}{index < model.actions.length - 1 && <b>↓</b>}</div>)}</div>{model.status === "learned-from-demonstration" && <p className="model-copy model-caveat">Observed order is evidence about this clip, not proof of a universal requirement.</p>}</div>
-              <div className="model-foot"><span className="status-dot" /> Deterministic state transition demo</div>
+              <div className="model-foot"><span className="status-dot" /> {model.status === "learned-from-demonstration" ? "Transitions grounded in one reviewed trace" : "Deterministic illustrative state fixture"}</div>
             </aside>
           </div>}
 
@@ -234,6 +285,19 @@ export default function Home() {
               <div className="camera-stage">{cameraOn ? <video ref={videoRef} className="camera-feed" autoPlay muted playsInline /> : <div className="camera-empty"><span>◎</span><strong>Your workspace will appear here</strong><small>Camera preview stays on this device.</small></div>}<div className="camera-crosshair" /></div>
               <div className="camera-controls">{cameraOn ? <button className="secondary-button" onClick={stopCamera}>Stop camera</button> : <button className="primary-button" onClick={() => void startCamera()}>Start camera <span>◎</span></button>}<span className="small-note">Automatic visual state tracking is not connected yet.</span></div>
               {cameraError && <div className="inline-honesty">{cameraError}</div>}
+              <div className="observe-panel"><div className="eyebrow">TEST A RECORDED ATTEMPT</div><h3>Compare a learner clip.</h3><p>Use a separate recording to inspect timestamped events against the reviewed Skill Model. This is clip analysis, not live tracking.</p>
+                <button className="upload-drop compact-drop" onClick={() => learnerInput.current?.click()}><span className="upload-symbol">↥</span><strong>{learnerFile ? learnerFile.name : "Choose learner video"}</strong><small>MP4, MOV, M4V, or WebM · up to 100 MB</small></button>
+                <input ref={learnerInput} type="file" accept="video/mp4,video/quicktime,video/x-m4v,video/webm" hidden onChange={(event) => chooseLearnerVideo(event.target.files?.[0])} />
+                {learnerUrl && <VideoPreview src={learnerUrl} />}
+                <div className="capture-actions"><span className="small-note">Analysis sends this clip to Meta and may use API credits.</span><button className="primary-button" disabled={!learnerFile || !activeProcess || observing} onClick={() => void observeLearnerVideo()}>{observing ? "Comparing clip…" : "Observe attempt"}<span>→</span></button></div>
+                {!activeProcess && <div className="inline-honesty">Teach a demonstration and load its reviewed Skill Model before observing a learner clip.</div>}
+                {observeError && <div className="inline-honesty" role="alert">{observeError}</div>}
+                {observation && <section className="observation-results" aria-live="polite"><div className="observation-heading"><div><div className="eyebrow">MODEL OBSERVATION · {observation._run?.model ?? "MUSE SPARK"}</div><h4>{observation.recovery_status.replaceAll("_", " ")}</h4></div><span>{observation._run?.usage?.input_tokens ?? 0} INPUT TOKENS</span></div>
+                  {observation.divergences.length > 0 && <div className="divergence-list"><strong>Differences to inspect · {observation.divergences.length}</strong>{observation.divergences.map((item, index) => <article key={`${item.time_seconds}-${index}`}><span>{item.time_seconds.toFixed(1)}s</span><div><b>{item.process_difference}</b><p>{item.evidence}</p></div></article>)}</div>}
+                  <div className="observed-events"><strong>Observed events · {observation.events.length}</strong>{observation.events.map((item, index) => <article key={`${item.time_seconds}-${index}`}><span>{item.time_seconds.toFixed(1)}s</span><i className={`event-dot ${item.assessment}`} /><div><b>{item.action}</b><p>{item.evidence}</p></div><small>{item.assessment.toUpperCase()}</small></article>)}</div>
+                  {observation.uncertainties.length > 0 && <div className="candidate-uncertainties"><strong>Uncertain from this clip</strong><ul>{observation.uncertainties.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul></div>}
+                </section>}
+              </div>
             </section>
             <aside className="card guide-card"><div className="eyebrow">GUIDANCE · SAMPLE PROCEDURE</div><h3>Follow the demonstrated order.</h3><div className="guide-list">{model.actions.map((action, index) => <div className="guide-step" key={action.id}><span className={`guide-check ${state.includes(action.produces[0]) ? "done" : ""}`}>{state.includes(action.produces[0]) ? "✓" : String(index + 1).padStart(2, "0")}</span><div><strong>{action.label}</strong><small>{action.explanation}</small></div></div>)}</div><div className="guide-boundary"><span>i</span><p>This screen shows the camera feed and procedure. It does not yet detect learner actions; simulation is active in the Simulate mode.</p></div><button className="text-action" onClick={() => setMode("simulate")}>Try the process model <span>→</span></button></aside>
           </div>}
