@@ -4,7 +4,7 @@
 **Submission:** November 4, 9:00 PM ET
 **Product contract:** [`PRODUCT.md`](PRODUCT.md) is locked. Build exactly three surfaces—Teach, Do, Simulate—over one Skill Model. Keep experimental gates and honest evidence, but do not resume product/architecture exploration.
 
-**Status (Oct 27):** Phase 0 footing is complete. The CLI can prepare clips, learn a candidate process, and observe a separate video; process references and evidence are validated. Teach, Do, and Simulate share a Skill Model. Simulate has a state-transition map that updates with step-through what-if playback and exposes model evidence where available; the scene remains procedural rather than task geometry. Do retains the last 12 explicit still-frame checks in a session-local timeline; each is a separate paid inference, not continuous tracking, and the list does not infer recovery. A previous CaptainCook4D evaluation missed the annotated ordering error; a normal control had no false alarms but used a changed setup, so it is confounded. A Pexels LEGO clip produced 3 states and 2 timestamped transitions in one Teach smoke test. The new single-frame path completed a paid Muse Spark request and returned a visually consistent state with explicit uncertainty; this was the same clip used to create the Skill Model, so it is only an integration smoke. A labeled HoloAssist GoPro learner clip is available locally, but a paired clean demonstration was not found in the bounded archive scan. Continuous camera tracking, SAM grounding, and recovery guidance have not been demonstrated. The user plans to obtain a LEGO set; the actual task remains pending inspection. A capture guide specifies the matched A/B/C/D set, camera setup, local privacy, and blind evaluation boundary. App implementation can continue before the controlled clips arrive; those clips are needed to validate the physical-task capability, not to unblock unrelated UI and integration work. See the [recording guide](LEGO_RECORDING_GUIDE.md), [v2 result](experiments/results/captaincook4d-ordering-observation-v2-2026-10-27.md), [stock clip trial](experiments/proof-of-magic/stock-clip-trial.md), [snapshot smoke](experiments/results/showme-snapshot-smoke-2026-10-27.md), [HoloAssist screening](experiments/results/holoassist-stock-footage-screening-2026-10-27.md), [product definition](PRODUCT.md), and [app plan](SHOWME_APP_PLAN.md).
+**Status (Oct 27):** Phase 0 footing is complete. The CLI can prepare clips, learn a candidate process, and observe a separate video; process references and evidence are validated. Teach, Do, and Simulate share a Skill Model. Simulate has a state-transition map that updates with step-through what-if playback and exposes model evidence where available; the scene remains procedural rather than task geometry. Do retains the last 12 explicit still-frame checks in a session-local timeline; each is a separate paid inference, not continuous tracking, and the list does not infer recovery. A previous CaptainCook4D evaluation missed the annotated ordering error; a normal control had no false alarms but used a changed setup, so it is confounded. A Pexels LEGO clip produced 3 states and 2 timestamped transitions in one Teach smoke test. A separate single-frame Muse Spark request returned a visually consistent state with explicit uncertainty, but reused the learning clip and is only an integration smoke. SAM 3.1 can now segment a user-selected still frame and show masks/boxes for a known object, including a timestamped frame selected from a model-reported clip divergence. This is opt-in visual grounding—not object tracking, proof of a divergence, or validated LEGO performance. A labeled HoloAssist GoPro learner clip is available locally, but a paired clean demonstration was not found in the bounded archive scan. Recovery guidance has not been validated. The user plans to obtain a LEGO set; the actual task remains pending inspection. A capture guide specifies the matched A/B/C/D set, camera setup, local privacy, and blind evaluation boundary. App implementation can continue before the controlled clips arrive; those clips are needed to validate the physical-task capability, not to unblock unrelated UI and integration work. See the [recording guide](LEGO_RECORDING_GUIDE.md), [v2 result](experiments/results/captaincook4d-ordering-observation-v2-2026-10-27.md), [stock clip trial](experiments/proof-of-magic/stock-clip-trial.md), [snapshot smoke](experiments/results/showme-snapshot-smoke-2026-10-27.md), [HoloAssist screening](experiments/results/holoassist-stock-footage-screening-2026-10-27.md), [product definition](PRODUCT.md), and [app plan](SHOWME_APP_PLAN.md).
 
 ## Phase 0 — Repo and experiment footing (Oct 27)
 
@@ -39,13 +39,13 @@
 
 ## Phase 3 — Ground and recover (Oct 30–Nov 1)
 
-**Goal:** make the detected issue inspectable and recognize correction.
+**Goal:** make a model-reported issue visually inspectable and recognize correction.
 
-- Integrate SAM 3.1 for object masks/tracks where it adds evidence; it does not decide procedural correctness.
+- SAM 3.1 still-image grounding is integrated for a user-selected known object, including an opt-in frame at a model-reported divergence timestamp. It provides a mask/box for inspection; it does not decide procedural correctness or independently confirm the divergence. Validate this on the selected task before relying on it in the demo.
 - Observe the recovery clip after the divergence and detect return to a valid state.
 - Measure API cost and latency before repeating calls.
 
-**Exit:** an overlay points to the relevant object, and the system recognizes recovery without seeing the human answer key.
+**Exit:** a relevant-object overlay is repeatable on the selected task, and the system recognizes recovery without seeing the human answer key. Current SAM parser/API smoke tests do not meet this task-level exit.
 
 ## Phase 4 — Interactive task simulation (Nov 1–2)
 
@@ -77,3 +77,13 @@
 - If repeated evidence cannot support a perception claim, narrow the task until the final demo's perception and simulation are both truthful and reproducible. The simulator remains part of the submission target, but must not be presented as learning a constraint that was manually inserted without disclosure.
 
 See [`SHOWME_SIMULATION_DESIGN.md`](SHOWME_SIMULATION_DESIGN.md) for the scene/process contract and simulator interactions.
+
+## Immediate next actions
+
+1. When the LEGO set is available, inspect the pieces and choose one short procedure with an observable ordering/orientation constraint and a reversible mistake. Do not assume the washer/bracket example fits the set.
+2. Record the matched A/B/C/D clips in [`LEGO_RECORDING_GUIDE.md`](LEGO_RECORDING_GUIDE.md). Keep the human answer key local and separate from model inputs.
+3. Run Learn on A, then Observe B/C/D independently. Review each cited frame, score false alarms/misses, and retain raw outputs before using the run to update app behavior.
+4. Try the SAM grounding control on a disclosed known object and the actual divergence frame. Count it as useful only if the mask identifies the relevant physical component/location in repeated task footage.
+5. Implement recovery guidance and task-specific simulation only against the reviewed Skill Model; label any manually authored constraint as such.
+
+Until the matched clip evaluation passes, the app is an integration prototype. Continuous camera tracking is out of scope for the current validated capability; Do currently uses explicit, user-triggered snapshots and recorded clips.

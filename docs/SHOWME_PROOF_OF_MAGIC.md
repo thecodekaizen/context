@@ -48,7 +48,7 @@ A changed camera angle is a later robustness check, after the fixed-camera basel
 
 1. Local preprocessing records clip metadata and deterministic frame references, and creates a silent, downscaled copy for P0.
 2. Muse Spark receives clip A and proposes structured observations and a process candidate.
-3. SAM 3.1 will segment/track the named, visible objects in selected clips. Its masks and boxes ground objects; SAM does not judge process correctness. The initial milestone learns a process with Muse Spark first; SAM grounding is the following milestone.
+3. SAM 3.1 can segment a named object in a user-selected still image. The app can submit a snapshot or capture one frame at a Muse-reported clip timestamp; masks and boxes help inspect object location, but SAM does not judge process correctness or independently confirm Muse's divergence. This integration has only passed API/parser smoke checks, not the controlled task evaluation.
 4. Muse Spark receives the learned process plus clips B, C, and D separately and proposes observed states, divergence, and recovery.
 5. Local code validates schema, known object/state/action references, and evidence references. It does not convert an unsupported model claim into a fact.
 6. A comparison report evaluates outputs against the separate human labels.
@@ -71,14 +71,14 @@ The first CLI slice now has local video inspection/frame sampling and an opt-in 
 
 The CLI now also has an opt-in `observe-video` path. It supplies the learned process and a single learner clip to Muse Spark, constrains output state/object IDs to the learned process, checks timestamps against clip duration, and rejects unsupported recovery claims. This code path is not yet tested on real video.
 
-Next milestone:
+Next experiment milestone (app integration already exists):
 
 - Run learn on a short expert clip and manually inspect the process and evidence.
 - Run observe on a correct learner clip and then a deliberate mistake, with neutral filenames and no labels in the prompts.
-- Add SAM only after Muse’s baseline state distinctions are useful; SAM provides object masks/tracks, not process reasoning.
+- Use the existing opt-in SAM still-frame grounding on the selected task after reviewing Muse's baseline state output. Evaluate mask usefulness separately; it provides neither persistent object tracking nor process reasoning.
 - Repeat runs and inspect request, response, usage, latency, and failure artifacts.
 
-No web UI, real-time camera claims, generic skill library, robot control, or physical simulation in this milestone.
+This experiment milestone makes no real-time camera, generic skill-library, robot-control, or physical-simulation claims. The existing web app is an integration surface for the same experiment, not evidence that the perception capability has passed.
 
 ## Kill criteria
 

@@ -41,7 +41,7 @@ Run the controlled task with matched clips, inspect the learned process and evid
 | Detect a deliberate divergence | Not passed | Matched error clip; detect the withheld target with frame evidence |
 | Recognize recovery | Not passed | Separate recovery clip; verify restored valid state |
 | Do-session continuity | Partial prototype | Last 12 explicit still-frame checks appear in a local timeline; no inference between frames |
-| SAM visual grounding | Not started | Begin only after baseline state distinctions pass |
+| SAM visual grounding | Integrated for explicit stills; task validation pending | Repeat masks on the selected task and actual divergence frame; SAM does not confirm procedural errors |
 | Procedural what-if simulation | Implemented for fixture and reviewed Skill Models; task-specific visual consequence pending | Deterministic action reordering/playback and a model-driven transition map; physical-task evidence and geometry still needed |
 | SHOWME app | Teach, Do, Simulate prototype implemented; physical-task capability not validated | Browser recording/upload, candidate review, snapshot/clip observation, procedural simulation; see [`SHOWME_APP_PLAN.md`](SHOWME_APP_PLAN.md) |
 | Demo video and submission | Not started | Only show capabilities that pass evaluation |
@@ -120,3 +120,9 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - This reuses the existing image endpoint; no video is sent to SAM, and the action does not independently validate the Muse-reported difference. The frame remains transient in browser memory.
 - The browser screenshot inspection tool timed out during this checkpoint, so visual confirmation is limited to the successful production build.
 - Verification: all 71 backend tests, 13 web tests, TypeScript, and production build passed.
+
+### Status correction — SAM grounding scope
+
+- Updated the build plan and proof-of-magic protocol to reflect the current code: SAM accepts a user-selected still or a single frame at a Muse-reported divergence timestamp. It returns phrase-grounded masks/boxes for inspection.
+- The integration smoke does not establish task-level object grounding, persistent tracking, or correctness of the reported divergence. These still require repeated LEGO footage.
+- The immediate dependency is now concrete: inspect the set, record matched A/B/C/D clips, run blind evaluation, then decide whether the overlay helps the demo.
