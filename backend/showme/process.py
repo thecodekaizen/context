@@ -41,6 +41,7 @@ PROCESS_SCHEMA: dict[str, Any] = {
             "items": {
                 "type": "object",
                 "properties": {
+                    "id": {"type": "string"},
                     "from_state": {"type": "string"},
                     "action": {"type": "string"},
                     "object_ids": {"type": "array", "items": {"type": "string"}},
@@ -61,14 +62,38 @@ PROCESS_SCHEMA: dict[str, Any] = {
                         },
                     },
                 },
-                "required": ["from_state", "action", "object_ids", "to_state", "preconditions", "postconditions", "evidence"],
+                "required": ["id", "from_state", "action", "object_ids", "to_state", "preconditions", "postconditions", "evidence"],
                 "additionalProperties": False,
             },
         },
-        "constraints": {"type": "array", "items": {"type": "string"}},
+        "ordering_observations": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "before_transition_id": {"type": "string"},
+                    "after_transition_id": {"type": "string"},
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "start_seconds": {"type": "number", "minimum": 0},
+                                "end_seconds": {"type": "number", "minimum": 0},
+                                "observation": {"type": "string"},
+                            },
+                            "required": ["start_seconds", "end_seconds", "observation"],
+                            "additionalProperties": False,
+                        },
+                    },
+                },
+                "required": ["before_transition_id", "after_transition_id", "evidence"],
+                "additionalProperties": False,
+            },
+        },
         "uncertainties": {"type": "array", "items": {"type": "string"}},
     },
-    "required": ["task_summary", "objects", "states", "transitions", "constraints", "uncertainties"],
+    "required": ["task_summary", "objects", "states", "transitions", "ordering_observations", "uncertainties"],
     "additionalProperties": False,
 }
 
@@ -85,6 +110,7 @@ def validate_references(process: dict[str, Any], *, duration_seconds: float | No
 
     object_ids = _unique_ids(objects, "object")
     state_ids = _unique_ids(states, "state")
+    transition_ids = _unique_ids(transitions, "transition")
     for index, transition in enumerate(transitions):
         label = f"transition {index}"
         if not isinstance(transition, dict):
@@ -99,25 +125,45 @@ def validate_references(process: dict[str, Any], *, duration_seconds: float | No
         for object_id in references:
             if object_id not in object_ids:
                 raise ValueError(f"{label} references unknown object_id {object_id!r}")
-        evidence = transition.get("evidence")
-        if not isinstance(evidence, list) or not evidence:
-            raise ValueError(f"{label} needs at least one evidence interval")
-        for evidence_index, item in enumerate(evidence):
-            evidence_label = f"{label} evidence {evidence_index}"
-            if not isinstance(item, dict):
-                raise ValueError(f"{evidence_label} must be an object")
-            start = item.get("start_seconds")
-            end = item.get("end_seconds")
-            for field, value in (("start_seconds", start), ("end_seconds", end)):
-                if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
-                    raise ValueError(f"{evidence_label} {field} must be finite and numeric")
-            if start < 0 or end < start:
-                raise ValueError(f"{evidence_label} must be a non-negative, ordered interval")
-            if duration_seconds is not None and end > duration_seconds:
-                raise ValueError(f"{evidence_label} ends outside the expert clip")
-            observation = item.get("observation")
-            if not isinstance(observation, str) or not observation.strip():
-                raise ValueError(f"{evidence_label} needs a visible observation")
+        _validate_evidence(transition.get("evidence"), label, duration_seconds)
+
+    ordering_observations = process.get("ordering_observations")
+    if not isinstance(ordering_observations, list):
+        raise ValueError("process ordering_observations must be an array")
+    for index, relation in enumerate(ordering_observations):
+        label = f"ordering observation {index}"
+        if not isinstance(relation, dict):
+            raise ValueError(f"{label} must be an object")
+        before = relation.get("before_transition_id")
+        after = relation.get("after_transition_id")
+        if before not in transition_ids:
+            raise ValueError(f"{label} references unknown before_transition_id {before!r}")
+        if after not in transition_ids:
+            raise ValueError(f"{label} references unknown after_transition_id {after!r}")
+        if before == after:
+            raise ValueError(f"{label} must refer to two different transitions")
+        _validate_evidence(relation.get("evidence"), label, duration_seconds)
+
+
+def _validate_evidence(evidence: Any, label: str, duration_seconds: float | None) -> None:
+    if not isinstance(evidence, list) or not evidence:
+        raise ValueError(f"{label} needs at least one evidence interval")
+    for evidence_index, item in enumerate(evidence):
+        evidence_label = f"{label} evidence {evidence_index}"
+        if not isinstance(item, dict):
+            raise ValueError(f"{evidence_label} must be an object")
+        start = item.get("start_seconds")
+        end = item.get("end_seconds")
+        for field, value in (("start_seconds", start), ("end_seconds", end)):
+            if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
+                raise ValueError(f"{evidence_label} {field} must be finite and numeric")
+        if start < 0 or end < start:
+            raise ValueError(f"{evidence_label} must be a non-negative, ordered interval")
+        if duration_seconds is not None and end > duration_seconds:
+            raise ValueError(f"{evidence_label} ends outside the expert clip")
+        observation = item.get("observation")
+        if not isinstance(observation, str) or not observation.strip():
+            raise ValueError(f"{evidence_label} needs a visible observation")
 
 
 def _unique_ids(items: list[Any], kind: str) -> set[str]:

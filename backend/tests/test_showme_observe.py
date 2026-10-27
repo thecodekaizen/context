@@ -84,6 +84,11 @@ class ObservationValidationTests(unittest.TestCase):
         self.assertNotIn("secret-file-id", prompt)
         self.assertIn("may be correct, divergent", prompt)
 
+    def test_prompt_does_not_treat_demo_order_as_a_requirement(self):
+        prompt = observation_prompt(self.process, 12.0)
+        self.assertIn("not required prerequisites", prompt)
+        self.assertIn("not call a learner divergent only because", prompt)
+
 
 if __name__ == "__main__":
     unittest.main()

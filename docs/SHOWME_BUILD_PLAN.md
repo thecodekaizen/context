@@ -20,7 +20,7 @@
 
 **Goal:** Muse Spark proposes an evidence-linked process from one short MP4.
 
-- Keep the process small: objects, observable states, transitions, constraints, uncertainty, timestamps.
+- Keep the process small: objects, observable states, transitions, evidence-backed ordering observations, uncertainty, timestamps. One demonstration is an observed trace; it cannot establish that an ordering is required.
 - Validate JSON shape and cross-references locally; preserve model identity and token counts.
 - Use one rights-cleared clip only after local preprocessing and code checks pass.
 

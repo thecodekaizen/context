@@ -28,7 +28,7 @@ Capture hands and work surface only. Keep clips short and camera fixed for the b
 
 | Clip | Recording | Purpose |
 |---|---|---|
-| A | Expert performs the correct process once | Learn candidate objects, actions, states, ordering, and constraints |
+| A | Expert performs the process once | Learn candidate objects, actions, states, and evidence-backed ordering observations (not requirements) |
 | B | Learner performs it correctly with objects repositioned | Check state recognition beyond coordinate replay |
 | C | Learner performs one deliberate, visible mistake | Test divergence detection |
 | D | Learner recovers and completes the task | Test recovery recognition |
@@ -57,13 +57,13 @@ Keep the first runner offline and prerecorded. Only attempt a live camera loop a
 
 ## Minimum process representation
 
-The initial JSON contract is in `backend/showme/process.py`. It deliberately separates objects, observable states, transitions, timestamped evidence, constraints, and uncertainties. It is a candidate process model, never ground truth.
+The initial JSON contract is in `backend/showme/process.py`. It deliberately separates objects, observable states, transitions, timestamped evidence, ordering observations, and uncertainties. An ordering observation says only that one action happened before another in this clip. One demonstration cannot establish that the order is required. The process is a candidate model, never ground truth.
 
 The first domain invariant is referential integrity: every transition must point to states and objects declared in the same process. Do not add a broad ontology or confidence percentages without calibration data.
 
 ### Process reference validation
 
-`validate_references` in `backend/showme/process.py` rejects duplicate object/state IDs, transitions that refer to undefined states or objects, missing evidence, and evidence intervals outside the source clip. It is deterministic and does not call a model. Targeted tests protect these invariants so unsupported model output cannot silently become a usable process graph.
+`validate_references` in `backend/showme/process.py` rejects duplicate object/state/transition IDs, transitions that refer to undefined states or objects, ordering observations that refer to unknown transitions, missing evidence, and evidence intervals outside the source clip. It is deterministic and does not call a model. Targeted tests protect these invariants so unsupported model output cannot silently become a usable process graph.
 
 ## First implementation milestone
 

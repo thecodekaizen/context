@@ -17,6 +17,7 @@ VALID_PROCESS = {
         {"id": "stacked", "description": "Red block rests on blue", "observable_facts": ["red above blue"]},
     ],
     "transitions": [{
+        "id": "stack_blocks",
         "from_state": "separate",
         "action": "place red on blue",
         "object_ids": ["red", "blue"],
@@ -25,7 +26,7 @@ VALID_PROCESS = {
         "postconditions": ["red above blue"],
         "evidence": [{"start_seconds": 0.5, "end_seconds": 1.0, "observation": "Red block visibly moves above blue."}],
     }],
-    "constraints": [],
+    "ordering_observations": [],
     "uncertainties": [],
 }
 
@@ -57,6 +58,41 @@ class ProcessValidationTests(unittest.TestCase):
         process["states"].append(copy.deepcopy(process["states"][0]))
         with self.assertRaisesRegex(ValueError, "duplicate state id"):
             validate_references(process)
+
+    def test_rejects_duplicate_transition_ids(self):
+        process = copy.deepcopy(VALID_PROCESS)
+        process["transitions"].append(copy.deepcopy(process["transitions"][0]))
+        with self.assertRaisesRegex(ValueError, "duplicate transition id"):
+            validate_references(process)
+
+    def test_rejects_ordering_observation_with_unknown_transition(self):
+        process = copy.deepcopy(VALID_PROCESS)
+        process["ordering_observations"] = [{
+            "before_transition_id": "missing",
+            "after_transition_id": "stack_blocks",
+            "evidence": [{"start_seconds": 0, "end_seconds": 1, "observation": "Visible order."}],
+        }]
+        with self.assertRaisesRegex(ValueError, "unknown before_transition_id"):
+            validate_references(process)
+
+    def test_accepts_evidence_backed_observed_order(self):
+        process = copy.deepcopy(VALID_PROCESS)
+        process["transitions"].append({
+            "id": "separate_blocks",
+            "from_state": "separate",
+            "action": "move red beside blue",
+            "object_ids": ["red", "blue"],
+            "to_state": "separate",
+            "preconditions": [],
+            "postconditions": [],
+            "evidence": [{"start_seconds": 0.1, "end_seconds": 0.3, "observation": "Red is placed beside blue."}],
+        })
+        process["ordering_observations"] = [{
+            "before_transition_id": "separate_blocks",
+            "after_transition_id": "stack_blocks",
+            "evidence": [{"start_seconds": 0.1, "end_seconds": 1.0, "observation": "The side-by-side arrangement occurs before stacking."}],
+        }]
+        validate_references(process)
 
     def test_rejects_evidence_interval_beyond_expert_clip(self):
         process = copy.deepcopy(VALID_PROCESS)

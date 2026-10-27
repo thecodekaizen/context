@@ -10,7 +10,7 @@ from typing import Any
 from .process import PROCESS_SCHEMA
 
 MODEL = "muse-spark-1.3"
-PROMPT_VERSION = "showme-video-analysis-v1"
+PROMPT_VERSION = "showme-video-analysis-v2"
 
 
 class MuseVideoLearner:
@@ -116,7 +116,7 @@ class MuseVideoLearner:
 
 
 def _learning_prompt(duration_seconds: float) -> str:
-    return f"""Learn a candidate process from this demonstration video only. Do not assume a task or inject an expected mistake. Identify only actions and state facts supported by visible evidence. Keep the representation concise: at most 8 states and 7 transitions. Use stable IDs. Every transition needs timestamped evidence within the clip duration ({duration_seconds:.3f} seconds); timestamps may be approximate but must point to visible support. Distinguish what is visible from what is inferred. Do not claim hidden conditions. If the procedure or an object is ambiguous, put that uncertainty in uncertainties. Represent the demonstrated order and constraints only where supported. Return the requested JSON schema."""
+    return f"""Learn a candidate process from this demonstration video only. Do not assume a task or inject an expected mistake. This single clip is one observed trace, not proof of which steps are necessary. Identify only actions and state facts supported by visible evidence. Keep the representation concise: at most 8 states and 7 transitions. Give each transition a stable unique ID. Every transition needs timestamped evidence within the clip duration ({duration_seconds:.3f} seconds); timestamps may be approximate but must point to visible support. Distinguish visible facts from inference. Record ordering_observations only for pairs whose order is visibly supported, with evidence intervals. These observations mean only “happened before in this clip”; they are not prerequisites and must never be phrased as requirements. Do not infer dependencies, required order, or positional rules from one demonstration. Do not claim hidden conditions. If the procedure or an object is ambiguous, put that uncertainty in uncertainties. Return the requested JSON schema."""
 
 
 def _usage(response: Any) -> dict[str, int]:
