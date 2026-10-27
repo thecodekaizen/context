@@ -1,5 +1,7 @@
-# Visual mockups
+# SHOWME visual mockups
 
-- `00-thread-direction-board.png` — initial visual direction and six-screen flow reference (generated Oct 25, 2026). Sample copy and evidence are illustrative, not product data.
+**Status:** no SHOWME mockups yet. The current experiment is CLI-first; visual design work follows the P0 capability gate.
 
-Add screen-specific mockups here as the visual direction is refined. Keep names numbered and descriptive, and record key behavior in `DESIGN_SYSTEM.md` or alongside the mockup.
+- `00-thread-direction-board.png` — archived pre-pivot THREAD exploration from Oct 25, 2026. Its screens, copy, and visual language are not SHOWME requirements.
+
+Planned SHOWME mockups, in priority order, are listed in [`../../docs/SHOWME_APP_PLAN.md`](../../docs/SHOWME_APP_PLAN.md). Use numbered, descriptive filenames. For each, document the represented state, evidence, interactions, and prototype limitations. Keep the actual physical task and evidence framing consistent across screens.

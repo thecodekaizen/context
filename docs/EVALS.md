@@ -1,5 +1,7 @@
 # Evaluation strategy
 
+> **Archived THREAD evaluation plan:** active SHOWME experiment criteria are in [`SHOWME_PROOF_OF_MAGIC.md`](SHOWME_PROOF_OF_MAGIC.md); dated outcomes are recorded under [`experiments/results/`](experiments/results/) and summarized in [`DAILY_LOG.md`](DAILY_LOG.md).
+
 ## Hackathon judging alignment
 
 The live kickoff rubric weights impact 30%, Meta AI tooling 25%, technical depth 20%, and demo 25%. Stage 1 is pass/fail on theme fit and reasonable Meta-model use. Therefore, verify that THREAD solves a clear creative-work problem, uses the Meta model for a substantive multimodal/temporal step rather than a token API call, has a technically credible evidence-and-counter-evidence pipeline, and tells the story in a three-minute demo.

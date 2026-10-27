@@ -30,6 +30,15 @@ The first milestone is a constrained, prerecorded physical task: learn from one 
 
 See the proof-of-magic experiment in docs/SHOWME_PROOF_OF_MAGIC.md for the protocol, evidence rules, first milestone, and kill criteria.
 
+## Build and app plans
+
+- [Active roadmap and phase status](docs/SHOWME_BUILD_PLAN.md)
+- [Camera-first app and mockup plan](docs/SHOWME_APP_PLAN.md)
+- [Current progress and evidence log](docs/DAILY_LOG.md)
+- [Target three-minute demo flow](design/flows/demo-flow.md)
+
+The SHOWME app screens and mockups are planned but not yet designed or implemented. The image under `design/mockups/` is archived THREAD exploration. Product UI follows the P0 experiment gate; `apps/web/` is legacy THREAD UI, not the SHOWME interface.
+
 ## Meta models
 
 The intended roles are substantive and distinct: Muse Spark interprets the demonstration and learner attempt; SAM 3.1 segments and tracks relevant objects for visual grounding; Muse Voice Transcribe may provide a separate narration transcript. Capabilities and costs must be checked against the current API and proved in the experiment before they become demo claims.

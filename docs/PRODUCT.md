@@ -1,5 +1,7 @@
 # Product brief
 
+> **Archived:** this brief describes the retired THREAD creative-history product. SHOWME is the active project. See [`SHOWME_PROOF_OF_MAGIC.md`](SHOWME_PROOF_OF_MAGIC.md), [`SHOWME_BUILD_PLAN.md`](SHOWME_BUILD_PLAN.md), and [`SHOWME_APP_PLAN.md`](SHOWME_APP_PLAN.md).
+
 ## One sentence
 
 THREAD is a multimodal creative-project intelligence system that turns a creator’s dated project history into temporal memories, discovers evidence-backed changes in themes and direction, and lets the creator investigate and confirm a finding before creating an artifact.

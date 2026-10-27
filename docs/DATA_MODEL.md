@@ -1,5 +1,7 @@
 # Data model (initial proposal)
 
+> **Legacy THREAD data model:** this user/archive schema is not the active SHOWME process model. The current process contract is in `backend/showme/process.py` and is documented in [`SHOWME_PROOF_OF_MAGIC.md`](SHOWME_PROOF_OF_MAGIC.md).
+
 This is a conceptual schema for the 10-day prototype. Keep source provenance and temporal meaning intact. Exact SQL and migrations are Day-1 implementation work.
 
 ## Entities

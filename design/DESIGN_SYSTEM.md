@@ -1,5 +1,7 @@
 # THREAD visual direction (Day 0)
 
+> **Archived pre-pivot direction:** these visual choices describe THREAD, not SHOWME. SHOWME screen behavior is outlined in [`../docs/SHOWME_APP_PLAN.md`](../docs/SHOWME_APP_PLAN.md). Define a separate visual system after the P0 task and evidence vocabulary stabilize.
+
 ## Direction
 
 A living research journal and intelligence map: calm, editorial, evidence-forward, temporal. The AI should feel like it is discovering and investigating, not chatting or announcing verdicts. Avoid generic SaaS card grids, purple AI gradients, and a Notion-like workspace.

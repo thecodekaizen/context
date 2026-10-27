@@ -1,5 +1,7 @@
 # Discovery engine specification
 
+> **Archived THREAD discovery spec:** the active SHOWME problem is learning a process from a demonstration and observing another attempt. See [`SHOWME_PROOF_OF_MAGIC.md`](SHOWME_PROOF_OF_MAGIC.md). Do not use this creative-project discovery spec as a SHOWME requirement.
+
 ## Goal
 
 Find one useful, evidence-backed hypothesis about how a creative project changes over time. The creator must be able to inspect its source material and decide whether the interpretation fits. The hackathon prototype is about the work, not profiling the creator.

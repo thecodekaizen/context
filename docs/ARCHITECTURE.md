@@ -1,5 +1,7 @@
 # Architecture proposal
 
+> **Legacy THREAD architecture:** this proposal is not the active SHOWME architecture. For current experiment boundaries and the minimal process representation, see [`SHOWME_PROOF_OF_MAGIC.md`](SHOWME_PROOF_OF_MAGIC.md). Reuse code only after checking that it serves the experiment.
+
 ## Proposed stack
 
 - **Backend:** Python, FastAPI, Pydantic; a CLI entry point for the same core discovery services.

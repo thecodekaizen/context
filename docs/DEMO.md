@@ -1,5 +1,7 @@
 # Hero demo
 
+> **Archived THREAD demo:** use [`../design/flows/demo-flow.md`](../design/flows/demo-flow.md) for the current SHOWME target flow. That flow remains a target until the proof passes; it is not a validated capability claim.
+
 ## Narrative
 
 “THREAD traced how this creative project changed over time, showed me the evidence on both sides, and helped me decide what to make next.”

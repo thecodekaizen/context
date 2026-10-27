@@ -1,40 +1,40 @@
-# Hackathon daily log
+# SHOWME hackathon daily log
+
+This log records SHOWME work only. Earlier entries described the retired THREAD direction and are preserved in Git history; do not use them as current progress evidence.
 
 ## Tue Oct 27 — Day 1
 
-### Shipped
+### Current phase
 
-- Raw-only Muse discovery CLI with structured evidence references, deterministic citation validation, and a tentative-language rejection guard.
-- Project-level Muse memory extraction with stable topic tags, source-linked temporal memories, repository-root caching, and a local spend ledger.
-- Temporal comparison output now keeps continuity evidence separate from the themes driving the candidate shift.
-- Interactive CLI review flow: creator context, keep/revise/reject/defer, exact `CONFIRM`, and a source-linked direction note.
-- Direct raw Muse discoveries can now flow into the same creator-review CLI; the interview shows model-classified source stages and the confirmed note preserves observations, limitations, and source IDs. An empty candidate skips the interview.
-- Raw-discovery observations now include a source-linked evidence stage (`planned`, `experimental`, `ongoing`, `released`, or `unclear`), with local validation and CLI timeline display. This makes experiment-vs-release status inspectable; it does not yet prevent unsupported direction claims.
-- Raw Muse API status and incomplete-response reasons are now reported and cached on failures; live successful calls show their response status. A cached Cook's Margin replay also caught and fixed a missing project-title display.
-- Raw discovery now uses minimal reasoning and includes reasoning effort and output-token cap in cache identity, following the Cook's Margin ablation that exhausted the cap.
-- Raw discovery's local gate now requires supporting citations in the earliest and latest chronological quarters. The previous midpoint gate admitted the Pocket Observatory ablation; the strengthened rule withholds its cached candidate while allowing the full candidate, without another API call. This is a post-hoc regression check, not independent validation.
-- All output/session data stays in ignored local folders; source artifacts in the repo are synthetic.
+**Phase 1 — learn one demonstration: in progress.** The CLI can prepare a clip, call Muse Spark, validate a candidate process, observe a learner clip, and validate timestamped observations. This is infrastructure, not proof that the capability works reliably.
 
-### Evidence
+### Evidence and outcome
 
-- [Neighborhood Atlas direct raw-discovery scorecard](experiments/results/neighborhood-atlas-2026-10-27.md): overall **FAIL** because the full finding was unqualified; the ablation correctly withheld it.
-- [Tiny Type Lab direct raw-discovery scorecard](experiments/results/type-foundry-2026-10-27.md): preregistered full and ablation checks **PASS**.
-- [Tiny Type Lab memory-path smoke](experiments/results/project-memory-pipeline-smoke-2026-10-27.md): exploratory prompt iteration; not independent validation.
-- [Roomtone batch-memory scorecard](experiments/results/roomtone-memory-2026-10-27.md): preregistered full and ablation checks **PASS**.
-- [Paper Satellites raw-discovery scorecard](experiments/results/paper-satellites-2026-10-27.md): full case passed; ablation **FAILED** because Muse promoted an early two-voice pilot into a project-level evolution claim. The preregistered minimal-reasoning setting also differed from the runner's high-reasoning setting; both limitations are recorded.
-- [Cook's Margin evidence-stage scorecard](experiments/results/cooks-margin-2026-10-27.md): complete case passed with expected source-stage labels; the ablation returned invalid JSON at the output cap, so the overall result is **inconclusive**. No retry was made.
-- [Repair Margins minimal-reasoning scorecard](experiments/results/repair-margins-2026-10-27.md): ablation correctly limited the proposal/pilot; full case **failed** temporal support because the supporting list omitted early artifacts. Both calls completed below the output cap.
-- [Pocket Observatory temporal-support gate scorecard](experiments/results/pocket-observatory-2026-10-27.md): after the initial sandbox DNS failure, user-requested network-enabled calls completed; full case missed map continuity and ablation candidate was accepted by the weak midpoint gate. Overall **FAIL**.
-- [Ember Table endpoint-support scorecard](experiments/results/ember-table-2026-10-27.md): endpoint-supported full case and empty ablation; full hypothesis omitted that the booklet was completed, so overall **FAIL** under frozen criteria.
+- The CaptainCook4D stock-footage evaluation is **P0 FAIL**. Muse omitted the decisive action during learning and missed the annotated ordering error during observation. It also produced no divergence on a normal control, but the prompt and expert crop changed between runs, so that apparent improvement is confounded.
+- The result is documented in [`captaincook4d-ordering-observation-v2-2026-10-27.md`](experiments/results/captaincook4d-ordering-observation-v2-2026-10-27.md). Earlier exploratory results are in the neighboring `experiments/results/` files.
+- The stock footage remains useful for pipeline checks and failure analysis. It does not establish the SHOWME thesis.
+- Process and observation validation has automated tests; the latest run recorded in the experiment notes passed the CLI/test checks, but these do not replace a successful behavioral evaluation.
 
-### Verification and spend
+### Decisions
 
-- `python -m unittest discover -s backend/tests -v`: 25 passed after temporal-support validation.
-- `python -m thread_engine.evaluate`: 6/6 seed cases matched.
-- Local token-based estimated spend: **$0.120499** after the Repair Margins calls; check the Meta Billing dashboard for actual usage.
-- Pocket Observatory calls added an estimated **$0.010176**, bringing the local token estimate to **$0.130675**. The CLI now disables SDK transport retries and reports actionable network errors; sandbox DNS access still requires running the CLI with network permission.
-- Ember Table calls added an estimated **$0.008687**, bringing the local token estimate to **$0.139361**. Confirm actual totals in Meta Billing.
+- Keep the CLI experiment as the current work; do not build the SHOWME UI, SAM overlays, or simulation on a failed P0 result.
+- Next, choose a short, safe, visually discrete task with a small number of objects and a clearly visible, recoverable mistake. Record our own controlled clips if available footage cannot provide matched learn/control/error/recovery attempts.
+- Reuse the exact same expert process for separate correct, error, and recovery attempts. Keep expected labels out of model prompts and preserve the human answer key separately.
 
-### Next engineering focus
+### Next step
 
-Use a new, consented or synthetic archive that was not used to shape the prompts; test source ingestion and memory quality on multimodal input only if time and rights-safe material permit. Keep the CLI as the product surface unless the creator changes that scope.
+Run the controlled task with matched clips, inspect the learned process and evidence, and score correct-state acceptance, error detection, and recovery recognition separately. Update [`SHOWME_BUILD_PLAN.md`](SHOWME_BUILD_PLAN.md) and this log with the result before advancing phases.
+
+## Progress ledger
+
+| Workstream | Status | Evidence / next gate |
+|---|---|---|
+| Experiment CLI and local validation | Implemented; continue hardening | `backend/showme/`, `backend/tests/` |
+| Learn a procedure from a demonstration | In progress; not validated | Pass repeated evidence-linked extraction on the selected controlled task |
+| Recognize correct learner state | Not passed | Matched learner clip; measure false alarms |
+| Detect a deliberate divergence | Not passed | Matched error clip; detect the withheld target with frame evidence |
+| Recognize recovery | Not passed | Separate recovery clip; verify restored valid state |
+| SAM visual grounding | Not started | Begin only after baseline state distinctions pass |
+| Procedural what-if simulation | Not started | Begin only after P0 passes |
+| SHOWME app and visual mockups | Planned, gated | See [`SHOWME_APP_PLAN.md`](SHOWME_APP_PLAN.md) |
+| Demo video and submission | Not started | Only show capabilities that pass evaluation |
