@@ -9,7 +9,7 @@
 | Time | Picture / action | Spoken line / purpose |
 |---|---|---|
 | 0:00–0:12 | Open on a real learner workspace. Let the task fill frame. | “Tutorials can show you what to do. They can’t see what you’re doing.” |
-| 0:12–0:35 | Show a short expert demonstration, then SHOWME's candidate Skill Model with a few timestamped evidence links. | “Showme once. It proposes the parts, actions, and states it observed. The expert reviews what the clip supports.” |
+| 0:12–0:35 | Show a short expert demonstration, then SHOWME's candidate process model with a few timestamped evidence links. | “Show it once. SHOWME proposes the parts, actions, and states it observed. The expert reviews what the clip supports.” |
 | 0:35–0:55 | Switch to the separate learner attempt. Show a correct state accepted with its cited frame. | “Now a different attempt. This state matches the reviewed model.” Only say this after the matched control is accepted in repeated runs. |
 | 0:55–1:30 | Show the deliberate mistake in the actual workspace, then the matching paused clip frame and SAM overlay if validated. | “Here the learner diverges. SHOWME points to the relevant part and explains the evidence.” Never imply SAM proves the process error. |
 | 1:30–1:52 | Show the recovery clip and the later state check/event. | “The learner corrects it. SHOWME recognizes the state is back on a valid path.” Include only after the separate recovery run passes without answer-key leakage. |
@@ -23,7 +23,7 @@ If live state tracking or recovery has not passed, keep the demo honest and stil
 
 1. Show Teach recording/upload, the real inference call, and human review of the candidate with its evidence. Label model output as a proposal.
 2. In Do, explicitly select **Observe attempt** on the separate learner clip. Show the returned events and timestamps beside the source footage. Describe them as model-reported observations until evaluated against the independent answer key.
-3. If a divergence is reported, seek to its timestamp. Use **Locate … in this frame** only if the task footage confirms that the SAM overlay selects the intended object; otherwise show the raw frame and disclose that grounding is not yet validated.
+3. If a difference is reported, seek to its timestamp. Use **Find … in frame** only if the task footage confirms that the SAM overlay selects the intended object; otherwise show the raw frame and disclose that object finding is not yet validated.
 4. Show a recovery classification only if the matched recovery clip passes the blind evaluation. Otherwise use the time to show an uncertainty or missed detection and explain the limitation.
 5. Simulate may be shown as a procedural preview only. Label the current stacked-mount scene as an illustrative fixture. Do not call it physical simulation or claim its constraint was learned from video.
 6. Close with the concrete next proof: demonstrate, compare a correct attempt, catch one recoverable mistake, and observe recovery using the same selected physical task.

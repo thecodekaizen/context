@@ -1,26 +1,32 @@
 # Participant and submission checklist
 
-## Before building
+## Event requirements
 
-- [ ] Attend the Oct 26 kickoff and confirm event platform access.
-- [ ] Review and accept the official rules in the event platform.
-- [ ] Check Meta Model API access and the current model list/quickstart.
-- [ ] Use the credit-claim form posted in Discord `#resources`; each participant claims individually by Nov 4, 9:00 PM ET. Check Billing for the $150 credit; a payment card is required for API use, and a spend-limit alert is available.
-- [ ] Keep the existing repo setup/docs/mockups labeled as pre-event groundwork; log new work from the kickoff onward separately.
-
-## Build and demo
-
-The kickoff rubric weights impact 30%, Meta AI tooling 25%, technical depth 20%, and demo 25%. Stage 1 is pass/fail on theme fit and reasonable Meta-model use. Avoid the listed anti-projects, including basic RAG, Streamlit-only apps, dashboards as the main feature, and personality analyzers.
-
-- [ ] Use at least one Meta model in the actual working project path; document its role and show it in the demo.
+- [x] Attend the Oct 26 kickoff and confirm event access.
+- [x] Review the official hackathon guide and problem statements.
+- [x] Check Meta Model API access and current model documentation.
+- [x] Claim the individual Meta Model API credits; the user previously confirmed $149.91 remained. Recheck Billing before further calls. API use requires a payment card, and a spend-limit alert is available.
+- [ ] Use at least one Meta model substantively in the working project path; document its role and show it in the demo.
+- [ ] Keep the GitHub repository public for submission.
 - [ ] Use only code, data, and assets the team has rights to use.
-- [ ] Keep the project centered on creative work evolving over time; avoid personality analysis, generic document chat, and other sample anti-project categories.
-- [ ] Keep the GitHub repository public.
-- [ ] Clearly distinguish features built during the hackathon from the pre-event foundation, following the kickoff's “Hacking starts now” announcement and the guide's Oct 27 formal building-period date.
-- [ ] Prepare an accessible three-minute demo video highlighting hackathon-built features.
-- [ ] Submit through the CV platform with every teammate listed.
-- [ ] Verify the public repository and video links open in a logged-out browser.
-- [ ] Submit through the Cerebral Valley platform by Nov 4, 9:00 PM EST; no late submissions.
+- [ ] Submit through the Cerebral Valley platform by Nov 4, 9:00 PM ET; list every teammate.
+- [ ] Provide an accessible three-minute demo video showing the features built during the event.
+- [ ] Verify that the repository and video open in a logged-out browser.
+
+## Product and demo checks
+
+SHOWME is the locked project direction. The product loop is **Teach → Do → Simulate** around one shared process model. The target is one constrained physical task, not arbitrary task understanding.
+
+- [ ] Teach: learn a candidate process from a demonstration, show timestamped evidence, and require human review.
+- [ ] Do: compare a separate learner attempt with the reviewed model; report only evidence-backed differences and uncertainty.
+- [ ] Simulate: test another order using that same model; distinguish procedural state preview from physical simulation.
+- [ ] Evaluate correct attempt, deliberate divergence, and recovery against a private answer key that the model never sees.
+- [ ] Keep live-tracking, object-grounding, recovery, and simulation claims limited to what has passed repeatable checks.
+- [ ] Clearly label hackathon-built work separately from the pre-event repository setup and foundation.
+
+## Judging priorities
+
+The kickoff rubric weights impact 30%, Meta AI tooling 25%, technical depth 20%, and demo 25%. Stage 1 is pass/fail on theme fit and reasonable Meta-model use. Avoid the guide’s anti-project categories, including basic RAG, dashboards as the main feature, generic AI education chatbots, personality analyzers, and medical advice tools.
 
 ## Official resources
 

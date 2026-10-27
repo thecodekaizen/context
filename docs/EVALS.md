@@ -1,6 +1,6 @@
-# Evaluation strategy
+# Legacy THREAD evaluation strategy (archived)
 
-> **Archived THREAD evaluation plan:** active SHOWME experiment criteria are in [`SHOWME_PROOF_OF_MAGIC.md`](SHOWME_PROOF_OF_MAGIC.md); dated outcomes are recorded under [`experiments/results/`](experiments/results/) and summarized in [`DAILY_LOG.md`](DAILY_LOG.md).
+> This file documents the superseded THREAD project and its fixture results. Do not use it as SHOWME validation. Active SHOWME experiment criteria are in [`SHOWME_PROOF_OF_MAGIC.md`](SHOWME_PROOF_OF_MAGIC.md); SHOWME outcomes are recorded under [`experiments/results/`](experiments/results/) and summarized in [`DAILY_LOG.md`](DAILY_LOG.md).
 
 ## Hackathon judging alignment
 

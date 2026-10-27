@@ -1,33 +1,36 @@
-# Hero demo
+# SHOWME demo
 
-> **Archived THREAD demo:** use [`../design/flows/demo-flow.md`](../design/flows/demo-flow.md) for the current SHOWME target flow. That flow remains a target until the proof passes; it is not a validated capability claim.
+> **Product:** SHOWME turns demonstrations into understanding. Teach creates one process model; Do checks a learner's attempt against it; Simulate tests another step order using that same model.
 
-## Narrative
+This plan is for the Meta Global AI Developer Hackathon submission. It is a target, not a claim that every capability has passed evaluation. Use [`../design/flows/demo-flow.md`](../design/flows/demo-flow.md) for the gated three-minute script and current fallback.
 
-“THREAD traced how this creative project changed over time, showed me the evidence on both sides, and helped me decide what to make next.”
+## The story
+
+“Tutorials can show you what to do. They can’t see what you’re doing.”
+
+Show one physical task. SHOWME proposes a process model from an expert demonstration. A learner tries the task; SHOWME checks the recorded attempt, identifies any evidence-backed difference, and supports inspection. Then use the same model to test a different step order.
+
+The two moments to earn are:
+
+1. **SHOWME caught my mistake.** The report must identify the actual visible divergence and link to inspectable evidence.
+2. **SHOWME showed what would happen instead.** Simulate must use the same reviewed process model and clearly label a procedural preview as distinct from physical simulation.
 
 ## Three-minute submission video
 
-The submission requires a three-minute demo video. Keep the story to one project, one evolution claim, a few source fragments, one challenge/correction, one explicit confirmation, and one small artifact. State which functionality was built during the hackathon; distinguish it from the pre-event repository foundation. Show the Meta model’s actual role in the flow.
+The submission video is limited to three minutes. Start with the real task, not an architecture diagram or a generic product tour. Show only functionality built during the hackathon and identify the pre-event repository foundation accurately.
 
-## Demo flow
+Use the time-coded plan in [`../design/flows/demo-flow.md`](../design/flows/demo-flow.md). Keep the selected task, clips, evidence timestamps, and spoken claims consistent. If a capability gate fails, remove that claim from the cut or show the limitation plainly.
 
-1. **Introduce the archive.** Use a rights-safe synthetic creative-project archive spanning several dates. Show that each item has a source and date.
-2. **Discover.** Run `thread-discover <archive.json> --raw-muse --review`; Muse proposes a source-linked evolution and the CLI opens the creator review in the same workflow. If there is no candidate, the interview does not start.
-3. **Inspect evidence.** Open a timeline and source fragments. Show supporting evidence and one counterexample or uncertainty.
-4. **Challenge.** Inspect the model-classified chronology and collect concrete creator context; ask what part of the earlier direction should remain important.
-5. **Disposition.** Keep or revise the interpretation, reject it, or defer it. Rejection and deferral produce no artifact.
-6. **Confirm.** The creator must type `CONFIRM` for the final interpretation. Any other response leaves it unconfirmed.
-7. **Create.** Write one local direction note grounded in the confirmed insight, with source IDs and evidence lineage. The session and note stay under ignored `.thread-output/`.
+## Demo safety rules
 
-## Demo safety net
+- Keep the human-authored answer key separate from model inputs and public files.
+- Use consented footage and assets with rights for processing and public release.
+- Preserve original model outputs and compare them against independently recorded ground truth; do not edit away misses or false alarms.
+- Label fixture behavior, model proposals, and unvalidated reports. One successful run is a prototype result, not a reliability claim.
+- Never imply that SAM segmentation proves a process error, that a single clip proves a required order, or that the current procedural preview is physics simulation.
 
-Keep a deterministic fixture and precomputed structured result available. If a live model call fails, continue to evidence inspection and interview using the fixture. Clearly disclose when the result is fixture-backed. Never switch to an unsupported insight just to preserve the story.
+## Current fallback
 
-## Demo assets
+If the matched physical-task evaluation is not ready, present the current app as an integration prototype. Show Teach’s proposed model and timestamped evidence, inspect a separate learner-video analysis as a model report, and use Simulate only as a procedural preview. State what remains unvalidated. Do not present the sample stacked-mount fixture as a learned LEGO task.
 
-- Curated fixture with source records, dates, intended candidate, counter-evidence, and evaluation notes.
-- Short screen recording as a fallback.
-- One-page explanation of the evidence and what would falsify the interpretation.
-
-See `design/flows/demo-flow.md` for the interaction flow.
+See [`SHOWME_BUILD_PLAN.md`](SHOWME_BUILD_PLAN.md) for implementation status and [`LEGO_RECORDING_GUIDE.md`](LEGO_RECORDING_GUIDE.md) for the matched clip protocol.

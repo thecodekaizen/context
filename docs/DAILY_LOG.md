@@ -175,3 +175,10 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - Clarified the difference between a step observed in one demonstration and a requirement confirmed by a person. Simulation warnings now identify the source in plain language.
 - Removed token counts from the learner video review and clarified that the sample procedure was not learned from a video.
 - Verification: all 13 existing tests pass, TypeScript passes, and the production build completes. No new capability is claimed by this copy change.
+
+### Documentation checkpoint — SHOWME demo and hackathon alignment
+
+- Replaced the stale THREAD demo narrative with SHOWME's Teach → Do → Simulate story, evidence gates, and honest fallback.
+- Updated the participant checklist for the locked SHOWME task, current hackathon requirements, and verified credit claim.
+- Marked the old THREAD evaluation strategy as archived and corrected demo-script wording to match the interface and current evidence boundaries.
+- The README screenshots still predate the latest copy pass. Browser capture was unavailable in this session; keep the existing date/caveat until fresh screenshots can be captured and reviewed.
