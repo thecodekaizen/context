@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { completedActions, simulateAction, simulateSequence } from "@/lib/simulate";
 import { SAMPLE_SKILL, type SkillModel } from "@/lib/skill-model";
 import { processToSkill } from "@/lib/process-to-skill";
-import { clearReviewedProcess, loadReviewedProcess, saveReviewedProcess, type SavedProcess } from "@/lib/skill-storage";
+import { clearReviewedProcess, isSavedProcess, loadReviewedProcess, saveReviewedProcess, type SavedProcess } from "@/lib/skill-storage";
 import { interpretWhatIf } from "@/lib/what-if";
 
 type Mode = "teach" | "do" | "simulate";
@@ -17,6 +17,19 @@ type LearnerObservation = {
   reference_checks: { transition_id: string; status: "matches_reference" | "possible_mismatch" | "not_shown" | "unclear"; time_seconds: number | null; evidence: string; next_guidance: string }[];
   _run?: { model?: string; usage?: { input_tokens?: number; output_tokens?: number } };
 };
+function isLearnerObservation(value: unknown): value is LearnerObservation {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
+  const item = value as Record<string, unknown>;
+  const statuses = new Set(["matches_reference", "possible_mismatch", "not_shown", "unclear"]);
+  return Array.isArray(item.events)
+    && Array.isArray(item.divergences)
+    && Array.isArray(item.uncertainties)
+    && Array.isArray(item.reference_checks)
+    && ["no_divergence_observed", "underway", "recovered", "unclear"].includes(String(item.recovery_status))
+    && item.events.every((event) => typeof event === "object" && event !== null && typeof (event as Record<string, unknown>).time_seconds === "number" && typeof (event as Record<string, unknown>).action === "string")
+    && item.divergences.every((divergence) => typeof divergence === "object" && divergence !== null && typeof (divergence as Record<string, unknown>).time_seconds === "number" && typeof (divergence as Record<string, unknown>).process_difference === "string")
+    && item.reference_checks.every((check) => typeof check === "object" && check !== null && typeof (check as Record<string, unknown>).transition_id === "string" && statuses.has(String((check as Record<string, unknown>).status)) && ((check as Record<string, unknown>).time_seconds === null || typeof (check as Record<string, unknown>).time_seconds === "number") && typeof (check as Record<string, unknown>).evidence === "string" && typeof (check as Record<string, unknown>).next_guidance === "string");
+}
 type SnapshotObservation = {
   state_id: string;
   assessment: "consistent" | "possible_divergence" | "unclear";
@@ -114,6 +127,8 @@ export default function Home() {
   const [mediaUrl, setMediaUrl] = useState("");
   const [sourceFile, setSourceFile] = useState<File | null>(null);
   const [referencePdf, setReferencePdf] = useState<File | null>(null);
+  const [importError, setImportError] = useState("");
+  const [observationImportError, setObservationImportError] = useState("");
   const [demoCameraOn, setDemoCameraOn] = useState(false);
   const [recordingDemo, setRecordingDemo] = useState(false);
   const [demoCaptureError, setDemoCaptureError] = useState("");
@@ -146,6 +161,8 @@ export default function Home() {
   const [observing, setObserving] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
   const referenceInput = useRef<HTMLInputElement>(null);
+  const processInput = useRef<HTMLInputElement>(null);
+  const observationInput = useRef<HTMLInputElement>(null);
   const demoVideoRef = useRef<HTMLVideoElement>(null);
   const demoStreamRef = useRef<MediaStream | null>(null);
   const demoRecorderRef = useRef<MediaRecorder | null>(null);
@@ -406,6 +423,47 @@ export default function Home() {
     setGroundingError("");
     setSnapshotHistory([]);
     setMode("do");
+  }
+
+  async function importSavedProcess(file: File | null) {
+    if (!file) return;
+    try {
+      const parsed: unknown = JSON.parse(await file.text());
+      const candidate = typeof parsed === "object" && parsed !== null && "process" in parsed
+        ? (parsed as { process: unknown }).process
+        : parsed;
+      if (!isSavedProcess(candidate)) throw new Error("This file is not a valid SHOWME process model.");
+      setLearnedProcess(candidate);
+      setCandidateReviewed(false);
+      setImportError("");
+      setLearnError("");
+    } catch (error) {
+      setImportError(error instanceof Error ? error.message : "SHOWME could not read this process model.");
+    } finally {
+      if (processInput.current) processInput.current.value = "";
+    }
+  }
+
+  async function importSavedObservation(file: File | null) {
+    if (!file) return;
+    try {
+      if (!activeProcess) throw new Error("Load and review the matching process model first.");
+      const parsed: unknown = JSON.parse(await file.text());
+      const candidate = typeof parsed === "object" && parsed !== null && "observation" in parsed
+        ? (parsed as { observation: unknown }).observation
+        : parsed;
+      if (!isLearnerObservation(candidate)) throw new Error("This file is not a valid SHOWME learner review.");
+      const expectedIds = activeProcess.transitions.filter((transition) => transition.reference_evidence?.length).map((transition) => transition.id).sort();
+      const actualIds = candidate.reference_checks.map((check) => check.transition_id).sort();
+      if (JSON.stringify(expectedIds) !== JSON.stringify(actualIds)) throw new Error("This review belongs to a different process model.");
+      setObservation(candidate);
+      setObservationImportError("");
+      setObserveError("");
+    } catch (error) {
+      setObservationImportError(error instanceof Error ? error.message : "SHOWME could not read this learner review.");
+    } finally {
+      if (observationInput.current) observationInput.current.value = "";
+    }
   }
 
   function mapConfirmedConstraint(transitionId: string, constraintIndex: number, requiredState: string) {
@@ -822,6 +880,8 @@ export default function Home() {
               <div className="demo-record-controls">{!demoCameraOn ? <button className="secondary-button" onClick={() => void startDemoCamera()}>Record a demonstration</button> : <><button className="primary-button" disabled={recordingDemo} onClick={startDemoRecording}>{recordingDemo ? "Recording…" : "Start recording"}<span>●</span></button><button className="secondary-button" onClick={stopDemoCamera}>{recordingDemo ? "Stop and use clip" : "Stop camera"}</button></>}<span className="small-note">Recording stays in this browser tab until you save it or request analysis.</span></div>
               {demoCaptureError && <div className="inline-honesty" role="alert">{demoCaptureError}</div>}
               <div className="reference-upload"><label className="field-label" htmlFor="reference-pdf">ADD TASK INSTRUCTIONS (OPTIONAL)</label><input ref={referenceInput} id="reference-pdf" type="file" accept="application/pdf,.pdf" onChange={(event) => setReferencePdf(event.target.files?.[0] ?? null)} /><small>Use an official manual or checklist when the demonstration may contain mistakes. SHOWME compares the video with the reference; it still needs your review.</small></div>
+              <div className="process-import"><input ref={processInput} type="file" accept="application/json,.json" hidden onChange={(event) => void importSavedProcess(event.target.files?.[0] ?? null)} /><button className="text-action" onClick={() => processInput.current?.click()}>Load an existing process model ↓</button><small>Import a saved JSON model for review without running another model analysis.</small></div>
+              {importError && <div className="inline-honesty" role="alert">{importError}</div>}
               <label className="field-label" htmlFor="narration">ADD OPTIONAL NARRATION</label><textarea id="narration" value={narration} onChange={(event) => setNarration(event.target.value)} placeholder="For example: ‘The spacer goes under the bracket.’" />
               <div className="capture-actions"><span className="small-note">Analysis sends the clip{referencePdf ? " and instructions PDF" : ""} to Meta and may use API credits.</span><button className="primary-button" disabled={!sourceFile || learning || demoCameraOn} onClick={() => void learnFromVideo()}>{learning ? "Building process model…" : "Build process model"}<span>→</span></button></div>
               {learnError && <div className="inline-honesty" role="alert">{learnError}</div>}
@@ -866,6 +926,8 @@ export default function Home() {
                 <input ref={learnerInput} type="file" accept="video/mp4,video/quicktime,video/x-m4v,video/webm" hidden onChange={(event) => chooseLearnerVideo(event.target.files?.[0])} />
                 {learnerUrl && <><VideoPreview src={learnerUrl} videoRef={learnerVideoRef} /><a className="text-action clip-download" href={learnerUrl} download={learnerFile?.name || "showme-attempt.webm"}>Save learner clip ↓</a></>}
                 <div className="capture-actions"><span className="small-note">Analysis sends this clip to Meta and may use API credits.</span><button className="primary-button" disabled={!learnerFile || !activeProcess || observing || cameraOn} onClick={() => void observeLearnerVideo()}>{observing ? "Analyzing video…" : "Analyze learner video"}<span>→</span></button></div>
+                <div className="process-import"><input ref={observationInput} type="file" accept="application/json,.json" hidden onChange={(event) => void importSavedObservation(event.target.files?.[0] ?? null)} /><button className="text-action" disabled={!activeProcess} onClick={() => observationInput.current?.click()}>Load a saved learner review ↓</button><small>Import a previous JSON result to inspect its timestamps without another model call.</small></div>
+                {observationImportError && <div className="inline-honesty" role="alert">{observationImportError}</div>}
                 {!activeProcess && <div className="inline-honesty">Record a task video in Teach, review the proposed steps, then load the model here.</div>}
                 {observeError && <div className="inline-honesty" role="alert">{observeError}</div>}
                   {observation && <section className="observation-results" aria-live="polite"><div className="observation-heading"><div><div className="eyebrow">VIDEO REVIEW · {observation._run?.model ?? "MUSE SPARK"}</div><h4>{observation.recovery_status.replaceAll("_", " ")}</h4></div></div>
