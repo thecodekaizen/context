@@ -43,6 +43,25 @@ class MuseImageRequestTests(unittest.TestCase):
         self.assertEqual(output["_run"]["usage"], {"input_tokens": 12, "output_tokens": 4})
         self.assertIsNone(output["_run"]["remote_file_id"])
 
+    def test_multi_image_adapter_preserves_roles_and_mime_types(self):
+        learner = object.__new__(MuseSparkClient)
+        learner._structured_response = Mock(return_value={"assessment": "unclear"})
+        with tempfile.TemporaryDirectory() as folder:
+            reference = Path(folder) / "reference.png"
+            current = Path(folder) / "current.jpg"
+            reference.write_bytes(b"png"); current.write_bytes(b"jpg")
+            learner.analyze_images([reference, current], prompt="Compare", schema={}, schema_name="joint")
+        content = learner._structured_response.call_args.args[0]
+        self.assertEqual(content[1]["text"], "Evidence image 0")
+        self.assertTrue(content[2]["image_url"].startswith("data:image/png;base64,"))
+        self.assertEqual(content[3]["text"], "Evidence image 1")
+        self.assertTrue(content[4]["image_url"].startswith("data:image/jpeg;base64,"))
+
+    def test_multi_image_count_rejected_before_request(self):
+        learner = object.__new__(MuseSparkClient)
+        with self.assertRaises(ValueError):
+            learner.analyze_images([], prompt="Compare", schema={}, schema_name="joint")
+
 
 if __name__ == "__main__":
     unittest.main()

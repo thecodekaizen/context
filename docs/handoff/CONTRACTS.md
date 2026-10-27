@@ -34,3 +34,7 @@ Reference PDF support on Observe is new; frontend wiring remains a task. Sending
 ## Scene extension — proposed, not current schema
 
 A separate scene adapter may map semantic object IDs to render assets, task-local poses and visual attachment anchors. It must declare asset source and supported states. Unknown objects use a neutral placeholder; missing geometry never becomes a fabricated learned arrangement. Rendering consumes simulator results and cannot grant procedural validity. Any persisted scene schema needs versioning and contract review first.
+
+## New optional joint inspection — October 28
+
+The backend now exposes explicit `POST /api/skills/inspect-joint` for a source image, learner frame, reviewed backend process and selected transition. See `../experiments/showme-joint-inspection-v1.md` for exact fields, result states and frontend integration rules. This is selected-joint comparison, not temporal recovery or a full assembly verdict. Provider accuracy remains unvalidated.

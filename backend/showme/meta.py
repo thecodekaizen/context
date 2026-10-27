@@ -137,6 +137,26 @@ class MuseSparkClient:
                 "repeating a potentially billable request; inspect billing before retrying."
             ) from exc
 
+    def analyze_images(self, images: list[Path], *, prompt: str, schema: dict[str, Any],
+                       schema_name: str, max_output_tokens: int = 2400) -> dict[str, Any]:
+        """Send explicitly ordered evidence images in one structured request; no retries."""
+        if not 2 <= len(images) <= 6:
+            raise ValueError("select between two and six evidence images")
+        content: list[dict[str, Any]] = [{"type": "input_text", "text": prompt}]
+        for index, source in enumerate(images):
+            path = source.expanduser().resolve()
+            if path.suffix.lower() not in {".jpg", ".jpeg", ".png"} or not path.is_file():
+                raise ValueError("evidence image must be a local JPEG or PNG")
+            mime = "image/png" if path.suffix.lower() == ".png" else "image/jpeg"
+            encoded = base64.b64encode(path.read_bytes()).decode("ascii")
+            content.extend([{"type": "input_text", "text": f"Evidence image {index}"},
+                            {"type": "input_image", "image_url": f"data:{mime};base64,{encoded}", "detail": "high"}])
+        try:
+            return self._structured_response(content, schema=schema, schema_name=schema_name,
+                                             max_output_tokens=max_output_tokens)
+        except self._api_error as exc:
+            raise RuntimeError("Meta image comparison failed; automatic retries are disabled.") from exc
+
     def _structured_response(
         self,
         content: list[dict[str, Any]],

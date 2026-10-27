@@ -11,6 +11,7 @@ import json
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
+from .focus import inspect_joint
 from .media import inspect_video, make_model_video
 from .meta import MuseSparkClient
 from .observe import observe_snapshot, observe_video, validate_observation, validate_snapshot
@@ -253,6 +254,40 @@ def ground_snapshot_object(
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     finally:
         image.file.close()
+
+
+@app.post("/api/skills/inspect-joint")
+def inspect_selected_joint(
+    reference_image: Annotated[UploadFile, File(description="Explicitly selected source diagram/frame")],
+    learner_image: Annotated[UploadFile, File(description="Explicitly selected learner frame")],
+    process_json: Annotated[str, Form(max_length=100_000)],
+    transition_id: Annotated[str, Form(max_length=100)],
+) -> dict:
+    """Paid comparison only when explicitly requested; cannot establish recovery."""
+    try:
+        process = json.loads(process_json)
+        if not isinstance(process, dict):
+            raise ValueError("reviewed process must be a JSON object")
+        validate_references(process)
+        if transition_id not in {item["id"] for item in process["transitions"]}:
+            raise ValueError("select a declared transition")
+        with tempfile.TemporaryDirectory(prefix="showme-joint-") as temporary:
+            paths = []
+            for name, upload in [("reference", reference_image), ("learner", learner_image)]:
+                suffix = Path(upload.filename or "").suffix.lower()
+                if suffix not in {".jpg", ".jpeg", ".png"} or upload.content_type not in {"image/jpeg", "image/png"}:
+                    raise HTTPException(status_code=415, detail="Select JPEG or PNG evidence images.")
+                path = Path(temporary) / (name + suffix)
+                if _copy_bounded(upload, path, max_bytes=MAX_SNAPSHOT_BYTES) == 0:
+                    raise ValueError("evidence image is empty")
+                paths.append(path)
+            result = inspect_joint(MuseSparkClient.from_env(), paths[0], paths[1], process, transition_id)
+            return {"inspection": result, "status": result["assessment"]}
+    except (OSError, ValueError, RuntimeError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    finally:
+        reference_image.file.close()
+        learner_image.file.close()
 
 
 def _copy_bounded(

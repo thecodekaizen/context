@@ -1,0 +1,32 @@
+# Inspect a selected joint against source evidence
+
+Implemented October 28. Local software verification only; real visual accuracy remains unvalidated.
+
+## Purpose
+
+Whole-video summaries have reported contradictory coarse assembly judgments. This alternative examines one selected process transition with a source diagram/frame and a learner frame, explicitly separating the visible landmarks in each. It does not replace temporal observation or certify the full assembly.
+
+## Integration contract for Antigravity
+
+Explicit multipart POST `/api/skills/inspect-joint`:
+
+- `reference_image`: selected JPEG or PNG source diagram/frame.
+- `learner_image`: selected JPEG or PNG learner frame.
+- `process_json`: existing reviewed backend process JSON, not the frontend SkillModel projection.
+- `transition_id`: one declared process transition.
+
+Each image uses the existing 5 MiB snapshot limit. The request sends both selected images and selected transition context to Meta and uses credits. Trigger only through an explicit user action with that disclosure. The backend does not fetch a diagram or take a camera frame automatically.
+
+Success returns `{status, inspection}`. `status` is `matches`, `possible_difference`, or `unclear`. Each relation contains declared affected `object_ids`, separate `reference_landmark` and `learner_landmark`, `assessment` (`matches`, `differs`, `unclear`) and an explanation. Overall matches requires nonempty all-matching relations; possible_difference requires a conflicting relation. Unclear requires view guidance. Invalid input/output returns an error, not usable guidance.
+
+`inspection._run` includes selected transition, prompt/model metadata, source/learner image hashes, semantic process hash and an explicit selected-joint scope. No image bytes are persisted by the endpoint. Provider retention still applies; do not describe this as local-only analysis.
+
+## UI boundary
+
+Label it “Inspect this joint”, present both source and learner evidence, and let users inspect the landmark comparison. A match concerns reported visible relationships only. Do not mark all steps complete, infer recovery, or overwrite a temporal observation from this result. View guidance helps acquire evidence; it is not a proven repair instruction. Diagram crops and source selection remain disclosed human inputs, not claimed automatic segmentation.
+
+## Verification
+
+83 SHOWME backend checks pass, including paired-image MIME/ordering, HTTP forwarding, unknown-transition rejection before inference, declared-object enforcement, conflict/match consistency, uncertainty guidance and image provenance. Controlled responses establish software behavior only. No Meta request was made for this feature.
+
+The prompt uses the existing Responses image-content adapter pattern. Multi-image live provider behavior, visual accuracy, latency and cost remain to be measured before demo claims.
