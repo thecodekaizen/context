@@ -86,3 +86,9 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - The parser proposes an order only; SHOWME displays that interpretation for review, applies it only after user confirmation, and still requires an explicit run action before deterministic simulation.
 - Added coverage for a named relative move, moving an action first, unmatched input, and self-relative ordering.
 - This makes the procedural what-if interaction testable before the LEGO task is selected; state consequences and physical geometry remain limited by the available Skill Model.
+
+### Implementation checkpoint — Reference vs alternative state
+
+- After running a proposed order, Simulate now places the reference trace's final modeled state beside the alternative's final modeled state. Both are derived from the active shared Skill Model.
+- The reference is labeled as an observed trace for reviewed skills and as illustrative for the sample fixture; the UI explicitly avoids treating one observed ordering as proof that alternatives are impossible.
+- This adds a clear outcome comparison while keeping the scene a procedural state view; LEGO-specific geometry and physical consequences remain pending the selected task and recordings.
