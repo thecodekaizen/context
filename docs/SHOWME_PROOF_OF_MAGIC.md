@@ -53,7 +53,7 @@ A changed camera angle is a later robustness check, after the fixed-camera basel
 5. Local code validates schema, known object/state/action references, and evidence references. It does not convert an unsupported model claim into a fact.
 6. A comparison report evaluates outputs against the separate human labels.
 
-Keep the first runner offline and prerecorded. Only attempt a live camera loop after the recorded baseline succeeds. Procedural what-if simulation is P1 and follows the process model; physical simulation is out of scope for the initial experiment.
+Use prerecorded clips for controlled evaluation. The final submission target includes an interactive, task-specific 3D simulation driven by the resulting process model; see [`SHOWME_SIMULATION_DESIGN.md`](SHOWME_SIMULATION_DESIGN.md). The experiment validates the perception and process representation that the final learner loop and simulator share.
 
 ## Minimum process representation
 

@@ -22,11 +22,11 @@ Tutorials can show someone what happened. SHOWME aims to understand the process 
              ↓
     Grounded guidance and recovery
              ↓
-    Procedural “what if?” simulation (after P0)
+    Interactive 3D “what if?” task simulation
 
 ## First proof
 
-The first milestone is a constrained, prerecorded physical task: learn from one expert clip, observe a correct learner attempt and deliberate mistake, ground the relevant object visually, then recognize recovery. The experiment comes before product UI. It does not claim general physical intelligence or physics simulation.
+The final submission is a constrained, interactive task experience: learn a procedure from an expert, guide another person through it, catch and recover from a mistake, and let them change an action order in a 3D procedural simulation. The experiment validates the process model behind both guidance and simulation. It does not claim general-purpose physical intelligence or universal physics simulation.
 
 See the proof-of-magic experiment in docs/SHOWME_PROOF_OF_MAGIC.md for the protocol, evidence rules, first milestone, and kill criteria.
 
@@ -34,6 +34,7 @@ See the proof-of-magic experiment in docs/SHOWME_PROOF_OF_MAGIC.md for the proto
 
 - [Active roadmap and phase status](docs/SHOWME_BUILD_PLAN.md)
 - [Camera-first app and mockup plan](docs/SHOWME_APP_PLAN.md)
+- [Interactive simulation design](docs/SHOWME_SIMULATION_DESIGN.md)
 - [Current progress and evidence log](docs/DAILY_LOG.md)
 - [Target three-minute demo flow](design/flows/demo-flow.md)
 
