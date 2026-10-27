@@ -113,3 +113,10 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - The backend rejects undeclared object IDs, bounds the image dimensions, makes no automatic retry, and returns no raw SAM token payload. SAM is still phrase-based segmentation; it does not verify task correctness or provide live tracking.
 - Live smoke: one synthetic repository mockup still returned 9 `button` detections with masks and no parser diagnostics. The screenshot was resized to the app's 1280-pixel maximum and remained in `/tmp`; this validates API + parser + geometry only, not LEGO performance.
 - Verification: 7 focused SAM/API tests, the full backend suite, all web tests, TypeScript, and production build passed.
+
+### Implementation checkpoint — Ground a learner divergence frame
+
+- Each recorded-clip divergence with known object IDs now offers a separate SAM grounding action. It pauses the learner preview, seeks to the model-reported timestamp, captures that single frame in-browser, and displays the resulting mask and box below the clip evidence.
+- This reuses the existing image endpoint; no video is sent to SAM, and the action does not independently validate the Muse-reported difference. The frame remains transient in browser memory.
+- The browser screenshot inspection tool timed out during this checkpoint, so visual confirmation is limited to the successful production build.
+- Verification: all 71 backend tests, 13 web tests, TypeScript, and production build passed.

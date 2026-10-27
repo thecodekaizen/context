@@ -74,7 +74,7 @@ Open [http://localhost:3000](http://localhost:3000). The app uses the local API 
 
 ## Meta model roles
 
-Muse Spark performs structured interpretation of demonstrations and learner observations. After an explicit single-frame check, Do can send one selected Skill Model object and that same captured still to SAM 3.1 for boxes and masks; SAM remains opt-in and is not live tracking. The integration uses Meta's official `meta-sam-parser` to decode segmentation records. Muse Voice is still a possible later addition. SAM has not yet been validated on the chosen LEGO task or against real footage from a separate learner.
+Muse Spark performs structured interpretation of demonstrations and learner observations. In Do, SAM 3.1 can segment one selected Skill Model object on either a manual camera snapshot or a user-selected timestamp from a recorded learner divergence. Both are opt-in single-frame calls; neither is live tracking. The integration uses Meta's official `meta-sam-parser` to decode segmentation records. Muse Voice is still a possible later addition. SAM has not yet been validated on the chosen LEGO task or against real footage from a separate learner.
 
 ## Hackathon and responsible use
 

@@ -29,6 +29,10 @@ type GroundedDetection = { object_id: string; box?: { left: number; top: number;
 type SamGrounding = { model: string; concept: string; image: { width: number; height: number }; detections: GroundedDetection[]; diagnostics: string[] };
 type SimulationOrigin = { state: string[]; actionIds: string[]; source: "skill-start" | "camera-checkpoint"; label: string };
 
+function SamOverlayPreview({ grounding, sourceImage }: { grounding: SamGrounding; sourceImage: string }) {
+  return <div className="grounding-result"><div className="eyebrow">{grounding.model.toUpperCase()} · {grounding.detections.length} MATCH{grounding.detections.length === 1 ? "" : "ES"}</div>{grounding.detections.length === 0 ? <p>No matching object was segmented in this frame.</p> : <div className="grounding-preview" style={{ aspectRatio: `${grounding.image.width} / ${grounding.image.height}` }}><img src={sourceImage} alt="The selected workspace frame" /><svg viewBox={`0 0 ${grounding.image.width} ${grounding.image.height}`} role="img" aria-label={`SAM segmentation for ${grounding.concept}`}>{grounding.detections.map((detection, index) => <g key={`${detection.object_id}-${index}`}>{detection.mask && <svg x={detection.mask.bounds.left} y={detection.mask.bounds.top} width={detection.mask.bounds.right - detection.mask.bounds.left} height={detection.mask.bounds.bottom - detection.mask.bounds.top} viewBox={`0 0 ${detection.mask.width} ${detection.mask.height}`} preserveAspectRatio="none"><path d={detection.mask.path} className="grounding-mask" /></svg>}{detection.box && <rect x={detection.box.left} y={detection.box.top} width={detection.box.right - detection.box.left} height={detection.box.bottom - detection.box.top} className="grounding-box" />}</g>)}</svg></div>}{grounding.diagnostics.length > 0 && <small>Some mask records could not be parsed: {grounding.diagnostics.join(", ")}</small>}</div>;
+}
+
 function SkillTransitionMap({ state, model, activeActionId }: { state: string[]; model: SkillModel; activeActionId?: string }) {
   const stateNames = (model.states ?? []).filter((item) => state.includes(item.id));
   const nextActionId = model.actions.find((action) => !action.produces.every((condition) => state.includes(condition)))?.id;
@@ -126,6 +130,9 @@ export default function Home() {
   const [groundingObjectId, setGroundingObjectId] = useState("");
   const [groundingError, setGroundingError] = useState("");
   const [groundingBusy, setGroundingBusy] = useState(false);
+  const [learnerGrounding, setLearnerGrounding] = useState<{ result: SamGrounding; dataUrl: string; seconds: number; objectId: string } | null>(null);
+  const [learnerGroundingError, setLearnerGroundingError] = useState("");
+  const [learnerGroundingBusy, setLearnerGroundingBusy] = useState(false);
   const [snapshotHistory, setSnapshotHistory] = useState<SnapshotCheck[]>([]);
   const [snapshotError, setSnapshotError] = useState("");
   const [checkingSnapshot, setCheckingSnapshot] = useState(false);
@@ -406,6 +413,8 @@ export default function Home() {
       return URL.createObjectURL(file);
     });
     setObservation(null);
+    setLearnerGrounding(null);
+    setLearnerGroundingError("");
     setObserveError("");
   }
 
@@ -413,6 +422,8 @@ export default function Home() {
     if (!activeProcess || !learnerFile) return;
     setObserving(true);
     setObservation(null);
+    setLearnerGrounding(null);
+    setLearnerGroundingError("");
     setObserveError("");
     const form = new FormData();
     form.set("video", learnerFile);
@@ -481,21 +492,67 @@ export default function Home() {
     setGroundingError("");
     setGrounding(null);
     try {
-      const form = new FormData();
-      form.set("image", snapshotFrame.blob, "snapshot.jpg");
-      form.set("process_json", JSON.stringify(activeProcess));
-      form.set("object_id", object.id);
-      form.set("image_width", String(snapshotFrame.width));
-      form.set("image_height", String(snapshotFrame.height));
-      const api = process.env.NEXT_PUBLIC_SHOWME_API_URL ?? "http://localhost:8000";
-      const response = await fetch(`${api}/api/skills/ground-object`, { method: "POST", body: form });
-      const payload = await response.json();
-      if (!response.ok) throw new Error(typeof payload.detail === "string" ? payload.detail : "SAM could not locate this object in the captured frame.");
-      setGrounding(payload as SamGrounding);
+      setGrounding(await requestObjectGrounding(snapshotFrame, object.id));
     } catch (error) {
       setGroundingError(error instanceof Error ? error.message : "SHOWME could not reach the SAM grounding service.");
     } finally {
       setGroundingBusy(false);
+    }
+  }
+
+  async function requestObjectGrounding(frame: { blob: Blob; width: number; height: number }, objectId: string) {
+    if (!activeProcess) throw new Error("Load a reviewed Skill Model first.");
+    const form = new FormData();
+    form.set("image", frame.blob, "snapshot.jpg");
+    form.set("process_json", JSON.stringify(activeProcess));
+    form.set("object_id", objectId);
+    form.set("image_width", String(frame.width));
+    form.set("image_height", String(frame.height));
+    const api = process.env.NEXT_PUBLIC_SHOWME_API_URL ?? "http://localhost:8000";
+    const response = await fetch(`${api}/api/skills/ground-object`, { method: "POST", body: form });
+    const payload = await response.json();
+    if (!response.ok) throw new Error(typeof payload.detail === "string" ? payload.detail : "SAM could not locate this object in the selected frame.");
+    return payload as SamGrounding;
+  }
+
+  async function groundLearnerEvidence(seconds: number, objectId: string) {
+    const video = learnerVideoRef.current;
+    if (!video || !activeProcess || !activeProcess.objects.some((object) => object.id === objectId)) return;
+    setLearnerGroundingBusy(true);
+    setLearnerGroundingError("");
+    setLearnerGrounding(null);
+    try {
+      video.pause();
+      const target = Math.max(0, Math.min(seconds, Number.isFinite(video.duration) ? video.duration : seconds));
+      if (Math.abs(video.currentTime - target) > 0.04) {
+        await new Promise<void>((resolve, reject) => {
+          const timeout = window.setTimeout(() => finish(new Error("The learner video did not seek to the evidence timestamp.")), 5000);
+          const finish = (error?: Error) => {
+            window.clearTimeout(timeout);
+            video.removeEventListener("seeked", onSeeked);
+            error ? reject(error) : resolve();
+          };
+          const onSeeked = () => finish();
+          video.addEventListener("seeked", onSeeked, { once: true });
+          video.currentTime = target;
+        });
+      }
+      if (!video.videoWidth || !video.videoHeight) throw new Error("The selected learner frame is not ready yet.");
+      const scale = Math.min(1, 1280 / Math.max(video.videoWidth, video.videoHeight));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(video.videoWidth * scale));
+      canvas.height = Math.max(1, Math.round(video.videoHeight * scale));
+      const context = canvas.getContext("2d");
+      if (!context) throw new Error("Could not capture the learner video frame.");
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const blob = await new Promise<Blob>((resolve, reject) => canvas.toBlob((frame) => frame ? resolve(frame) : reject(new Error("Could not encode the learner frame.")), "image/jpeg", 0.82));
+      const dataUrl = canvas.toDataURL("image/jpeg", 0.82);
+      const result = await requestObjectGrounding({ blob, width: canvas.width, height: canvas.height }, objectId);
+      setLearnerGrounding({ result, dataUrl, seconds: target, objectId });
+    } catch (error) {
+      setLearnerGroundingError(error instanceof Error ? error.message : "SHOWME could not ground this learner frame.");
+    } finally {
+      setLearnerGroundingBusy(false);
     }
   }
 
@@ -743,7 +800,7 @@ export default function Home() {
               {snapshotObservation && <section className={`snapshot-result snapshot-${snapshotObservation.assessment}`} aria-live="polite"><div className="eyebrow">ONE-FRAME CHECK · {snapshotObservation._run?.model ?? "MUSE SPARK"}</div><strong>{snapshotObservation.assessment === "consistent" ? "Matches a demonstrated state" : snapshotObservation.assessment === "possible_divergence" ? "Possible difference from the demonstrated states" : "The frame is unclear"}</strong><p>{snapshotObservation.evidence}</p><small>{snapshotObservation.state_id === "unknown" ? "No matching state identified" : activeProcess?.states.find((state) => state.id === snapshotObservation.state_id)?.description ?? snapshotObservation.state_id} · {objectLabels(snapshotObservation.object_ids)}</small>{snapshotObservation.uncertainties.length > 0 && <ul>{snapshotObservation.uncertainties.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul>}<small className="snapshot-boundary">A still frame cannot show what happened before it or confirm recovery. This is not continuous tracking.</small>
                 {snapshotFrame && activeProcess && snapshotObservation.object_ids.some((id) => id !== "unknown" && activeProcess.objects.some((object) => object.id === id)) && <div className="grounding-panel"><div className="eyebrow">OPTIONAL OBJECT GROUNDING · SAM 3.1</div><p>Ask SAM to find one object Muse mentioned in this exact frame. This extra model call uses API credits.</p><div className="grounding-controls"><select aria-label="Object to locate" value={groundingObjectId} onChange={(event) => setGroundingObjectId(event.target.value)}>{snapshotObservation.object_ids.filter((id) => id !== "unknown").map((id) => activeProcess.objects.find((object) => object.id === id)).filter((object): object is LearnedProcess["objects"][number] => Boolean(object)).map((object) => <option value={object.id} key={object.id}>{object.label}</option>)}</select><button className="secondary-button" disabled={!groundingObjectId || groundingBusy} onClick={() => void groundSnapshotObject()}>{groundingBusy ? "Locating object…" : "Locate in frame"}</button></div>
                   {groundingError && <div className="inline-honesty" role="alert">{groundingError}</div>}
-                  {grounding && <div className="grounding-result"><div className="eyebrow">{grounding.model.toUpperCase()} · {grounding.detections.length} MATCH{grounding.detections.length === 1 ? "" : "ES"}</div>{grounding.detections.length === 0 ? <p>No matching object was segmented in this frame.</p> : <div className="grounding-preview" style={{ aspectRatio: `${grounding.image.width} / ${grounding.image.height}` }}><img src={snapshotFrame.dataUrl} alt="The captured workspace frame" /><svg viewBox={`0 0 ${grounding.image.width} ${grounding.image.height}`} role="img" aria-label={`SAM segmentation for ${grounding.concept}`}>{grounding.detections.map((detection, index) => <g key={`${detection.object_id}-${index}`}>{detection.mask && <svg x={detection.mask.bounds.left} y={detection.mask.bounds.top} width={detection.mask.bounds.right - detection.mask.bounds.left} height={detection.mask.bounds.bottom - detection.mask.bounds.top} viewBox={`0 0 ${detection.mask.width} ${detection.mask.height}`} preserveAspectRatio="none"><path d={detection.mask.path} className="grounding-mask" /></svg>}{detection.box && <rect x={detection.box.left} y={detection.box.top} width={detection.box.right - detection.box.left} height={detection.box.bottom - detection.box.top} className="grounding-box" />}</g>)}</svg></div>}{grounding.diagnostics.length > 0 && <small>Some mask records could not be parsed: {grounding.diagnostics.join(", ")}</small>}<small className="snapshot-boundary">SAM marks visual regions matching the chosen phrase; it does not verify the task state or prove why a step is wrong.</small></div>}
+                  {grounding && <><SamOverlayPreview grounding={grounding} sourceImage={snapshotFrame.dataUrl} /><small className="snapshot-boundary">SAM marks visual regions matching the chosen phrase; it does not verify the task state or prove why a step is wrong.</small></>}
                 </div>}
                 {snapshotCanContinue && <button className="text-action snapshot-simulate" onClick={startSimulationFromSnapshot}>Explore remaining steps from this observed state →</button>}</section>}
               {snapshotHistory.length > 0 && <section className="snapshot-history" aria-label="Camera check history">
@@ -775,8 +832,11 @@ export default function Home() {
                     }[observation.recovery_status];
                     return <div className={`recovery-summary recovery-${observation.recovery_status}`}><span className="eyebrow">RECOVERY CHECK</span><strong>{recoveryCopy[0]}</strong><p>{recoveryCopy[1]}</p>{recoveryEvent && <button className="text-action" onClick={() => inspectLearnerEvidence(recoveryEvent.time_seconds)}>Review later consistent state · {recoveryEvent.time_seconds.toFixed(1)}s →</button>}</div>;
                   })()}
-                  <p className="evidence-review-hint">Select a timestamp to inspect the supporting moment in the learner clip. Object names are model references, not segmentation overlays.</p>
-                  {observation.divergences.length > 0 && <div className="divergence-list"><strong>Differences to inspect · {observation.divergences.length}</strong>{observation.divergences.map((item, index) => <button className="evidence-row" key={`${item.time_seconds}-${index}`} onClick={() => inspectLearnerEvidence(item.time_seconds)}><span>{item.time_seconds.toFixed(1)}s</span><div><b>{item.process_difference}</b><p>{item.evidence}</p><small>{objectLabels(item.object_ids)}</small></div></button>)}</div>}
+                  <p className="evidence-review-hint">Select a timestamp to inspect the supporting moment. Locate sends one frame and one object phrase to SAM, using API credits; it segments pixels but does not verify the reported difference.</p>
+                  {observation.divergences.length > 0 && <div className="divergence-list"><strong>Differences to inspect · {observation.divergences.length}</strong>{observation.divergences.map((item, index) => <div className="divergence-entry" key={`${item.time_seconds}-${index}`}><button className="evidence-row" onClick={() => inspectLearnerEvidence(item.time_seconds)}><span>{item.time_seconds.toFixed(1)}s</span><div><b>{item.process_difference}</b><p>{item.evidence}</p><small>{objectLabels(item.object_ids)}</small></div></button>{item.object_ids.filter((id) => id !== "unknown" && activeProcess?.objects.some((object) => object.id === id)).map((id) => <button className="ground-evidence-button" disabled={learnerGroundingBusy} key={id} onClick={() => void groundLearnerEvidence(item.time_seconds, id)}>Locate {activeProcess?.objects.find((object) => object.id === id)?.label ?? id} in this frame</button>)}</div>)}</div>}
+                  {learnerGroundingError && <div className="inline-honesty" role="alert">{learnerGroundingError}</div>}
+                  {learnerGroundingBusy && <p className="evidence-review-hint">Seeking to the selected clip moment and grounding the named object with SAM…</p>}
+                  {learnerGrounding && <div className="learner-grounding-result"><div className="eyebrow">CLIP FRAME · {learnerGrounding.seconds.toFixed(1)}s · {activeProcess?.objects.find((object) => object.id === learnerGrounding.objectId)?.label ?? learnerGrounding.objectId}</div><SamOverlayPreview grounding={learnerGrounding.result} sourceImage={learnerGrounding.dataUrl} /><small className="snapshot-boundary">This is SAM segmentation on one Muse-referenced clip timestamp. It does not independently confirm the reported divergence.</small></div>}
                   <div className="observed-events"><strong>Observed events · {observation.events.length}</strong>{observation.events.map((item, index) => <button className="evidence-event" key={`${item.time_seconds}-${index}`} onClick={() => inspectLearnerEvidence(item.time_seconds)}><span>{item.time_seconds.toFixed(1)}s</span><i className={`event-dot ${item.assessment}`} /><div><b>{item.action}</b><p>{item.evidence}</p><small>{objectLabels(item.object_ids)}</small></div><small>{item.assessment.toUpperCase()}</small></button>)}</div>
                   {observation.uncertainties.length > 0 && <div className="candidate-uncertainties"><strong>Uncertain from this clip</strong><ul>{observation.uncertainties.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul></div>}
                 </section>}
