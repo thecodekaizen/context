@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "project": {
+    "id": "project-pocket-observatory",
+    "title": "Pocket Observatory"
+  },
+  "artifacts": [
+    {
+      "id": "sky-001",
+      "date": "2024-01-27",
+      "modality": "project-brief",
+      "title": "A pocket guide to balcony astronomy",
+      "content": "Draw a compact guide to observing the moon and bright planets from my apartment balcony. Use my own sketches and notes, with one page for each object."
+    },
+    {
+      "id": "sky-002",
+      "date": "2024-06-15",
+      "modality": "layout-draft",
+      "title": "My observing notebook",
+      "content": "The first booklet will pair hand-drawn sky maps with notes from my own evenings outside. Keep it small and personal, like a field notebook that fits in a coat pocket."
+    },
+    {
+      "id": "sky-003",
+      "date": "2024-11-09",
+      "modality": "event-notes",
+      "title": "One-night map test",
+      "content": "Three neighbors used the moon map during a single balcony viewing night and marked where the labels were hard to read. This was a one-night usability test; the booklet is still based on my own observations."
+    },
+    {
+      "id": "sky-004",
+      "date": "2025-04-26",
+      "modality": "prototype-log",
+      "title": "A shared observation page",
+      "content": "Made one prototype page with my Mars sketch and short viewing notes from two neighbors. We are testing whether several observations fit on one page; nothing has been published as a group journal."
+    },
+    {
+      "id": "sky-005",
+      "date": "2025-10-18",
+      "modality": "editorial-proposal",
+      "title": "Proposal for a seasonal sky almanac",
+      "content": "Proposed inviting residents to contribute short sky observations for a seasonal neighborhood almanac. This is a proposal only; no community issue has been assembled."
+    },
+    {
+      "id": "sky-006",
+      "date": "2026-06-21",
+      "modality": "release-notes",
+      "title": "The neighborhood sky almanac",
+      "content": "Published the first seasonal almanac with observations from fifteen residents alongside my original hand-drawn maps. Each contributor's observation is dated and marked with its viewing location."
+    }
+  ]
+}
