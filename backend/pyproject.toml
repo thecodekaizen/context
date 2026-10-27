@@ -3,9 +3,9 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "thread-backend"
+name = "showme-experiment"
 version = "0.1.0"
-description = "Temporal discovery engine and local workflow API for THREAD"
+description = "Offline-first video experiment harness for SHOWME"
 requires-python = ">=3.11"
 dependencies = []
 
@@ -15,8 +15,9 @@ api = ["fastapi>=0.115", "uvicorn[standard]>=0.34"]
 
 [project.scripts]
 thread-discover = "thread_engine.cli:main"
+showme = "showme.cli:main"
 thread-evaluate = "thread_engine.evaluate:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["thread_engine*"]
+include = ["thread_engine*", "showme*"]

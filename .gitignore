@@ -14,3 +14,6 @@ out/
 # Local prompts and responses from controlled model experiments
 .thread-experiment-runs/
 *.egg-info/
+
+# Local SHOWME video samples and model experiment outputs
+.showme-runs/
