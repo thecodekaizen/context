@@ -48,10 +48,11 @@ class MetaModelProvider:
 
     def __init__(self, *, api_key: str, model: str = MODEL, cache_dir: Path | None = None) -> None:
         try:
-            from openai import OpenAI
+            from openai import APIConnectionError, OpenAI
         except ImportError as exc:
             raise ValueError("Meta mode needs the optional dependency: pip install -e '.[meta]'") from exc
-        self.client = OpenAI(api_key=api_key, base_url="https://api.meta.ai/v1")
+        self.client = OpenAI(api_key=api_key, base_url="https://api.meta.ai/v1", max_retries=0)
+        self._api_connection_error = APIConnectionError
         self.model = model
         repo_cache_dir = Path(__file__).resolve().parents[2] / ".thread-cache"
         configured_cache_dir = cache_dir or Path(os.environ.get("THREAD_CACHE_DIR", str(repo_cache_dir))).expanduser()
@@ -123,18 +124,25 @@ class MetaModelProvider:
             "Return exactly one memory per source artifact. The application will copy dates and other provenance "
             "from the source archive; do not invent them."
         )
-        response = self.client.responses.create(
-            model=self.model,
-            reasoning={"effort": "minimal"},
-            max_output_tokens=PROJECT_MAX_OUTPUT_TOKENS,
-            text={"format": {
-                "type": "json_schema",
-                "name": "project_temporal_memories",
-                "strict": True,
-                "schema": schema,
-            }},
-            input=f"{prompt}\n\nRaw project archive:\n{encoded_archive}",
-        )
+        try:
+            response = self.client.responses.create(
+                model=self.model,
+                reasoning={"effort": "minimal"},
+                max_output_tokens=PROJECT_MAX_OUTPUT_TOKENS,
+                text={"format": {
+                    "type": "json_schema",
+                    "name": "project_temporal_memories",
+                    "strict": True,
+                    "schema": schema,
+                }},
+                input=f"{prompt}\n\nRaw project archive:\n{encoded_archive}",
+            )
+        except self._api_connection_error as exc:
+            raise ValueError(
+                "Could not connect to the Meta Model API (network, DNS, TLS, or timeout). "
+                "Automatic retries are disabled to avoid repeating a potentially billable request. "
+                "The CLI received no response, so check Meta Billing before retrying."
+            ) from exc
         content = response.output_text
         usage = getattr(response, "usage", None)
         input_tokens = int(getattr(usage, "input_tokens", 0) or 0)

@@ -278,7 +278,7 @@ def discover_raw_archive(path: Path = DEFAULT_DATASET) -> dict[str, Any]:
     if not api_key:
         raise ValueError("set MODEL_API_KEY in the local .env file or shell before using --raw-muse")
     try:
-        from openai import OpenAI
+        from openai import APIConnectionError, OpenAI
     except ImportError as exc:
         raise ValueError("Meta mode needs the optional dependency: pip install -e '.[meta]'") from exc
 
@@ -288,21 +288,28 @@ def discover_raw_archive(path: Path = DEFAULT_DATASET) -> dict[str, Any]:
     if _cumulative_spend(usage_file) + projected > budget:
         raise ValueError(f"local cost estimate would exceed THREAD_BUDGET_USD=${budget:.2f}")
 
-    client = OpenAI(api_key=api_key, base_url="https://api.meta.ai/v1")
-    response = client.responses.create(
-        model=MODEL,
-        reasoning={"effort": REASONING_EFFORT},
-        max_output_tokens=MAX_OUTPUT_TOKENS,
-        text={
-            "format": {
-                "type": "json_schema",
-                "name": "thread_temporal_discovery",
-                "strict": True,
-                "schema": DISCOVERY_SCHEMA,
-            }
-        },
-        input=f"{PROMPT}\n\nDated archive (raw source artifacts):\n{model_input}",
-    )
+    client = OpenAI(api_key=api_key, base_url="https://api.meta.ai/v1", max_retries=0)
+    try:
+        response = client.responses.create(
+            model=MODEL,
+            reasoning={"effort": REASONING_EFFORT},
+            max_output_tokens=MAX_OUTPUT_TOKENS,
+            text={
+                "format": {
+                    "type": "json_schema",
+                    "name": "thread_temporal_discovery",
+                    "strict": True,
+                    "schema": DISCOVERY_SCHEMA,
+                }
+            },
+            input=f"{PROMPT}\n\nDated archive (raw source artifacts):\n{model_input}",
+        )
+    except APIConnectionError as exc:
+        raise ValueError(
+            "Could not connect to the Meta Model API (network, DNS, TLS, or timeout). "
+            "Automatic retries are disabled to avoid repeating a potentially billable request. "
+            "The CLI received no response, so check Meta Billing before retrying."
+        ) from exc
     output_text = response.output_text
     usage = getattr(response, "usage", None)
     input_tokens = int(getattr(usage, "input_tokens", 0) or 0)

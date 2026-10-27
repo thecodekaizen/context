@@ -8,6 +8,9 @@ import unittest
 from types import SimpleNamespace
 from unittest.mock import patch
 
+import httpx2
+from openai import APIConnectionError
+
 from thread_engine import raw_discovery
 from thread_engine.cli import _render_raw_discovery
 from thread_engine.raw_discovery import (
@@ -136,6 +139,27 @@ class CitationValidationTests(unittest.TestCase):
 
 
 class PaidCallFailureTests(unittest.TestCase):
+    def test_connection_failure_is_actionable_and_sdk_retries_are_disabled(self) -> None:
+        failure = APIConnectionError(
+            message="temporary DNS failure",
+            request=httpx2.Request("POST", "https://api.meta.ai/v1/responses"),
+        )
+        with tempfile.TemporaryDirectory() as folder:
+            with (
+                patch.object(raw_discovery, "CACHE_DIR", Path(folder)),
+                patch.object(raw_discovery, "_load_api_key", return_value="test-key"),
+                patch("openai.OpenAI") as openai_client,
+            ):
+                openai_client.return_value.responses.create.side_effect = failure
+                with self.assertRaisesRegex(
+                    ValueError,
+                    "Could not connect to the Meta Model API.*Automatic retries are disabled.*check Meta Billing",
+                ):
+                    raw_discovery.discover_raw_archive(DATASET)
+
+                self.assertEqual(openai_client.call_args.kwargs["max_retries"], 0)
+                self.assertEqual(openai_client.return_value.responses.create.call_count, 1)
+
     def test_incomplete_response_reason_is_reported_and_cached_without_retry(self) -> None:
         fake_response = SimpleNamespace(
             output_text='{"observations":',
