@@ -17,7 +17,13 @@ backend/.venv/bin/python -m thread_engine.cli datasets/synthetic/creative-evolut
 
 `--raw-muse` sends only the project ID/title and dated source artifact fields. It ignores the fixture's `memories` and theme labels. Muse Spark proposes a structured temporal hypothesis with source references; local code rejects unknown artifact IDs, mismatched dates, claims without support from at least two dates, and non-empty findings without explicit tentative wording. This last check is a lexical guard, not calibrated uncertainty; rejected findings are withheld for review. Results are cached by model, prompt version, and raw input in `.thread-cache/`; repeat runs do not spend again. Every accepted finding is marked as requiring human confirmation. The local budget guard uses `THREAD_BUDGET_USD` (default `$150`) and is only an estimate; check Meta Billing and set a spend alert.
 
-The previous per-artifact extraction path remains available with `--provider meta` for comparison, but it is not the current raw-discovery path. The fixture default makes no API calls. Use Standard mode (`muse-spark-1.3`) for project material. Check the [current official pricing](https://dev.meta.ai/docs/pricing-rate-limits) before changing the model or privacy mode.
+To inspect Meta-extracted memories separately, run:
+
+```sh
+backend/.venv/bin/python -m thread_engine.cli datasets/synthetic/experiments/type-foundry/raw.json --extract-memories --json
+```
+
+`--extract-memories` prints one dated memory per raw artifact, preserving source IDs, dates, modality, and title. Muse sees the bounded archive together so it can apply consistent project topic tags, and returns a concise summary for each item using Responses API structured output. The source metadata is copied locally and checked against the archive. `--provider meta` runs that one project-level extraction followed by the deterministic temporal comparison; it accepts raw-only archives and does not need hand-authored memory labels. Extraction results and token estimates are cached under the repository-root `.thread-cache/`, regardless of the launch directory. The fixture default makes no API calls. Use Standard mode (`muse-spark-1.3`) for project material. Check the [current official pricing](https://dev.meta.ai/docs/pricing-rate-limits) before changing the model or privacy mode.
 
 The source text is synthetic and invented for the demo. Keep real personal material out of this fixture.
 

@@ -74,6 +74,18 @@ def discover_evolution(
         + [_evidence(item, later_theme) for item in later_support]
     )
     counter_evidence = tuple(_evidence(item, earlier_theme) for item in counter_items)
+    shared_themes = set(earlier_counts) & set(later_counts)
+    continuity_evidence = tuple(
+        _evidence(
+            item,
+            max(
+                (theme for theme in shared_themes if theme in item.themes),
+                key=lambda theme: (earlier_counts[theme] + later_counts[theme], theme),
+            ),
+        )
+        for item in later
+        if any(theme in item.themes for theme in shared_themes)
+    )
     dates = [_parse_date(item.date) for item in ordered]
     digest = sha256(f"{project_id}:{earlier_theme}:{later_theme}".encode()).hexdigest()[:10]
 
@@ -84,6 +96,8 @@ def discover_evolution(
         uncertainty.insert(0, "Themes are human-authored annotations in this synthetic fixture.")
     if counter_evidence:
         uncertainty.append("The earlier theme still appears in later work, so this may be an expansion rather than a replacement.")
+    if continuity_evidence and not counter_evidence:
+        uncertainty.append("Other project themes persist across both periods, so describe this as an evolution of emphasis rather than a complete replacement.")
 
     return EvolutionFinding(
         id=f"evolution-{digest}",
@@ -99,6 +113,7 @@ def discover_evolution(
         end_date=dates[-1].isoformat(),
         supporting_evidence=evidence,
         counter_evidence=counter_evidence,
+        continuity_evidence=continuity_evidence,
         uncertainty=tuple(uncertainty),
         extraction_provider=extraction_provider,
         extraction_model=extraction_model,

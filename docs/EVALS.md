@@ -47,3 +47,5 @@ The preregistered Neighborhood Atlas experiment used Muse Spark 1.3 Standard ove
 A second, separately preregistered Tiny Type Lab archive passed its five full-case criteria, and its code-only ablation correctly withheld the evolution. See [that scorecard](experiments/results/type-foundry-2026-10-27.md). Together these are one synthetic fail and one synthetic pass—not evidence of real-world reliability or general transfer.
 
 The CLI now withholds non-empty candidates that lack explicit tentative wording. This is a deterministic lexical guard added in response to the failure; it does not change the scorecard, prove calibration, or establish that a qualified claim is factually sound. Evaluate it separately on new cases before treating it as effective.
+
+The separate project-level memory extraction path has an [exploratory smoke report](experiments/results/project-memory-pipeline-smoke-2026-10-27.md). Its extraction prompt was iterated on the same synthetic archive, so that result demonstrates the code path only and is not independent validation.

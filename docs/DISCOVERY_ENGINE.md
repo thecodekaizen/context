@@ -15,11 +15,11 @@ A second family (such as cross-project motif or a genuine contradiction) is P1 o
 1. Validate dated source metadata and build an explicit raw-only project archive.
 2. Ask Muse to identify one possible evolution from the whole dated archive, not from hand-assigned theme labels.
 3. Return observations separately from the candidate interpretation. Require supporting and complicating artifact references.
-4. Validate response shape, artifact IDs, dates, and minimum temporal support locally. Reject fabricated references.
+4. Validate response shape, artifact IDs, dates, and minimum temporal support locally. Reject fabricated references. In the temporal-memory route, copy source metadata locally and expose persistent topics separately from candidate-shift evidence.
 5. Withhold a non-empty finding if it lacks explicit tentative wording; label accepted candidates as unconfirmed and preserve model-stated limitations. This lexical gate catches overconfident phrasing but does not calibrate the model's uncertainty.
 6. Let the creator inspect, challenge, revise, reject, or confirm it before producing an artifact.
 
-The raw archive path is the current CLI vertical slice. Persistent temporal memories, broad retrieval, and multiple candidate families remain later work; they must not be represented as already implemented.
+Two model-backed CLI paths are available for comparison: `--extract-memories` exposes source-linked memory extraction without a discovery step; `--provider meta` combines extraction with deterministic temporal theme comparison; and `--raw-muse` asks Muse to form and evidence a candidate directly from the raw archive. Persistent storage, broad retrieval, and multiple candidate families remain later work; they must not be represented as already implemented.
 
 ## Evidence rules
 
@@ -32,7 +32,7 @@ The raw archive path is the current CLI vertical slice. Persistent temporal memo
 
 ## CLI-first contract
 
-The engine runs without the web app. `thread-discover <dataset> --raw-muse --json` sends raw dated artifacts to Muse Spark, validates structured output and source references locally, and returns an explicitly unconfirmed finding. The fixture mode remains deterministic for local development. The previous `--provider meta` per-artifact theme extraction path is retained for comparison only.
+The engine runs without the web app. `thread-discover <dataset> --extract-memories --json` prints Muse-produced dated memories whose source provenance is copied locally. `thread-discover <dataset> --provider meta --json` runs extraction and deterministic temporal comparison on raw-only datasets. `thread-discover <dataset> --raw-muse --json` directly asks Muse Spark for a hypothesis and validates structured output and source references locally. All live results remain candidates for creator review. Fixture mode remains deterministic for local development.
 
 ## Initial scoring hypothesis
 

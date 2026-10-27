@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 from typing import Any, Literal
 
@@ -14,27 +13,54 @@ ProviderName = Literal["fixture", "meta"]
 DEFAULT_DATASET = Path(__file__).resolve().parents[2] / "datasets" / "synthetic" / "creative-evolution.json"
 
 
+def extract_dataset_memories(*, dataset_path: Path = DEFAULT_DATASET) -> dict[str, Any]:
+    """Extract source-linked temporal memories from a raw archive using Meta."""
+    from .raw_discovery import load_raw_archive
+    from .meta_provider import MetaModelProvider
+
+    archive = load_raw_archive(dataset_path)
+    provider = MetaModelProvider.from_env()
+    memories = provider.extract_project(archive)
+    return {
+        "project": archive["project"],
+        "provider": "meta",
+        "model": provider.model,
+        "memories": [
+            {
+                "id": item.id,
+                "source_id": item.source_id,
+                "date": item.date,
+                "modality": item.modality,
+                "title": item.title,
+                "summary": item.summary,
+                "themes": list(item.themes),
+            }
+            for item in memories
+        ],
+        "api_usage": provider.usage_summary(),
+    }
+
+
 def discover_dataset(
     *, dataset_path: Path = DEFAULT_DATASET, provider_name: ProviderName = "fixture"
 ) -> dict[str, Any]:
     """Run extraction and temporal analysis, returning one JSON-ready finding."""
-    project_id, project_title, memories = load_dataset(dataset_path)
     model = None
     usage = None
     if provider_name == "meta":
-        try:
-            data = json.loads(dataset_path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError) as exc:
-            raise ValueError(f"cannot read source artifacts: {exc}") from exc
-        artifacts = data.get("artifacts")
-        if not isinstance(artifacts, list):
-            raise ValueError("Meta mode requires an 'artifacts' list containing source text")
+        from .raw_discovery import load_raw_archive
+
+        archive = load_raw_archive(dataset_path)
+        project_id = archive["project"]["id"]
+        project_title = archive["project"]["title"]
         from .meta_provider import MetaModelProvider
 
         provider = MetaModelProvider.from_env()
-        memories = [provider.extract(item) for item in artifacts]
+        memories = provider.extract_project(archive)
         model = provider.model
         usage = provider.usage_summary()
+    else:
+        project_id, project_title, memories = load_dataset(dataset_path)
 
     finding = discover_evolution(
         project_id=project_id,

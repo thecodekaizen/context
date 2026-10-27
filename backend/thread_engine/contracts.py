@@ -24,8 +24,14 @@ class Memory:
         missing = [field for field in required if field not in value]
         if missing:
             raise ValueError(f"memory is missing required field(s): {', '.join(missing)}")
-        if not isinstance(value["themes"], list) or not all(isinstance(tag, str) for tag in value["themes"]):
-            raise ValueError("memory 'themes' must be a list of strings")
+        for field in ("id", "source_id", "date", "modality", "title", "summary"):
+            if not isinstance(value[field], str) or not value[field].strip():
+                raise ValueError(f"memory '{field}' must be a non-empty string")
+        if (
+            not isinstance(value["themes"], list)
+            or not all(isinstance(tag, str) and tag.strip() for tag in value["themes"])
+        ):
+            raise ValueError("memory 'themes' must be a list of non-empty strings")
         return cls(
             id=str(value["id"]),
             source_id=str(value["source_id"]),
@@ -59,6 +65,7 @@ class EvolutionFinding:
     end_date: str
     supporting_evidence: tuple[Evidence, ...]
     counter_evidence: tuple[Evidence, ...]
+    continuity_evidence: tuple[Evidence, ...]
     uncertainty: tuple[str, ...]
     method: str = "deterministic-theme-prevalence"
     extraction_provider: str = "fixture"
@@ -70,5 +77,6 @@ def to_dict(finding: EvolutionFinding) -> dict[str, Any]:
     result = asdict(finding)
     result["supporting_evidence"] = [asdict(item) for item in finding.supporting_evidence]
     result["counter_evidence"] = [asdict(item) for item in finding.counter_evidence]
+    result["continuity_evidence"] = [asdict(item) for item in finding.continuity_evidence]
     result["uncertainty"] = list(finding.uncertainty)
     return result

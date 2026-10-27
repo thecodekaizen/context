@@ -83,6 +83,12 @@ def _render_text(result: dict[str, Any]) -> str:
             lines.append(f"  ! {item['date']} · {item['title']} [{item['source_id']}] — {item['summary']}")
     else:
         lines.append("  None found in this fixture.")
+    lines.append("\nContinuity evidence:")
+    if result.get("continuity_evidence"):
+        for item in result["continuity_evidence"]:
+            lines.append(f"  = {item['date']} · {item['title']} [{item['source_id']}] — {item['theme']}: {item['summary']}")
+    else:
+        lines.append("  No shared topic tags found across both periods.")
     lines.append("\nUncertainty:")
     lines.extend(f"  ? {item}" for item in result["uncertainty"])
     return "\n".join(lines)
@@ -112,6 +118,19 @@ def _render_raw_discovery(result: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _render_memories(result: dict[str, Any]) -> str:
+    project = result["project"]
+    lines = [f"{project['title']} · extracted temporal memories ({result['model']})"]
+    for memory in result["memories"]:
+        themes = ", ".join(memory["themes"]) or "no topic tags"
+        lines.extend([
+            f"\n{memory['date']} · {memory['modality']} · {memory['source_id']}",
+            f"  {memory['summary']}",
+            f"  Topics: {themes}",
+        ])
+    return "\n".join(lines)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Discover one evidence-backed evolution in a creative project.")
     parser.add_argument(
@@ -123,11 +142,18 @@ def main() -> int:
     )
     parser.add_argument("--json", action="store_true", help="print machine-readable JSON")
     parser.add_argument("--raw-muse", action="store_true", help="discover from raw dated artifacts with Muse; skip memory labels")
+    parser.add_argument("--extract-memories", action="store_true", help="extract dated source-linked memories with Muse and print them without discovery")
     parser.add_argument("--provider", choices=("fixture", "meta"), default="fixture", help="theme extraction source")
     args = parser.parse_args()
+    if args.raw_muse and args.extract_memories:
+        parser.error("--raw-muse and --extract-memories are separate CLI workflows")
 
     try:
-        if args.raw_muse:
+        if args.extract_memories:
+            from .service import extract_dataset_memories
+
+            result = extract_dataset_memories(dataset_path=args.dataset)
+        elif args.raw_muse:
             from .raw_discovery import discover_raw_archive
 
             result = discover_raw_archive(args.dataset)
@@ -151,7 +177,12 @@ def main() -> int:
     if args.json:
         print(json.dumps(result, indent=2, ensure_ascii=False))
     else:
-        print(_render_raw_discovery(result) if args.raw_muse else _render_text(result))
+        if args.raw_muse:
+            print(_render_raw_discovery(result))
+        elif args.extract_memories:
+            print(_render_memories(result))
+        else:
+            print(_render_text(result))
         if not args.raw_muse and (usage := result.get("api_usage")) is not None:
             print(
                 "\nAPI usage this run: "

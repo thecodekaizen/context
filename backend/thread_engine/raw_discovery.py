@@ -17,7 +17,9 @@ MODEL = "muse-spark-1.3"
 PROMPT_VERSION = "raw-temporal-discovery-v2"
 MAX_OUTPUT_TOKENS = 4096
 DEFAULT_DATASET = Path(__file__).resolve().parents[2] / "datasets" / "synthetic" / "creative-evolution.json"
-CACHE_DIR = Path(os.environ.get("THREAD_CACHE_DIR", ".thread-cache"))
+REPO_CACHE_DIR = Path(__file__).resolve().parents[2] / ".thread-cache"
+_cache_dir = Path(os.environ.get("THREAD_CACHE_DIR", str(REPO_CACHE_DIR))).expanduser()
+CACHE_DIR = _cache_dir if _cache_dir.is_absolute() else REPO_CACHE_DIR.parent / _cache_dir
 
 PROMPT = (
     "You are THREAD, a careful archivist of creative projects. Review the dated raw artifacts "
