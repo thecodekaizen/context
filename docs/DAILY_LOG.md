@@ -24,6 +24,7 @@
 - [Cook's Margin evidence-stage scorecard](experiments/results/cooks-margin-2026-10-27.md): complete case passed with expected source-stage labels; the ablation returned invalid JSON at the output cap, so the overall result is **inconclusive**. No retry was made.
 - [Repair Margins minimal-reasoning scorecard](experiments/results/repair-margins-2026-10-27.md): ablation correctly limited the proposal/pilot; full case **failed** temporal support because the supporting list omitted early artifacts. Both calls completed below the output cap.
 - [Pocket Observatory temporal-support gate scorecard](experiments/results/pocket-observatory-2026-10-27.md): after the initial sandbox DNS failure, user-requested network-enabled calls completed; full case missed map continuity and ablation candidate was accepted by the weak midpoint gate. Overall **FAIL**.
+- [Ember Table endpoint-support scorecard](experiments/results/ember-table-2026-10-27.md): endpoint-supported full case and empty ablation; full hypothesis omitted that the booklet was completed, so overall **FAIL** under frozen criteria.
 
 ### Verification and spend
 
@@ -31,6 +32,7 @@
 - `python -m thread_engine.evaluate`: 6/6 seed cases matched.
 - Local token-based estimated spend: **$0.120499** after the Repair Margins calls; check the Meta Billing dashboard for actual usage.
 - Pocket Observatory calls added an estimated **$0.010176**, bringing the local token estimate to **$0.130675**. The CLI now disables SDK transport retries and reports actionable network errors; sandbox DNS access still requires running the CLI with network permission.
+- Ember Table calls added an estimated **$0.008687**, bringing the local token estimate to **$0.139361**. Confirm actual totals in Meta Billing.
 
 ### Next engineering focus
 
