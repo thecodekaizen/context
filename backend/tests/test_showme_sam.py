@@ -22,7 +22,7 @@ PROCESS = {
     ],
     "transitions": [{
         "id": "stack", "from_state": "separate", "action": "stack red on blue", "object_ids": ["red", "blue"],
-        "to_state": "stacked", "preconditions": [], "postconditions": ["red above blue"],
+        "to_state": "stacked", "candidate_constraints": [], "postconditions": ["red above blue"],
         "evidence": [{"start_seconds": 0.2, "end_seconds": 0.8, "observation": "The red cube moves above the blue cube."}],
     }],
     "ordering_observations": [],

@@ -13,6 +13,35 @@ async function loadTypeScript(relativePath) {
 
 const { simulateAction, simulateSequence } = await loadTypeScript("../lib/simulate.ts");
 const { processToSkill } = await loadTypeScript("../lib/process-to-skill.ts");
+const { isSavedProcess } = await loadTypeScript("../lib/skill-storage.ts");
+
+function savedProcess(constraintField) {
+  return {
+    task_summary: "Attach a part",
+    objects: [{ id: "part", label: "Part", visual_description: "A small part." }],
+    states: [{ id: "start", description: "Part is loose.", observable_facts: [] }],
+    transitions: [{
+      id: "attach-part",
+      action: "Attach part",
+      object_ids: ["part"],
+      from_state: "start",
+      to_state: "start",
+      [constraintField]: ["The support may need to be attached first."],
+      postconditions: [],
+      evidence: [{ start_seconds: 1, end_seconds: 2, observation: "The part is handled." }],
+    }],
+    ordering_observations: [],
+    uncertainties: [],
+  };
+}
+
+test("saved process accepts unverified candidate constraints", () => {
+  assert.equal(isSavedProcess(savedProcess("candidate_constraints")), true);
+});
+
+test("saved process keeps previously saved precondition candidates readable", () => {
+  assert.equal(isSavedProcess(savedProcess("preconditions")), true);
+});
 
 function modelFor(constraint, { fromState = "start" } = {}) {
   return {
@@ -74,7 +103,7 @@ test("an unobserved action order is reported as unknown, not as a confirmed viol
   assert.equal(result.missing[0], "other-state");
 });
 
-test("preconditions from one learned trace stay proposed when converted to the shared model", () => {
+test("candidate constraints from one learned trace stay proposed when converted to the shared model", () => {
   const skill = processToSkill({
     task_summary: "Attach a part",
     objects: [
@@ -88,7 +117,7 @@ test("preconditions from one learned trace stay proposed when converted to the s
       object_ids: ["part", "support"],
       from_state: "start",
       to_state: "attached",
-      preconditions: ["Support must be attached first."],
+      candidate_constraints: ["Support may need to be attached first."],
       postconditions: [],
       evidence: [{ start_seconds: 1, end_seconds: 2, observation: "The part is attached." }],
     }],
@@ -97,14 +126,14 @@ test("preconditions from one learned trace stay proposed when converted to the s
   assert.deepEqual(skill.actions[0].objectIds, ["part", "support"]);
   assert.deepEqual(skill.actions[0].constraints, [{
     id: "attach-part-hypothesis-1",
-    description: "Support must be attached first.",
+    description: "Support may need to be attached first.",
     status: "proposed",
     source: "model-hypothesis",
   }]);
   assert.equal(simulateAction(skill, ["start"], "attach-part").accepted, true);
 });
 
-test("an explicit human mapping promotes only that precondition and keeps its state requirement", () => {
+test("an explicit human mapping promotes only that candidate constraint", () => {
   const skill = processToSkill({
     task_summary: "Attach a part",
     objects: [{ id: "part", label: "Part", visual_description: "A small part." }],
@@ -115,11 +144,11 @@ test("an explicit human mapping promotes only that precondition and keeps its st
       object_ids: ["part"],
       from_state: "start",
       to_state: "attached",
-      preconditions: ["Support must be attached first.", "The part must be visible."],
+      candidate_constraints: ["Support may need to be attached first.", "The part appears visible in this trace."],
       postconditions: [],
       evidence: [],
     }],
-    human_confirmed_constraints: [{ transition_id: "attach-part", precondition_index: 0, required_state: "support-ready" }],
+    human_confirmed_constraints: [{ transition_id: "attach-part", candidate_constraint_index: 0, required_state: "support-ready" }],
   });
 
   assert.deepEqual(skill.actions[0].constraints.map((constraint) => constraint.status), ["confirmed", "proposed"]);

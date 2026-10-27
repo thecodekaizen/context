@@ -34,7 +34,7 @@ Keep the scene contract small and specific to the selected task:
 - **Part:** stable semantic ID, display name, render asset, and task-local dimensions/anchor points.
 - **Scene state:** part poses/relations and completion flags in a named state.
 - **Action primitive:** semantic action ID mapped to an allowed scene transition, such as place, align, insert, attach, or remove.
-- **Precondition:** required prior state or spatial relation, with provenance identifying whether it was model-proposed, observed, or configured for rendering.
+- **Constraint:** a model-generated candidate remains unverified and cannot block a simulation. Only a constraint confirmed by a human or independent evidence can act as a required prior state or spatial relation.
 - **Effect:** resulting scene state, including object transform/attachment and completion status.
 - **Evidence link:** source clip and timestamp/frame supporting learned semantics or a constraint.
 
@@ -46,11 +46,11 @@ Example shape (illustrative, not the final task contract):
   "preconditions": ["spacer_on_base"],
   "effects": ["cap_seated_on_spacer"],
   "evidence": [{"source": "expert-clip", "start_s": 8.2, "end_s": 10.1}],
-  "constraint_basis": "validated_task_relation"
+  "constraint_basis": "human_confirmed"
 }
 ```
 
-The scene supplies geometry and presentation. It does not supply the procedure's truth. The Skill Model supplies the candidate procedure; local deterministic simulation applies the selected action sequence to scene state and reports exactly which declared precondition or state relation fails.
+The scene supplies geometry and presentation. It does not supply the procedure's truth. The Skill Model supplies the candidate procedure; local deterministic simulation applies the selected action sequence to scene state. It reports a violation only when a required relation has been confirmed. A model-suggested constraint stays visible as a hypothesis and cannot block an action.
 
 ## Interaction and visual behavior
 
@@ -65,7 +65,7 @@ The scene supplies geometry and presentation. It does not supply the procedure's
 ## Runtime responsibilities
 
 - **Muse Spark:** interpret the bounded “what if?” intent against the learned process and propose the alternate action sequence plus a concise explanation. It does not decide the simulation's resulting geometry.
-- **Local process engine:** validate action IDs, apply preconditions/effects, derive the resulting state, and return a structured explanation with provenance. Same model and sequence must produce the same state.
+- **Local process engine:** validate action IDs, apply human-confirmed constraints and effects, derive the resulting state, and return a structured explanation with provenance. Same model and sequence must produce the same state.
 - **Simulation view:** render task parts, poses, attachments, and action transitions. It reflects the deterministic state result; it does not infer correctness from pixels.
 - **SAM 3.1:** optionally grounds objects in the physical camera view for mistake explanations. SAM does not power the simulator's procedure logic.
 

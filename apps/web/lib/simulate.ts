@@ -12,7 +12,7 @@ export type SequenceSimulation = {
   steps: { index: number; result: SimulationResult }[];
 };
 
-/** Apply one proposed action against preconditions from the same Skill Model. */
+/** Apply one proposed action; only confirmed constraints can block it. */
 export function simulateAction(
   model: SkillModel,
   currentState: string[],

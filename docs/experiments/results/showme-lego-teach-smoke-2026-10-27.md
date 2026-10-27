@@ -17,7 +17,7 @@
 | Do not present one observed order as a required dependency | **Fail** | The model populated `preconditions` such as “small base present” and “early core present.” A single trace shows those conditions in this recording, not that they are required for the task. |
 | Mark ambiguous details as uncertain | Pass | It says the exact set and whether the final model is complete are not established; loose bricks remain visible at the end. |
 
-The output is a candidate trace, not an executable skill yet. The “preconditions” field currently mixes observed context with claims that can be read as task requirements. The schema/prompt should be changed to preserve observed context separately from validated constraints before Do or Simulate can safely rely on it.
+The output is a candidate trace, not an executable skill yet. Its raw API schema called the model hypotheses “preconditions,” which can read as established requirements. The web adapter already downgrades those strings to proposed hypotheses, and the simulator does not block on them unless a human confirms them. I changed the API schema to call them `candidate_constraints` and clarified the UI and simulation design so the model output does not overstate what one clip proves.
 
 ## Run details
 

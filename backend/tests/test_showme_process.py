@@ -3,7 +3,7 @@
 import copy
 import unittest
 
-from showme.process import validate_references
+from showme.process import PROCESS_SCHEMA, validate_references
 
 
 VALID_PROCESS = {
@@ -22,7 +22,7 @@ VALID_PROCESS = {
         "action": "place red on blue",
         "object_ids": ["red", "blue"],
         "to_state": "stacked",
-        "preconditions": [],
+        "candidate_constraints": [],
         "postconditions": ["red above blue"],
         "evidence": [{"start_seconds": 0.5, "end_seconds": 1.0, "observation": "Red block visibly moves above blue."}],
     }],
@@ -32,6 +32,12 @@ VALID_PROCESS = {
 
 
 class ProcessValidationTests(unittest.TestCase):
+    def test_process_schema_labels_model_constraints_as_unverified_candidates(self):
+        transition = PROCESS_SCHEMA["properties"]["transitions"]["items"]
+        self.assertIn("candidate_constraints", transition["properties"])
+        self.assertNotIn("preconditions", transition["properties"])
+        self.assertIn("Unverified model hypotheses", transition["properties"]["candidate_constraints"]["description"])
+
     def test_accepts_well_formed_references(self):
         validate_references(copy.deepcopy(VALID_PROCESS))
 
@@ -83,7 +89,7 @@ class ProcessValidationTests(unittest.TestCase):
             "action": "move red beside blue",
             "object_ids": ["red", "blue"],
             "to_state": "separate",
-            "preconditions": [],
+            "candidate_constraints": [],
             "postconditions": [],
             "evidence": [{"start_seconds": 0.1, "end_seconds": 0.3, "observation": "Red is placed beside blue."}],
         })

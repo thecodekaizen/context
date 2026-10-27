@@ -10,11 +10,13 @@ type ProcessCandidate = {
     object_ids: string[];
     from_state: string;
     to_state: string;
-    preconditions: string[];
+    candidate_constraints?: string[];
+    /** Compatibility for locally saved v1 candidates. */
+    preconditions?: string[];
     postconditions: string[];
     evidence: { start_seconds: number; end_seconds: number; observation: string }[];
   }[];
-  human_confirmed_constraints?: { transition_id: string; precondition_index: number; required_state: string }[];
+  human_confirmed_constraints?: { transition_id: string; candidate_constraint_index?: number; precondition_index?: number; required_state: string }[];
 };
 
 /** Convert a reviewed API candidate into the shared app representation. */
@@ -39,10 +41,10 @@ export function processToSkill(
       id: transition.id,
       label: transition.action,
       objectIds: transition.object_ids.length > 0 ? [...transition.object_ids] : ["unknown"],
-      // One demonstration cannot confirm a precondition. Keep model hypotheses
-      // visible, but do not let them block a simulated transition.
-      constraints: transition.preconditions.map((description, index) => {
-        const confirmed = candidate.human_confirmed_constraints?.find((item) => item.transition_id === transition.id && item.precondition_index === index);
+      // One demonstration cannot prove a requirement. Keep candidate constraints
+      // visible as hypotheses until a human confirms them.
+      constraints: (transition.candidate_constraints ?? transition.preconditions ?? []).map((description, index) => {
+        const confirmed = candidate.human_confirmed_constraints?.find((item) => item.transition_id === transition.id && (item.candidate_constraint_index ?? item.precondition_index) === index);
         const requiredState = candidate.states.find((item) => item.id === confirmed?.required_state);
         return requiredState
           ? { id: `${transition.id}-confirmed-${index + 1}`, description, requiredState: requiredState.id, status: "confirmed" as const, source: "human-confirmation" as const }

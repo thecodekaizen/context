@@ -46,7 +46,11 @@ PROCESS_SCHEMA: dict[str, Any] = {
                     "action": {"type": "string"},
                     "object_ids": {"type": "array", "items": {"type": "string"}},
                     "to_state": {"type": "string"},
-                    "preconditions": {"type": "array", "items": {"type": "string"}},
+                    "candidate_constraints": {
+                        "type": "array",
+                        "description": "Unverified model hypotheses only. One demonstration cannot establish that a condition is required.",
+                        "items": {"type": "string"},
+                    },
                     "postconditions": {"type": "array", "items": {"type": "string"}},
                     "evidence": {
                         "type": "array",
@@ -62,7 +66,7 @@ PROCESS_SCHEMA: dict[str, Any] = {
                         },
                     },
                 },
-                "required": ["id", "from_state", "action", "object_ids", "to_state", "preconditions", "postconditions", "evidence"],
+                "required": ["id", "from_state", "action", "object_ids", "to_state", "candidate_constraints", "postconditions", "evidence"],
                 "additionalProperties": False,
             },
         },
