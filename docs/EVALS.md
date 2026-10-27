@@ -49,3 +49,5 @@ A second, separately preregistered Tiny Type Lab archive passed its five full-ca
 The CLI now withholds non-empty candidates that lack explicit tentative wording. This is a deterministic lexical guard added in response to the failure; it does not change the scorecard, prove calibration, or establish that a qualified claim is factually sound. Evaluate it separately on new cases before treating it as effective.
 
 The separate project-level memory extraction path has an [exploratory smoke report](experiments/results/project-memory-pipeline-smoke-2026-10-27.md). Its extraction prompt was iterated on the same synthetic archive, so that result demonstrates the code path only and is not independent validation.
+
+The final batch-memory path then passed a separate preregistered Roomtone full/ablation test; see [that scorecard](experiments/results/roomtone-memory-2026-10-27.md). This is a second synthetic domain case for memory extraction, not evidence of real-world reliability or repeatability.
