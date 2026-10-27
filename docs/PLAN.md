@@ -38,20 +38,39 @@ Cut these first if time slips: extra modalities, extra insight families, multipl
 
 | Day | Date | Focus | Exit criterion |
 |---|---|---|---|
-| 0 | Mon Oct 26 | Kickoff; capture rules and rubric; claim credits when form is available; build the CLI slice, local workflow API, and first user-facing investigation flow on synthetic data | Browser flow demonstrates discover → inspect → challenge → confirm → create; API enforces confirmation; fixture CLI still produces source-linked evidence and counter-evidence |
-| 1 | Tue Oct 27 | Verify Meta API access; run the first Muse Spark extraction; define source format and typed memory contract | One Meta-backed task runs on a rights-safe fixture, or a documented access blocker with an approved open-weight fallback |
-| 2 | Wed Oct 28 | Refine source and temporal-memory model; provenance; extraction quality | CLI emits dated, source-linked memories from the actual model path |
-| 3 | Thu Oct 29 | Temporal analysis and one candidate family | CLI emits one specific evolution hypothesis with evidence references |
+| 0 | Mon Oct 26 | Kickoff; capture rules and rubric; prepare repository and synthetic fixtures before formal building | Preparation is clearly separated from event-built product work |
+| 1 | Tue Oct 27 | Verify Meta API access; validate raw temporal discovery and memory extraction from the CLI; preregister controlled tests | CLI runs on synthetic archives, returns source-linked evidence, and records controlled results |
+| 2 | Wed Oct 28 | Improve temporal-memory quality, provenance, and extraction failure handling | CLI emits dated, source-linked memories from a fresh fixture |
+| 3 | Thu Oct 29 | Refine one temporal evolution candidate family and evidence comparison | CLI presents a specific, inspectable evolution hypothesis with supporting and continuity evidence |
 | 4 | Fri Oct 30 | Counter-evidence, uncertainty, adversarial cases; attend open-model workshop if useful | Unsupported or generic claims are withheld; evaluation notes recorded |
-| 5 | Sat Oct 31 | Challenge/revision state and explicit user disposition | Claim can be revised, rejected, deferred, or confirmed |
-| 6 | Sun Nov 1 | Confirmed-insight artifact gate; stabilize backend CLI path | Artifact requires confirmed insight and preserves evidence lineage |
-| 7 | Mon Nov 2 | Minimal web experience on top of the CLI/backend contract | Discover → inspect → challenge → confirm → artifact works end to end |
-| 8 | Tue Nov 3 | Demo polish, three-minute video, accessibility/error states, submission draft | Video and submission draft ready; final questions raised before deadline day |
+| 5 | Sat Oct 31 | Improve creator challenge, revision, and disposition flow | Claim can be revised, rejected, deferred, or confirmed from the CLI |
+| 6 | Sun Nov 1 | Confirmed-insight artifact gate; stabilize the complete CLI path | Artifact requires explicit confirmation and preserves evidence lineage |
+| 7 | Mon Nov 2 | Strengthen the creator-facing CLI experience and demo fixture; reassess whether any visual surface adds enough value | A reliable end-to-end CLI demo works without requiring a frontend |
+| 8 | Tue Nov 3 | Demo polish, three-minute video, submission draft | Video and submission draft ready; final questions raised before deadline day |
 | 9 | Wed Nov 4 | Final office hours, freeze, verify public repo/video/contributors, submit before 9 PM ET | Submission receipt recorded before cutoff |
 
 ## Work sequence
 
 **CLI-first gate:** do not build frontend workflow until the Meta-backed discovery engine can run from the CLI against fixtures and return structured, source-linked results with counter-evidence. The web app can be scaffolded mechanically, but product UI work waits for this gate.
+
+## Current implementation boundary
+
+As of Tue Oct 27, the active product slice is intentionally **CLI-only**, following the creator's direction. The web application is not part of the current build. The CLI now covers raw source → Meta temporal memories → temporal comparison → evidence inspection → creator challenge/revision/rejection/deferral → explicit confirmation → traceable direction note.
+
+The CLI gate is demonstrated on controlled synthetic archives. Do not present synthetic results as proof of real-world reliability. The direct raw-discovery route and project-memory route are separate Meta-backed approaches; keep their evaluations distinct.
+
+## Day 1 progress — Tue Oct 27
+
+- Verified Muse Spark access and ran a raw-only discovery task plus decisive-evidence ablations.
+- Added a project-level batch memory extractor so recurring topic tags can be assigned consistently across one archive. Source IDs and dates are copied by local code.
+- Added deterministic continuity evidence to distinguish a shift in emphasis from complete replacement.
+- Added an interactive CLI creator-review flow with keep/revise/reject/defer outcomes and an exact `CONFIRM` gate before a local direction note is created.
+- Ran three controlled synthetic discovery checks across two routes: Neighborhood Atlas failed its wording criterion; Tiny Type Lab direct raw discovery passed; Roomtone batch-memory full/ablation passed. The Type Lab memory-path iteration is exploratory only.
+- Latest full check: 20 unit tests pass; the existing deterministic evaluator matches 6/6 cases.
+- Local token-based spend estimate: about **$0.058171**. This is not the Meta Billing total.
+- No public personal data or `.env` secrets are committed; model responses, usage cache, user review sessions, and generated notes remain git-ignored.
+
+See [`DAILY_LOG.md`](DAILY_LOG.md) for the concise day log and experiment links.
 
 ## Operating cadence
 
