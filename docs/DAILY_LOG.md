@@ -55,5 +55,6 @@ Run the controlled task with matched clips, inspect the learned process and evid
 ### Implementation checkpoint — Do learner recording
 
 - Do can start recording a learner attempt directly or preview the live camera separately; the resulting clip joins the existing upload/preview path and only reaches Muse Spark after the user selects **Observe attempt**.
+- Teach and Do now provide download links for the current clip, so controlled recordings can be saved locally for evaluation and sharing without checking raw footage into Git.
 - Switching away from Teach or Do stops that surface's camera stream; stopping a learner recording creates a local clip and releases the camera.
 - Verification: the recording lifecycle passed an isolated browser smoke with a fake camera. The clip preview appeared and **Observe attempt** became available without triggering a model call. Web tests, type check, and production build passed.

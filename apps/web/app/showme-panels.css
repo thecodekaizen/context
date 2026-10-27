@@ -12,3 +12,4 @@
 .sequence-report.sequence-blocked li.current{background:#332718}.sequence-report.sequence-unobserved li.current{background:#302c1b}
 .demo-record-stage{height:285px;position:relative;overflow:hidden;margin-top:20px;border:1px solid #303a34;border-radius:5px;background:#080b09}.demo-record-stage .camera-feed{object-fit:cover}.demo-record-stage .record-indicator{position:absolute;top:12px;right:12px;padding:7px 9px;border:1px solid #3b463f;border-radius:4px;background:#111714dd}.demo-record-controls{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:12px}.demo-record-controls .small-note{flex:1 1 100%;line-height:1.6}.demo-record-controls .primary-button,.demo-record-controls .secondary-button{min-height:33px;font-size:9px}
 .upload-drop:disabled{opacity:.5;cursor:not-allowed}
+.clip-actions{display:flex;align-items:center;gap:14px;margin-top:8px}.clip-actions .replace-video{margin-top:0;padding:0}.clip-download{display:inline-block;margin-top:8px}
