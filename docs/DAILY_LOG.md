@@ -168,3 +168,10 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - Clarified that Teach proposes a model for review, Do checks a selected frame or separate recording rather than continuously tracking, and Simulate shows modeled states rather than physics.
 - Improved type scale, contrast, navigation states, buttons, spacing, and narrow-screen layout. Updated page metadata and README copy to match the actual prototype.
 - Existing screenshots predate the updated interface; no screenshot is presented as evidence of capability. The app tests, TypeScript check, and production build passed.
+
+### UX checkpoint — Plain-language status and evidence
+
+- Replaced internal status terms in the process preview with learner-facing labels such as “Next step” and “Applied in model.”
+- Clarified the difference between a step observed in one demonstration and a requirement confirmed by a person. Simulation warnings now identify the source in plain language.
+- Removed token counts from the learner video review and clarified that the sample procedure was not learned from a video.
+- Verification: all 13 existing tests pass, TypeScript passes, and the production build completes. No new capability is claimed by this copy change.
