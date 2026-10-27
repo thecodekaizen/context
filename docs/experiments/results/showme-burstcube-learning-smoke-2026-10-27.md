@@ -30,3 +30,11 @@ The timestamp intervals for the four transitions were inside the clip and visual
 This shows that the upload path, structured process extraction, timestamped evidence fields, and local referential validation can work on an additional public video. It does **not** show that SHOWME learned an assembly procedure, distinguished a correct attempt from a mistake, handled a different camera/arrangement, grounded objects with SAM, or recognized recovery. The clip is a staged handling sequence with one operator, not the controlled expert/learner set.
 
 Next P0 evidence still requires a small, repeatable hands-only task recorded as separate expert, correct learner, mistake, and recovery clips. Keep the human-authored labels separate from model inputs.
+
+## Same-clip observation plumbing check
+
+The generated process was then supplied to `observe-video` along with the **same source clip**. Muse returned 7 timestamped events, 0 divergences, and `no_divergence_observed`; the CLI's observation checks passed. The events matched the presented/rotated/lowered/placed/adjusted sequence in the source. The output contained no uncertainties, despite the process-learning pass having explicitly recorded uncertainty about the frame's function. This is a useful reminder that the observation output can omit uncertainty and should not be treated as calibrated merely because schema validation passes.
+
+Usage for this call was 6,421 input tokens and 672 output tokens. Estimated standard token cost is about **$0.0109**. Combined with process learning, the two successful calls used 12,015 input and 1,756 output tokens, or about **$0.0225** estimated at the rates above.
+
+This is a same-video replay, not a learner transfer test. The zero-divergence result is expected and says nothing about sensitivity to mistakes, changed object positions, a new camera view, or recovery.
