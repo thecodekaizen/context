@@ -58,3 +58,10 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - Teach and Do now provide download links for the current clip, so controlled recordings can be saved locally for evaluation and sharing without checking raw footage into Git.
 - Switching away from Teach or Do stops that surface's camera stream; stopping a learner recording creates a local clip and releases the camera.
 - Verification: the recording lifecycle passed an isolated browser smoke with a fake camera. The clip preview appeared and **Observe attempt** became available without triggering a model call. Web tests, type check, and production build passed.
+
+### Implementation checkpoint — LEGO capture protocol
+
+- Added [`LEGO_RECORDING_GUIDE.md`](LEGO_RECORDING_GUIDE.md) for the planned physical set. It defines the four matched clips (demonstration, correct control, one deliberate divergence, recovery), camera setup, local answer-key separation, and explicit model-call boundaries.
+- The LEGO task itself remains unselected until the pieces are inspected. The guide avoids assuming a washer/bracket constraint that may not exist in the set.
+- P0 captures video only and strips audio during preprocessing; narration is optional but is not treated as model evidence in this experiment.
+- This is experiment preparation, not a result. Capability remains unvalidated until the clips are recorded and evaluated.

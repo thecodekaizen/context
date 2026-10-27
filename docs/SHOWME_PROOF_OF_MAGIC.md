@@ -14,7 +14,7 @@ This tests one constrained task. It does not establish general physical intellig
 
 Choose one safe, visually obvious assembly task with roughly 4–6 distinct pieces and a clear ordering or orientation constraint. It must support an expert demonstration, correct learner attempt, deliberate recoverable mistake, recovery, and a useful “what if?” alternative using the same pieces and skill model.
 
-The physical task has not yet been selected. Decide it by testing available parts for visible states, repeatability, safety, and a visually legible alternative consequence. Avoid hidden parts and specialized equipment.
+The physical task has not yet been selected. A small LEGO assembly is the current candidate because the user plans to obtain a set, but choose the actual procedure only after inspecting its pieces for visible states, repeatability, safety, and a visually legible alternative consequence. Avoid hidden parts and specialized equipment. The capture procedure is documented in [`LEGO_RECORDING_GUIDE.md`](LEGO_RECORDING_GUIDE.md).
 
 ## Stock footage boundary
 
@@ -33,7 +33,7 @@ Capture hands and work surface only. Keep clips short and camera fixed for the b
 | C | Learner performs one deliberate, visible mistake | Test divergence detection |
 | D | Learner recovers and completes the task | Test recovery recognition |
 
-A changed camera angle is a later robustness check, after the fixed-camera baseline. Narration is optional and must not be required for P0; if evaluated, transcribe it as a separate evidence stream.
+A changed camera angle is a later robustness check, after the fixed-camera baseline. Narration is optional and must not be required for P0; current P0 video preprocessing strips audio, so spoken narration is not model evidence yet. See the recording guide for capture controls and the private answer-key checklist.
 
 ## Experimental boundary
 
