@@ -14,7 +14,8 @@ from .cli import DatasetError
 from .config import model_api_key
 
 MODEL = "muse-spark-1.3"
-PROMPT_VERSION = "raw-temporal-discovery-v3"
+PROMPT_VERSION = "raw-temporal-discovery-v4"
+REASONING_EFFORT = "minimal"
 MAX_OUTPUT_TOKENS = 4096
 DEFAULT_DATASET = Path(__file__).resolve().parents[2] / "datasets" / "synthetic" / "creative-evolution.json"
 REPO_CACHE_DIR = Path(__file__).resolve().parents[2] / ".thread-cache"
@@ -237,7 +238,7 @@ def discover_raw_archive(path: Path = DEFAULT_DATASET) -> dict[str, Any]:
     archive = load_raw_archive(path)
     model_input = json.dumps(archive, ensure_ascii=False, indent=2)
     cache_key = hashlib.sha256(
-        f"{MODEL}:{PROMPT_VERSION}:{PROMPT}:{model_input}".encode("utf-8")
+        f"{MODEL}:{PROMPT_VERSION}:{REASONING_EFFORT}:{MAX_OUTPUT_TOKENS}:{PROMPT}:{model_input}".encode("utf-8")
     ).hexdigest()
     cache_file = CACHE_DIR / "raw-discoveries.json"
     try:
@@ -279,7 +280,7 @@ def discover_raw_archive(path: Path = DEFAULT_DATASET) -> dict[str, Any]:
     client = OpenAI(api_key=api_key, base_url="https://api.meta.ai/v1")
     response = client.responses.create(
         model=MODEL,
-        reasoning={"effort": "high"},
+        reasoning={"effort": REASONING_EFFORT},
         max_output_tokens=MAX_OUTPUT_TOKENS,
         text={
             "format": {
@@ -349,6 +350,7 @@ def discover_raw_archive(path: Path = DEFAULT_DATASET) -> dict[str, Any]:
         **result,
         "provider": "meta",
         "model": MODEL,
+        "reasoning_effort": REASONING_EFFORT,
         "response": {"status": status, "incomplete_reason": incomplete_reason},
         "usage": {
             "input_tokens": input_tokens,

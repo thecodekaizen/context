@@ -10,6 +10,7 @@
 - Interactive CLI review flow: creator context, keep/revise/reject/defer, exact `CONFIRM`, and a source-linked direction note.
 - Raw-discovery observations now include a source-linked evidence stage (`planned`, `experimental`, `ongoing`, `released`, or `unclear`), with local validation and CLI timeline display. This makes experiment-vs-release status inspectable; it does not yet prevent unsupported direction claims.
 - Raw Muse API status and incomplete-response reasons are now reported and cached on failures; live successful calls show their response status. A cached Cook's Margin replay also caught and fixed a missing project-title display.
+- Raw discovery now uses minimal reasoning and includes reasoning effort and output-token cap in cache identity, following the Cook's Margin ablation that exhausted the cap.
 - All output/session data stays in ignored local folders; source artifacts in the repo are synthetic.
 
 ### Evidence

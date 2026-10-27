@@ -183,6 +183,10 @@ class PaidCallFailureTests(unittest.TestCase):
                         raw_discovery.discover_raw_archive(DATASET)
 
                 self.assertEqual(openai_client.return_value.responses.create.call_count, 1)
+                self.assertEqual(
+                    openai_client.return_value.responses.create.call_args.kwargs["reasoning"],
+                    {"effort": "minimal"},
+                )
                 usage_lines = (cache_dir / "usage.jsonl").read_text(encoding="utf-8").splitlines()
                 self.assertEqual(len(usage_lines), 1)
                 self.assertTrue((cache_dir / "raw-discoveries.json").exists())

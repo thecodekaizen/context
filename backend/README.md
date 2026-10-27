@@ -19,6 +19,8 @@ backend/.venv/bin/python -m thread_engine.cli datasets/synthetic/creative-evolut
 
 Raw discovery also asks Muse to label each observation as planned, experimental, ongoing, released, or unclear. These are model classifications for human inspection, not verified project state. If the API response is incomplete or invalid, the CLI reports its status/reason when provided and caches the failure to prevent accidental repeat charges.
 
+Raw discovery uses minimal reasoning by default to reduce the chance of exhausting its output allowance on long structured responses. The cache key includes this setting and the output-token cap, so changing either cannot reuse a result generated under different settings.
+
 To inspect Meta-extracted memories separately, run:
 
 ```sh
