@@ -6,7 +6,7 @@ import json
 import math
 from typing import Any
 
-from .meta import MuseVideoLearner
+from .meta import MuseSparkClient
 
 
 def observation_schema(process: dict[str, Any]) -> dict[str, Any]:
@@ -134,6 +134,72 @@ def validate_observation(
             raise ValueError("recovery needs a later process-consistent event")
 
 
+def snapshot_schema(process: dict[str, Any]) -> dict[str, Any]:
+    """Constrain one camera-frame assessment to the reviewed process vocabulary."""
+    state_ids = [item["id"] for item in process["states"]]
+    object_ids = [item["id"] for item in process["objects"]]
+    return {
+        "type": "object",
+        "properties": {
+            "state_id": {"type": "string", "enum": [*state_ids, "unknown"]},
+            "assessment": {"type": "string", "enum": ["consistent", "possible_divergence", "unclear"]},
+            "object_ids": {"type": "array", "items": {"type": "string", "enum": [*object_ids, "unknown"]}},
+            "evidence": {"type": "string"},
+            "uncertainties": {"type": "array", "items": {"type": "string"}},
+        },
+        "required": ["state_id", "assessment", "object_ids", "evidence", "uncertainties"],
+        "additionalProperties": False,
+    }
+
+
+def snapshot_prompt(process: dict[str, Any]) -> str:
+    clean_process = {key: value for key, value in process.items() if not key.startswith("_")}
+    return (
+        "Inspect this single still image from a learner's physical workspace against the reviewed process model. "
+        "This is one snapshot, not a video: do not infer action order, what happened before, recovery, or intent. "
+        "Use consistent only when visible facts match a declared process state. Use possible_divergence only "
+        "when a visible relationship clearly conflicts with the described states; do not treat an unobserved "
+        "action order as a violation. Use unclear when the relevant parts are occluded, too small, or ambiguous. "
+        "Use only declared state/object IDs or unknown. Explain the visible evidence plainly, and list uncertainty. "
+        f"\n\nReviewed process hypothesis:\n{json.dumps(clean_process, ensure_ascii=False, sort_keys=True)}"
+    )
+
+
+def validate_snapshot(snapshot: dict[str, Any], process: dict[str, Any]) -> None:
+    if not isinstance(snapshot, dict):
+        raise ValueError("snapshot observation must be an object")
+    state_ids = {item["id"] for item in process["states"]}
+    object_ids = {item["id"] for item in process["objects"]}
+    state_id = snapshot.get("state_id")
+    assessment = snapshot.get("assessment")
+    if state_id != "unknown" and state_id not in state_ids:
+        raise ValueError("snapshot references an unknown state_id")
+    if assessment not in {"consistent", "possible_divergence", "unclear"}:
+        raise ValueError("snapshot has an invalid assessment")
+    if assessment == "consistent" and state_id == "unknown":
+        raise ValueError("a consistent snapshot must match a declared state")
+    if not isinstance(snapshot.get("evidence"), str) or not snapshot["evidence"].strip():
+        raise ValueError("snapshot needs inspectable evidence")
+    _validate_objects(snapshot.get("object_ids"), object_ids, "snapshot")
+    uncertainties = snapshot.get("uncertainties")
+    if not isinstance(uncertainties, list) or not all(isinstance(item, str) for item in uncertainties):
+        raise ValueError("snapshot uncertainties must be an array of strings")
+
+
+def observe_snapshot(
+    learner: MuseSparkClient,
+    image_path: Any,
+    process: dict[str, Any],
+) -> dict[str, Any]:
+    return learner.analyze_image(
+        image_path,
+        prompt=snapshot_prompt(process),
+        schema=snapshot_schema(process),
+        schema_name="showme_snapshot_observation",
+        max_output_tokens=1000,
+    )
+
+
 def _valid_time(item: Any, duration: float, label: str) -> float:
     if not isinstance(item, dict):
         raise ValueError(f"{label} must be an object")
@@ -154,7 +220,7 @@ def _validate_objects(value: Any, object_ids: set[str], label: str) -> None:
 
 
 def observe_video(
-    learner: MuseVideoLearner,
+    learner: MuseSparkClient,
     video_path: Any,
     process: dict[str, Any],
     duration_seconds: float,

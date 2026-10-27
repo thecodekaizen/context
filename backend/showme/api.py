@@ -12,11 +12,12 @@ from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
 from .media import inspect_video, make_model_video
-from .meta import MuseVideoLearner
-from .observe import observe_video, validate_observation
+from .meta import MuseSparkClient
+from .observe import observe_snapshot, observe_video, validate_observation, validate_snapshot
 from .process import validate_references
 
 MAX_UPLOAD_BYTES = 100 * 1024 * 1024
+MAX_SNAPSHOT_BYTES = 5 * 1024 * 1024
 ALLOWED_SUFFIXES = {".mp4", ".mov", ".m4v", ".webm"}
 
 app = FastAPI(title="SHOWME local skill API", version="0.1.0")
@@ -56,7 +57,7 @@ def learn_skill(
             metadata = inspect_video(source)
             model_video = root / "model-input.mp4"
             model_metadata = make_model_video(source, model_video)
-            process = MuseVideoLearner.from_env().learn(
+            process = MuseSparkClient.from_env().learn(
                 model_video,
                 duration_seconds=metadata["duration_seconds"],
                 narration=narration,
@@ -115,7 +116,7 @@ def observe_learner(
             model_video = root / "model-input.mp4"
             model_metadata = make_model_video(source, model_video)
             observation = observe_video(
-                MuseVideoLearner.from_env(),
+                MuseSparkClient.from_env(),
                 model_video,
                 process,
                 metadata["duration_seconds"],
@@ -143,13 +144,55 @@ def observe_learner(
         video.file.close()
 
 
-def _copy_bounded(upload: UploadFile, destination: Path) -> int:
+@app.post("/api/skills/observe-snapshot")
+def observe_learner_snapshot(
+    image: Annotated[UploadFile, File(description="One JPEG camera snapshot")],
+    process_json: Annotated[str, Form(max_length=100_000)],
+) -> dict:
+    """Assess one explicitly requested camera frame; this is not continuous tracking."""
+    suffix = Path(image.filename or "").suffix.lower()
+    if suffix not in {".jpg", ".jpeg"} or image.content_type not in {"image/jpeg", "image/jpg"}:
+        raise HTTPException(status_code=415, detail="Capture a JPEG snapshot from the camera preview.")
+    if not os.environ.get("MODEL_API_KEY") and not _repo_key_exists():
+        raise HTTPException(status_code=503, detail="Set MODEL_API_KEY in the repository's local .env file first.")
+    try:
+        process = json.loads(process_json)
+        if not isinstance(process, dict):
+            raise ValueError("The reviewed process must be a JSON object.")
+        validate_references(process)
+        with tempfile.TemporaryDirectory(prefix="showme-snapshot-") as temporary:
+            image_path = Path(temporary) / "snapshot.jpg"
+            size = _copy_bounded(image, image_path, max_bytes=MAX_SNAPSHOT_BYTES)
+            if size == 0:
+                raise ValueError("The camera snapshot is empty.")
+            observation = observe_snapshot(MuseSparkClient.from_env(), image_path, process)
+            validate_snapshot(observation, process)
+            run = observation.get("_run", {})
+            observation["_run"] = {
+                "model": run.get("model"),
+                "prompt_version": run.get("prompt_version"),
+                "usage": run.get("usage", {}),
+            }
+            return {"observation": observation, "status": observation["assessment"]}
+    except (OSError, ValueError, RuntimeError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    finally:
+        image.file.close()
+
+
+def _copy_bounded(
+    upload: UploadFile,
+    destination: Path,
+    *,
+    max_bytes: int = MAX_UPLOAD_BYTES,
+) -> int:
     total = 0
     with destination.open("wb") as output:
         while chunk := upload.file.read(1024 * 1024):
             total += len(chunk)
-            if total > MAX_UPLOAD_BYTES:
-                raise HTTPException(status_code=413, detail="Keep the demonstration video under 100 MB.")
+            if total > max_bytes:
+                limit = "5 MB" if max_bytes == MAX_SNAPSHOT_BYTES else "100 MB"
+                raise HTTPException(status_code=413, detail=f"Keep this upload under {limit}.")
             output.write(chunk)
     return total
 

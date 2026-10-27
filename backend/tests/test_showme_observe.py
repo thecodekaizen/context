@@ -3,7 +3,14 @@
 import copy
 import unittest
 
-from showme.observe import observation_prompt, observation_schema, validate_observation
+from showme.observe import (
+    observation_prompt,
+    observation_schema,
+    snapshot_prompt,
+    snapshot_schema,
+    validate_observation,
+    validate_snapshot,
+)
 from test_showme_process import VALID_PROCESS
 
 
@@ -106,6 +113,44 @@ class ObservationValidationTests(unittest.TestCase):
         prompt = observation_prompt(self.process, 12.0)
         self.assertIn("not required prerequisites", prompt)
         self.assertIn("not call a learner divergent only because", prompt)
+
+
+class SnapshotValidationTests(unittest.TestCase):
+    def setUp(self):
+        self.process = copy.deepcopy(VALID_PROCESS)
+        self.valid = {
+            "state_id": "stacked",
+            "assessment": "consistent",
+            "object_ids": ["red", "blue"],
+            "evidence": "The red block is visibly resting on the blue block.",
+            "uncertainties": [],
+        }
+
+    def test_accepts_declared_consistent_state(self):
+        validate_snapshot(self.valid, self.process)
+
+    def test_rejects_unknown_ids(self):
+        output = copy.deepcopy(self.valid)
+        output["state_id"] = "invented"
+        with self.assertRaisesRegex(ValueError, "unknown state_id"):
+            validate_snapshot(output, self.process)
+
+    def test_rejects_consistent_without_a_known_state(self):
+        output = copy.deepcopy(self.valid)
+        output["state_id"] = "unknown"
+        with self.assertRaisesRegex(ValueError, "must match a declared state"):
+            validate_snapshot(output, self.process)
+
+    def test_schema_limits_states_and_objects_to_reviewed_process(self):
+        schema = snapshot_schema(self.process)
+        self.assertEqual(schema["properties"]["state_id"]["enum"], ["separate", "stacked", "unknown"])
+        self.assertEqual(schema["properties"]["object_ids"]["items"]["enum"], ["red", "blue", "unknown"])
+
+    def test_prompt_does_not_infer_recovery_or_require_observed_order(self):
+        prompt = snapshot_prompt(self.process)
+        self.assertIn("do not infer action order", prompt)
+        self.assertIn("do not infer", prompt)
+        self.assertIn("recovery", prompt)
 
 
 if __name__ == "__main__":

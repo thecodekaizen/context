@@ -9,7 +9,7 @@ from pathlib import Path
 import sys
 
 from .media import make_model_video, prepare_video
-from .meta import MuseVideoLearner
+from .meta import MuseSparkClient
 from .observe import observe_video, validate_observation
 from .process import validate_references
 
@@ -82,7 +82,7 @@ def _learn_video(video: Path, output: Path) -> int:
     try:
         manifest = prepare_video(video, output / "media", sample_every_seconds=1, max_frames=24)
         model_video = make_model_video(video, output / "model-input.mp4")
-        learner = MuseVideoLearner.from_env()
+        learner = MuseSparkClient.from_env()
         process = learner.learn(output / "model-input.mp4", duration_seconds=manifest["source"]["duration_seconds"])
         process["_run"]["source_media"] = manifest["source"]
         process["_run"]["model_media"] = model_video
@@ -120,7 +120,7 @@ def _observe_video(process_path: Path, video: Path, output: Path) -> int:
         validate_references(process, duration_seconds=source_duration)
         manifest = prepare_video(video, output / "media", sample_every_seconds=1, max_frames=24)
         model_video = make_model_video(video, output / "model-input.mp4")
-        learner = MuseVideoLearner.from_env()
+        learner = MuseSparkClient.from_env()
         observation = observe_video(
             learner,
             output / "model-input.mp4",

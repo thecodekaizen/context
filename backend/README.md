@@ -26,6 +26,14 @@ clip. The model sees the reviewed process and learner video, never evaluation
 labels; the response is validated for timestamps, declared states/objects, and
 recovery evidence before it is shown.
 
+Do also provides an explicit **Check current state** button while the camera is
+on. That sends exactly one downscaled JPEG frame to `/api/skills/observe-snapshot`
+as an inline image input to Muse Spark. It is a user-triggered snapshot check,
+not continuous tracking. The API stages the JPEG in a temporary directory,
+discards it after the request, and validates returned IDs against the reviewed
+process. A still image cannot establish action order or recovery. Each click may
+use API credits; no snapshot inference runs in the background.
+
 ## Prepare local video
 
 ```bash

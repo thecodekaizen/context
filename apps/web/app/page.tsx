@@ -15,6 +15,14 @@ type LearnerObservation = {
   uncertainties: string[];
   _run?: { model?: string; usage?: { input_tokens?: number; output_tokens?: number } };
 };
+type SnapshotObservation = {
+  state_id: string;
+  assessment: "consistent" | "possible_divergence" | "unclear";
+  object_ids: string[];
+  evidence: string;
+  uncertainties: string[];
+  _run?: { model?: string; usage?: { input_tokens?: number; output_tokens?: number } };
+};
 
 function AssemblyView({ state, model }: { state: string[]; model: SkillModel }) {
   if (model.status === "learned-from-demonstration") {
@@ -64,6 +72,9 @@ export default function Home() {
   const [learnerFile, setLearnerFile] = useState<File | null>(null);
   const [learnerUrl, setLearnerUrl] = useState("");
   const [observation, setObservation] = useState<LearnerObservation | null>(null);
+  const [snapshotObservation, setSnapshotObservation] = useState<SnapshotObservation | null>(null);
+  const [snapshotError, setSnapshotError] = useState("");
+  const [checkingSnapshot, setCheckingSnapshot] = useState(false);
   const [observeError, setObserveError] = useState("");
   const [observing, setObserving] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
@@ -194,6 +205,39 @@ export default function Home() {
     }
   }
 
+  async function checkCurrentState() {
+    const video = videoRef.current;
+    if (!activeProcess || !video || video.videoWidth === 0 || video.videoHeight === 0) {
+      setSnapshotError("Start the camera and wait for the workspace image before checking.");
+      return;
+    }
+    setCheckingSnapshot(true);
+    setSnapshotError("");
+    setSnapshotObservation(null);
+    try {
+      const scale = Math.min(1, 1280 / Math.max(video.videoWidth, video.videoHeight));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(video.videoWidth * scale));
+      canvas.height = Math.max(1, Math.round(video.videoHeight * scale));
+      const context = canvas.getContext("2d");
+      if (!context) throw new Error("Could not capture the current camera frame.");
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const image = await new Promise<Blob>((resolve, reject) => canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error("Could not encode the camera frame.")), "image/jpeg", 0.82));
+      const form = new FormData();
+      form.set("image", image, "snapshot.jpg");
+      form.set("process_json", JSON.stringify(activeProcess));
+      const api = process.env.NEXT_PUBLIC_SHOWME_API_URL ?? "http://localhost:8000";
+      const response = await fetch(`${api}/api/skills/observe-snapshot`, { method: "POST", body: form });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(typeof payload.detail === "string" ? payload.detail : "SHOWME could not inspect this camera frame.");
+      setSnapshotObservation(payload.observation as SnapshotObservation);
+    } catch (error) {
+      setSnapshotError(error instanceof Error ? error.message : "SHOWME could not reach the local snapshot service.");
+    } finally {
+      setCheckingSnapshot(false);
+    }
+  }
+
   function inspectLearnerEvidence(seconds: number) {
     const video = learnerVideoRef.current;
     if (!video) return;
@@ -315,8 +359,10 @@ export default function Home() {
           {mode === "do" && <div className="work-grid do-grid">
             <section className="card camera-card"><div className="card-heading"><div><div className="eyebrow">STEP 02 · PERFORM THE TASK</div><h2>Keep your hands in view.</h2></div><span className={`record-indicator ${cameraOn ? "recording" : ""}`}><i /> {cameraOn ? "CAMERA ON" : "CAMERA OFF"}</span></div>
               <div className="camera-stage">{cameraOn ? <video ref={videoRef} className="camera-feed" autoPlay muted playsInline /> : <div className="camera-empty"><span>◎</span><strong>Your workspace will appear here</strong><small>Camera preview stays on this device.</small></div>}<div className="camera-crosshair" /></div>
-              <div className="camera-controls">{cameraOn ? <button className="secondary-button" onClick={stopCamera}>Stop camera</button> : <button className="primary-button" onClick={() => void startCamera()}>Start camera <span>◎</span></button>}<span className="small-note">Automatic visual state tracking is not connected yet.</span></div>
+              <div className="camera-controls">{cameraOn ? <button className="secondary-button" onClick={stopCamera}>Stop camera</button> : <button className="primary-button" onClick={() => void startCamera()}>Start camera <span>◎</span></button>}<button className="secondary-button" disabled={!cameraOn || !activeProcess || checkingSnapshot} onClick={() => void checkCurrentState()}>{checkingSnapshot ? "Checking frame…" : "Check current state"}</button><span className="small-note">Each check sends one still frame to Muse Spark and may use credits. No background checks run.</span></div>
               {cameraError && <div className="inline-honesty">{cameraError}</div>}
+              {snapshotError && <div className="inline-honesty" role="alert">{snapshotError}</div>}
+              {snapshotObservation && <section className={`snapshot-result snapshot-${snapshotObservation.assessment}`} aria-live="polite"><div className="eyebrow">ONE-FRAME CHECK · {snapshotObservation._run?.model ?? "MUSE SPARK"}</div><strong>{snapshotObservation.assessment === "consistent" ? "Matches a demonstrated state" : snapshotObservation.assessment === "possible_divergence" ? "Possible difference from the demonstrated states" : "The frame is unclear"}</strong><p>{snapshotObservation.evidence}</p><small>{snapshotObservation.state_id === "unknown" ? "No matching state identified" : activeProcess?.states.find((state) => state.id === snapshotObservation.state_id)?.description ?? snapshotObservation.state_id} · {objectLabels(snapshotObservation.object_ids)}</small>{snapshotObservation.uncertainties.length > 0 && <ul>{snapshotObservation.uncertainties.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul>}<small className="snapshot-boundary">A still frame cannot show what happened before it or confirm recovery. This is not continuous tracking.</small></section>}
               <div className="observe-panel"><div className="eyebrow">TEST A RECORDED ATTEMPT</div><h3>Compare a learner clip.</h3><p>Use a separate recording to inspect timestamped events against the reviewed Skill Model. This is clip analysis, not live tracking.</p>
                 <button className="upload-drop compact-drop" onClick={() => learnerInput.current?.click()}><span className="upload-symbol">↥</span><strong>{learnerFile ? learnerFile.name : "Choose learner video"}</strong><small>MP4, MOV, M4V, or WebM · up to 100 MB</small></button>
                 <input ref={learnerInput} type="file" accept="video/mp4,video/quicktime,video/x-m4v,video/webm" hidden onChange={(event) => chooseLearnerVideo(event.target.files?.[0])} />

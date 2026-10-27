@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 from typing import Any
+import base64
 
 from .process import PROCESS_SCHEMA
 
@@ -13,7 +14,7 @@ MODEL = "muse-spark-1.3"
 PROMPT_VERSION = "showme-video-analysis-v2"
 
 
-class MuseVideoLearner:
+class MuseSparkClient:
     def __init__(self, api_key: str, model: str = MODEL) -> None:
         try:
             from openai import APIError, OpenAI
@@ -24,7 +25,7 @@ class MuseVideoLearner:
         self.model = model
 
     @classmethod
-    def from_env(cls) -> "MuseVideoLearner":
+    def from_env(cls) -> "MuseSparkClient":
         api_key = os.environ.get("MODEL_API_KEY") or _read_repo_key()
         if not api_key:
             raise ValueError("Set MODEL_API_KEY in the local .env file or environment")
@@ -61,46 +62,16 @@ class MuseVideoLearner:
                     file=media,
                     expires_after={"anchor": "created_at", "seconds": 3600},
                 )
-            response = self.client.responses.create(
-                model=self.model,
-                reasoning={"effort": "minimal"},
+            return self._structured_response(
+                [
+                    {"type": "input_text", "text": prompt},
+                    {"type": "input_file", "file_id": uploaded.id},
+                ],
+                schema=schema,
+                schema_name=schema_name,
                 max_output_tokens=max_output_tokens,
-                text={"format": {
-                    "type": "json_schema",
-                    "name": schema_name,
-                    "strict": True,
-                    "schema": schema,
-                }},
-                input=[{
-                    "type": "message",
-                    "role": "user",
-                    "content": [
-                        {"type": "input_text", "text": prompt},
-                        {"type": "input_file", "file_id": uploaded.id},
-                    ],
-                }],
+                remote_file_id=uploaded.id,
             )
-            if getattr(response, "status", None) not in (None, "completed"):
-                raise ValueError(f"Muse Spark response did not complete (status={response.status})")
-            if getattr(response, "incomplete_details", None):
-                raise ValueError("Muse Spark returned an incomplete response")
-            output_text = response.output_text
-            if not output_text:
-                raise ValueError("Muse Spark returned no structured output")
-            try:
-                result = json.loads(output_text)
-            except json.JSONDecodeError as exc:
-                raise ValueError("Muse Spark returned invalid JSON") from exc
-            if not isinstance(result, dict):
-                raise ValueError("Muse Spark output must be a JSON object")
-            result["_run"] = {
-                "model": self.model,
-                "prompt_version": PROMPT_VERSION,
-                "remote_file_id": uploaded.id,
-                "api_response_id": getattr(response, "id", None),
-                "usage": _usage(response),
-            }
-            return result
         except self._api_error as exc:
             raise RuntimeError(
                 "Meta Model API request failed. Automatic retries are disabled to avoid "
@@ -113,6 +84,80 @@ class MuseVideoLearner:
                 except Exception:
                     # The one-hour expiry is the fallback if remote cleanup fails.
                     pass
+
+    def analyze_image(
+        self,
+        image: Path,
+        *,
+        prompt: str,
+        schema: dict[str, Any],
+        schema_name: str,
+        max_output_tokens: int = 1200,
+    ) -> dict[str, Any]:
+        """Analyze one local image as a data URL; no image file is uploaded or retained."""
+        image = image.expanduser().resolve()
+        if not image.is_file():
+            raise ValueError(f"image file does not exist: {image}")
+        encoded = base64.b64encode(image.read_bytes()).decode("ascii")
+        data_url = f"data:image/jpeg;base64,{encoded}"
+        try:
+            return self._structured_response(
+                [
+                    {"type": "input_text", "text": prompt},
+                    {"type": "input_image", "image_url": data_url, "detail": "high"},
+                ],
+                schema=schema,
+                schema_name=schema_name,
+                max_output_tokens=max_output_tokens,
+            )
+        except self._api_error as exc:
+            raise RuntimeError(
+                "Meta Model API request failed. Automatic retries are disabled to avoid "
+                "repeating a potentially billable request; inspect billing before retrying."
+            ) from exc
+
+    def _structured_response(
+        self,
+        content: list[dict[str, Any]],
+        *,
+        schema: dict[str, Any],
+        schema_name: str,
+        max_output_tokens: int,
+        remote_file_id: str | None = None,
+    ) -> dict[str, Any]:
+        response = self.client.responses.create(
+            model=self.model,
+            reasoning={"effort": "minimal"},
+            max_output_tokens=max_output_tokens,
+            text={"format": {
+                "type": "json_schema",
+                "name": schema_name,
+                "strict": True,
+                "schema": schema,
+            }},
+            input=[{"type": "message", "role": "user", "content": content}],
+        )
+        if getattr(response, "status", None) not in (None, "completed"):
+            raise ValueError(f"Muse Spark response did not complete (status={response.status})")
+        if getattr(response, "incomplete_details", None):
+            raise ValueError("Muse Spark returned an incomplete response")
+        output_text = response.output_text
+        if not output_text:
+            raise ValueError("Muse Spark returned no structured output")
+        try:
+            result = json.loads(output_text)
+        except json.JSONDecodeError as exc:
+            raise ValueError("Muse Spark returned invalid JSON") from exc
+        if not isinstance(result, dict):
+            raise ValueError("Muse Spark output must be a JSON object")
+        result["_run"] = {
+            "model": self.model,
+            "prompt_version": PROMPT_VERSION,
+            "remote_file_id": remote_file_id,
+            "api_response_id": getattr(response, "id", None),
+            "usage": _usage(response),
+        }
+        return result
 
 
 def _learning_prompt(duration_seconds: float, narration: str = "") -> str:

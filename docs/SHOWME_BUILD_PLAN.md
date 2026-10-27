@@ -4,7 +4,7 @@
 **Submission:** November 4, 9:00 PM ET
 **Product contract:** [`PRODUCT.md`](PRODUCT.md) is locked. Build exactly three surfaces—Teach, Do, Simulate—over one Skill Model. Keep experimental gates and honest evidence, but do not resume product/architecture exploration.
 
-**Status (Oct 27):** Phase 0 experiment footing is complete. Phase 1 CLI preprocessing, Muse adapter, and process validation are implemented. The stock CaptainCook4D evaluation failed: Muse omitted the decisive action and the observer missed the annotated ordering error. A normal control produced no false alarms in a changed setup, so that result is confounded. The next milestone is to select one 4–6-piece assembly and record matched learn/correct/error/recovery attempts. Two product concept mockups exist; the web application and Teach mockup remain to be built. See the [v2 result](experiments/results/captaincook4d-ordering-observation-v2-2026-10-27.md), [product definition](PRODUCT.md), and [app plan](SHOWME_APP_PLAN.md).
+**Status (Oct 27):** Phase 0 footing is complete. The CLI can prepare clips, learn a candidate process, and observe a separate video; process references and evidence are validated. A previous CaptainCook4D evaluation missed the annotated ordering error; a normal control had no false alarms but used a changed setup, so it is confounded. A later Pexels LEGO clip produced 3 states and 2 timestamped transitions in one Teach smoke test, but it had no paired attempt or ground truth. The web prototype now has Teach, Do, and Simulate over one shared Skill Model. Do supports an explicit one-frame model check and recorded learner-clip analysis; continuous camera tracking, SAM grounding, and recovery guidance have not been demonstrated. The task is still not selected. The next experimental milestone remains a matched learn/correct/error/recovery set for one 4–6-piece task. See the [v2 result](experiments/results/captaincook4d-ordering-observation-v2-2026-10-27.md), [stock clip trial](experiments/proof-of-magic/stock-clip-trial.md), [product definition](PRODUCT.md), and [app plan](SHOWME_APP_PLAN.md).
 
 ## Phase 0 — Repo and experiment footing (Oct 27)
 
@@ -22,7 +22,7 @@
 
 - Keep the process small: objects, observable states, transitions, evidence-backed ordering observations, uncertainty, timestamps. One demonstration is an observed trace; it cannot establish that an ordering is required.
 - Validate JSON shape and cross-references locally; preserve model identity and token counts.
-- Use one rights-cleared clip only after local preprocessing and code checks pass.
+- Use rights-cleared clips for smoke tests only; use a matched, ground-truthed set for capability claims.
 
 **Exit:** a repeated run creates a reviewable process artifact whose transitions cite visible times; malformed references fail closed. A fluent but unsupported answer is a fail.
 
