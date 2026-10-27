@@ -4,7 +4,7 @@
 **Submission:** November 4, 9:00 PM ET
 **Rule:** each phase earns the next. If a phase fails, narrow the task before adding UI.
 
-**Status (Oct 27):** Phase 0 repo footing is in place and pushed. Phase 1 preprocessing, Muse adapter, and process validation are implemented and covered by tests, but not yet run on a real demonstration. Phase 2 now has a CLI observer and deterministic output checks. A stock-video API smoke passed, but same-clip reuse does not test learner transfer or error recovery. No P0 capability claim has passed yet.
+**Status (Oct 27):** Phase 0 repo footing is in place and pushed. Phase 1 preprocessing, Muse adapter, and process validation are implemented and tested on stock demonstration video. Two exploratory CaptainCook4D passes both failed P0: Muse omitted the decisive action, and the observer missed the annotated ordering error. The revised ordering-observation contract coincided with zero false alarms on one normal control, but the comparison is confounded by a changed expert crop and learned process. No P0 capability claim has passed yet. See the [v2 result](experiments/results/captaincook4d-ordering-observation-v2-2026-10-27.md).
 
 ## Phase 0 — Repo and experiment footing (Oct 27)
 
