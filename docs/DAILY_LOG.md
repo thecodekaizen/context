@@ -106,3 +106,10 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - A clearly consistent, mapped still-frame result in Do now offers an explicit entry into Simulate from that recognized state. The simulator receives only the remaining actions from the reviewed trace; it does not replay earlier steps or guess a state from unclear/divergent frames.
 - Simulate now compares the remaining reference trace against the proposed sequence from the same checkpoint. A single still remains only a model-reported state match, not continuous tracking or proof of prior action order.
 - Added a pure simulation check for starting a sequence from an explicit state.
+
+### Implementation checkpoint — SAM still-frame grounding
+
+- Added an explicit **Locate in frame** action after Muse identifies a declared Skill Model object in a manual camera snapshot. It resends that same still to SAM 3.1 and overlays the official parser's mask paths and bounding boxes on the captured image.
+- The backend rejects undeclared object IDs, bounds the image dimensions, makes no automatic retry, and returns no raw SAM token payload. SAM is still phrase-based segmentation; it does not verify task correctness or provide live tracking.
+- Live smoke: one synthetic repository mockup still returned 9 `button` detections with masks and no parser diagnostics. The screenshot was resized to the app's 1280-pixel maximum and remained in `/tmp`; this validates API + parser + geometry only, not LEGO performance.
+- Verification: 7 focused SAM/API tests, the full backend suite, all web tests, TypeScript, and production build passed.

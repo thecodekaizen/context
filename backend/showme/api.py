@@ -15,6 +15,7 @@ from .media import inspect_video, make_model_video
 from .meta import MuseSparkClient
 from .observe import observe_snapshot, observe_video, validate_observation, validate_snapshot
 from .process import validate_references
+from .sam import segment_image
 
 MAX_UPLOAD_BYTES = 100 * 1024 * 1024
 MAX_SNAPSHOT_BYTES = 5 * 1024 * 1024
@@ -174,6 +175,46 @@ def observe_learner_snapshot(
                 "usage": run.get("usage", {}),
             }
             return {"observation": observation, "status": observation["assessment"]}
+    except (OSError, ValueError, RuntimeError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    finally:
+        image.file.close()
+
+
+@app.post("/api/skills/ground-object")
+def ground_snapshot_object(
+    image: Annotated[UploadFile, File(description="The same JPEG camera snapshot previously checked")],
+    process_json: Annotated[str, Form(max_length=100_000)],
+    object_id: Annotated[str, Form(max_length=100)],
+    image_width: Annotated[int, Form()],
+    image_height: Annotated[int, Form()],
+) -> dict:
+    """Explicitly segment one declared Skill Model object in a still frame."""
+    if Path(image.filename or "").suffix.lower() not in {".jpg", ".jpeg"} or image.content_type not in {"image/jpeg", "image/jpg"}:
+        raise HTTPException(status_code=415, detail="Choose the JPEG snapshot from the camera check.")
+    if not os.environ.get("MODEL_API_KEY") and not _repo_key_exists():
+        raise HTTPException(status_code=503, detail="Set MODEL_API_KEY in the repository's local .env file first.")
+    try:
+        process = json.loads(process_json)
+        if not isinstance(process, dict):
+            raise ValueError("The reviewed process must be a JSON object.")
+        validate_references(process)
+        selected = next((item for item in process["objects"] if item["id"] == object_id), None)
+        if selected is None:
+            raise ValueError("Choose an object declared in the reviewed Skill Model.")
+        with tempfile.TemporaryDirectory(prefix="showme-ground-") as temporary:
+            image_path = Path(temporary) / "snapshot.jpg"
+            size = _copy_bounded(image, image_path, max_bytes=MAX_SNAPSHOT_BYTES)
+            if size == 0:
+                raise ValueError("The camera snapshot is empty.")
+            result = segment_image(
+                MuseSparkClient.from_env().client,
+                image_path,
+                concept=selected["label"],
+                width=image_width,
+                height=image_height,
+            )
+            return result
     except (OSError, ValueError, RuntimeError) as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     finally:

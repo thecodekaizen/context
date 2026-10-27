@@ -25,6 +25,8 @@ type SnapshotObservation = {
   _run?: { model?: string; usage?: { input_tokens?: number; output_tokens?: number } };
 };
 type SnapshotCheck = { checkedAt: string; observation: SnapshotObservation };
+type GroundedDetection = { object_id: string; box?: { left: number; top: number; right: number; bottom: number }; mask?: { width: number; height: number; bounds: { left: number; top: number; right: number; bottom: number }; path: string } };
+type SamGrounding = { model: string; concept: string; image: { width: number; height: number }; detections: GroundedDetection[]; diagnostics: string[] };
 type SimulationOrigin = { state: string[]; actionIds: string[]; source: "skill-start" | "camera-checkpoint"; label: string };
 
 function SkillTransitionMap({ state, model, activeActionId }: { state: string[]; model: SkillModel; activeActionId?: string }) {
@@ -119,6 +121,11 @@ export default function Home() {
   const [learnerUrl, setLearnerUrl] = useState("");
   const [observation, setObservation] = useState<LearnerObservation | null>(null);
   const [snapshotObservation, setSnapshotObservation] = useState<SnapshotObservation | null>(null);
+  const [snapshotFrame, setSnapshotFrame] = useState<{ blob: Blob; dataUrl: string; width: number; height: number } | null>(null);
+  const [grounding, setGrounding] = useState<SamGrounding | null>(null);
+  const [groundingObjectId, setGroundingObjectId] = useState("");
+  const [groundingError, setGroundingError] = useState("");
+  const [groundingBusy, setGroundingBusy] = useState(false);
   const [snapshotHistory, setSnapshotHistory] = useState<SnapshotCheck[]>([]);
   const [snapshotError, setSnapshotError] = useState("");
   const [checkingSnapshot, setCheckingSnapshot] = useState(false);
@@ -342,6 +349,9 @@ export default function Home() {
     setWhatIfProposal(null);
     setWhatIfMessage("");
     setSnapshotObservation(null);
+    setSnapshotFrame(null);
+    setGrounding(null);
+    setGroundingError("");
     setSnapshotHistory([]);
     setMode("do");
   }
@@ -376,6 +386,9 @@ export default function Home() {
     setWhatIfMessage("");
     setObservation(null);
     setSnapshotObservation(null);
+    setSnapshotFrame(null);
+    setGrounding(null);
+    setGroundingError("");
     setSnapshotHistory([]);
     setLearnerFile(null);
     setLearnerUrl((previous) => {
@@ -426,6 +439,9 @@ export default function Home() {
     setCheckingSnapshot(true);
     setSnapshotError("");
     setSnapshotObservation(null);
+    setSnapshotFrame(null);
+    setGrounding(null);
+    setGroundingError("");
     const checkedAt = new Date().toISOString();
     try {
       const scale = Math.min(1, 1280 / Math.max(video.videoWidth, video.videoHeight));
@@ -444,12 +460,42 @@ export default function Home() {
       const payload = await response.json();
       if (!response.ok) throw new Error(typeof payload.detail === "string" ? payload.detail : "SHOWME could not inspect this camera frame.");
       const nextObservation = payload.observation as SnapshotObservation;
+      setSnapshotFrame({ blob: image, dataUrl: canvas.toDataURL("image/jpeg", 0.82), width: canvas.width, height: canvas.height });
+      setGrounding(null);
+      setGroundingError("");
+      setGroundingObjectId(nextObservation.object_ids.find((id) => id !== "unknown" && activeProcess.objects.some((object) => object.id === id)) ?? "");
       setSnapshotObservation(nextObservation);
       setSnapshotHistory((history) => [...history, { checkedAt, observation: nextObservation }].slice(-12));
     } catch (error) {
       setSnapshotError(error instanceof Error ? error.message : "SHOWME could not reach the local snapshot service.");
     } finally {
       setCheckingSnapshot(false);
+    }
+  }
+
+  async function groundSnapshotObject() {
+    if (!activeProcess || !snapshotFrame || !groundingObjectId) return;
+    const object = activeProcess.objects.find((item) => item.id === groundingObjectId);
+    if (!object) return;
+    setGroundingBusy(true);
+    setGroundingError("");
+    setGrounding(null);
+    try {
+      const form = new FormData();
+      form.set("image", snapshotFrame.blob, "snapshot.jpg");
+      form.set("process_json", JSON.stringify(activeProcess));
+      form.set("object_id", object.id);
+      form.set("image_width", String(snapshotFrame.width));
+      form.set("image_height", String(snapshotFrame.height));
+      const api = process.env.NEXT_PUBLIC_SHOWME_API_URL ?? "http://localhost:8000";
+      const response = await fetch(`${api}/api/skills/ground-object`, { method: "POST", body: form });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(typeof payload.detail === "string" ? payload.detail : "SAM could not locate this object in the captured frame.");
+      setGrounding(payload as SamGrounding);
+    } catch (error) {
+      setGroundingError(error instanceof Error ? error.message : "SHOWME could not reach the SAM grounding service.");
+    } finally {
+      setGroundingBusy(false);
     }
   }
 
@@ -694,7 +740,12 @@ export default function Home() {
               <div className="camera-controls">{cameraOn ? <><button className="secondary-button" onClick={stopCamera}>{recordingAttempt ? "Stop and use this clip" : "Stop camera"}</button><button className="primary-button" disabled={recordingAttempt} onClick={() => void startAttemptRecording()}>{recordingAttempt ? "Recording…" : "Record learner attempt"}<span>●</span></button></> : <><button className="secondary-button" onClick={() => void startCamera()}>Start camera <span>◎</span></button><button className="primary-button" onClick={() => void startAttemptRecording()}>Record learner attempt<span>●</span></button></>}<button className="secondary-button" disabled={!cameraOn || recordingAttempt || !activeProcess || checkingSnapshot} onClick={() => void checkCurrentState()}>{checkingSnapshot ? "Checking frame…" : "Check current state"}</button><span className="small-note">Camera stays on this device. Each explicit check sends one still frame to Muse Spark and adds a local session checkpoint.</span></div>
               {cameraError && <div className="inline-honesty">{cameraError}</div>}
               {snapshotError && <div className="inline-honesty" role="alert">{snapshotError}</div>}
-              {snapshotObservation && <section className={`snapshot-result snapshot-${snapshotObservation.assessment}`} aria-live="polite"><div className="eyebrow">ONE-FRAME CHECK · {snapshotObservation._run?.model ?? "MUSE SPARK"}</div><strong>{snapshotObservation.assessment === "consistent" ? "Matches a demonstrated state" : snapshotObservation.assessment === "possible_divergence" ? "Possible difference from the demonstrated states" : "The frame is unclear"}</strong><p>{snapshotObservation.evidence}</p><small>{snapshotObservation.state_id === "unknown" ? "No matching state identified" : activeProcess?.states.find((state) => state.id === snapshotObservation.state_id)?.description ?? snapshotObservation.state_id} · {objectLabels(snapshotObservation.object_ids)}</small>{snapshotObservation.uncertainties.length > 0 && <ul>{snapshotObservation.uncertainties.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul>}<small className="snapshot-boundary">A still frame cannot show what happened before it or confirm recovery. This is not continuous tracking.</small>{snapshotCanContinue && <button className="text-action snapshot-simulate" onClick={startSimulationFromSnapshot}>Explore remaining steps from this observed state →</button>}</section>}
+              {snapshotObservation && <section className={`snapshot-result snapshot-${snapshotObservation.assessment}`} aria-live="polite"><div className="eyebrow">ONE-FRAME CHECK · {snapshotObservation._run?.model ?? "MUSE SPARK"}</div><strong>{snapshotObservation.assessment === "consistent" ? "Matches a demonstrated state" : snapshotObservation.assessment === "possible_divergence" ? "Possible difference from the demonstrated states" : "The frame is unclear"}</strong><p>{snapshotObservation.evidence}</p><small>{snapshotObservation.state_id === "unknown" ? "No matching state identified" : activeProcess?.states.find((state) => state.id === snapshotObservation.state_id)?.description ?? snapshotObservation.state_id} · {objectLabels(snapshotObservation.object_ids)}</small>{snapshotObservation.uncertainties.length > 0 && <ul>{snapshotObservation.uncertainties.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul>}<small className="snapshot-boundary">A still frame cannot show what happened before it or confirm recovery. This is not continuous tracking.</small>
+                {snapshotFrame && activeProcess && snapshotObservation.object_ids.some((id) => id !== "unknown" && activeProcess.objects.some((object) => object.id === id)) && <div className="grounding-panel"><div className="eyebrow">OPTIONAL OBJECT GROUNDING · SAM 3.1</div><p>Ask SAM to find one object Muse mentioned in this exact frame. This extra model call uses API credits.</p><div className="grounding-controls"><select aria-label="Object to locate" value={groundingObjectId} onChange={(event) => setGroundingObjectId(event.target.value)}>{snapshotObservation.object_ids.filter((id) => id !== "unknown").map((id) => activeProcess.objects.find((object) => object.id === id)).filter((object): object is LearnedProcess["objects"][number] => Boolean(object)).map((object) => <option value={object.id} key={object.id}>{object.label}</option>)}</select><button className="secondary-button" disabled={!groundingObjectId || groundingBusy} onClick={() => void groundSnapshotObject()}>{groundingBusy ? "Locating object…" : "Locate in frame"}</button></div>
+                  {groundingError && <div className="inline-honesty" role="alert">{groundingError}</div>}
+                  {grounding && <div className="grounding-result"><div className="eyebrow">{grounding.model.toUpperCase()} · {grounding.detections.length} MATCH{grounding.detections.length === 1 ? "" : "ES"}</div>{grounding.detections.length === 0 ? <p>No matching object was segmented in this frame.</p> : <div className="grounding-preview" style={{ aspectRatio: `${grounding.image.width} / ${grounding.image.height}` }}><img src={snapshotFrame.dataUrl} alt="The captured workspace frame" /><svg viewBox={`0 0 ${grounding.image.width} ${grounding.image.height}`} role="img" aria-label={`SAM segmentation for ${grounding.concept}`}>{grounding.detections.map((detection, index) => <g key={`${detection.object_id}-${index}`}>{detection.mask && <svg x={detection.mask.bounds.left} y={detection.mask.bounds.top} width={detection.mask.bounds.right - detection.mask.bounds.left} height={detection.mask.bounds.bottom - detection.mask.bounds.top} viewBox={`0 0 ${detection.mask.width} ${detection.mask.height}`} preserveAspectRatio="none"><path d={detection.mask.path} className="grounding-mask" /></svg>}{detection.box && <rect x={detection.box.left} y={detection.box.top} width={detection.box.right - detection.box.left} height={detection.box.bottom - detection.box.top} className="grounding-box" />}</g>)}</svg></div>}{grounding.diagnostics.length > 0 && <small>Some mask records could not be parsed: {grounding.diagnostics.join(", ")}</small>}<small className="snapshot-boundary">SAM marks visual regions matching the chosen phrase; it does not verify the task state or prove why a step is wrong.</small></div>}
+                </div>}
+                {snapshotCanContinue && <button className="text-action snapshot-simulate" onClick={startSimulationFromSnapshot}>Explore remaining steps from this observed state →</button>}</section>}
               {snapshotHistory.length > 0 && <section className="snapshot-history" aria-label="Camera check history">
                 <div className="snapshot-history-heading"><div><span className="eyebrow">SESSION CHECKPOINTS</span><small>Last {snapshotHistory.length} manual frame checks</small></div><button className="text-action" onClick={() => { setSnapshotHistory([]); setSnapshotObservation(null); }}>Clear</button></div>
                 <ol className="snapshot-history-list" aria-live="polite">{[...snapshotHistory].reverse().map(({ checkedAt, observation: item }) => <li className={`snapshot-history-item history-${item.assessment}`} key={checkedAt}>

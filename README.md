@@ -74,7 +74,7 @@ Open [http://localhost:3000](http://localhost:3000). The app uses the local API 
 
 ## Meta model roles
 
-Muse Spark performs structured multimodal interpretation of demonstrations and learner observations in the current API path. SAM 3.1 and Muse Voice are considered for object grounding and narration, but they are not represented here as working integrations until implemented and verified.
+Muse Spark performs structured interpretation of demonstrations and learner observations. After an explicit single-frame check, Do can send one selected Skill Model object and that same captured still to SAM 3.1 for boxes and masks; SAM remains opt-in and is not live tracking. The integration uses Meta's official `meta-sam-parser` to decode segmentation records. Muse Voice is still a possible later addition. SAM has not yet been validated on the chosen LEGO task or against real footage from a separate learner.
 
 ## Hackathon and responsible use
 
