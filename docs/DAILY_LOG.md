@@ -138,3 +138,9 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - Added `design/mockups/03-teach-skill-model-review.png`, completing the concept set across Teach, Do, and Simulate. It shows the demonstration, candidate Skill Model, timestamped evidence, and human review of a proposed constraint.
 - Updated the mockup inventory and README to label this as generated concept art, distinct from actual app screenshots. The depicted block assembly remains illustrative and does not imply task validation.
 - Clarified that the October 27 app screenshots predate the SAM still-grounding control, avoiding the impression that they show the latest UI.
+
+### Demo-prep checkpoint — Evidence-gated three-minute cut
+
+- Reworked the demo plan to separate the final target cut from a truthful current-prototype fallback. The script no longer narrates live tracking or recovery as though they are implemented and validated.
+- Added time-coded shots, narration, independent recording/evaluation checks, and gates for Teach evidence, Do divergence, SAM grounding, recovery, and same-model simulation.
+- Corrected the app-plan mockup count: the concept set now includes Teach, Do, and Simulate; the new Teach asset is concept art, not a built screen.
