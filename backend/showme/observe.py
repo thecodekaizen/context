@@ -8,6 +8,8 @@ from typing import Any
 
 from .meta import MuseSparkClient
 
+OBSERVATION_PROMPT_VERSION = "showme-observe-v4"
+
 
 def observation_schema(process: dict[str, Any]) -> dict[str, Any]:
     state_ids = [item["id"] for item in process["states"]]
@@ -91,7 +93,13 @@ def observation_prompt(process: dict[str, Any], duration_seconds: float) -> str:
         "Return time-stamped visible events in chronological order. Mark a state 'unknown' "
         "when the video cannot support a match. Use only declared state/object IDs or "
         "'unknown'. Include evidence that a reviewer can locate in the clip. Do not "
-        "claim recovery unless the clip visibly returns to a process-consistent state. "
+        "claim recovery unless the clip visibly returns to a process-consistent state for the same affected objects "
+        "after the last divergence. Inspect visible attachment, orientation, and spatial relationships explicitly "
+        "when the process describes them; do not substitute object presence for correct placement. "
+        "If the process lacks an orientation rule, report that limitation rather than inventing one. "
+        "A detached component establishes a different physical state, but does not by itself establish a mistake: "
+        "consider partial assembly, inspection, disassembly, and recovery. Explain the observed difference "
+        "without inferring the learner intent. "
         "For every transition that has reference_evidence, return exactly one reference_check using its transition ID. "
         "Use matches_reference only with direct visual evidence; use possible_mismatch only for a visible conflict "
         "with the cited manual step, and add the same issue to divergences. Use not_shown when the step is absent "
@@ -151,14 +159,23 @@ def validate_observation(
     if status == "recovered":
         if not divergence_times:
             raise ValueError("recovery cannot be marked without a visible divergence")
-        first_divergence = min(divergence_times)
-        if not any(
-            event.get("assessment") == "consistent"
-            and event.get("state_id") in state_ids
-            and event.get("time_seconds", -1) > first_divergence
-            for event in events
-        ):
-            raise ValueError("recovery needs a later process-consistent event")
+        last_divergence = max([
+            *divergence_times,
+            *(event["time_seconds"] for event in events if event["assessment"] == "divergent"),
+        ])
+        for divergence in divergences:
+            affected = set(divergence["object_ids"]) - {"unknown"}
+            if not affected or not any(
+                event["assessment"] == "consistent"
+                and event["state_id"] in state_ids
+                and event["time_seconds"] > last_divergence
+                and affected.issubset(set(event["object_ids"]))
+                for event in events
+            ):
+                raise ValueError(
+                    "recovery needs a later process-consistent event for each affected object "
+                    "after the last divergence"
+                )
 
 
 def snapshot_schema(process: dict[str, Any]) -> dict[str, Any]:
@@ -313,10 +330,12 @@ def observe_video(
     duration_seconds: float,
 ) -> dict[str, Any]:
     has_references = any(item.get("reference_evidence") for item in process["transitions"])
-    return learner.analyze_video(
+    observation = learner.analyze_video(
         video_path,
         prompt=observation_prompt(process, duration_seconds),
         schema=observation_schema(process),
         schema_name="showme_learner_observation",
         max_output_tokens=4500 if has_references else 2500,
     )
+    observation.setdefault("_run", {})["prompt_version"] = OBSERVATION_PROMPT_VERSION
+    return observation

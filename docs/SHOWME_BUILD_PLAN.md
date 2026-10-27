@@ -80,10 +80,10 @@ See [`SHOWME_SIMULATION_DESIGN.md`](SHOWME_SIMULATION_DESIGN.md) for the scene/p
 
 ## Immediate next actions
 
-1. When the LEGO set is available, inspect the pieces and choose one short procedure with an observable ordering/orientation constraint and a reversible mistake. Do not assume the washer/bracket example fits the set.
-2. Record the matched A/B/C/D clips in [`LEGO_RECORDING_GUIDE.md`](LEGO_RECORDING_GUIDE.md). Keep the human answer key local and separate from model inputs.
-3. Run Learn on A, then Observe B/C/D independently. Review each cited frame, score false alarms/misses, and retain raw outputs before using the run to update app behavior.
-4. Try the SAM grounding control on a disclosed known object and the actual divergence frame. Count it as useful only if the mask identifies the relevant physical component/location in repeated task footage.
-5. Implement recovery guidance and task-specific simulation only against the reviewed Skill Model; label any manually authored constraint as such.
+1. Preserve the reviewed LEGO process and existing learner reports as private baselines. The latest detached-wing/restored-wing signal is documented in [the exploration report](experiments/results/showme-lego-wing-state-2026-10-27.md); it does not pass the orientation benchmark.
+2. Review whether an extracted process contains source-supported attachment and facing facts. The current saved process groups the wings and omits the required-facing relationship. Teach’s updated generic extraction instructions must be evaluated against the source before replacing this baseline.
+3. Evaluate a correct attached state and an incorrect attached orientation with the same reviewed model and prompt. Keep human labels independent and preserve raw reports with the new local export. Existing footage remains useful; do not request more clips merely to finish software fixes.
+4. Try SAM grounding only after identifying a genuine divergence frame. Evaluate mask quality independently of the semantic error claim.
+5. Continue recovery guidance and task-specific visual simulation against the reviewed Skill Model. Confirm actual requirements with disclosed source evidence; an unobserved order remains unknown. Keep simulated progress separate from observed learner progress.
 
 Until the matched clip evaluation passes, the app is an integration prototype. Continuous camera tracking is out of scope for the current validated capability; Do currently uses explicit, user-triggered snapshots and recorded clips.

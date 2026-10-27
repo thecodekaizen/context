@@ -99,6 +99,46 @@ class ObservationValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "later process-consistent"):
             validate_observation(output, self.process, 5.0)
 
+    def recovery_report(self):
+        output = copy.deepcopy(self.valid)
+        output["events"][0]["assessment"] = "divergent"
+        output["divergences"] = [{"time_seconds": 1.0, "object_ids": ["red"], "evidence": "Red is misplaced."}]
+        output["recovery_status"] = "recovered"
+        return output
+
+    def test_rejects_recovery_from_unrelated_object_progress(self):
+        output = self.recovery_report()
+        output["events"][1]["object_ids"] = ["blue"]
+        with self.assertRaisesRegex(ValueError, "each affected object"):
+            validate_observation(output, self.process, 5.0)
+
+    def test_rejects_recovery_before_a_later_difference(self):
+        output = self.recovery_report()
+        output["divergences"].append({"time_seconds": 4.5, "object_ids": ["red"], "evidence": "Red is misplaced again."})
+        with self.assertRaisesRegex(ValueError, "after the last divergence"):
+            validate_observation(output, self.process, 5.0)
+
+    def test_rejects_recovery_before_later_divergent_event(self):
+        output = self.recovery_report()
+        output["events"].append({**output["events"][0], "time_seconds": 4.5})
+        with self.assertRaisesRegex(ValueError, "after the last divergence"):
+            validate_observation(output, self.process, 5.0)
+
+    def test_rejects_recovery_when_affected_object_is_unknown(self):
+        output = self.recovery_report()
+        output["divergences"][0]["object_ids"] = ["unknown"]
+        with self.assertRaisesRegex(ValueError, "each affected object"):
+            validate_observation(output, self.process, 5.0)
+
+    def test_recovery_requires_all_reported_differences_to_be_covered(self):
+        output = self.recovery_report()
+        output["divergences"].append({"time_seconds": 1.5, "object_ids": ["blue"], "evidence": "Blue is also misplaced."})
+        output["events"][1]["object_ids"] = ["red"]
+        with self.assertRaisesRegex(ValueError, "each affected object"):
+            validate_observation(output, self.process, 5.0)
+        output["events"].append({**output["events"][1], "time_seconds": 4.5, "object_ids": ["blue"]})
+        validate_observation(output, self.process, 5.0)
+
     def test_observation_schema_limits_model_to_declared_ids(self):
         schema = observation_schema(self.process)
         state_enum = schema["properties"]["events"]["items"]["properties"]["state_id"]["enum"]

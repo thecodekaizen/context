@@ -6,6 +6,7 @@ import { SAMPLE_SKILL, type SkillModel } from "@/lib/skill-model";
 import { processToSkill } from "@/lib/process-to-skill";
 import { clearReviewedProcess, isSavedProcess, loadReviewedProcess, saveReviewedProcess, type SavedProcess } from "@/lib/skill-storage";
 import { interpretWhatIf } from "@/lib/what-if";
+import { findRecoveryEvent } from "@/lib/learner-review";
 
 type Mode = "teach" | "do" | "simulate";
 const MAX_LEARNER_VIDEO_BYTES = 100 * 1024 * 1024;
@@ -533,6 +534,23 @@ export default function Home() {
     setObserveError("");
   }
 
+  function saveLearnerReview() {
+    if (!observation || !activeProcess) return;
+    const review = {
+      format: "showme-learner-review-v1",
+      saved_at: new Date().toISOString(),
+      source: { filename: learnerFile?.name ?? null, duration_seconds: learnerVideoRef.current?.duration || null },
+      process: activeProcess,
+      observation,
+    };
+    const url = URL.createObjectURL(new Blob([JSON.stringify(review, null, 2)], { type: "application/json" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "showme-learner-review.json";
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
   async function observeLearnerVideo() {
     if (!activeProcess || !learnerFile) return;
     setObserving(true);
@@ -809,6 +827,10 @@ export default function Home() {
     action.constraints.filter((constraint) => constraint.status === "proposed").map((constraint) => ({ action: action.label, description: constraint.description })),
   );
 
+  const reportedRecoveryEvent = observation?.recovery_status === "recovered"
+    ? findRecoveryEvent(observation.events, observation.divergences, activeProcess?.states.map((state) => state.id) ?? [])
+    : undefined;
+
   return (
     <main className="app-shell">
       <aside className="sidebar">
@@ -942,17 +964,18 @@ export default function Home() {
                 {observationImportError && <div className="inline-honesty" role="alert">{observationImportError}</div>}
                 {!activeProcess && <div className="inline-honesty">Record a task video in Teach, review the proposed steps, then load the model here.</div>}
                 {observeError && <div className="inline-honesty" role="alert">{observeError}</div>}
-                  {observation && <section className="observation-results" aria-live="polite"><div className="observation-heading"><div><div className="eyebrow">VIDEO REVIEW · {observation._run?.model ?? "MUSE SPARK"}</div><h4>{observation.recovery_status.replaceAll("_", " ")}</h4></div></div>
+                  {observation && <section className="observation-results" aria-live="polite"><button className="text-action" onClick={saveLearnerReview}>Save learner review ↓</button><div className="observation-heading"><div><div className="eyebrow">VIDEO REVIEW · {observation._run?.model ?? "MUSE SPARK"}</div><h4>{observation.recovery_status === "recovered" && !reportedRecoveryEvent ? "Recovery unverified" : observation.recovery_status.replaceAll("_", " ")}</h4></div></div>
                   {(() => {
-                    const firstDivergence = observation.divergences.length ? Math.min(...observation.divergences.map((item) => item.time_seconds)) : Number.POSITIVE_INFINITY;
-                    const recoveryEvent = observation.events.find((item) => item.assessment === "consistent" && item.state_id !== "unknown" && item.time_seconds > firstDivergence);
+                    const recoveryEvent = reportedRecoveryEvent;
                     const recoveryCopy = {
                       no_divergence_observed: ["No divergence reported", "This clip did not produce a visible difference from the reviewed process."],
                       underway: ["Recovery may be underway", "The clip includes a divergence, but SHOWME did not confirm a later process-consistent state."],
-                      recovered: ["A later consistent state was observed", "Review the timestamped event before treating the recovery as confirmed."],
+                      recovered: recoveryEvent
+                        ? ["The affected parts later matched the model", "Inspect the cited frame to verify the reported recovery."]
+                        : ["Recovery evidence is incomplete", "This saved report lacks a later matching state for the affected parts after the final difference."],
                       unclear: ["Recovery is unclear", "The available frames do not support a reliable conclusion about the final state."],
                     }[observation.recovery_status];
-                    return <div className={`recovery-summary recovery-${observation.recovery_status}`}><span className="eyebrow">RECOVERY CHECK</span><strong>{recoveryCopy[0]}</strong><p>{recoveryCopy[1]}</p>{recoveryEvent && <button className="text-action" onClick={() => inspectLearnerEvidence(recoveryEvent.time_seconds)}>Review later consistent state · {recoveryEvent.time_seconds.toFixed(1)}s →</button>}</div>;
+                    return <div className={`recovery-summary recovery-${observation.recovery_status}`}><span className="eyebrow">RECOVERY CHECK</span><strong>{recoveryCopy[0]}</strong><p>{recoveryCopy[1]}</p>{recoveryEvent && <button className="text-action" onClick={() => inspectLearnerEvidence(recoveryEvent.time_seconds)}>Inspect reported recovery · {recoveryEvent.time_seconds.toFixed(1)}s →</button>}</div>;
                   })()}
                   <p className="evidence-review-hint">Select a timestamp to inspect the supporting moment. Locate sends one frame and one object phrase to SAM, using API credits; it segments pixels but does not verify the reported difference.</p>
                   {observation.reference_checks.length > 0 && <div className="reference-step-checks"><strong>Manual step review · {observation.reference_checks.length}</strong>{observation.reference_checks.map((check) => {
@@ -969,7 +992,7 @@ export default function Home() {
                 </section>}
               </div>
             </section>
-            <aside className="card guide-card"><div className="eyebrow">{activeProcess ? "REVIEWED TASK MODEL" : "SAMPLE PROCEDURE"}</div><h3>{activeProcess ? "Steps from your video." : "Example steps."}</h3>{!activeProcess && <p className="model-copy">This sample was not learned from a video. Teach a task to create your own model.</p>}<div className="guide-list">{model.actions.map((action, index) => <div className="guide-step" key={action.id}><span className={`guide-check ${state.includes(action.produces[0]) ? "done" : ""}`}>{state.includes(action.produces[0]) ? "✓" : String(index + 1).padStart(2, "0")}</span><div><strong>{action.label}</strong><small>{action.explanation}</small></div></div>)}</div><div className="guide-boundary"><span>i</span><p>Camera preview stays local. SHOWME checks a frame only when you ask and does not watch actions continuously.</p></div><button className="text-action" onClick={() => setMode("simulate")}>Test a step order →</button>{activeProcess && <button className="text-action forget-skill" onClick={forgetReviewedSkill}>Remove saved model</button>}</aside>
+            <aside className="card guide-card"><div className="eyebrow">{activeProcess ? "REVIEWED TASK MODEL" : "SAMPLE PROCEDURE"}</div><h3>{activeProcess ? "Steps from your video." : "Example steps."}</h3>{!activeProcess && <p className="model-copy">This sample was not learned from a video. Teach a task to create your own model.</p>}<div className="guide-list">{model.actions.map((action, index) => <div className="guide-step" key={action.id}><span className="guide-check">{String(index + 1).padStart(2, "0")}</span><div><strong>{action.label}</strong><small>{action.explanation}</small></div></div>)}</div><div className="guide-boundary"><span>i</span><p>Camera preview stays local. SHOWME checks a frame only when you ask and does not watch actions continuously.</p></div><button className="text-action" onClick={() => setMode("simulate")}>Test a step order →</button>{activeProcess && <button className="text-action forget-skill" onClick={forgetReviewedSkill}>Remove saved model</button>}</aside>
           </div>}
 
           <footer className="page-footer"><span>SHOWME · DEMONSTRATION → PROCESS MODEL → GUIDANCE</span><span>PROTOTYPE BUILD · 2026</span></footer>

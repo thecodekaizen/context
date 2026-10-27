@@ -11,7 +11,7 @@ import base64
 from .process import PROCESS_SCHEMA
 
 MODEL = "muse-spark-1.3"
-PROMPT_VERSION = "showme-video-analysis-v3"
+PROMPT_VERSION = "showme-video-analysis-v4"
 
 
 class MuseSparkClient:
@@ -207,7 +207,7 @@ def _learning_prompt(duration_seconds: float, narration: str = "", *, has_refere
         "for a transition not visible in the clip, and cite its PDF page and step in reference_evidence. Use up to 20 states "
         "and 18 transitions when needed to represent the reference procedure. "
     )
-    return f"""Learn a candidate process from this demonstration video. Do not assume a task or inject an expected mistake. {reference_section}{source_instruction}Give each transition a stable unique ID. Every state/action claim must be grounded in the source allowed above. Distinguish observed video facts from intended reference instructions. Record ordering_observations only for pairs whose order is visibly supported in the video, with timestamp evidence. These observations mean only “happened before in this clip”; they are not prerequisites. Do not infer dependencies or required order from the demonstration. If a potential constraint is useful to preserve, put it in candidate_constraints as an unverified hypothesis and disclose uncertainty. Do not claim hidden conditions. If the procedure or an object is ambiguous, put that uncertainty in uncertainties. Return the requested JSON schema.{narration_section}"""
+    return f"""Learn a candidate process from this demonstration video. Do not assume a task or inject an expected mistake. {reference_section}{source_instruction}Give each transition a stable unique ID. Every state/action claim must be grounded in the source allowed above. Use observable_facts and postconditions to describe visible attachment points, relative placement, and facing relationships when the video or explicit reference supports them. Describe orientation relative to the assembly or another component, not screen coordinates. Keep repeated parts distinguishable when merging them would erase a task-relevant placement or orientation difference; disclose when identity cannot be maintained. Avoid making a generic statement such as assembly complete the only final-state fact. If a relationship is not visible or legible, record it as uncertain instead of inventing it. Distinguish observed video facts from intended reference instructions. Record ordering_observations only for pairs whose order is visibly supported in the video, with timestamp evidence. These observations mean only “happened before in this clip”; they are not prerequisites. Do not infer dependencies or required order from the demonstration. If a potential constraint is useful to preserve, put it in candidate_constraints as an unverified hypothesis and disclose uncertainty. Do not claim hidden conditions. If the procedure or an object is ambiguous, put that uncertainty in uncertainties. Return the requested JSON schema.{narration_section}"""
 
 
 def _usage(response: Any) -> dict[str, int]:

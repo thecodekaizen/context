@@ -190,3 +190,13 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - Reviewed the cited frames against manual page 2. The frames support a possible temporary white-tile misplacement followed by correction. This is one promising observation, not a passed evaluation: the error labels were not preregistered and early steps remain outside the clip.
 - SAM 3.1 returned zero detections for the cockpit core and wing assembly at 42s. Visual grounding failed on this close, hand-occluded frame.
 - Verification: 80 backend tests, 15 frontend tests, and TypeScript checks pass. The controlled P0 evaluation remains incomplete.
+
+
+### Implementation checkpoint — recovery evidence and LEGO state exploration
+
+- Separate learner clips produced inconsistent/no-divergence reports and one detached-wing/restored-wing report at 14/22 seconds. This is a coarse state-change signal, not a verified orientation-mistake benchmark. See [the evidence summary](experiments/results/showme-lego-wing-state-2026-10-27.md).
+- Fixed backend recovery validation and UI evidence selection: unrelated parts and matches before a later divergence cannot justify recovery. Unknown affected parts remain unverified.
+- Updated the generic observation prompt to inspect supported relationships and distinguish physical state changes from learner intent. Baseline videos have not been rerun against the new prompt.
+- Added a local learner-review JSON export, including the matching process, to preserve results without repeated model calls. No private footage or expected-error labels are committed.
+- Found an extraction gap: both wings share one object ID and the final state lacks explicit facing facts. Teach now requests source-supported attachment/orientation relations; no fresh inference has validated that change.
+- Verification: 57 SHOWME backend tests, 21 web tests, and TypeScript checks passed. Browser local export/import tests rejected unrelated recovery evidence and restored the actual 22-second report without a paid inference. Do no longer inherits simulated completion ticks.
