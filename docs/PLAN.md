@@ -8,8 +8,8 @@ SHOWME is the active hackathon project. This file is the short entry point; the 
 - **Phase 1 — learn one demonstration:** in progress; the stock-footage P0 evaluation failed to capture the decisive action.
 - **P0 proof:** not passed. Do not claim reliable process learning, mistake detection, or recovery yet.
 - **Locked product:** Teach → Do → Simulate over one Skill Model; continue controlled evaluation and final-product implementation in parallel.
-- **Product UI:** not implemented. `apps/web/` contains the previous THREAD prototype and is not a SHOWME app.
-- **SHOWME visual mockups:** two concept boards exist; neither is validated or implemented. See [`SHOWME_APP_PLAN.md`](SHOWME_APP_PLAN.md) for their limits and the remaining screen plan.
+- **Product UI:** a local SHOWME prototype exists in `apps/web/` with Teach, Do, and Simulate over one shared Skill Model. It remains an integration prototype, not evidence of reliable physical-task understanding.
+- **SHOWME visual mockups:** three concept boards exist; they are references, not validated product screens. Current prototype screenshots are in [`design/screenshots`](../design/screenshots/README.md).
 
 ## Source of truth
 
