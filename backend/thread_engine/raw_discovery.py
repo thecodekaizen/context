@@ -7,13 +7,14 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 from typing import Any
 
 from .cli import DatasetError
 from .config import model_api_key
 
 MODEL = "muse-spark-1.3"
-PROMPT_VERSION = "raw-temporal-discovery-v1"
+PROMPT_VERSION = "raw-temporal-discovery-v2"
 MAX_OUTPUT_TOKENS = 4096
 DEFAULT_DATASET = Path(__file__).resolve().parents[2] / "datasets" / "synthetic" / "creative-evolution.json"
 CACHE_DIR = Path(os.environ.get("THREAD_CACHE_DIR", ".thread-cache"))
@@ -63,6 +64,16 @@ DISCOVERY_SCHEMA: dict[str, Any] = {
     ],
     "additionalProperties": False,
 }
+
+# A small output gate catches the specific failure observed in the preregistered
+# run. This is a wording check only; it does not establish calibrated confidence.
+TENTATIVE_LANGUAGE = re.compile(
+    r"\b(?:appears?\s+to|seems?\s+to|may|might|could|possibly|potentially|"
+    r"suggests?|tentatively|one\s+possible\s+(?:interpretation|explanation|pattern)|"
+    r"a\s+possible\s+(?:interpretation|evolution|pattern|shift)|"
+    r"consistent\s+with)\b",
+    re.IGNORECASE,
+)
 
 
 class DiscoveryValidationError(ValueError):
@@ -124,6 +135,11 @@ def validate_discovery(value: Any, archive: dict[str, Any]) -> dict[str, Any]:
         raise DiscoveryValidationError("discovery response has missing or unexpected fields")
     if not isinstance(value["candidate_finding"], str) or not isinstance(value["limitations"], str):
         raise DiscoveryValidationError("candidate_finding and limitations must be strings")
+    candidate_finding = value["candidate_finding"].strip()
+    if candidate_finding and not TENTATIVE_LANGUAGE.search(candidate_finding):
+        raise DiscoveryValidationError(
+            "candidate finding must use explicit tentative wording; no finding was emitted"
+        )
     for key in ("observations", "supporting_artifacts", "complicating_artifacts"):
         if not isinstance(value[key], list):
             raise DiscoveryValidationError(f"{key} must be a list")

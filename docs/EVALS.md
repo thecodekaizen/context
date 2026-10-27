@@ -43,3 +43,5 @@ The selected claim has traceable primary evidence and a plausible counter-readin
 ## Raw Muse discovery experiment
 
 The preregistered Neighborhood Atlas experiment used Muse Spark 1.3 Standard over raw artifacts and a decisive-evidence ablation. The complete case recovered the expected direction and the ablation withheld it, but the full result failed the preregistered language-calibration criterion because the model stated the interpretation as settled (`shifted`) rather than tentative. See [the scorecard](experiments/results/neighborhood-atlas-2026-10-27.md). Do not count the deterministic fixture baseline or this one synthetic result as real-world validation.
+
+The CLI now withholds non-empty candidates that lack explicit tentative wording. This is a deterministic lexical guard added in response to the failure; it does not change the scorecard, prove calibration, or establish that a qualified claim is factually sound. Evaluate it separately on new cases before treating it as effective.

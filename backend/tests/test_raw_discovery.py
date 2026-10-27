@@ -61,6 +61,12 @@ class CitationValidationTests(unittest.TestCase):
         result = validate_discovery(self.candidate(), self.archive)
         self.assertTrue(result["human_confirmation_required"])
 
+    def test_assertive_candidate_is_withheld(self) -> None:
+        value = self.candidate()
+        value["candidate_finding"] = "The project focus shifted from navigation to oral history."
+        with self.assertRaisesRegex(DiscoveryValidationError, "explicit tentative wording"):
+            validate_discovery(value, self.archive)
+
     def test_fabricated_artifact_is_rejected(self) -> None:
         value = self.candidate()
         value["supporting_artifacts"][1]["artifact_id"] = "artifact-999"  # type: ignore[index]

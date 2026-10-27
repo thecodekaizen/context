@@ -16,7 +16,7 @@ A second family (such as cross-project motif or a genuine contradiction) is P1 o
 2. Ask Muse to identify one possible evolution from the whole dated archive, not from hand-assigned theme labels.
 3. Return observations separately from the candidate interpretation. Require supporting and complicating artifact references.
 4. Validate response shape, artifact IDs, dates, and minimum temporal support locally. Reject fabricated references.
-5. Label every candidate as unconfirmed and preserve model-stated limitations.
+5. Withhold a non-empty finding if it lacks explicit tentative wording; label accepted candidates as unconfirmed and preserve model-stated limitations. This lexical gate catches overconfident phrasing but does not calibrate the model's uncertainty.
 6. Let the creator inspect, challenge, revise, reject, or confirm it before producing an artifact.
 
 The raw archive path is the current CLI vertical slice. Persistent temporal memories, broad retrieval, and multiple candidate families remain later work; they must not be represented as already implemented.
