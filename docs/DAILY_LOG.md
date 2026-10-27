@@ -144,3 +144,9 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - Reworked the demo plan to separate the final target cut from a truthful current-prototype fallback. The script no longer narrates live tracking or recovery as though they are implemented and validated.
 - Added time-coded shots, narration, independent recording/evaluation checks, and gates for Teach evidence, Do divergence, SAM grounding, recovery, and same-model simulation.
 - Corrected the app-plan mockup count: the concept set now includes Teach, Do, and Simulate; the new Teach asset is concept art, not a built screen.
+
+### Implementation checkpoint — Blocked simulation preview
+
+- A confirmed prerequisite still stops the deterministic simulation at its last valid state. For the explicitly illustrative stacked-mount fixture, Simulate now also shows the attempted bracket position as an amber dashed preview, with copy that says it was not applied and the modeled state is unchanged.
+- The overlay is restricted to the illustrative fixture; learned Skill Models continue to use their evidence-linked state map instead of fabricated geometry.
+- The existing screenshots predate this visual update and are labeled accordingly. This remains procedural visualization, not physical simulation.

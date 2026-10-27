@@ -65,24 +65,26 @@ function SkillTransitionMap({ state, model, activeActionId }: { state: string[];
   </div>;
 }
 
-function AssemblyView({ state, model, activeActionId }: { state: string[]; model: SkillModel; activeActionId?: string }) {
+function AssemblyView({ state, model, activeActionId, blockedActionId }: { state: string[]; model: SkillModel; activeActionId?: string; blockedActionId?: string }) {
   if (model.status === "learned-from-demonstration") return <SkillTransitionMap state={state} model={model} activeActionId={activeActionId} />;
   const washer = state.includes("washer_seated");
-  const bracket = state.includes("bracket_mounted");
+  const blockedBracketAttempt = blockedActionId === "place-bracket" && !state.includes("bracket_mounted");
+  const bracket = state.includes("bracket_mounted") || blockedBracketAttempt;
   const bolt = state.includes("fastener_inserted");
   return (
     <>
-      <div className="assembly-scene" aria-label="Illustrative assembly state">
+      <div className={`assembly-scene ${blockedBracketAttempt ? "attempt-blocked" : ""}`} aria-label={blockedBracketAttempt ? "Illustrative blocked bracket placement preview; the simulated state remains unchanged" : "Illustrative assembly state"}>
         <div className="scene-glow" />
         <div className="part-label label-bracket">SUPPORT BRACKET</div>
         <div className="part-label label-washer">SPACER RING</div>
         <div className="part-label label-base">MOUNTING BASE</div>
         <div className="assembly">
           {bolt && <div className="bolt-part"><span /></div>}
-          {bracket && <div className="bracket-part"><span /></div>}
+          {bracket && <div className={`bracket-part ${blockedBracketAttempt ? "attempted" : ""}`}><span /></div>}
           {washer && <div className="washer-part"><span /></div>}
           <div className="base-part"><span /></div>
         </div>
+        {blockedBracketAttempt && <div className="attempt-blocked-note" role="status"><strong>BLOCKED ATTEMPT · NOT APPLIED</strong><span>Bracket shown in the proposed position; the simulator state remains unchanged because the spacer is not seated.</span></div>}
         <div className="scene-caption">STATE VIEW · PROCEDURAL, NOT PHYSICS</div>
       </div>
       <SkillTransitionMap state={state} model={model} activeActionId={activeActionId} />
@@ -727,7 +729,7 @@ export default function Home() {
             <section className="card simulation-card">
               <div className="card-heading"><div><div className="eyebrow">THE SHARED SKILL MODEL</div><h2>{model.title}</h2></div><button className="text-action" onClick={resetSimulation}>↺ Reset</button></div>
               <div className="fixture-note"><span>i</span><p>{model.status === "learned-from-demonstration" ? `This reviewed model represents one observed trace. It does not prove the process is complete or that another order is impossible. Starting point: ${simulationOrigin.label}.` : "This is an illustrative fixture to make the process model tangible. It has not been learned from a demonstration yet."}</p></div>
-              <AssemblyView state={state} model={model} activeActionId={sequenceResult?.steps[sequenceCursor]?.result.action.id ?? result?.action.id} />
+              <AssemblyView state={state} model={model} activeActionId={sequenceResult?.steps[sequenceCursor]?.result.action.id ?? result?.action.id} blockedActionId={result?.accepted === false && result.kind === "blocked" && model.status === "illustrative-fixture" ? result.action.id : undefined} />
               <div className="state-summary"><div><span className="eyebrow">SIMULATED STATE</span><strong>{done.length === model.actions.length ? "Assembly complete" : `${done.length} of ${model.actions.length} actions complete`}</strong></div><span className="state-pip"><i className={result?.accepted === false ? "warning" : ""} /></span></div>
               {result && <div className={`result-callout ${result.accepted ? "success" : result.kind === "unobserved" ? "unobserved" : "blocked"}`} role="status"><span className="result-icon">{result.accepted ? "✓" : result.kind === "unobserved" ? "?" : "!"}</span><div><strong>{result.accepted ? "OBSERVED TRANSITION" : result.kind === "unobserved" ? "ALTERNATIVE NOT OBSERVED" : "CONFIRMED REQUIREMENT NOT MET"}</strong><p>{result.message}</p>{!result.accepted && <small>{result.kind === "unobserved" ? "Evidence needed: another demonstration or human confirmation." : <>Missing state: {result.missing.map((item) => item.replaceAll("_", " ")).join(", ")}<br />Constraint source: {result.blockedBy?.map((constraint) => constraint.source.replaceAll("-", " ")).join(", ")}</>}<br />{result.action.recovery}</small>}</div></div>}
               <div className="what-if"><span className="what-if-mark">?</span><div><strong>What if the steps happened in a different order?</strong><p>Reorder the remaining actions and run the alternative from {simulationOrigin.label}. SHOWME stops at the first confirmed requirement or transition the trace does not support.</p></div></div>
