@@ -116,7 +116,10 @@ def validate_observation(
     allowed_statuses = {"no_divergence_observed", "underway", "recovered", "unclear"}
     if status not in allowed_statuses:
         raise ValueError("observation has an invalid recovery_status")
-    if status == "no_divergence_observed" and divergence_times:
+    has_divergent_event = any(event.get("assessment") == "divergent" for event in events)
+    if has_divergent_event and not divergence_times:
+        raise ValueError("divergent events need at least one divergence record")
+    if status == "no_divergence_observed" and (divergence_times or has_divergent_event):
         raise ValueError("recovery status conflicts with reported divergences")
     if status == "recovered":
         if not divergence_times:

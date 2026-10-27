@@ -47,6 +47,24 @@ class ObservationValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "without a visible divergence"):
             validate_observation(output, self.process, 5.0)
 
+    def test_divergent_event_requires_a_divergence_record(self):
+        output = copy.deepcopy(self.valid)
+        output["events"][0]["assessment"] = "divergent"
+        with self.assertRaisesRegex(ValueError, "divergent events need at least one divergence record"):
+            validate_observation(output, self.process, 5.0)
+
+    def test_no_divergence_status_cannot_hide_a_divergent_event(self):
+        output = copy.deepcopy(self.valid)
+        output["events"][0]["assessment"] = "divergent"
+        output["divergences"] = [{
+            "time_seconds": 1.0,
+            "process_difference": "red block is beside rather than above blue",
+            "object_ids": ["red", "blue"],
+            "evidence": "At 1.0s the blocks are side by side.",
+        }]
+        with self.assertRaisesRegex(ValueError, "recovery status conflicts"):
+            validate_observation(output, self.process, 5.0)
+
     def test_accepts_recovery_only_after_later_consistent_state(self):
         output = copy.deepcopy(self.valid)
         output["events"][0]["assessment"] = "divergent"
