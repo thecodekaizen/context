@@ -10,6 +10,7 @@ import sys
 
 from .media import make_model_video, prepare_video
 from .meta import MuseVideoLearner
+from .observe import observe_video, validate_observation
 from .process import validate_references
 
 
@@ -39,11 +40,21 @@ def main() -> int:
     learn.add_argument("video", type=Path, help="local MP4 demonstration; uploaded for inference")
     learn.add_argument("--output", type=Path, help="new run directory")
 
+    observe = commands.add_parser(
+        "observe-video",
+        help="compare a learner MP4 with a learned process and save evidence-linked observations",
+    )
+    observe.add_argument("process", type=Path, help="learned process JSON")
+    observe.add_argument("video", type=Path, help="local learner MP4; uploaded for inference")
+    observe.add_argument("--output", type=Path, help="new run directory")
+
     args = parser.parse_args()
-    phase = "learned" if args.command == "learn-video" else "prepared"
+    phase = {"learn-video": "learned", "observe-video": "observed"}.get(args.command, "prepared")
     output = args.output or _default_output(args.video, phase)
     if args.command == "learn-video":
         return _learn_video(args.video, output)
+    if args.command == "observe-video":
+        return _observe_video(args.process, args.video, output)
 
     try:
         manifest = prepare_video(
@@ -95,6 +106,45 @@ def _learn_video(video: Path, output: Path) -> int:
         "input_tokens": usage.get("input_tokens", 0),
         "output_tokens": usage.get("output_tokens", 0),
         "validation": process.get("_validation", "not_run"),
+    }, indent=2))
+    return 0
+
+
+
+def _observe_video(process_path: Path, video: Path, output: Path) -> int:
+    try:
+        process = json.loads(process_path.read_text(encoding="utf-8"))
+        if not isinstance(process, dict):
+            raise ValueError("learned process must be a JSON object")
+        validate_references(process)
+        manifest = prepare_video(video, output / "media", sample_every_seconds=1, max_frames=24)
+        model_video = make_model_video(video, output / "model-input.mp4")
+        learner = MuseVideoLearner.from_env()
+        observation = observe_video(
+            learner,
+            output / "model-input.mp4",
+            process,
+            manifest["source"]["duration_seconds"],
+        )
+        validate_observation(observation, process, manifest["source"]["duration_seconds"])
+        observation["_run"]["source_media"] = manifest["source"]
+        observation["_run"]["model_media"] = model_video
+        observation["_run"]["process_file"] = str(process_path.expanduser().resolve())
+        (output / "observation.json").write_text(
+            json.dumps(observation, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+    except (OSError, ValueError, RuntimeError) as exc:
+        print(f"showme: {exc}", file=sys.stderr)
+        return 2
+
+    print(json.dumps({
+        "run_directory": str(output.resolve()),
+        "observation_file": str((output / "observation.json").resolve()),
+        "events": len(observation.get("events", [])),
+        "divergences": len(observation.get("divergences", [])),
+        "recovery_status": observation.get("recovery_status"),
+        "usage": observation.get("_run", {}).get("usage", {}),
     }, indent=2))
     return 0
 

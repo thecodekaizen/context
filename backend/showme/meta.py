@@ -10,7 +10,7 @@ from typing import Any
 from .process import PROCESS_SCHEMA
 
 MODEL = "muse-spark-1.3"
-PROMPT_VERSION = "showme-process-learning-v1"
+PROMPT_VERSION = "showme-video-analysis-v1"
 
 
 class MuseVideoLearner:
@@ -31,7 +31,25 @@ class MuseVideoLearner:
         return cls(api_key=api_key, model=os.environ.get("SHOWME_META_MODEL", MODEL))
 
     def learn(self, video: Path, *, duration_seconds: float) -> dict[str, Any]:
-        """Upload a demonstration, ask for a process model, then remove the remote file."""
+        """Infer a candidate process from a demonstration clip."""
+        return self.analyze_video(
+            video,
+            prompt=_learning_prompt(duration_seconds),
+            schema=PROCESS_SCHEMA,
+            schema_name="showme_process_model",
+            max_output_tokens=3000,
+        )
+
+    def analyze_video(
+        self,
+        video: Path,
+        *,
+        prompt: str,
+        schema: dict[str, Any],
+        schema_name: str,
+        max_output_tokens: int = 3000,
+    ) -> dict[str, Any]:
+        """Upload one video, request strict JSON, and clean up the remote file."""
         video = video.expanduser().resolve()
         if not video.is_file():
             raise ValueError(f"video file does not exist: {video}")
@@ -46,18 +64,18 @@ class MuseVideoLearner:
             response = self.client.responses.create(
                 model=self.model,
                 reasoning={"effort": "minimal"},
-                max_output_tokens=3000,
+                max_output_tokens=max_output_tokens,
                 text={"format": {
                     "type": "json_schema",
-                    "name": "showme_process_model",
+                    "name": schema_name,
                     "strict": True,
-                    "schema": PROCESS_SCHEMA,
+                    "schema": schema,
                 }},
                 input=[{
                     "type": "message",
                     "role": "user",
                     "content": [
-                        {"type": "input_text", "text": _learning_prompt(duration_seconds)},
+                        {"type": "input_text", "text": prompt},
                         {"type": "input_file", "file_id": uploaded.id},
                     ],
                 }],
@@ -68,21 +86,21 @@ class MuseVideoLearner:
                 raise ValueError("Muse Spark returned an incomplete response")
             output_text = response.output_text
             if not output_text:
-                raise ValueError("Muse Spark returned no structured process output")
+                raise ValueError("Muse Spark returned no structured output")
             try:
-                process = json.loads(output_text)
+                result = json.loads(output_text)
             except json.JSONDecodeError as exc:
                 raise ValueError("Muse Spark returned invalid JSON") from exc
-            if not isinstance(process, dict):
-                raise ValueError("Muse Spark process output must be a JSON object")
-            process["_run"] = {
+            if not isinstance(result, dict):
+                raise ValueError("Muse Spark output must be a JSON object")
+            result["_run"] = {
                 "model": self.model,
                 "prompt_version": PROMPT_VERSION,
                 "remote_file_id": uploaded.id,
                 "api_response_id": getattr(response, "id", None),
                 "usage": _usage(response),
             }
-            return process
+            return result
         except self._api_error as exc:
             raise RuntimeError(
                 "Meta Model API request failed. Automatic retries are disabled to avoid "

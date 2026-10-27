@@ -4,6 +4,8 @@
 **Submission:** November 4, 9:00 PM ET
 **Rule:** each phase earns the next. If a phase fails, narrow the task before adding UI.
 
+**Status (Oct 27):** Phase 0 repo footing is in place and pushed. Phase 1 preprocessing, Muse adapter, and process validation are implemented and covered by tests, but not yet run on a real demonstration. Phase 2 now has a CLI observer and deterministic output checks; its real-video behavior is unproven. No P0 capability claim has passed yet.
+
 ## Phase 0 — Repo and experiment footing (Oct 27)
 
 **Goal:** make the experiment reproducible, private by default, and easy to inspect.

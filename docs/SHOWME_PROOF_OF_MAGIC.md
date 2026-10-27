@@ -69,12 +69,14 @@ The first domain invariant is referential integrity: every transition must point
 
 The first CLI slice now has local video inspection/frame sampling and an opt-in `learn-video` command. `learn-video` creates a silent, downscaled copy, uploads one MP4, asks Muse Spark for the candidate process representation, records token counts, requests one-hour remote-file expiry, attempts deletion after inference, and writes a local run artifact. Muse Spark 1.3 audio understanding is documented as not fully supported, so the P0 visual experiment strips audio; voice evidence remains a later, separate experiment. No model call is made by video preparation alone.
 
-The next milestone is a CLI-only offline run:
+The CLI now also has an opt-in `observe-video` path. It supplies the learned process and a single learner clip to Muse Spark, constrains output state/object IDs to the learned process, checks timestamps against clip duration, and rejects unsupported recovery claims. This code path is not yet tested on real video.
 
-- Learn takes the expert clip and writes the candidate process representation and timestamped evidence references.
-- Observe takes that representation plus a learner clip and writes observations and a divergence/recovery result with inspectable evidence.
-- SAM produces at least one useful object-grounding result in the pipeline.
-- The same run can be repeated and its request, response, and cost artifacts inspected.
+Next milestone:
+
+- Run learn on a short expert clip and manually inspect the process and evidence.
+- Run observe on a correct learner clip and then a deliberate mistake, with neutral filenames and no labels in the prompts.
+- Add SAM only after Muse’s baseline state distinctions are useful; SAM provides object masks/tracks, not process reasoning.
+- Repeat runs and inspect request, response, usage, latency, and failure artifacts.
 
 No web UI, real-time camera claims, generic skill library, robot control, or physical simulation in this milestone.
 

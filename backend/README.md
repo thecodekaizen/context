@@ -28,3 +28,20 @@ by Git. A model response is a hypothesis, not ground truth; check its timestampe
 evidence before using it for learner-state evaluation. The cross-reference
 validator is an intentional first learning exercise and currently reports as
 pending until implemented.
+
+## Compare a learner attempt
+
+After reviewing the learned process artifact, compare one neutral-named learner
+clip against it:
+
+```bash
+PYTHONPATH=backend backend/.venv/bin/python -m showme observe-video \
+  .showme-runs/learned/your-run/process.json path/to/learner.mp4
+```
+
+The observer receives the learned process and one video. It never receives the
+human evaluation key. It writes timestamped events and divergence evidence to
+`.showme-runs/observed/`; local validation rejects unknown state/object IDs,
+invalid timestamps, and unsupported recovery claims. A passing validator only
+means the response is structurally grounded in the process IDs and clip time; it
+does not prove the model understood the physical task.
