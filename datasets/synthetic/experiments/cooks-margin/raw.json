@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "project": {
+    "id": "project-cooks-margin",
+    "title": "Cook's Margin"
+  },
+  "artifacts": [
+    {
+      "id": "cook-001",
+      "date": "2024-02-03",
+      "modality": "project-brief",
+      "title": "A notebook of weeknight recipes",
+      "content": "Make a small illustrated booklet of weeknight recipes I have tested at home. Each recipe should include my own margin notes about substitutions and what I would change next time."
+    },
+    {
+      "id": "cook-002",
+      "date": "2024-05-19",
+      "modality": "draft-notes",
+      "title": "Keeping the notebook personal",
+      "content": "The first edition will collect my recipes and kitchen sketches. I want the notes to feel like a cook's working notebook rather than a formal reference book."
+    },
+    {
+      "id": "cook-003",
+      "date": "2024-10-07",
+      "modality": "workshop-notes",
+      "title": "A recipe swap trial",
+      "content": "At a small dinner, four friends tried the lentil recipe and wrote substitutions in the margins. Their notes were useful, but this was a one-evening experiment, not a change to the booklet plan."
+    },
+    {
+      "id": "cook-004",
+      "date": "2025-03-22",
+      "modality": "prototype-log",
+      "title": "Testing shared recipe pages",
+      "content": "Made a prototype page with my original recipe and handwritten comments from two friends. We are testing whether the notes are readable; the collection is still my own recipe notebook."
+    },
+    {
+      "id": "cook-005",
+      "date": "2025-09-14",
+      "modality": "editorial-plan",
+      "title": "Proposal for a shared kitchen archive",
+      "content": "Proposed inviting neighbors to contribute recipes and the stories behind their variations. This is a proposal for a possible second edition; contributors have not yet been selected."
+    },
+    {
+      "id": "cook-006",
+      "date": "2026-04-02",
+      "modality": "release-notes",
+      "title": "The shared edition is out",
+      "content": "Released a second edition containing recipes contributed by twelve neighbors, with each contributor's handwritten variations and the story behind the dish. My original weeknight recipes remain in the opening section."
+    }
+  ]
+}
