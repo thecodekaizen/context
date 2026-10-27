@@ -23,6 +23,9 @@ FINDING = {
         {"source_id": "type-006", "date": "2025-08-18", "summary": "Code remains the showcase use case.", "theme": "code readability"}
     ],
     "uncertainty": ["The archive contains only a few dated summaries."],
+    "extraction_provider": "meta",
+    "extraction_model": "muse-spark-1.3",
+    "api_usage": {"requests": 1, "cache_hits": 0, "estimated_usd": 0.004, "cumulative_estimated_usd": 0.05},
 }
 
 
@@ -59,6 +62,7 @@ class ReviewFlowTests(unittest.TestCase):
             session = json.loads((Path(folder) / "sessions" / f"{state['session_id']}.json").read_text())
             self.assertEqual(session["stage"], "artifact-created")
             self.assertTrue(any("Confirm" in line for line in emitted))
+            self.assertTrue(any("Meta Model API" in line and "muse-spark-1.3" in line for line in emitted))
 
     def test_rejected_candidate_never_creates_artifact(self) -> None:
         with tempfile.TemporaryDirectory() as folder:

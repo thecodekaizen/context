@@ -62,6 +62,15 @@ def review_finding(
                 emit(str(exc))
 
     save()
+    if finding.get("extraction_provider") == "meta":
+        emit(f"\nMemory extraction: Meta Model API · {finding.get('extraction_model', 'model unknown')}")
+        usage = finding.get("api_usage", {})
+        emit(
+            f"API usage: {usage.get('requests', 0)} new request(s), "
+            f"{usage.get('cache_hits', 0)} cache hit(s), "
+            f"estimated ${usage.get('estimated_usd', 0):.6f} this run; "
+            f"${usage.get('cumulative_estimated_usd', 0):.6f} cumulative."
+        )
     emit("\nTHREAD found a candidate evolution. Review it before accepting it:")
     emit(f"\n{finding['hypothesis']}")
     emit("\nSupporting evidence:")
