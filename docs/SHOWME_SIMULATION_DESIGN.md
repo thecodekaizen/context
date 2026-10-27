@@ -25,6 +25,8 @@ Learner guidance   Interactive task simulation
 
 The model proposes semantic objects, actions, states, and relationships from the demonstration. Every learned claim carries frame/time evidence. A single demonstrated order is evidence that the order occurred; it is not, by itself, proof that the order is required. A procedural prerequisite must be supported by repeatable observations, a deliberate alternative attempt, or an explicitly disclosed task-specific constraint. Never silently promote a manually configured rule to a learned fact.
 
+At runtime, distinguish **proposed constraints** from **confirmed constraints**. A proposed precondition from one model pass remains visible for review but is not enforced. Simulate may block an action only for a confirmed constraint, and the Skill Model records its source (`expert narration`, `repeatable observation`, `human confirmation`, or an explicitly illustrative fixture) and any supporting evidence. This keeps “not seen in the demonstration” from turning into “impossible” or “unsafe.”
+
 ## Minimum shared Skill Model and task scene
 
 Keep the scene contract small and specific to the selected task:

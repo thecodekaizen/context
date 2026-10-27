@@ -1,8 +1,9 @@
-import type { SkillAction, SkillModel } from "./skill-model";
+import type { SkillAction, SkillConstraint, SkillModel } from "./skill-model";
 
 export type SimulationResult =
   | { accepted: true; state: string[]; action: SkillAction; message: string }
-  | { accepted: false; state: string[]; action: SkillAction; missing: string[]; kind: "blocked" | "unobserved"; message: string };
+  | { accepted: false; state: string[]; action: SkillAction; missing: string[]; kind: "blocked"; message: string; blockedBy: Extract<SkillConstraint, { status: "confirmed" }>[] }
+  | { accepted: false; state: string[]; action: SkillAction; missing: string[]; kind: "unobserved"; message: string };
 
 /** Apply one proposed action against preconditions from the same Skill Model. */
 export function simulateAction(
@@ -13,6 +14,22 @@ export function simulateAction(
   const action = model.actions.find((candidate) => candidate.id === actionId);
   if (!action) throw new Error(`Unknown action: ${actionId}`);
 
+  const blockedBy = action.constraints
+    .filter((constraint) => constraint.status === "confirmed")
+    .filter((constraint) => !currentState.includes(constraint.requiredState));
+  const missing = blockedBy.map((constraint) => constraint.requiredState);
+  if (missing.length > 0) {
+    return {
+      accepted: false,
+      state: currentState,
+      action,
+      missing,
+      blockedBy,
+      kind: "blocked",
+      message: `This action cannot be completed yet. ${action.explanation}`,
+    };
+  }
+
   if (model.status === "learned-from-demonstration" && action.fromState && !currentState.includes(action.fromState)) {
     return {
       accepted: false,
@@ -21,18 +38,6 @@ export function simulateAction(
       missing: [action.fromState],
       kind: "unobserved",
       message: "This action was not observed from the current state. One demonstration cannot tell us whether the alternative is impossible or unsafe.",
-    };
-  }
-
-  const missing = action.requires.filter((condition) => !currentState.includes(condition));
-  if (missing.length > 0) {
-    return {
-      accepted: false,
-      state: currentState,
-      action,
-      missing,
-      kind: "blocked",
-      message: `This action cannot be completed yet. ${action.explanation}`,
     };
   }
 

@@ -38,8 +38,14 @@ export function processToSkill(
       id: transition.id,
       label: transition.action,
       objectId: transition.object_ids[0] ?? "unknown",
-      // Free-text model preconditions are shown for review, never executed.
-      requires: [],
+      // One demonstration cannot confirm a precondition. Keep model hypotheses
+      // visible, but do not let them block a simulated transition.
+      constraints: transition.preconditions.map((description, index) => ({
+        id: `${transition.id}-hypothesis-${index + 1}`,
+        description,
+        status: "proposed" as const,
+        source: "model-hypothesis" as const,
+      })),
       produces: [transition.to_state, ...transition.postconditions],
       fromState: transition.from_state,
       toState: transition.to_state,
