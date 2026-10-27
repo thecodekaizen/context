@@ -23,6 +23,7 @@
 - [Paper Satellites raw-discovery scorecard](experiments/results/paper-satellites-2026-10-27.md): full case passed; ablation **FAILED** because Muse promoted an early two-voice pilot into a project-level evolution claim. The preregistered minimal-reasoning setting also differed from the runner's high-reasoning setting; both limitations are recorded.
 - [Cook's Margin evidence-stage scorecard](experiments/results/cooks-margin-2026-10-27.md): complete case passed with expected source-stage labels; the ablation returned invalid JSON at the output cap, so the overall result is **inconclusive**. No retry was made.
 - [Repair Margins minimal-reasoning scorecard](experiments/results/repair-margins-2026-10-27.md): ablation correctly limited the proposal/pilot; full case **failed** temporal support because the supporting list omitted early artifacts. Both calls completed below the output cap.
+- [Pocket Observatory temporal-support gate scorecard](experiments/results/pocket-observatory-2026-10-27.md): both preregistered one-time calls ended in connection errors without responses; evaluation **inconclusive**, no retries.
 
 ### Verification and spend
 
