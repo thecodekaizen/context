@@ -256,12 +256,6 @@ def discover_raw_archive(path: Path = DEFAULT_DATASET) -> dict[str, Any]:
         input=f"{PROMPT}\n\nDated archive (raw source artifacts):\n{model_input}",
     )
     output_text = response.output_text
-    try:
-        parsed = json.loads(output_text)
-    except (TypeError, json.JSONDecodeError) as exc:
-        raise DiscoveryValidationError("Muse returned invalid JSON") from exc
-    result = validate_discovery(parsed, archive)
-
     usage = getattr(response, "usage", None)
     input_tokens = int(getattr(usage, "input_tokens", 0) or 0)
     output_tokens = int(getattr(usage, "output_tokens", 0) or 0)
@@ -275,9 +269,21 @@ def discover_raw_archive(path: Path = DEFAULT_DATASET) -> dict[str, Any]:
             "estimated_usd": estimated,
             "source": "raw-discovery",
         }) + "\n")
+    try:
+        parsed = json.loads(output_text)
+    except (TypeError, json.JSONDecodeError) as exc:
+        # Cache malformed output too, so an invalid completion cannot trigger
+        # another paid call every time the same archive is retried.
+        cache[cache_key] = None
+        cache_file.parent.mkdir(parents=True, exist_ok=True)
+        cache_file.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
+        raise DiscoveryValidationError("Muse returned invalid JSON") from exc
     cache[cache_key] = parsed
     cache_file.parent.mkdir(parents=True, exist_ok=True)
     cache_file.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
+    # Persist usage and raw output before validation: invalid model results are
+    # still billable and must not cause a silent repeat charge.
+    result = validate_discovery(parsed, archive)
     return {
         **result,
         "provider": "meta",

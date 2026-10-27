@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "project": {
+    "id": "project-tiny-type-lab",
+    "title": "Tiny Type Lab"
+  },
+  "artifacts": [
+    {
+      "id": "type-001",
+      "date": "2023-02-10",
+      "modality": "project-brief",
+      "title": "A typeface for code",
+      "content": "Build an open monospace typeface for code editors and terminals. Prioritize legible punctuation and make zero, capital O, one, and lowercase l easy to distinguish."
+    },
+    {
+      "id": "type-002",
+      "date": "2023-06-03",
+      "modality": "specimen",
+      "title": "Editor glyph tests",
+      "content": "Compared braces, brackets, operators, indentation, and dense code samples in terminal and editor mockups. The main success measure is reading code comfortably for long sessions."
+    },
+    {
+      "id": "type-003",
+      "date": "2023-10-22",
+      "modality": "design-log",
+      "title": "Small-screen tuning",
+      "content": "Adjusted spacing and hinting so code remains readable at small screen sizes. The project is still focused on developer tools."
+    },
+    {
+      "id": "type-004",
+      "date": "2024-05-14",
+      "modality": "workshop-notes",
+      "title": "Printed worksheet trial",
+      "content": "Workshop participants used the typeface in printed programming worksheets. Several asked for more comfortable paragraph spacing and clearer headings, not only code glyphs."
+    },
+    {
+      "id": "type-005",
+      "date": "2025-01-09",
+      "modality": "prototype-notes",
+      "title": "Labels and long-form reading",
+      "content": "Tested a text cut for workshop handouts and small interface labels. The team is exploring a family that works across code, explanatory text, and compact labels."
+    },
+    {
+      "id": "type-006",
+      "date": "2025-08-18",
+      "modality": "release-notes",
+      "title": "Type family preview",
+      "content": "The preview includes a coding cut and a text cut for terminals, printed workbooks, and small interface labels. Code remains the project's showcase use case."
+    }
+  ]
+}

@@ -5,7 +5,10 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from types import SimpleNamespace
+from unittest.mock import patch
 
+from thread_engine import raw_discovery
 from thread_engine.raw_discovery import (
     DiscoveryValidationError,
     load_raw_archive,
@@ -91,6 +94,40 @@ class CitationValidationTests(unittest.TestCase):
         value["supporting_artifacts"] = []
         result = validate_discovery(value, self.archive)
         self.assertEqual(result["candidate_finding"], "")
+
+
+class PaidCallFailureTests(unittest.TestCase):
+    def test_rejected_paid_output_is_metered_and_cached(self) -> None:
+        invalid_finding = {
+            "observations": [],
+            "candidate_finding": "The project focus shifted from navigation to oral history.",
+            "supporting_artifacts": [
+                {"artifact_id": "artifact-001", "date": "2022-03-14", "relevance": "Early"},
+                {"artifact_id": "artifact-005", "date": "2025-02-08", "relevance": "Later"},
+            ],
+            "complicating_artifacts": [],
+            "limitations": "Synthetic archive.",
+        }
+        fake_response = SimpleNamespace(
+            output_text=json.dumps(invalid_finding),
+            usage=SimpleNamespace(input_tokens=100, output_tokens=80),
+        )
+        with tempfile.TemporaryDirectory() as folder:
+            cache_dir = Path(folder)
+            with (
+                patch.object(raw_discovery, "CACHE_DIR", cache_dir),
+                patch.object(raw_discovery, "_load_api_key", return_value="test-key"),
+                patch("openai.OpenAI") as openai_client,
+            ):
+                openai_client.return_value.responses.create.return_value = fake_response
+                for _ in range(2):
+                    with self.assertRaisesRegex(DiscoveryValidationError, "explicit tentative wording"):
+                        raw_discovery.discover_raw_archive(DATASET)
+
+                self.assertEqual(openai_client.return_value.responses.create.call_count, 1)
+                usage_lines = (cache_dir / "usage.jsonl").read_text(encoding="utf-8").splitlines()
+                self.assertEqual(len(usage_lines), 1)
+                self.assertTrue((cache_dir / "raw-discoveries.json").exists())
 
 
 if __name__ == "__main__":
