@@ -42,5 +42,12 @@ Run the controlled task with matched clips, inspect the learned process and evid
 | Recognize recovery | Not passed | Separate recovery clip; verify restored valid state |
 | SAM visual grounding | Not started | Begin only after baseline state distinctions pass |
 | Procedural what-if simulation | Not started | Begin only after P0 passes |
-| SHOWME app and visual mockups | Two concept mockups; app implementation gated | See [`SHOWME_APP_PLAN.md`](SHOWME_APP_PLAN.md); example assembly is illustrative only |
+| SHOWME app | Teach, Do, Simulate prototype implemented; physical-task capability not validated | Browser recording/upload, candidate review, snapshot/clip observation, procedural simulation; see [`SHOWME_APP_PLAN.md`](SHOWME_APP_PLAN.md) |
 | Demo video and submission | Not started | Only show capabilities that pass evaluation |
+
+### Implementation checkpoint — Teach camera recording
+
+- Added browser-camera recording to Teach alongside file upload. The browser creates a local WebM or MP4 clip and routes it through the existing video preview and learning request flow.
+- Recording does not upload automatically; selecting **Learn this skill** is the explicit model-call boundary. Camera tracks stop after recording or when the app unmounts.
+- This is capture plumbing, not evidence that SHOWME can infer a reliable skill. The matched LEGO demonstration/correct/error/recovery evaluation remains the next scientific gate.
+- Verification: all 7 web tests, TypeScript check, and production build passed. A temporary fake-camera browser run started and stopped MediaRecorder, produced a local preview, enabled **Learn this skill**, and stopped the camera without making a model request. The Teach screenshot in [`design/screenshots/`](../design/screenshots/README.md) shows the new capture control.

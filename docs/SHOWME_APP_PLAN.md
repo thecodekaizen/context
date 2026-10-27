@@ -52,6 +52,8 @@ The current mockups use an illustrative washer/bracket assembly. It is not the s
 
 ## Implementation status
 
+- Teach now supports both video upload and browser-camera recording; the recorded clip stays local until the user submits it to Muse Spark for analysis.
+
 - Product contract: locked in [`PRODUCT.md`](PRODUCT.md).
 - Concept mockups: two created; Teach concept missing.
 - SHOWME web prototype: Teach, Do, and Simulate are implemented in `apps/web/` over a shared Skill Model. Teach accepts video and requires human review before activating the candidate; model-proposed prerequisites stay unenforced unless the reviewer explicitly maps one to an observed state. Do supports explicit single-frame checks and recorded learner-clip analysis; neither is continuous state tracking. Simulate lets users reorder actions, deterministically replays the proposed sequence from the model's initial state, and steps through each resulting state, stopping on confirmed constraints or reporting an unobserved transition. Its current scene view is procedural, not geometric or physical simulation.

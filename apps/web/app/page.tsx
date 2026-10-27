@@ -63,6 +63,9 @@ export default function Home() {
   const [sequenceCursor, setSequenceCursor] = useState(-1);
   const [mediaUrl, setMediaUrl] = useState("");
   const [sourceFile, setSourceFile] = useState<File | null>(null);
+  const [demoCameraOn, setDemoCameraOn] = useState(false);
+  const [recordingDemo, setRecordingDemo] = useState(false);
+  const [demoCaptureError, setDemoCaptureError] = useState("");
   const [cameraOn, setCameraOn] = useState(false);
   const [cameraError, setCameraError] = useState("");
   const [narration, setNarration] = useState("");
@@ -81,6 +84,10 @@ export default function Home() {
   const [observeError, setObserveError] = useState("");
   const [observing, setObserving] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
+  const demoVideoRef = useRef<HTMLVideoElement>(null);
+  const demoStreamRef = useRef<MediaStream | null>(null);
+  const demoRecorderRef = useRef<MediaRecorder | null>(null);
+  const demoChunksRef = useRef<Blob[]>([]);
   const learnerInput = useRef<HTMLInputElement>(null);
   const learnerVideoRef = useRef<HTMLVideoElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -113,6 +120,17 @@ export default function Home() {
   useEffect(() => () => {
     if (learnerUrl.startsWith("blob:")) URL.revokeObjectURL(learnerUrl);
   }, [learnerUrl]);
+
+  useEffect(() => {
+    if (demoCameraOn && demoVideoRef.current && demoStreamRef.current) {
+      demoVideoRef.current.srcObject = demoStreamRef.current;
+    }
+  }, [demoCameraOn]);
+
+  useEffect(() => () => {
+    if (demoRecorderRef.current?.state === "recording") demoRecorderRef.current.stop();
+    demoStreamRef.current?.getTracks().forEach((track) => track.stop());
+  }, []);
 
   useEffect(() => {
     if (cameraOn && videoRef.current && streamRef.current) videoRef.current.srcObject = streamRef.current;
@@ -313,6 +331,64 @@ export default function Home() {
     setLearnError("");
   }
 
+  async function startDemoCamera() {
+    setDemoCaptureError("");
+    if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
+      setDemoCaptureError("Camera recording is unavailable here. Use a supported browser on localhost or HTTPS, or upload a video.");
+      return;
+    }
+    try {
+      demoStreamRef.current?.getTracks().forEach((track) => track.stop());
+      demoStreamRef.current = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } },
+        audio: false,
+      });
+      setDemoCameraOn(true);
+    } catch {
+      setDemoCaptureError("Camera permission was not granted. You can still upload a demonstration video.");
+    }
+  }
+
+  function stopDemoCamera() {
+    if (demoRecorderRef.current?.state === "recording") {
+      demoRecorderRef.current.stop();
+      return;
+    }
+    demoStreamRef.current?.getTracks().forEach((track) => track.stop());
+    demoStreamRef.current = null;
+    setDemoCameraOn(false);
+  }
+
+  function startDemoRecording() {
+    const stream = demoStreamRef.current;
+    if (!stream) return;
+    try {
+      const mimeType = ["video/webm;codecs=vp9", "video/webm;codecs=vp8", "video/mp4"]
+        .find((candidate) => MediaRecorder.isTypeSupported(candidate));
+      const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+      demoChunksRef.current = [];
+      recorder.ondataavailable = (event) => {
+        if (event.data.size > 0) demoChunksRef.current.push(event.data);
+      };
+      recorder.onstop = () => {
+        const blob = new Blob(demoChunksRef.current, { type: recorder.mimeType || "video/webm" });
+        const extension = blob.type.includes("mp4") ? "mp4" : "webm";
+        if (blob.size > 0) chooseVideo(new File([blob], `showme-demonstration.${extension}`, { type: blob.type }));
+        demoStreamRef.current?.getTracks().forEach((track) => track.stop());
+        demoStreamRef.current = null;
+        demoRecorderRef.current = null;
+        setRecordingDemo(false);
+        setDemoCameraOn(false);
+      };
+      demoRecorderRef.current = recorder;
+      recorder.start(1000);
+      setRecordingDemo(true);
+      setDemoCaptureError("");
+    } catch {
+      setDemoCaptureError("The browser could not start recording. Try uploading a video instead.");
+    }
+  }
+
   async function learnFromVideo() {
     if (!sourceFile) return;
     setLearning(true);
@@ -396,11 +472,14 @@ export default function Home() {
 
           {mode === "teach" && <div className="work-grid teach-grid">
             <section className="card capture-card"><div className="card-heading"><div><div className="eyebrow">STEP 01 · PROVIDE A DEMONSTRATION</div><h2>Show it once.</h2></div><span className="capture-icon">↥</span></div>
-              {mediaUrl ? <VideoPreview src={mediaUrl} /> : <button className="upload-drop" onClick={() => fileInput.current?.click()}><span className="upload-symbol">↥</span><strong>Choose a demonstration video</strong><small>MP4 or MOV · a short, clear view of the task</small><span className="outline-button">Browse files</span></button>}
-              <input ref={fileInput} type="file" accept="video/*" hidden onChange={(event) => chooseVideo(event.target.files?.[0])} />
+              {demoCameraOn && <div className="demo-record-stage"><video ref={demoVideoRef} className="camera-feed" autoPlay muted playsInline /><span className={`record-indicator ${recordingDemo ? "recording" : ""}`}><i /> {recordingDemo ? "RECORDING" : "CAMERA READY"}</span></div>}
+              {mediaUrl ? <VideoPreview src={mediaUrl} /> : !demoCameraOn && <button className="upload-drop" onClick={() => fileInput.current?.click()}><span className="upload-symbol">↥</span><strong>Choose a demonstration video</strong><small>MP4, MOV, M4V, or WebM · a short, clear view of the task</small><span className="outline-button">Browse files</span></button>}
+              <input ref={fileInput} type="file" accept="video/mp4,video/quicktime,video/x-m4v,video/webm" hidden onChange={(event) => chooseVideo(event.target.files?.[0])} />
               {mediaUrl && <button className="text-action replace-video" onClick={() => fileInput.current?.click()}>Choose a different video</button>}
+              <div className="demo-record-controls">{!demoCameraOn ? <button className="secondary-button" onClick={() => void startDemoCamera()}>Record with camera <span>◎</span></button> : <><button className="primary-button" disabled={recordingDemo} onClick={startDemoRecording}>{recordingDemo ? "Recording…" : "Start recording"}<span>●</span></button><button className="secondary-button" onClick={stopDemoCamera}>{recordingDemo ? "Stop and use this clip" : "Stop camera"}</button></>}<span className="small-note">Camera video stays in this tab until you choose Learn. Recorded clips are uploaded only when you submit them for analysis.</span></div>
+              {demoCaptureError && <div className="inline-honesty" role="alert">{demoCaptureError}</div>}
               <label className="field-label" htmlFor="narration">WHAT SHOULD SHOWME NOTICE?</label><textarea id="narration" value={narration} onChange={(event) => setNarration(event.target.value)} placeholder="Narrate while you demonstrate: ‘The spacer goes under the bracket…’" />
-              <div className="capture-actions"><span className="small-note">Choosing Learn uploads this clip to Meta for inference and may use API credits.</span><button className="primary-button" disabled={!sourceFile || learning} onClick={() => void learnFromVideo()}>{learning ? "Learning from video…" : "Learn this skill"}<span>→</span></button></div>
+              <div className="capture-actions"><span className="small-note">Choosing Learn uploads this clip to Meta for inference and may use API credits.</span><button className="primary-button" disabled={!sourceFile || learning || demoCameraOn} onClick={() => void learnFromVideo()}>{learning ? "Learning from video…" : "Learn this skill"}<span>→</span></button></div>
               {learnError && <div className="inline-honesty" role="alert">{learnError}</div>}
               {learnedProcess && <section className="candidate-review" aria-live="polite"><div className="candidate-heading"><div><div className="eyebrow">CANDIDATE PROCESS · HUMAN REVIEW REQUIRED</div><h3>{learnedProcess.task_summary}</h3></div><span className="candidate-state">{learnedProcess._validation === "passed" ? "STRUCTURE CHECK PASSED" : "REVIEW"}</span></div>
                 <p className="candidate-warning">This is a hypothesis from one observed trace. The observed order is not treated as a required dependency. Inspect the evidence and uncertainty before allowing this model to guide someone.</p>
