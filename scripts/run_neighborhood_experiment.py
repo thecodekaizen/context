@@ -70,6 +70,27 @@ def make_request(archive: dict[str, object]) -> dict[str, object]:
     }
 
 
+def load_api_key() -> str | None:
+    """Read the key from the environment or the local, git-ignored .env file."""
+    key = os.environ.get("MODEL_API_KEY")
+    if key:
+        return key
+    env_file = ROOT / ".env"
+    if not env_file.exists():
+        return None
+    for line in env_file.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        name, value = line.split("=", 1)
+        if name.strip() == "MODEL_API_KEY":
+            value = value.strip()
+            if len(value) >= 2 and value[0] == value[-1] and value[0] in {"'", '"'}:
+                value = value[1:-1]
+            return value or None
+    return None
+
+
 def run_case(client: object, label: str, filename: str, run_dir: Path) -> None:
     archive = load_raw_archive(filename)
     request = make_request(archive)
@@ -98,9 +119,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--case", choices=("complete", "ablation", "all"), default="all")
     args = parser.parse_args()
-    api_key = os.environ.get("MODEL_API_KEY")
+    api_key = load_api_key()
     if not api_key:
-        print("Set MODEL_API_KEY in your shell before running this experiment.", file=sys.stderr)
+        print("Set MODEL_API_KEY in the local .env file or shell before running this experiment.", file=sys.stderr)
         return 2
 
     try:
