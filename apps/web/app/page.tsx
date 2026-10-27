@@ -25,6 +25,7 @@ type SnapshotObservation = {
   _run?: { model?: string; usage?: { input_tokens?: number; output_tokens?: number } };
 };
 type SnapshotCheck = { checkedAt: string; observation: SnapshotObservation };
+type SimulationOrigin = { state: string[]; actionIds: string[]; source: "skill-start" | "camera-checkpoint"; label: string };
 
 function SkillTransitionMap({ state, model, activeActionId }: { state: string[]; model: SkillModel; activeActionId?: string }) {
   const stateNames = (model.states ?? []).filter((item) => state.includes(item.id));
@@ -95,6 +96,7 @@ export default function Home() {
   const [sequenceDraft, setSequenceDraft] = useState<string[]>(model.actions.map((action) => action.id));
   const [sequenceResult, setSequenceResult] = useState<ReturnType<typeof simulateSequence> | null>(null);
   const [sequenceCursor, setSequenceCursor] = useState(-1);
+  const [simulationOrigin, setSimulationOrigin] = useState<SimulationOrigin>({ state: SAMPLE_SKILL.initialState, actionIds: SAMPLE_SKILL.actions.map((action) => action.id), source: "skill-start", label: "Skill start" });
   const [whatIfPrompt, setWhatIfPrompt] = useState("");
   const [whatIfMessage, setWhatIfMessage] = useState("");
   const [whatIfProposal, setWhatIfProposal] = useState<Extract<ReturnType<typeof interpretWhatIf>, { ok: true }> | null>(null);
@@ -143,6 +145,7 @@ export default function Home() {
       setModel(restoredModel);
       setState(restoredModel.initialState);
       setSequenceDraft(restoredModel.actions.map((action) => action.id));
+      setSimulationOrigin({ state: restoredModel.initialState, actionIds: restoredModel.actions.map((action) => action.id), source: "skill-start", label: "Skill start" });
       setCandidateReviewed(true);
       setMode("do");
     }
@@ -197,9 +200,9 @@ export default function Home() {
   }, [cameraOn]);
 
   function resetSimulation() {
-    setState(model.initialState);
+    setState(simulationOrigin.state);
     setResult(null);
-    setSequenceDraft(model.actions.map((action) => action.id));
+    setSequenceDraft(simulationOrigin.actionIds);
     setSequenceResult(null);
     setSequenceCursor(-1);
     setWhatIfProposal(null);
@@ -222,7 +225,7 @@ export default function Home() {
   }
 
   function runSequenceWhatIf() {
-    const next = simulateSequence(model, sequenceDraft);
+    const next = simulateSequence(model, sequenceDraft, simulationOrigin.state);
     setSequenceResult(next);
     const firstStep = next.steps[0];
     setSequenceCursor(firstStep ? 0 : -1);
@@ -247,7 +250,7 @@ export default function Home() {
     setSequenceResult(null);
     setSequenceCursor(-1);
     setResult(null);
-    setState(model.initialState);
+    setState(simulationOrigin.state);
     setWhatIfProposal(null);
     setWhatIfMessage("Proposed order added below. Review it, then run the simulation.");
   }
@@ -332,6 +335,7 @@ export default function Home() {
     setModel(nextModel);
     setState(nextModel.initialState);
     setSequenceDraft(nextModel.actions.map((action) => action.id));
+    setSimulationOrigin({ state: nextModel.initialState, actionIds: nextModel.actions.map((action) => action.id), source: "skill-start", label: "Skill start" });
     setSequenceResult(null);
     setSequenceCursor(-1);
     setResult(null);
@@ -363,6 +367,7 @@ export default function Home() {
     setModel(SAMPLE_SKILL);
     setState(SAMPLE_SKILL.initialState);
     setSequenceDraft(SAMPLE_SKILL.actions.map((action) => action.id));
+    setSimulationOrigin({ state: SAMPLE_SKILL.initialState, actionIds: SAMPLE_SKILL.actions.map((action) => action.id), source: "skill-start", label: "Skill start" });
     setSequenceResult(null);
     setSequenceCursor(-1);
     setResult(null);
@@ -552,9 +557,34 @@ export default function Home() {
   }
 
   const done = completedActions(model, state);
-  const referenceSequence = simulateSequence(model, model.actions.map((action) => action.id));
+  const referenceSequence = simulateSequence(model, simulationOrigin.actionIds, simulationOrigin.state);
+  const snapshotActionIndex = snapshotObservation?.assessment === "consistent" && snapshotObservation.state_id !== "unknown"
+    ? model.actions.reduce((lastIndex, action, index) => action.toState === snapshotObservation.state_id ? index : lastIndex, -1)
+    : -1;
+  const snapshotCanContinue = Boolean(activeProcess && snapshotObservation?.assessment === "consistent" && snapshotObservation.state_id !== "unknown" && (model.initialState.includes(snapshotObservation.state_id) || (snapshotActionIndex >= 0 && snapshotActionIndex < model.actions.length - 1)));
   const labelState = (stateId: string) => model.states?.find((item) => item.id === stateId)?.label ?? stateId.replaceAll("_", " ");
   const sequenceStatusLabel = (status: ReturnType<typeof simulateSequence>["status"]) => status === "completed" ? "modeled end state reached" : status === "blocked" ? "stops at confirmed requirement" : "transition not observed";
+
+  function startSimulationFromSnapshot() {
+    if (!snapshotCanContinue || !snapshotObservation || snapshotObservation.assessment !== "consistent") return;
+    const isInitial = model.initialState.includes(snapshotObservation.state_id);
+    const remainingActions = isInitial ? model.actions : model.actions.slice(snapshotActionIndex + 1);
+    const origin: SimulationOrigin = {
+      state: [snapshotObservation.state_id],
+      actionIds: remainingActions.map((action) => action.id),
+      source: "camera-checkpoint",
+      label: `Frame check · ${labelState(snapshotObservation.state_id)}`,
+    };
+    setSimulationOrigin(origin);
+    setState(origin.state);
+    setSequenceDraft(origin.actionIds);
+    setSequenceResult(null);
+    setSequenceCursor(-1);
+    setResult(null);
+    setWhatIfProposal(null);
+    setWhatIfMessage("");
+    setMode("simulate");
+  }
   const proposedConstraints = model.actions.flatMap((action) =>
     action.constraints.filter((constraint) => constraint.status === "proposed").map((constraint) => ({ action: action.label, description: constraint.description })),
   );
@@ -593,11 +623,11 @@ export default function Home() {
           {mode === "simulate" && <div className="work-grid">
             <section className="card simulation-card">
               <div className="card-heading"><div><div className="eyebrow">THE SHARED SKILL MODEL</div><h2>{model.title}</h2></div><button className="text-action" onClick={resetSimulation}>↺ Reset</button></div>
-              <div className="fixture-note"><span>i</span><p>{model.status === "learned-from-demonstration" ? "This reviewed model represents one observed trace. It does not prove the process is complete or that another order is impossible." : "This is an illustrative fixture to make the process model tangible. It has not been learned from a demonstration yet."}</p></div>
+              <div className="fixture-note"><span>i</span><p>{model.status === "learned-from-demonstration" ? `This reviewed model represents one observed trace. It does not prove the process is complete or that another order is impossible. Starting point: ${simulationOrigin.label}.` : "This is an illustrative fixture to make the process model tangible. It has not been learned from a demonstration yet."}</p></div>
               <AssemblyView state={state} model={model} activeActionId={sequenceResult?.steps[sequenceCursor]?.result.action.id ?? result?.action.id} />
               <div className="state-summary"><div><span className="eyebrow">SIMULATED STATE</span><strong>{done.length === model.actions.length ? "Assembly complete" : `${done.length} of ${model.actions.length} actions complete`}</strong></div><span className="state-pip"><i className={result?.accepted === false ? "warning" : ""} /></span></div>
               {result && <div className={`result-callout ${result.accepted ? "success" : result.kind === "unobserved" ? "unobserved" : "blocked"}`} role="status"><span className="result-icon">{result.accepted ? "✓" : result.kind === "unobserved" ? "?" : "!"}</span><div><strong>{result.accepted ? "OBSERVED TRANSITION" : result.kind === "unobserved" ? "ALTERNATIVE NOT OBSERVED" : "CONFIRMED REQUIREMENT NOT MET"}</strong><p>{result.message}</p>{!result.accepted && <small>{result.kind === "unobserved" ? "Evidence needed: another demonstration or human confirmation." : <>Missing state: {result.missing.map((item) => item.replaceAll("_", " ")).join(", ")}<br />Constraint source: {result.blockedBy?.map((constraint) => constraint.source.replaceAll("-", " ")).join(", ")}</>}<br />{result.action.recovery}</small>}</div></div>}
-              <div className="what-if"><span className="what-if-mark">?</span><div><strong>What if the steps happened in a different order?</strong><p>Reorder the demonstrated actions and run the alternative from the skill’s initial state. SHOWME stops at the first rule or observed transition that does not support it.</p></div></div>
+              <div className="what-if"><span className="what-if-mark">?</span><div><strong>What if the steps happened in a different order?</strong><p>Reorder the remaining actions and run the alternative from {simulationOrigin.label}. SHOWME stops at the first confirmed requirement or transition the trace does not support.</p></div></div>
               <section className="natural-what-if">
                 <label className="eyebrow" htmlFor="what-if-prompt">DESCRIBE AN ALTERNATIVE</label>
                 <div className="natural-what-if-entry"><input id="what-if-prompt" value={whatIfPrompt} onChange={(event) => { setWhatIfPrompt(event.target.value); setWhatIfProposal(null); setWhatIfMessage(""); }} onKeyDown={(event) => { if (event.key === "Enter") previewNaturalWhatIf(); }} placeholder="What if ‘Mount support bracket’ comes before ‘Place spacer ring’?" /><button className="secondary-button" onClick={previewNaturalWhatIf}>Preview order</button></div>
@@ -614,7 +644,7 @@ export default function Home() {
                 <div className="eyebrow">DETERMINISTIC PROCEDURE SIMULATION</div>
                 <strong>{sequenceResult.status === "completed" ? "The proposed sequence reaches its modeled end state." : sequenceResult.status === "blocked" ? "The sequence stops at a confirmed requirement." : "The next transition was not observed from this state."}</strong>
                 <div className="state-comparison" aria-label="Reference and proposed final model states">
-                  {[{ title: model.status === "learned-from-demonstration" ? "OBSERVED REFERENCE TRACE" : "ILLUSTRATIVE REFERENCE", result: referenceSequence }, { title: "PROPOSED ALTERNATIVE", result: sequenceResult }].map(({ title, result: comparison }) => <div className="state-comparison-card" key={title}>
+                  {[{ title: model.status === "learned-from-demonstration" ? (simulationOrigin.source === "camera-checkpoint" ? "REMAINING OBSERVED TRACE" : "OBSERVED REFERENCE TRACE") : "ILLUSTRATIVE REFERENCE", result: referenceSequence }, { title: "PROPOSED ALTERNATIVE", result: sequenceResult }].map(({ title, result: comparison }) => <div className="state-comparison-card" key={title}>
                     <div><span>{title}</span><small>{sequenceStatusLabel(comparison.status)}</small></div>
                     <div className="comparison-state-list">{comparison.finalState.length ? comparison.finalState.map((stateId) => <span className="comparison-state" key={stateId}>{labelState(stateId)}</span>) : <span className="comparison-empty">No modeled states remain.</span>}</div>
                   </div>)}
@@ -664,7 +694,7 @@ export default function Home() {
               <div className="camera-controls">{cameraOn ? <><button className="secondary-button" onClick={stopCamera}>{recordingAttempt ? "Stop and use this clip" : "Stop camera"}</button><button className="primary-button" disabled={recordingAttempt} onClick={() => void startAttemptRecording()}>{recordingAttempt ? "Recording…" : "Record learner attempt"}<span>●</span></button></> : <><button className="secondary-button" onClick={() => void startCamera()}>Start camera <span>◎</span></button><button className="primary-button" onClick={() => void startAttemptRecording()}>Record learner attempt<span>●</span></button></>}<button className="secondary-button" disabled={!cameraOn || recordingAttempt || !activeProcess || checkingSnapshot} onClick={() => void checkCurrentState()}>{checkingSnapshot ? "Checking frame…" : "Check current state"}</button><span className="small-note">Camera stays on this device. Each explicit check sends one still frame to Muse Spark and adds a local session checkpoint.</span></div>
               {cameraError && <div className="inline-honesty">{cameraError}</div>}
               {snapshotError && <div className="inline-honesty" role="alert">{snapshotError}</div>}
-              {snapshotObservation && <section className={`snapshot-result snapshot-${snapshotObservation.assessment}`} aria-live="polite"><div className="eyebrow">ONE-FRAME CHECK · {snapshotObservation._run?.model ?? "MUSE SPARK"}</div><strong>{snapshotObservation.assessment === "consistent" ? "Matches a demonstrated state" : snapshotObservation.assessment === "possible_divergence" ? "Possible difference from the demonstrated states" : "The frame is unclear"}</strong><p>{snapshotObservation.evidence}</p><small>{snapshotObservation.state_id === "unknown" ? "No matching state identified" : activeProcess?.states.find((state) => state.id === snapshotObservation.state_id)?.description ?? snapshotObservation.state_id} · {objectLabels(snapshotObservation.object_ids)}</small>{snapshotObservation.uncertainties.length > 0 && <ul>{snapshotObservation.uncertainties.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul>}<small className="snapshot-boundary">A still frame cannot show what happened before it or confirm recovery. This is not continuous tracking.</small></section>}
+              {snapshotObservation && <section className={`snapshot-result snapshot-${snapshotObservation.assessment}`} aria-live="polite"><div className="eyebrow">ONE-FRAME CHECK · {snapshotObservation._run?.model ?? "MUSE SPARK"}</div><strong>{snapshotObservation.assessment === "consistent" ? "Matches a demonstrated state" : snapshotObservation.assessment === "possible_divergence" ? "Possible difference from the demonstrated states" : "The frame is unclear"}</strong><p>{snapshotObservation.evidence}</p><small>{snapshotObservation.state_id === "unknown" ? "No matching state identified" : activeProcess?.states.find((state) => state.id === snapshotObservation.state_id)?.description ?? snapshotObservation.state_id} · {objectLabels(snapshotObservation.object_ids)}</small>{snapshotObservation.uncertainties.length > 0 && <ul>{snapshotObservation.uncertainties.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul>}<small className="snapshot-boundary">A still frame cannot show what happened before it or confirm recovery. This is not continuous tracking.</small>{snapshotCanContinue && <button className="text-action snapshot-simulate" onClick={startSimulationFromSnapshot}>Explore remaining steps from this observed state →</button>}</section>}
               {snapshotHistory.length > 0 && <section className="snapshot-history" aria-label="Camera check history">
                 <div className="snapshot-history-heading"><div><span className="eyebrow">SESSION CHECKPOINTS</span><small>Last {snapshotHistory.length} manual frame checks</small></div><button className="text-action" onClick={() => { setSnapshotHistory([]); setSnapshotObservation(null); }}>Clear</button></div>
                 <ol className="snapshot-history-list" aria-live="polite">{[...snapshotHistory].reverse().map(({ checkedAt, observation: item }) => <li className={`snapshot-history-item history-${item.assessment}`} key={checkedAt}>

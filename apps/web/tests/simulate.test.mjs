@@ -157,3 +157,12 @@ test("a learned sequence that departs from its observed starting state is unknow
   assert.equal(result.status, "unobserved");
   assert.deepEqual(result.finalState, ["start"]);
 });
+
+test("a sequence can explicitly start from a recognized non-initial state", () => {
+  const model = modelFor(undefined, { fromState: "recognized-state" });
+  const result = simulateSequence(model, ["attach-part"], ["recognized-state"]);
+
+  assert.equal(result.status, "completed");
+  assert.deepEqual(result.initialState, ["recognized-state"]);
+  assert.deepEqual(result.finalState, ["attached"]);
+});

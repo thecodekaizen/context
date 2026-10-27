@@ -100,3 +100,9 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - Added a regression check for referring to a learned action through a secondary involved part. This prepares the process representation for the actual LEGO procedure without inventing its states or constraints.
 
 - The transition map now displays the names of all parts involved in each action, making multi-object relationships inspectable in the app.
+
+### Implementation checkpoint — Continue simulation from a camera checkpoint
+
+- A clearly consistent, mapped still-frame result in Do now offers an explicit entry into Simulate from that recognized state. The simulator receives only the remaining actions from the reviewed trace; it does not replay earlier steps or guess a state from unclear/divergent frames.
+- Simulate now compares the remaining reference trace against the proposed sequence from the same checkpoint. A single still remains only a model-reported state match, not continuous tracking or proof of prior action order.
+- Added a pure simulation check for starting a sequence from an explicit state.

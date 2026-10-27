@@ -60,9 +60,13 @@ export function completedActions(model: SkillModel, state: string[]) {
   return model.actions.filter((action) => action.produces.every((condition) => state.includes(condition)));
 }
 
-/** Replay a proposed order from a clean initial state, stopping at its first failure. */
-export function simulateSequence(model: SkillModel, actionIds: string[]): SequenceSimulation {
-  const initialState = [...model.initialState];
+/** Replay a proposed order from the model start or an explicitly selected state. */
+export function simulateSequence(
+  model: SkillModel,
+  actionIds: string[],
+  startingState: string[] = model.initialState,
+): SequenceSimulation {
+  const initialState = [...startingState];
   let state = [...initialState];
   const steps: SequenceSimulation["steps"] = [];
 
