@@ -25,6 +25,7 @@ The output is a candidate trace, not an executable skill yet. Its raw API schema
 - Muse returned 78,201 input tokens and 1,828 output tokens.
 - Estimated standard-mode usage at the published Muse Spark 1.3 rates is about **$0.11**; the actual credit ledger is authoritative. See [Meta Muse Spark pricing](https://dev.meta.ai/models/muse-spark).
 - The adapter requested one-hour remote-file expiry and attempted deletion after the response. The local run output, including the model response, remains under `/private/tmp/showme-img7660-learn` and is excluded from Git.
+- The actual returned process was loaded into the web conversion and simulation functions locally: seven actions replayed to the final observed state `s6`; all eight model-suggested constraints remained unconfirmed and did not block the replay.
 - One video cannot validate learner mistake detection, recovery, camera robustness, or whether the output captures a complete build. Those require a later Do evaluation.
 
 ## Next engineering action

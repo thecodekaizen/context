@@ -50,7 +50,9 @@ export function processToSkill(
           ? { id: `${transition.id}-confirmed-${index + 1}`, description, requiredState: requiredState.id, status: "confirmed" as const, source: "human-confirmation" as const }
           : { id: `${transition.id}-hypothesis-${index + 1}`, description, status: "proposed" as const, source: "model-hypothesis" as const };
       }),
-      produces: [transition.to_state, ...transition.postconditions],
+      // A demonstration gives us an observed state transition, not a set of
+      // persistent world facts. Keep the simulation state on declared state IDs.
+      produces: [transition.to_state],
       fromState: transition.from_state,
       toState: transition.to_state,
       explanation: transition.evidence.map((item) => item.observation).join(" "),

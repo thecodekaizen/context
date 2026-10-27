@@ -27,7 +27,7 @@ function savedProcess(constraintField) {
       from_state: "start",
       to_state: "start",
       [constraintField]: ["The support may need to be attached first."],
-      postconditions: [],
+      postconditions: ["The attached part is visibly seated."],
       evidence: [{ start_seconds: 1, end_seconds: 2, observation: "The part is handled." }],
     }],
     ordering_observations: [],
@@ -118,7 +118,7 @@ test("candidate constraints from one learned trace stay proposed when converted 
       from_state: "start",
       to_state: "attached",
       candidate_constraints: ["Support may need to be attached first."],
-      postconditions: [],
+      postconditions: ["The attached part is visibly seated."],
       evidence: [{ start_seconds: 1, end_seconds: 2, observation: "The part is attached." }],
     }],
   });
@@ -130,6 +130,7 @@ test("candidate constraints from one learned trace stay proposed when converted 
     status: "proposed",
     source: "model-hypothesis",
   }]);
+  assert.deepEqual(skill.actions[0].produces, ["attached"]);
   assert.equal(simulateAction(skill, ["start"], "attach-part").accepted, true);
 });
 
