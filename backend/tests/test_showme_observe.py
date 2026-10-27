@@ -124,6 +124,7 @@ class SnapshotValidationTests(unittest.TestCase):
             "object_ids": ["red", "blue"],
             "evidence": "The red block is visibly resting on the blue block.",
             "uncertainties": [],
+            "view_guidance": "",
         }
 
     def test_accepts_declared_consistent_state(self):
@@ -151,6 +152,14 @@ class SnapshotValidationTests(unittest.TestCase):
         self.assertIn("do not infer action order", prompt)
         self.assertIn("do not infer", prompt)
         self.assertIn("recovery", prompt)
+
+    def test_unclear_snapshot_requires_actionable_view_guidance(self):
+        output = copy.deepcopy(self.valid)
+        output.update({"assessment": "unclear", "state_id": "unknown", "view_guidance": "Move your hand away and show the joint from above."})
+        validate_snapshot(output, self.process)
+        output["view_guidance"] = ""
+        with self.assertRaisesRegex(ValueError, "need actionable view_guidance"):
+            validate_snapshot(output, self.process)
 
 
 if __name__ == "__main__":

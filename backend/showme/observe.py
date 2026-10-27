@@ -146,8 +146,9 @@ def snapshot_schema(process: dict[str, Any]) -> dict[str, Any]:
             "object_ids": {"type": "array", "items": {"type": "string", "enum": [*object_ids, "unknown"]}},
             "evidence": {"type": "string"},
             "uncertainties": {"type": "array", "items": {"type": "string"}},
+            "view_guidance": {"type": "string"},
         },
-        "required": ["state_id", "assessment", "object_ids", "evidence", "uncertainties"],
+        "required": ["state_id", "assessment", "object_ids", "evidence", "uncertainties", "view_guidance"],
         "additionalProperties": False,
     }
 
@@ -161,6 +162,9 @@ def snapshot_prompt(process: dict[str, Any]) -> str:
         "when a visible relationship clearly conflicts with the described states; do not treat an unobserved "
         "action order as a violation. Use unclear when the relevant parts are occluded, too small, or ambiguous. "
         "Use only declared state/object IDs or unknown. Explain the visible evidence plainly, and list uncertainty. "
+        "When unclear, give one concise, actionable camera/view adjustment that would help inspect the uncertain part "
+        "(such as move a hand away, move closer, or show the assembly from above). Otherwise return an empty "
+        "view_guidance string. Do not claim that changing the view will guarantee a conclusion. "
         f"\n\nReviewed process hypothesis:\n{json.dumps(clean_process, ensure_ascii=False, sort_keys=True)}"
     )
 
@@ -180,6 +184,11 @@ def validate_snapshot(snapshot: dict[str, Any], process: dict[str, Any]) -> None
         raise ValueError("a consistent snapshot must match a declared state")
     if not isinstance(snapshot.get("evidence"), str) or not snapshot["evidence"].strip():
         raise ValueError("snapshot needs inspectable evidence")
+    view_guidance = snapshot.get("view_guidance")
+    if not isinstance(view_guidance, str):
+        raise ValueError("snapshot view_guidance must be a string")
+    if assessment == "unclear" and not view_guidance.strip():
+        raise ValueError("unclear snapshots need actionable view_guidance")
     _validate_objects(snapshot.get("object_ids"), object_ids, "snapshot")
     uncertainties = snapshot.get("uncertainties")
     if not isinstance(uncertainties, list) or not all(isinstance(item, str) for item in uncertainties):
