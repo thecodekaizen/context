@@ -1,3 +1,5 @@
+> For current SHOWME work, read [SHOWME_DESIGN_SYSTEM.md](SHOWME_DESIGN_SYSTEM.md) and [the handoff wireframes](handoff/README.md).
+
 # THREAD visual direction (Day 0)
 
 > **Archived pre-pivot direction:** these visual choices describe THREAD, not SHOWME. SHOWME screen behavior is outlined in [`../docs/SHOWME_APP_PLAN.md`](../docs/SHOWME_APP_PLAN.md). Define a separate visual system after the P0 task and evidence vocabulary stabilize.

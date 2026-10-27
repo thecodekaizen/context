@@ -4,6 +4,10 @@
 
 Use the same model to inspect a learner’s attempt and test a different step order.
 
+## Agent handoff
+
+Start with [ANTIGRAVITY.md](ANTIGRAVITY.md) for product scope, design specifications, editable wireframes, contracts, decisions and the implementation backlog.
+
 ## The problem
 
 Videos and manuals show a procedure, but they cannot inspect the learner’s workspace. SHOWME is a prototype for turning one task video into a reviewable process model, then comparing selected frames or a separate recording with that model.
