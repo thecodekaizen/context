@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "project": {
+    "id": "project-neighborhood-atlas",
+    "title": "Neighborhood Atlas"
+  },
+  "artifacts": [
+    {
+      "id": "artifact-001",
+      "date": "2022-03-14",
+      "modality": "project-brief",
+      "title": "Neighborhood Atlas — initial brief",
+      "content": "Build a practical map that helps residents find walking routes and local services. Make crossings and step-free access easy to understand."
+    },
+    {
+      "id": "artifact-002",
+      "date": "2022-08-02",
+      "modality": "field-notes",
+      "title": "Route observations",
+      "content": "Compared walking routes, crossings, and access to nearby services. Several notes focus on making the safest path clear to a first-time visitor."
+    },
+    {
+      "id": "artifact-003",
+      "date": "2023-01-19",
+      "modality": "sketchbook",
+      "title": "Map layout sketches",
+      "content": "Early sketches prioritize route clarity and a compact neighborhood index. The page should help someone orient themselves quickly."
+    }
+  ]
+}

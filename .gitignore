@@ -9,3 +9,6 @@ out/
 .env
 .env.*
 !.env.example
+
+# Local prompts and responses from controlled model experiments
+.thread-experiment-runs/
