@@ -23,7 +23,7 @@ Two model-backed CLI paths are available for comparison: `--extract-memories` ex
 
 ## Evidence rules
 
-- An evolution claim needs at least two distinct dated source moments; a single source may support only a clearly labeled observation.
+- An evolution claim needs supporting citations from both the earlier and later portions of the dated archive; two dates confined to one period are insufficient. A single source may support only a clearly labeled observation.
 - Distinguish source content from model interpretation. Link each statement to the original item or span.
 - Do not infer sensitive traits, diagnose, or claim why the creator changed unless sources establish that explanation.
 - Preserve ambiguity, missing dates, and contradictory evidence; do not resolve them by averaging.

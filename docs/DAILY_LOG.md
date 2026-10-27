@@ -11,6 +11,7 @@
 - Raw-discovery observations now include a source-linked evidence stage (`planned`, `experimental`, `ongoing`, `released`, or `unclear`), with local validation and CLI timeline display. This makes experiment-vs-release status inspectable; it does not yet prevent unsupported direction claims.
 - Raw Muse API status and incomplete-response reasons are now reported and cached on failures; live successful calls show their response status. A cached Cook's Margin replay also caught and fixed a missing project-title display.
 - Raw discovery now uses minimal reasoning and includes reasoning effort and output-token cap in cache identity, following the Cook's Margin ablation that exhausted the cap.
+- Raw discovery's local gate now requires supporting citations from both halves of the archive. Cached Repair Margins full and ablation outputs, which cited support only from later artifacts, were both withheld without new API calls. This is a post-hoc safeguard pending a fresh preregistered evaluation.
 - All output/session data stays in ignored local folders; source artifacts in the repo are synthetic.
 
 ### Evidence
@@ -25,7 +26,7 @@
 
 ### Verification and spend
 
-- `python -m unittest discover -s backend/tests -v`: 24 passed after response-diagnostic and project-title changes.
+- `python -m unittest discover -s backend/tests -v`: 25 passed after temporal-support validation.
 - `python -m thread_engine.evaluate`: 6/6 seed cases matched.
 - Local token-based estimated spend: **$0.120499** after the Repair Margins calls; check the Meta Billing dashboard for actual usage.
 
