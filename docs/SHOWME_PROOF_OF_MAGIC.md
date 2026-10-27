@@ -10,11 +10,11 @@ Given one short expert demonstration, can the system infer a useful process repr
 
 This tests one constrained task. It does not establish general physical intelligence, arbitrary video understanding, or live-camera reliability.
 
-## Candidate task
+## Task selection criteria
 
-A large, visible three-piece peg stack: base, spacer ring, removable cap. The demonstrated order is base, then spacer, then cap. The deliberate error is cap before spacer; recovery removes the cap, adds the spacer, and replaces the cap.
+Choose one safe, visually obvious assembly task with roughly 4–6 distinct pieces and a clear ordering or orientation constraint. It must support an expert demonstration, correct learner attempt, deliberate recoverable mistake, recovery, and a useful “what if?” alternative using the same pieces and skill model.
 
-This is a candidate, not a permanent product constraint. Replace it if available objects cannot make each state visually distinct, safe, and repeatable without close-up equipment. Avoid hidden parts in the first task.
+The physical task has not yet been selected. Decide it by testing available parts for visible states, repeatability, safety, and a visually legible alternative consequence. Avoid hidden parts and specialized equipment.
 
 ## Stock footage boundary
 
@@ -53,7 +53,7 @@ A changed camera angle is a later robustness check, after the fixed-camera basel
 5. Local code validates schema, known object/state/action references, and evidence references. It does not convert an unsupported model claim into a fact.
 6. A comparison report evaluates outputs against the separate human labels.
 
-Use prerecorded clips for controlled evaluation. The final submission target includes an interactive, task-specific 3D simulation driven by the resulting process model; see [`SHOWME_SIMULATION_DESIGN.md`](SHOWME_SIMULATION_DESIGN.md). The experiment validates the perception and process representation that the final learner loop and simulator share.
+Use prerecorded clips for controlled evaluation; the final product's Do mode is camera-first and maintains the learner state through the active task. The final Simulate mode is an interactive, visual exploration of that same task's Skill Model; see [`SHOWME_SIMULATION_DESIGN.md`](SHOWME_SIMULATION_DESIGN.md). Evaluation validates the perception and process representation shared by all three product modes.
 
 ## Minimum process representation
 

@@ -4,6 +4,12 @@ This log records SHOWME work only. Earlier entries described the retired THREAD 
 
 ## Tue Oct 27 — Day 1
 
+### Product decision locked
+
+- SHOWME has exactly three app surfaces: **Teach → Do → Simulate**, all centered on one shared Skill Model. Teach creates it; Do maintains learner state and supports intervention/recovery; Simulate explores alternatives against that same model.
+- The hackathon focuses on one safe 4–6-piece assembly with an obvious ordering or orientation constraint. Arbitrary task learning and general-purpose physics are outside the claim.
+- See [`PRODUCT.md`](PRODUCT.md) for the locked definition. Product/architecture exploration is closed; remaining choices are task selection and implementation details supported by evidence.
+
 ### Current phase
 
 **Phase 1 — learn one demonstration: in progress.** The CLI can prepare a clip, call Muse Spark, validate a candidate process, observe a learner clip, and validate timestamped observations. This is infrastructure, not proof that the capability works reliably.

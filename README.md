@@ -22,23 +22,24 @@ Tutorials can show someone what happened. SHOWME aims to understand the process 
              ↓
     Grounded guidance and recovery
              ↓
-    Interactive 3D “what if?” task simulation
+    Simulate an alternative with that same Skill Model
 
 ## First proof
 
-The final submission is a constrained, interactive task experience: learn a procedure from an expert, guide another person through it, catch and recover from a mistake, and let them change an action order in a 3D procedural simulation. The experiment validates the process model behind both guidance and simulation. It does not claim general-purpose physical intelligence or universal physics simulation.
+The final product has exactly three surfaces: **Teach → Do → Simulate**, all powered by one shared Skill Model. SHOWME transforms a visual demonstration into an executable model of one physical procedure, watches another person perform it, catches and guides recovery from a mistake, then lets the learner explore a changed action and see its consequence in that same learned skill. It does not claim arbitrary task learning or general-purpose physics.
 
 See the proof-of-magic experiment in docs/SHOWME_PROOF_OF_MAGIC.md for the protocol, evidence rules, first milestone, and kill criteria.
 
 ## Build and app plans
 
 - [Active roadmap and phase status](docs/SHOWME_BUILD_PLAN.md)
+- [Locked product definition](docs/PRODUCT.md)
 - [Camera-first app and mockup plan](docs/SHOWME_APP_PLAN.md)
 - [Interactive simulation design](docs/SHOWME_SIMULATION_DESIGN.md)
 - [Current progress and evidence log](docs/DAILY_LOG.md)
 - [Target three-minute demo flow](design/flows/demo-flow.md)
 
-Two SHOWME concept mockups are in `design/mockups/`; they illustrate camera guidance/recovery and a bounded procedural what-if. They are not validated behavior or implemented screens, and the example assembly is not the selected experiment task. Product UI follows the P0 experiment gate; the older direction board and `apps/web/` are legacy THREAD work, not the SHOWME interface.
+Two SHOWME concept mockups are in `design/mockups/`; they illustrate Do guidance/recovery and Simulate. They are not implemented screens, and their example assembly is not the selected task. Teach, Do, and Simulate must all use the same Skill Model. The older direction board and `apps/web/` are legacy THREAD work, not the SHOWME interface.
 
 ## Meta models
 

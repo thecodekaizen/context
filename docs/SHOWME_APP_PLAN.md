@@ -1,55 +1,56 @@
-# SHOWME app experience and mockup plan
+# SHOWME final app plan
 
-**Status:** experience outline plus two concept mockups. These are visual proposals, not implemented or validated product screens.
-**Submission target:** a complete, task-scoped experience: learn a demonstration, guide a learner, detect and recover from divergence, and interactively simulate a changed action order. The screens remain concepts until implemented and tested.
+**Product definition is locked:** see [`PRODUCT.md`](PRODUCT.md). The app has exactly three surfaces—Teach, Do, Simulate—and one shared Skill Model. The two existing images are concepts, not implemented screens.
 
-## Experience principle
+## Product shell
 
-SHOWME is a camera-first, task-scoped guide. The learner should see the work area and the next useful intervention, not a generic chat or analytics dashboard. Every warning must be tied to visible evidence and allow the learner to inspect or correct it.
+One camera-first skill workspace. Its top-level navigation is **Teach · Do · Simulate**. All three modes operate on the currently selected Skill Model. Do not add account flows, dashboards, marketplaces, social feeds, analytics, or generic chat.
 
-The interface serves two demo moments:
+## Teach — create the Skill Model
 
-1. **Catch the mistake:** recognize progress, detect a meaningful divergence, point to the relevant object or location, and explain the observed evidence.
-2. **Show the alternative:** let the learner change an action order and watch a 3D procedural simulation show the resulting arrangement, violated prerequisite, and recovery path.
+- Record a demonstration in-app or upload a permitted video.
+- Allow natural expert narration and retain it as a separate evidence stream when supported.
+- Extract 4–6 task objects, actions, observable states, transitions, ordering/orientation relations, candidate constraints, and recovery possibilities.
+- Present the resulting Skill Model with clip/frame evidence and uncertainty. Let the expert correct object/action names or reject unsupported constraints before saving the skill.
+- Preserve model identity and provenance. Distinguish what the video directly shows from what the system infers.
 
-## Planned screen/state sequence
+## Do — execute against the Skill Model
 
-| Order | Screen or state | What the learner sees / does | Gate |
-|---|---|---|---|
-| 1 | Skill selection / setup | Choose the single learned task; see camera, privacy, and task boundaries | Minimal; no account system |
-| 2 | Learn from demonstration | Video capture/import, narration status, extracted objects/actions/states, and evidence frames; review/edit the candidate process | After learning output is inspectable |
-| 3 | Camera-first guidance | Live or prerecorded learner view, current step, acknowledged progress, and an unobtrusive observe state | After CLI recognizes correct states reliably |
-| 4 | Divergence intervention | Freeze/highlight the evidence frame, name the suspected mismatch with uncertainty, explain what differed, offer “show me” or dismiss | After a deliberate mistake is detected with evidence |
-| 5 | Recovery | Observe correction, confirm the state is back on a valid path, then resume guidance | After a separate recovery attempt passes |
-| 6 | Interactive what-if simulator | Change the order of a learned action; scrub or step through a 3D scene showing the resulting physical arrangement, blocked/incomplete state, violated prerequisite, and recovery | Core final-demo moment; must use the same task and process model as learner guidance |
-| 7 | Skill result / shareable procedure | Review the learned process and evidence; export a compact skill record if useful | Only if time remains and core demo is stable |
+- Start a camera-first task session and show the work area as the primary content.
+- Maintain a persistent estimate of current task state across observations; do not treat every frame as an unrelated caption.
+- Acknowledge correctly completed actions and present the next relevant guidance.
+- On meaningful divergence, pause/flag the task, highlight the grounded object or location, cite the visual evidence, and explain the issue without overstating certainty.
+- Offer the applicable recovery path, then continue observing until the learner's state is back on a valid path.
+- Keep pause, resume, dismiss/intentional-action, and camera state visible.
 
-These are states in one guided task flow, not a commitment to seven separate routes or a broad product surface. For the hackathon, a single focused camera/workspace screen with progressive overlays may serve screens 3–6.
+## Simulate — explore the same Skill Model
 
-## Mockups to create
+- Make this mode available from an active skill at any point; return to Do without losing the skill or task context.
+- Accept a bounded natural-language “what if?” or let the user edit an action sequence directly.
+- Translate the request into a proposed alternative sequence; show it for review before applying it.
+- Run the alternative against the same Skill Model and visually animate the resulting task state.
+- Explain the physical consequence, the specific violated constraint, the evidence/basis for that constraint, and a recovery path.
+- Let the user compare the demonstrated valid sequence with the alternative and reset or return to the learner's actual camera state.
 
-Create in this order, after the physical task and evidence vocabulary are stable:
+## Final demo flow
 
-1. **Done — concept:** [`01-guided-task-states.png`](../design/mockups/01-guided-task-states.png) — normal progress, a missing-washer warning, and recovery, shown as three states of one camera-first workspace.
-2. **Done — concept:** [`02-what-if-procedure-preview.png`](../design/mockups/02-what-if-procedure-preview.png) — alternative step order, predicted process state, and recovery suggestion.
-3. **Still to design:** learn/review a demonstration, with extracted steps, uncertain observations, and inspectable evidence frames.
+1. **Teach:** expert demonstrates a single assembly task once, with optional narration; SHOWME creates an evidence-linked Skill Model.
+2. **Do:** learner works from a different arrangement or reasonable viewpoint while SHOWME tracks state.
+3. **Intervene:** learner intentionally makes a visible mistake; SHOWME highlights and explains it.
+4. **Recover:** learner corrects the task; SHOWME recognizes the restored state and resumes.
+5. **Simulate:** learner asks “What if I attach this first?”; SHOWME applies it to the same Skill Model and visually explains the result and recovery.
 
-The generated concept mockups use a small motor-mount/washer example only to make the interaction legible. **This is not the selected task or an assertion that SHOWME can detect a missing washer.** Replace the example and revise the screens after the controlled task and evidence vocabulary are chosen. The final demo should implement the what-if screen as a real, interactive 3D procedural simulation driven by the learned process representation, not as a static preview. Its physical fidelity is limited to the chosen task's geometry and state transitions; it does not claim general-purpose physics.
+## Visual/mockup inventory
 
-For each mockup, record the task state shown, the evidence backing each claim, interaction behavior, and any capability still represented as a prototype. Use SHOWME naming and content. The existing `00-thread-direction-board.png` is archived THREAD exploration, not a SHOWME design reference.
+- [`01-guided-task-states.png`](../design/mockups/01-guided-task-states.png): concept states for Do (normal guidance, divergence, recovery).
+- [`02-what-if-procedure-preview.png`](../design/mockups/02-what-if-procedure-preview.png): concept for Simulate (alternate sequence and consequence).
+- **Teach mockup still needed:** demonstration capture/narration and evidence-linked Skill Model review.
 
-## Visual behavior requirements
+The current mockups use an illustrative washer/bracket assembly. It is not the selected task or evidence that mistake detection works. Once the 4–6-piece task is selected, make Teach, Do, and Simulate use that same task vocabulary and visual assets.
 
-- Keep the physical scene dominant; guidance should not obscure hands, objects, or the relevant workspace.
-- Distinguish **observed**, **inferred**, and **uncertain** information in plain language.
-- Ground warnings in a frame/time and, when available, a segmentation mask. Never imply SAM establishes procedural correctness.
-- Make pause, dismiss, and “I did that intentionally” available during interventions.
-- Show step status as observed progress, not as a rigid coordinate/timestamp script.
-- Label the simulation's scope clearly: it is an interactive physical-state simulation for the selected task, not a general-purpose physics engine.
-- Include a visible camera/privacy state and avoid recording beyond the chosen task session.
+## Implementation status
 
-## Current UI inventory
-
-- `apps/web/` is a pre-pivot THREAD prototype. It is not the SHOWME app and should not be shown as hackathon product work.
-- Both SHOWME mockups are concepts only; no SHOWME screen has been implemented.
-- The proof-of-magic CLI and evaluation establish the perception/process model that the complete app and simulator will use.
+- Product contract: locked in [`PRODUCT.md`](PRODUCT.md).
+- Concept mockups: two created; Teach concept missing.
+- SHOWME web application: not implemented; `apps/web/` is legacy THREAD UI.
+- Current technical evidence and build sequence: [`SHOWME_BUILD_PLAN.md`](SHOWME_BUILD_PLAN.md) and [`SHOWME_PROOF_OF_MAGIC.md`](SHOWME_PROOF_OF_MAGIC.md).
