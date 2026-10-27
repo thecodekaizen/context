@@ -306,6 +306,17 @@ export default function Home() {
                 {!activeProcess && <div className="inline-honesty">Teach a demonstration and load its reviewed Skill Model before observing a learner clip.</div>}
                 {observeError && <div className="inline-honesty" role="alert">{observeError}</div>}
                 {observation && <section className="observation-results" aria-live="polite"><div className="observation-heading"><div><div className="eyebrow">MODEL OBSERVATION · {observation._run?.model ?? "MUSE SPARK"}</div><h4>{observation.recovery_status.replaceAll("_", " ")}</h4></div><span>{observation._run?.usage?.input_tokens ?? 0} INPUT TOKENS</span></div>
+                  {(() => {
+                    const firstDivergence = observation.divergences.length ? Math.min(...observation.divergences.map((item) => item.time_seconds)) : Number.POSITIVE_INFINITY;
+                    const recoveryEvent = observation.events.find((item) => item.assessment === "consistent" && item.state_id !== "unknown" && item.time_seconds > firstDivergence);
+                    const recoveryCopy = {
+                      no_divergence_observed: ["No divergence reported", "This clip did not produce a visible difference from the reviewed process."],
+                      underway: ["Recovery may be underway", "The clip includes a divergence, but SHOWME did not confirm a later process-consistent state."],
+                      recovered: ["A later consistent state was observed", "Review the timestamped event before treating the recovery as confirmed."],
+                      unclear: ["Recovery is unclear", "The available frames do not support a reliable conclusion about the final state."],
+                    }[observation.recovery_status];
+                    return <div className={`recovery-summary recovery-${observation.recovery_status}`}><span className="eyebrow">RECOVERY CHECK</span><strong>{recoveryCopy[0]}</strong><p>{recoveryCopy[1]}</p>{recoveryEvent && <button className="text-action" onClick={() => inspectLearnerEvidence(recoveryEvent.time_seconds)}>Review later consistent state · {recoveryEvent.time_seconds.toFixed(1)}s →</button>}</div>;
+                  })()}
                   <p className="evidence-review-hint">Select a timestamp to inspect the supporting moment in the learner clip. Object names are model references, not segmentation overlays.</p>
                   {observation.divergences.length > 0 && <div className="divergence-list"><strong>Differences to inspect · {observation.divergences.length}</strong>{observation.divergences.map((item, index) => <button className="evidence-row" key={`${item.time_seconds}-${index}`} onClick={() => inspectLearnerEvidence(item.time_seconds)}><span>{item.time_seconds.toFixed(1)}s</span><div><b>{item.process_difference}</b><p>{item.evidence}</p><small>{objectLabels(item.object_ids)}</small></div></button>)}</div>}
                   <div className="observed-events"><strong>Observed events · {observation.events.length}</strong>{observation.events.map((item, index) => <button className="evidence-event" key={`${item.time_seconds}-${index}`} onClick={() => inspectLearnerEvidence(item.time_seconds)}><span>{item.time_seconds.toFixed(1)}s</span><i className={`event-dot ${item.assessment}`} /><div><b>{item.action}</b><p>{item.evidence}</p><small>{objectLabels(item.object_ids)}</small></div><small>{item.assessment.toUpperCase()}</small></button>)}</div>
