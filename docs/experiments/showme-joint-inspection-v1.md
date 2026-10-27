@@ -30,3 +30,9 @@ Label it “Inspect this joint”, present both source and learner evidence, and
 83 SHOWME backend checks pass, including paired-image MIME/ordering, HTTP forwarding, unknown-transition rejection before inference, declared-object enforcement, conflict/match consistency, uncertainty guidance and image provenance. Controlled responses establish software behavior only. No Meta request was made for this feature.
 
 The prompt uses the existing Responses image-content adapter pattern. Multi-image live provider behavior, visual accuracy, latency and cost remain to be measured before demo claims.
+
+## Runnable experiment and first live results
+
+Use `python -m showme inspect-joint PROCESS SOURCE_IMAGE LEARNER_IMAGE --transition ID --output NEW_DIRECTORY`. This is an explicit paid action. Exact prompt, selected input hashes, process and raw output are retained privately even if semantic guards reject the response. Existing run directories are not overwritten; no automatic retry occurs.
+
+Three approved comparisons have now run, all unclear due to hidden joint contact. See `results/showme-joint-images-2026-10-28.md`. Provider multi-image request behavior worked for these calls. No orientation detection claim follows. Combined backend checks: 95 passed before the metadata-only process fingerprint addition.

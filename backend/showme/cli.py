@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
+import time
 from datetime import datetime, timezone
 import json
 from pathlib import Path
@@ -13,6 +15,7 @@ from .meta import MuseSparkClient
 from .evaluation import score_holoassist_observation
 from .observe import observation_prompt, observe_video, validate_observation
 from .process import validate_references
+from .focus import inspection_prompt, inspection_schema, validate_inspection
 
 
 def _default_output(video: Path, phase: str) -> Path:
@@ -55,6 +58,13 @@ def main() -> int:
     observe.add_argument("--reference-pdf", type=Path, help="optional task instructions PDF; uploaded with learner clip")
     observe.add_argument("--output", type=Path, help="new run directory")
 
+    joint = commands.add_parser("inspect-joint", help="compare explicitly selected source/learner images using Meta; paid request")
+    joint.add_argument("process", type=Path)
+    joint.add_argument("reference_image", type=Path)
+    joint.add_argument("learner_image", type=Path)
+    joint.add_argument("--transition", required=True)
+    joint.add_argument("--output", type=Path)
+
     score = commands.add_parser(
         "score-holoassist",
         help="score local divergence timestamps against HoloAssist mistake annotations",
@@ -66,6 +76,9 @@ def main() -> int:
     args = parser.parse_args()
     if args.command == "score-holoassist":
         return _score_holoassist(args.annotation, args.observation, args.tolerance)
+    if args.command == "inspect-joint":
+        output = args.output or _default_output(args.learner_image, "joint-inspection")
+        return _inspect_joint(args.process, args.reference_image, args.learner_image, args.transition, output)
     phase = {"learn-video": "learned", "observe-video": "observed"}.get(args.command, "prepared")
     output = args.output or _default_output(args.video, phase)
     if args.command == "inspect-frames":
@@ -206,3 +219,40 @@ def _score_holoassist(annotation_path: Path, observation_path: Path, tolerance: 
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+def _inspect_joint(process_path: Path, reference: Path, learner: Path, transition: str, output: Path) -> int:
+    """Preserve raw evidence and failures; never retry or overwrite an old run."""
+    started = time.monotonic()
+    created = False
+    try:
+        process = json.loads(process_path.read_text())
+        validate_references(process)
+        prompt = inspection_prompt(process, transition)
+        inputs = []
+        for role, path in [("reference", reference), ("learner", learner)]:
+            if not path.is_file() or path.suffix.lower() not in {".jpg", ".jpeg", ".png"}:
+                raise ValueError("select existing JPEG or PNG evidence")
+            inputs.append({"role": role, "path": str(path.resolve()), "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
+        output.mkdir(parents=True, exist_ok=False)
+        created = True
+        (output / "prompt.txt").write_text(prompt)
+        (output / "process.json").write_text(json.dumps(process, indent=2))
+        (output / "inputs.json").write_text(json.dumps(inputs, indent=2))
+        result = MuseSparkClient.from_env().analyze_images([reference, learner], prompt=prompt,
+            schema=inspection_schema(), schema_name="showme_joint_inspection")
+        (output / "inspection-unvalidated.json").write_text(json.dumps(result, indent=2))
+        validate_inspection(result, process, transition)
+        from .focus import PROMPT_VERSION
+        from .session import process_fingerprint
+        result.setdefault("_run", {}).update({"prompt_version": PROMPT_VERSION, "transition_id": transition,
+            "process_sha256": process_fingerprint(process),
+            "evidence_images": inputs, "elapsed_seconds": round(time.monotonic()-started, 2)})
+        (output / "inspection.json").write_text(json.dumps(result, indent=2))
+        print(json.dumps({"output": str(output), "assessment": result["assessment"], "seconds": result["_run"]["elapsed_seconds"]}))
+        return 0
+    except (OSError, ValueError, RuntimeError) as exc:
+        if created:
+            (output / "failure.json").write_text(json.dumps({"error": str(exc), "seconds": round(time.monotonic()-started, 2)}))
+        print(f"showme: {exc}", file=sys.stderr)
+        return 2
