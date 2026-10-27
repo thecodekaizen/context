@@ -150,3 +150,8 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - A confirmed prerequisite still stops the deterministic simulation at its last valid state. For the explicitly illustrative stacked-mount fixture, Simulate now also shows the attempted bracket position as an amber dashed preview, with copy that says it was not applied and the modeled state is unchanged.
 - The overlay is restricted to the illustrative fixture; learned Skill Models continue to use their evidence-linked state map instead of fabricated geometry.
 - The existing screenshots predate this visual update and are labeled accordingly. This remains procedural visualization, not physical simulation.
+
+### Demo-prep checkpoint — Current production screenshots
+
+- Re-captured Teach, Do, Simulate, and the blocked what-if from the production build at desktop width, replacing the older README captures. The blocked screen shows the dashed attempted bracket plus the unchanged valid state.
+- Visually checked the output and documented that Do is shown with camera off and no SAM result; SAM requires an explicit selected-frame model call. Screenshots remain illustrations of app flows, not evidence of task accuracy.

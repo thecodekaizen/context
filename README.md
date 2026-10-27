@@ -20,7 +20,7 @@ The Skill Model is the product: Teach creates it; Do executes against it; Simula
 
 ## Current app screenshots
 
-These are screenshots of the local app captured October 27, 2026. They predate the optional SAM still-frame grounding control and blocked-attempt visual preview. Simulate uses an explicitly illustrative stacked-mount fixture. Do offers camera preview, one-frame checks, recorded-clip comparison, and optional single-frame grounding; it does not track continuously. The images show prototype flows, not proof that physical mistakes are reliably detected.
+These screenshots were captured from the production build on October 27, 2026 at 1440 px width. They include the current blocked-attempt preview. Simulate uses an explicitly illustrative stacked-mount fixture. The Do screenshot shows the camera-off starting view; SAM grounding appears only after an explicit model call on a selected frame. The images show prototype flows, not proof that physical mistakes are reliably detected.
 
 | Teach | Do |
 |---|---|
