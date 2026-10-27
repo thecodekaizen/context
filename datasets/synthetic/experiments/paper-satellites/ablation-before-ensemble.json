@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "project": {
+    "id": "project-paper-satellites",
+    "title": "Paper Satellites"
+  },
+  "artifacts": [
+    {
+      "id": "paper-001",
+      "date": "2024-01-12",
+      "modality": "project-brief",
+      "title": "Small stories about night-shift objects",
+      "content": "Write a series of short printed fiction pieces told from the point of view of objects left behind in all-night diners. Each story should stand alone and fit on two pages."
+    },
+    {
+      "id": "paper-002",
+      "date": "2024-04-08",
+      "modality": "draft-notes",
+      "title": "Keep the stories on the page",
+      "content": "The first booklet is a collection of written scenes with small black-and-white illustrations. A reader should be able to open any page and finish one object's story in a few minutes."
+    },
+    {
+      "id": "paper-003",
+      "date": "2024-09-21",
+      "modality": "rehearsal-notes",
+      "title": "Trying the scenes aloud",
+      "content": "Read three scenes aloud at the studio. Pauses and changes in narrator made some objects feel as if they were answering one another. This was a reading test; the next print booklet is still planned."
+    },
+    {
+      "id": "paper-004",
+      "date": "2025-02-17",
+      "modality": "production-log",
+      "title": "A two-voice pilot",
+      "content": "Recorded a short pilot in which the receipt and the coffee cup tell connected versions of one night. The illustrated text version will remain available alongside the audio experiment."
+    }
+  ]
+}
