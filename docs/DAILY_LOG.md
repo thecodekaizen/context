@@ -132,3 +132,9 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - Updated Simulate's process-model description to distinguish the sample fixture from a reviewed demonstration model. The reviewed state now explains its evidence and hypothesis caveats instead of saying Teach will replace the fixture later.
 - Corrected the locked product document's implementation status to match the existing SAM still-image integration while retaining the explicit limitation that task grounding is not validated.
 - Verification: web unit tests, TypeScript check, and production build passed.
+
+### Design checkpoint — Teach concept mockup
+
+- Added `design/mockups/03-teach-skill-model-review.png`, completing the concept set across Teach, Do, and Simulate. It shows the demonstration, candidate Skill Model, timestamped evidence, and human review of a proposed constraint.
+- Updated the mockup inventory and README to label this as generated concept art, distinct from actual app screenshots. The depicted block assembly remains illustrative and does not imply task validation.
+- Clarified that the October 27 app screenshots predate the SAM still-grounding control, avoiding the impression that they show the latest UI.

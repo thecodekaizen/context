@@ -20,7 +20,7 @@ The Skill Model is the product: Teach creates it; Do executes against it; Simula
 
 ## Current app screenshots
 
-These are screenshots of the **current local app**, captured October 27, 2026. Simulate uses an explicitly illustrative stacked-mount fixture. Do currently offers camera preview, one-frame checks, and recorded-clip comparison; it does not yet track continuously. These screenshots show the interface and working prototype flows, not proof that physical mistakes are reliably detected.
+These are screenshots of the local app captured October 27, 2026. They predate the optional SAM still-frame grounding control added later that day. Simulate uses an explicitly illustrative stacked-mount fixture. Do offers camera preview, one-frame checks, recorded-clip comparison, and optional single-frame grounding; it does not track continuously. The images show the prototype flows, not proof that physical mistakes are reliably detected.
 
 | Teach | Do |
 |---|---|
@@ -29,6 +29,14 @@ These are screenshots of the **current local app**, captured October 27, 2026. S
 | Simulate | What-if result |
 |---|---|
 | ![Simulate: reorder the procedure](design/screenshots/03-simulate.jpg) | ![What-if simulation stops at a confirmed missing prerequisite](design/screenshots/04-simulate-what-if.jpg) |
+
+## Product design concepts
+
+These are design references, not screenshots of implemented screens or proof that physical-task understanding works. The depicted block assembly is illustrative; the evaluation task will be selected after inspecting the LEGO set.
+
+![Teach concept: demonstration review and candidate Skill Model](design/mockups/03-teach-skill-model-review.png)
+
+See the [full mockup inventory](design/mockups/README.md) for the Do and Simulate concepts and their limitations.
 
 ## What works now
 

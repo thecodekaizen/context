@@ -1,6 +1,6 @@
 # SHOWME final app plan
 
-**Product definition is locked:** see [`PRODUCT.md`](PRODUCT.md). The app has exactly three surfaces—Teach, Do, Simulate—and one shared Skill Model. The two existing images are concepts, not implemented screens.
+**Product definition is locked:** see [`PRODUCT.md`](PRODUCT.md). The app has exactly three surfaces—Teach, Do, Simulate—and one shared Skill Model. Concept images are design references, not implemented screens or capability evidence.
 
 ## Product shell
 
@@ -44,7 +44,7 @@ One camera-first skill workspace. Its top-level navigation is **Teach · Do · S
 
 - [`01-guided-task-states.png`](../design/mockups/01-guided-task-states.png): concept states for Do (normal guidance, divergence, recovery).
 - [`02-what-if-procedure-preview.png`](../design/mockups/02-what-if-procedure-preview.png): concept for Simulate (alternate sequence and consequence).
-- **Teach mockup still needed:** demonstration capture/narration and evidence-linked Skill Model review.
+- [`03-teach-skill-model-review.png`](../design/mockups/03-teach-skill-model-review.png): concept for demonstration capture/playback and human review of the evidence-linked Skill Model.
 
 Current implementation screenshots are under [`design/screenshots`](../design/screenshots/README.md) and are embedded in the root README. They document the local prototype separately from these concept mockups.
 

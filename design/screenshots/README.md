@@ -1,6 +1,6 @@
 # Current SHOWME screenshots
 
-Captured from the local web app on October 27, 2026 at 1440 px desktop width; each image extends to the end of that surface.
+Captured from the local web app on October 27, 2026 at 1440 px desktop width; each image extends to the end of that surface. These captures predate the optional SAM still-frame grounding controls added later that day, so they do not show that panel.
 
 - `01-teach.jpg` — demonstration upload, in-browser recording, and narration capture.
 - `02-do.jpg` — camera-first learner surface with direct capture and recorded-clip controls.
