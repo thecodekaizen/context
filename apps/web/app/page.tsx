@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { completedActions, simulateAction } from "@/lib/simulate";
+import { completedActions, simulateAction, simulateSequence } from "@/lib/simulate";
 import { SAMPLE_SKILL, type SkillModel } from "@/lib/skill-model";
 import { processToSkill } from "@/lib/process-to-skill";
 import { clearReviewedProcess, loadReviewedProcess, saveReviewedProcess, type SavedProcess } from "@/lib/skill-storage";
@@ -58,6 +58,8 @@ export default function Home() {
   const [model, setModel] = useState<SkillModel>(SAMPLE_SKILL);
   const [state, setState] = useState<string[]>(model.initialState);
   const [result, setResult] = useState<ReturnType<typeof simulateAction> | null>(null);
+  const [sequenceDraft, setSequenceDraft] = useState<string[]>(model.actions.map((action) => action.id));
+  const [sequenceResult, setSequenceResult] = useState<ReturnType<typeof simulateSequence> | null>(null);
   const [mediaUrl, setMediaUrl] = useState("");
   const [sourceFile, setSourceFile] = useState<File | null>(null);
   const [cameraOn, setCameraOn] = useState(false);
@@ -91,6 +93,7 @@ export default function Home() {
       setActiveProcess(saved);
       setModel(restoredModel);
       setState(restoredModel.initialState);
+      setSequenceDraft(restoredModel.actions.map((action) => action.id));
       setCandidateReviewed(true);
       setMode("do");
     }
@@ -117,12 +120,27 @@ export default function Home() {
   function resetSimulation() {
     setState(model.initialState);
     setResult(null);
+    setSequenceDraft(model.actions.map((action) => action.id));
+    setSequenceResult(null);
   }
 
-  function tryAction(actionId: string) {
-    const next = simulateAction(model, state, actionId);
-    setResult(next);
-    if (next.accepted) setState(next.state);
+  function moveSequenceAction(index: number, offset: -1 | 1) {
+    const target = index + offset;
+    if (target < 0 || target >= sequenceDraft.length) return;
+    setSequenceDraft((current) => {
+      const next = [...current];
+      [next[index], next[target]] = [next[target], next[index]];
+      return next;
+    });
+    setSequenceResult(null);
+    setResult(null);
+  }
+
+  function runSequenceWhatIf() {
+    const next = simulateSequence(model, sequenceDraft);
+    setSequenceResult(next);
+    setState(next.finalState);
+    setResult(next.steps.at(-1)?.result ?? null);
   }
 
   async function startCamera() {
@@ -152,6 +170,8 @@ export default function Home() {
     setActiveProcess(learnedProcess);
     setModel(nextModel);
     setState(nextModel.initialState);
+    setSequenceDraft(nextModel.actions.map((action) => action.id));
+    setSequenceResult(null);
     setResult(null);
     setMode("do");
   }
@@ -176,6 +196,8 @@ export default function Home() {
     setCandidateReviewed(false);
     setModel(SAMPLE_SKILL);
     setState(SAMPLE_SKILL.initialState);
+    setSequenceDraft(SAMPLE_SKILL.actions.map((action) => action.id));
+    setSequenceResult(null);
     setResult(null);
     setObservation(null);
     setLearnerFile(null);
@@ -337,15 +359,15 @@ export default function Home() {
               <div className="card-heading"><div><div className="eyebrow">THE SHARED SKILL MODEL</div><h2>{model.title}</h2></div><button className="text-action" onClick={resetSimulation}>↺ Reset</button></div>
               <div className="fixture-note"><span>i</span><p>{model.status === "learned-from-demonstration" ? "This reviewed model represents one observed trace. It does not prove the process is complete or that another order is impossible." : "This is an illustrative fixture to make the process model tangible. It has not been learned from a demonstration yet."}</p></div>
               <AssemblyView state={state} model={model} />
-              <div className="state-summary"><div><span className="eyebrow">CURRENT STATE</span><strong>{done.length === model.actions.length ? "Assembly complete" : `${done.length} of ${model.actions.length} actions complete`}</strong></div><span className="state-pip"><i className={result?.accepted === false ? "warning" : ""} /></span></div>
+              <div className="state-summary"><div><span className="eyebrow">SIMULATED STATE</span><strong>{done.length === model.actions.length ? "Assembly complete" : `${done.length} of ${model.actions.length} actions complete`}</strong></div><span className="state-pip"><i className={result?.accepted === false ? "warning" : ""} /></span></div>
               {result && <div className={`result-callout ${result.accepted ? "success" : result.kind === "unobserved" ? "unobserved" : "blocked"}`} role="status"><span className="result-icon">{result.accepted ? "✓" : result.kind === "unobserved" ? "?" : "!"}</span><div><strong>{result.accepted ? "OBSERVED TRANSITION" : result.kind === "unobserved" ? "ALTERNATIVE NOT OBSERVED" : "CONFIRMED REQUIREMENT NOT MET"}</strong><p>{result.message}</p>{!result.accepted && <small>{result.kind === "unobserved" ? "Evidence needed: another demonstration or human confirmation." : <>Missing state: {result.missing.map((item) => item.replaceAll("_", " ")).join(", ")}<br />Constraint source: {result.blockedBy?.map((constraint) => constraint.source.replaceAll("-", " ")).join(", ")}</>}<br />{result.action.recovery}</small>}</div></div>}
-              <div className="what-if"><span className="what-if-mark">?</span><div><strong>What if I do this next?</strong><p>{model.status === "learned-from-demonstration" ? "Choose an action. SHOWME advances through an evidenced transition or tells you this alternative was not observed." : "Choose an action. SHOWME applies the fixture’s stated requirements and previews the resulting process state."}</p></div></div>
-              <div className="action-list">{model.actions.map((action, index) => {
-                const finished = action.produces.every((condition) => state.includes(condition));
-                const confirmed = action.constraints.filter((constraint) => constraint.status === "confirmed").map((constraint) => constraint.requiredState.replaceAll("_", " "));
-                const pending = action.constraints.filter((constraint) => constraint.status === "proposed").length;
-                return <button className={`action-option ${finished ? "completed" : ""}`} key={action.id} onClick={() => tryAction(action.id)}><span className="action-number">{finished ? "✓" : `0${index + 1}`}</span><span><strong>{action.label}</strong><small>{model.status === "learned-from-demonstration" ? `Observed from: ${action.fromState?.replaceAll("_", " ") ?? "unknown state"}${pending ? ` · ${pending} unconfirmed model hypothesis${pending === 1 ? "" : "es"}` : ""}` : `Requires ${confirmed.join(" + ")}`}</small></span><span className="action-arrow">↗</span></button>;
-              })}</div>
+              <div className="what-if"><span className="what-if-mark">?</span><div><strong>What if the steps happened in a different order?</strong><p>Reorder the demonstrated actions and run the alternative from the skill’s initial state. SHOWME stops at the first rule or observed transition that does not support it.</p></div></div>
+              <div className="sequence-editor"><div className="sequence-editor-heading"><span className="eyebrow">PROPOSED ACTION ORDER</span><span>Move a step to explore an alternative</span></div>{sequenceDraft.map((actionId, index) => {
+                const action = model.actions.find((candidate) => candidate.id === actionId);
+                if (!action) return null;
+                return <div className="sequence-row" key={action.id}><span className="action-number">{String(index + 1).padStart(2, "0")}</span><strong>{action.label}</strong><div className="sequence-movers"><button aria-label={`Move ${action.label} earlier`} disabled={index === 0} onClick={() => moveSequenceAction(index, -1)}>↑</button><button aria-label={`Move ${action.label} later`} disabled={index === sequenceDraft.length - 1} onClick={() => moveSequenceAction(index, 1)}>↓</button></div></div>;
+              })}<div className="sequence-controls"><button className="primary-button" onClick={runSequenceWhatIf}>Run this what-if <span>↗</span></button><button className="text-action" onClick={resetSimulation}>Restore demonstrated order</button></div></div>
+              {sequenceResult && <section className={`sequence-report sequence-${sequenceResult.status}`} aria-live="polite"><div className="eyebrow">DETERMINISTIC PROCEDURE SIMULATION</div><strong>{sequenceResult.status === "completed" ? "The proposed sequence reaches its modeled end state." : sequenceResult.status === "blocked" ? "The sequence stops at a confirmed requirement." : "The next transition was not observed from this state."}</strong><ol>{sequenceResult.steps.map(({ index, result: step }) => <li key={`${step.action.id}-${index}`}><span>{step.accepted ? "✓" : step.kind === "blocked" ? "!" : "?"}</span><div><b>{step.action.label}</b><small>{step.accepted ? "Applied to the simulated state." : step.message}{!step.accepted && step.kind === "blocked" && ` Missing: ${step.missing.join(", ")}. Basis: ${step.blockedBy.map((item) => item.source.replaceAll("-", " ")).join(", ")}.`}</small></div></li>)}</ol><small className="sequence-disclaimer">This is a procedural state preview, not a physics simulation or a claim about what happened in the camera view.</small></section>}
             </section>
             <aside className="card model-card">
               <div className="eyebrow">PROCESS MODEL</div><h3>What the skill knows</h3><p className="model-copy">A compact set of objects, states, and action constraints. Teach will eventually replace this fixture with a model inferred from a real demonstration.</p>

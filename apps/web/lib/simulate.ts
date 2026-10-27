@@ -5,6 +5,13 @@ export type SimulationResult =
   | { accepted: false; state: string[]; action: SkillAction; missing: string[]; kind: "blocked"; message: string; blockedBy: Extract<SkillConstraint, { status: "confirmed" }>[] }
   | { accepted: false; state: string[]; action: SkillAction; missing: string[]; kind: "unobserved"; message: string };
 
+export type SequenceSimulation = {
+  status: "completed" | "blocked" | "unobserved";
+  initialState: string[];
+  finalState: string[];
+  steps: { index: number; result: SimulationResult }[];
+};
+
 /** Apply one proposed action against preconditions from the same Skill Model. */
 export function simulateAction(
   model: SkillModel,
@@ -51,4 +58,27 @@ export function simulateAction(
 
 export function completedActions(model: SkillModel, state: string[]) {
   return model.actions.filter((action) => action.produces.every((condition) => state.includes(condition)));
+}
+
+/** Replay a proposed order from a clean initial state, stopping at its first failure. */
+export function simulateSequence(model: SkillModel, actionIds: string[]): SequenceSimulation {
+  const initialState = [...model.initialState];
+  let state = [...initialState];
+  const steps: SequenceSimulation["steps"] = [];
+
+  for (const [index, actionId] of actionIds.entries()) {
+    const result = simulateAction(model, state, actionId);
+    steps.push({ index, result });
+    if (!result.accepted) {
+      return {
+        status: result.kind,
+        initialState,
+        finalState: state,
+        steps,
+      };
+    }
+    state = result.state;
+  }
+
+  return { status: "completed", initialState, finalState: state, steps };
 }

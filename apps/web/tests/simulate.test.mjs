@@ -11,7 +11,7 @@ async function loadTypeScript(relativePath) {
   return import(`data:text/javascript;base64,${Buffer.from(javascript).toString("base64")}`);
 }
 
-const { simulateAction } = await loadTypeScript("../lib/simulate.ts");
+const { simulateAction, simulateSequence } = await loadTypeScript("../lib/simulate.ts");
 const { processToSkill } = await loadTypeScript("../lib/process-to-skill.ts");
 
 function modelFor(constraint, { fromState = "start" } = {}) {
@@ -122,4 +122,34 @@ test("an explicit human mapping promotes only that precondition and keeps its st
   assert.equal(skill.actions[0].constraints[0].requiredState, "support-ready");
   assert.equal(skill.actions[0].constraints[0].source, "human-confirmation");
   assert.equal(simulateAction(skill, ["start"], "attach-part").kind, "blocked");
+});
+
+test("sequence simulation stops at the first confirmed prerequisite and preserves the last valid state", () => {
+  const model = {
+    id: "stacked-skill",
+    title: "Stack the pieces",
+    status: "illustrative-fixture",
+    initialState: ["base-ready", "support-available"],
+    objects: [],
+    actions: [
+      { id: "place-support", label: "Place support", objectId: "support", constraints: [], produces: ["support-seated"], explanation: "Seat the support.", recovery: "Reset." },
+      { id: "attach-cap", label: "Attach cap", objectId: "cap", constraints: [{ id: "support-first", description: "The support must be seated first.", requiredState: "support-seated", status: "confirmed", source: "human-confirmation" }], produces: ["cap-attached"], explanation: "Attach the cap.", recovery: "Remove the cap and seat the support." },
+    ],
+  };
+
+  const result = simulateSequence(model, ["attach-cap", "place-support"]);
+
+  assert.equal(result.status, "blocked");
+  assert.equal(result.steps.length, 1);
+  assert.equal(result.finalState.includes("support-seated"), false);
+  assert.equal(result.steps[0].result.kind, "blocked");
+  assert.equal(result.steps[0].result.blockedBy[0].source, "human-confirmation");
+});
+
+test("a learned sequence that departs from its observed starting state is unknown, not impossible", () => {
+  const model = modelFor(undefined, { fromState: "after-support" });
+  const result = simulateSequence(model, ["attach-part"]);
+
+  assert.equal(result.status, "unobserved");
+  assert.deepEqual(result.finalState, ["start"]);
 });
