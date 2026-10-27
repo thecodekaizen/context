@@ -4,27 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { completedActions, simulateAction } from "@/lib/simulate";
 import { SAMPLE_SKILL, type SkillModel } from "@/lib/skill-model";
 import { processToSkill } from "@/lib/process-to-skill";
+import { clearReviewedProcess, loadReviewedProcess, saveReviewedProcess, type SavedProcess } from "@/lib/skill-storage";
 
 type Mode = "teach" | "do" | "simulate";
-type LearnedProcess = {
-  task_summary: string;
-  objects: { id: string; label: string; visual_description: string }[];
-  states: { id: string; description: string; observable_facts: string[] }[];
-  transitions: {
-    id: string;
-    action: string;
-    object_ids: string[];
-    from_state: string;
-    to_state: string;
-    preconditions: string[];
-    postconditions: string[];
-    evidence: { start_seconds: number; end_seconds: number; observation: string }[];
-  }[];
-  ordering_observations: { before_transition_id: string; after_transition_id: string; evidence: { start_seconds: number; end_seconds: number; observation: string }[] }[];
-  uncertainties: string[];
-  _run?: { model?: string; usage?: { input_tokens?: number; output_tokens?: number }; source?: { duration_seconds?: number } };
-  _validation?: string;
-};
+type LearnedProcess = SavedProcess;
 type LearnerObservation = {
   events: { time_seconds: number; action: string; state_id: string; assessment: "consistent" | "divergent" | "unclear"; object_ids: string[]; evidence: string }[];
   divergences: { time_seconds: number; process_difference: string; object_ids: string[]; evidence: string }[];
@@ -75,6 +58,7 @@ export default function Home() {
   const [learnedProcess, setLearnedProcess] = useState<LearnedProcess | null>(null);
   const [activeProcess, setActiveProcess] = useState<LearnedProcess | null>(null);
   const [candidateReviewed, setCandidateReviewed] = useState(false);
+  const [storageReady, setStorageReady] = useState(false);
   const [learnError, setLearnError] = useState("");
   const [learning, setLearning] = useState(false);
   const [learnerFile, setLearnerFile] = useState<File | null>(null);
@@ -87,6 +71,24 @@ export default function Home() {
   const learnerVideoRef = useRef<HTMLVideoElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+
+  useEffect(() => {
+    const saved = loadReviewedProcess();
+    if (saved) {
+      const restoredModel = processToSkill(saved);
+      setLearnedProcess(saved);
+      setActiveProcess(saved);
+      setModel(restoredModel);
+      setState(restoredModel.initialState);
+      setCandidateReviewed(true);
+      setMode("do");
+    }
+    setStorageReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (storageReady && activeProcess) saveReviewedProcess(activeProcess);
+  }, [activeProcess, storageReady]);
 
   useEffect(() => () => {
     if (mediaUrl.startsWith("blob:")) URL.revokeObjectURL(mediaUrl);
@@ -141,6 +143,23 @@ export default function Home() {
     setState(nextModel.initialState);
     setResult(null);
     setMode("do");
+  }
+
+  function forgetReviewedSkill() {
+    clearReviewedProcess();
+    setActiveProcess(null);
+    setLearnedProcess(null);
+    setCandidateReviewed(false);
+    setModel(SAMPLE_SKILL);
+    setState(SAMPLE_SKILL.initialState);
+    setResult(null);
+    setObservation(null);
+    setLearnerFile(null);
+    setLearnerUrl((previous) => {
+      if (previous.startsWith("blob:")) URL.revokeObjectURL(previous);
+      return "";
+    });
+    setMode("teach");
   }
 
   function chooseLearnerVideo(file?: File) {
@@ -324,7 +343,7 @@ export default function Home() {
                 </section>}
               </div>
             </section>
-            <aside className="card guide-card"><div className="eyebrow">GUIDANCE · SAMPLE PROCEDURE</div><h3>Follow the demonstrated order.</h3><div className="guide-list">{model.actions.map((action, index) => <div className="guide-step" key={action.id}><span className={`guide-check ${state.includes(action.produces[0]) ? "done" : ""}`}>{state.includes(action.produces[0]) ? "✓" : String(index + 1).padStart(2, "0")}</span><div><strong>{action.label}</strong><small>{action.explanation}</small></div></div>)}</div><div className="guide-boundary"><span>i</span><p>This screen shows the camera feed and procedure. It does not yet detect learner actions; simulation is active in the Simulate mode.</p></div><button className="text-action" onClick={() => setMode("simulate")}>Try the process model <span>→</span></button></aside>
+            <aside className="card guide-card"><div className="eyebrow">GUIDANCE · {activeProcess ? "REVIEWED SKILL" : "SAMPLE PROCEDURE"}</div><h3>Follow the demonstrated order.</h3><div className="guide-list">{model.actions.map((action, index) => <div className="guide-step" key={action.id}><span className={`guide-check ${state.includes(action.produces[0]) ? "done" : ""}`}>{state.includes(action.produces[0]) ? "✓" : String(index + 1).padStart(2, "0")}</span><div><strong>{action.label}</strong><small>{action.explanation}</small></div></div>)}</div><div className="guide-boundary"><span>i</span><p>This screen shows the camera feed and procedure. It does not yet detect learner actions live; recorded clip analysis is available after selecting a learner video.</p></div><button className="text-action" onClick={() => setMode("simulate")}>Try the process model <span>→</span></button>{activeProcess && <button className="text-action forget-skill" onClick={forgetReviewedSkill}>Forget saved skill</button>}</aside>
           </div>}
 
           <footer className="page-footer"><span>SHOWME · DEMONSTRATION → PROCESS MODEL → GUIDANCE</span><span>PROTOTYPE BUILD · 2026</span></footer>
