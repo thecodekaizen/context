@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from typing import Any
 
 
@@ -72,7 +73,7 @@ PROCESS_SCHEMA: dict[str, Any] = {
 }
 
 
-def validate_references(process: dict[str, Any]) -> None:
+def validate_references(process: dict[str, Any], *, duration_seconds: float | None = None) -> None:
     """Reject duplicate IDs and transitions pointing to undefined entities."""
     if not isinstance(process, dict):
         raise ValueError("process must be an object")
@@ -98,6 +99,25 @@ def validate_references(process: dict[str, Any]) -> None:
         for object_id in references:
             if object_id not in object_ids:
                 raise ValueError(f"{label} references unknown object_id {object_id!r}")
+        evidence = transition.get("evidence")
+        if not isinstance(evidence, list) or not evidence:
+            raise ValueError(f"{label} needs at least one evidence interval")
+        for evidence_index, item in enumerate(evidence):
+            evidence_label = f"{label} evidence {evidence_index}"
+            if not isinstance(item, dict):
+                raise ValueError(f"{evidence_label} must be an object")
+            start = item.get("start_seconds")
+            end = item.get("end_seconds")
+            for field, value in (("start_seconds", start), ("end_seconds", end)):
+                if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
+                    raise ValueError(f"{evidence_label} {field} must be finite and numeric")
+            if start < 0 or end < start:
+                raise ValueError(f"{evidence_label} must be a non-negative, ordered interval")
+            if duration_seconds is not None and end > duration_seconds:
+                raise ValueError(f"{evidence_label} ends outside the expert clip")
+            observation = item.get("observation")
+            if not isinstance(observation, str) or not observation.strip():
+                raise ValueError(f"{evidence_label} needs a visible observation")
 
 
 def _unique_ids(items: list[Any], kind: str) -> set[str]:

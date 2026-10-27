@@ -63,7 +63,7 @@ The first domain invariant is referential integrity: every transition must point
 
 ### Process reference validation
 
-`validate_references` in `backend/showme/process.py` rejects duplicate object/state IDs and transitions that refer to undefined states or objects. It is deterministic and does not call a model. Targeted tests protect these invariants so malformed model output cannot silently become a usable process graph.
+`validate_references` in `backend/showme/process.py` rejects duplicate object/state IDs, transitions that refer to undefined states or objects, missing evidence, and evidence intervals outside the source clip. It is deterministic and does not call a model. Targeted tests protect these invariants so unsupported model output cannot silently become a usable process graph.
 
 ## First implementation milestone
 

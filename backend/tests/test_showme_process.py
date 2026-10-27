@@ -23,7 +23,7 @@ VALID_PROCESS = {
         "to_state": "stacked",
         "preconditions": [],
         "postconditions": ["red above blue"],
-        "evidence": [],
+        "evidence": [{"start_seconds": 0.5, "end_seconds": 1.0, "observation": "Red block visibly moves above blue."}],
     }],
     "constraints": [],
     "uncertainties": [],
@@ -56,6 +56,17 @@ class ProcessValidationTests(unittest.TestCase):
         process = copy.deepcopy(VALID_PROCESS)
         process["states"].append(copy.deepcopy(process["states"][0]))
         with self.assertRaisesRegex(ValueError, "duplicate state id"):
+            validate_references(process)
+
+    def test_rejects_evidence_interval_beyond_expert_clip(self):
+        process = copy.deepcopy(VALID_PROCESS)
+        with self.assertRaisesRegex(ValueError, "outside the expert clip"):
+            validate_references(process, duration_seconds=0.75)
+
+    def test_rejects_transitions_without_visual_evidence(self):
+        process = copy.deepcopy(VALID_PROCESS)
+        process["transitions"][0]["evidence"] = []
+        with self.assertRaisesRegex(ValueError, "needs at least one evidence interval"):
             validate_references(process)
 
 
