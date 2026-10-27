@@ -200,3 +200,11 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - Added a local learner-review JSON export, including the matching process, to preserve results without repeated model calls. No private footage or expected-error labels are committed.
 - Found an extraction gap: both wings share one object ID and the final state lacks explicit facing facts. Teach now requests source-supported attachment/orientation relations; no fresh inference has validated that change.
 - Verification: 57 SHOWME backend tests, 21 web tests, and TypeScript checks passed. Browser local export/import tests rejected unrelated recovery evidence and restored the actual 22-second report without a paid inference. Do no longer inherits simulated completion ticks.
+
+
+### Experiment and implementation checkpoint — orientation extraction v4
+
+- Reused the approved expert video plus LEGO PDF for one fresh extraction, then the existing learner clip for one approved comparison. The candidate gained inward-facing connector facts but also a questionable cockpit-facing claim. Its observation invented or misread a size difference and failed reference-mismatch timestamp alignment. Orientation remains unproven; the active reviewed model is unchanged.
+- The [follow-up report](experiments/results/showme-orientation-v4-2026-10-27.md) records both calls, usage, limitations, and private artifact locations. No retries or footage commits.
+- Teach now exposes target-state facts and postconditions before approval. The shared model retains observable facts, and Simulate shows them as modeled appearance rather than observed camera state.
+- Verification: 23 web tests and TypeScript checking pass. Browser review displayed the new candidate’s unsupported-facing claim while leaving approval unchecked.

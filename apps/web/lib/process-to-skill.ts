@@ -3,7 +3,7 @@ import type { SkillModel } from "./skill-model";
 type ProcessCandidate = {
   task_summary: string;
   objects: { id: string; label: string; visual_description: string }[];
-  states: { id: string; description: string }[];
+  states: { id: string; description: string; observable_facts?: string[] }[];
   transitions: {
     id: string;
     action: string;
@@ -30,7 +30,7 @@ export function processToSkill(
     title: candidate.task_summary,
     status: "learned-from-demonstration",
     initialState: firstTransition ? [firstTransition.from_state] : [],
-    states: candidate.states.map((state) => ({ id: state.id, label: state.description })),
+    states: candidate.states.map((state) => ({ id: state.id, label: state.description, observableFacts: [...(state.observable_facts ?? [])] })),
     objects: candidate.objects.map((object, index) => ({
       id: object.id,
       name: object.label,

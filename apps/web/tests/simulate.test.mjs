@@ -196,3 +196,19 @@ test("a sequence can explicitly start from a recognized non-initial state", () =
   assert.deepEqual(result.initialState, ["recognized-state"]);
   assert.deepEqual(result.finalState, ["attached"]);
 });
+
+
+test("reviewed state relationships survive conversion without sharing mutable arrays", () => {
+  const candidate = savedProcess("candidate_constraints");
+  candidate.states[0].observable_facts = ["The clip faces the mating connector."];
+  const model = processToSkill(candidate);
+  assert.deepEqual(model.states[0].observableFacts, candidate.states[0].observable_facts);
+  model.states[0].observableFacts.push("Temporary simulator annotation");
+  assert.equal(candidate.states[0].observable_facts.length, 1);
+});
+
+test("older candidates without visible facts remain readable without invented relationships", () => {
+  const candidate = savedProcess("candidate_constraints");
+  delete candidate.states[0].observable_facts;
+  assert.deepEqual(processToSkill(candidate).states[0].observableFacts, []);
+});

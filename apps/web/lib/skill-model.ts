@@ -44,7 +44,7 @@ export type SkillModel = {
   id: string;
   title: string;
   status: "illustrative-fixture" | "candidate-needs-review" | "learned-from-demonstration";
-  states?: { id: string; label: string }[];
+  states?: { id: string; label: string; observableFacts?: string[] }[];
   objects: SkillObject[];
   initialState: string[];
   actions: SkillAction[];
