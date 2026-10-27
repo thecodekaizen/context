@@ -205,7 +205,11 @@ def validate_discovery(value: Any, archive: dict[str, Any]) -> dict[str, Any]:
             raise DiscoveryValidationError("an evolution hypothesis needs at least two cited artifacts")
         if len({ref["date"] for ref in support}) < 2:
             raise DiscoveryValidationError("an evolution hypothesis needs evidence from distinct dates")
-    return {**value, "human_confirmation_required": True}
+    return {
+        **value,
+        "project": archive["project"],
+        "human_confirmation_required": True,
+    }
 
 
 def _load_api_key() -> str | None:
@@ -243,7 +247,20 @@ def discover_raw_archive(path: Path = DEFAULT_DATASET) -> dict[str, Any]:
     if not isinstance(cache, dict):
         cache = {}
     if cache_key in cache:
-        return {**validate_discovery(cache[cache_key], archive), "provider": "meta-cache", "model": MODEL}
+        cached = cache[cache_key]
+        if isinstance(cached, dict) and cached.get("_invalid_output"):
+            raise DiscoveryValidationError(
+                cached.get("_error", "cached Muse output was rejected; no repeat call was made")
+            )
+        if cached is None:
+            raise DiscoveryValidationError(
+                "cached Muse output is invalid; no repeat call was made"
+            )
+        return {
+            **validate_discovery(cached, archive),
+            "provider": "meta-cache",
+            "model": MODEL,
+        }
 
     api_key = _load_api_key()
     if not api_key:
@@ -288,15 +305,40 @@ def discover_raw_archive(path: Path = DEFAULT_DATASET) -> dict[str, Any]:
             "estimated_usd": estimated,
             "source": "raw-discovery",
         }) + "\n")
+    status = getattr(response, "status", None)
+    incomplete_details = getattr(response, "incomplete_details", None)
+    incomplete_reason = getattr(incomplete_details, "reason", None)
+
+    def cache_rejected_output(message: str) -> str:
+        cached_error = f"{message}; cached to avoid a repeat charge"
+        cache[cache_key] = {
+            "_invalid_output": True,
+            "_error": cached_error,
+            "raw": output_text,
+            "status": status,
+            "incomplete_reason": incomplete_reason,
+        }
+        cache_file.parent.mkdir(parents=True, exist_ok=True)
+        cache_file.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
+        return cached_error
+
+    if incomplete_reason or (status is not None and status != "completed"):
+        message = (
+            "Muse response was incomplete or unsuccessful "
+            f"(status={status or 'unknown'}, reason={incomplete_reason or 'unknown'})"
+        )
+        raise DiscoveryValidationError(cache_rejected_output(message))
+
     try:
         parsed = json.loads(output_text)
     except (TypeError, json.JSONDecodeError) as exc:
         # Cache malformed output too, so an invalid completion cannot trigger
         # another paid call every time the same archive is retried.
-        cache[cache_key] = None
-        cache_file.parent.mkdir(parents=True, exist_ok=True)
-        cache_file.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
-        raise DiscoveryValidationError("Muse returned invalid JSON") from exc
+        message = (
+            "Muse returned invalid JSON "
+            f"(status={status or 'unknown'}, reason={incomplete_reason or 'unknown'})"
+        )
+        raise DiscoveryValidationError(cache_rejected_output(message)) from exc
     cache[cache_key] = parsed
     cache_file.parent.mkdir(parents=True, exist_ok=True)
     cache_file.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -307,6 +349,7 @@ def discover_raw_archive(path: Path = DEFAULT_DATASET) -> dict[str, Any]:
         **result,
         "provider": "meta",
         "model": MODEL,
+        "response": {"status": status, "incomplete_reason": incomplete_reason},
         "usage": {
             "input_tokens": input_tokens,
             "output_tokens": output_tokens,

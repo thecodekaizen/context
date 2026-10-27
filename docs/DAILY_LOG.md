@@ -9,6 +9,7 @@
 - Temporal comparison output now keeps continuity evidence separate from the themes driving the candidate shift.
 - Interactive CLI review flow: creator context, keep/revise/reject/defer, exact `CONFIRM`, and a source-linked direction note.
 - Raw-discovery observations now include a source-linked evidence stage (`planned`, `experimental`, `ongoing`, `released`, or `unclear`), with local validation and CLI timeline display. This makes experiment-vs-release status inspectable; it does not yet prevent unsupported direction claims.
+- Raw Muse API status and incomplete-response reasons are now reported and cached on failures; live successful calls show their response status. A cached Cook's Margin replay also caught and fixed a missing project-title display.
 - All output/session data stays in ignored local folders; source artifacts in the repo are synthetic.
 
 ### Evidence
@@ -22,7 +23,7 @@
 
 ### Verification and spend
 
-- `python -m unittest discover -s backend/tests -v`: 23 passed after the evidence-stage change.
+- `python -m unittest discover -s backend/tests -v`: 24 passed after response-diagnostic and project-title changes.
 - `python -m thread_engine.evaluate`: 6/6 seed cases matched.
 - Local token-based estimated spend: **$0.110491** after the Cook's Margin calls; check the Meta Billing dashboard for actual usage.
 

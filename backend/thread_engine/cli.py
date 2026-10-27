@@ -114,6 +114,12 @@ def _render_raw_discovery(result: dict[str, Any]) -> str:
     if not result.get("complicating_artifacts"):
         lines.append("  None cited.")
     lines.append(f"\nLimitations: {result.get('limitations', '')}")
+    if (response := result.get("response")) is not None:
+        lines.append(
+            "\nModel response: "
+            f"status={response.get('status') or 'unknown'}, "
+            f"incomplete_reason={response.get('incomplete_reason') or 'none'}"
+        )
     if (usage := result.get("usage")) is not None:
         lines.append(
             f"\nAPI usage: {usage['input_tokens']} input, {usage['output_tokens']} output tokens; "

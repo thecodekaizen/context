@@ -17,6 +17,8 @@ backend/.venv/bin/python -m thread_engine.cli datasets/synthetic/creative-evolut
 
 `--raw-muse` sends only the project ID/title and dated source artifact fields. It ignores the fixture's `memories` and theme labels. Muse Spark proposes a structured temporal hypothesis with source references; local code rejects unknown artifact IDs, mismatched dates, claims without support from at least two dates, and non-empty findings without explicit tentative wording. This last check is a lexical guard, not calibrated uncertainty; rejected findings are withheld for review. Results are cached by model, prompt version, and raw input in `.thread-cache/`; repeat runs do not spend again. Every accepted finding is marked as requiring human confirmation. The local budget guard uses `THREAD_BUDGET_USD` (default `$150`) and is only an estimate; check Meta Billing and set a spend alert.
 
+Raw discovery also asks Muse to label each observation as planned, experimental, ongoing, released, or unclear. These are model classifications for human inspection, not verified project state. If the API response is incomplete or invalid, the CLI reports its status/reason when provided and caches the failure to prevent accidental repeat charges.
+
 To inspect Meta-extracted memories separately, run:
 
 ```sh

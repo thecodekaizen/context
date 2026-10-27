@@ -64,6 +64,7 @@ class CitationValidationTests(unittest.TestCase):
     def test_valid_timeline_citations_are_accepted_and_marked_unconfirmed(self) -> None:
         result = validate_discovery(self.candidate(), self.archive)
         self.assertTrue(result["human_confirmation_required"])
+        self.assertEqual(result["project"]["title"], "Neighborhood Atlas")  # type: ignore[index]
 
     def test_assertive_candidate_is_withheld(self) -> None:
         value = self.candidate()
@@ -126,6 +127,34 @@ class CitationValidationTests(unittest.TestCase):
 
 
 class PaidCallFailureTests(unittest.TestCase):
+    def test_incomplete_response_reason_is_reported_and_cached_without_retry(self) -> None:
+        fake_response = SimpleNamespace(
+            output_text='{"observations":',
+            status="incomplete",
+            incomplete_details=SimpleNamespace(reason="max_output_tokens"),
+            usage=SimpleNamespace(input_tokens=100, output_tokens=4096),
+        )
+        with tempfile.TemporaryDirectory() as folder:
+            cache_dir = Path(folder)
+            with (
+                patch.object(raw_discovery, "CACHE_DIR", cache_dir),
+                patch.object(raw_discovery, "_load_api_key", return_value="test-key"),
+                patch("openai.OpenAI") as openai_client,
+            ):
+                openai_client.return_value.responses.create.return_value = fake_response
+                for _ in range(2):
+                    with self.assertRaisesRegex(
+                        DiscoveryValidationError,
+                        "status=incomplete, reason=max_output_tokens.*cached to avoid a repeat charge",
+                    ):
+                        raw_discovery.discover_raw_archive(DATASET)
+
+                self.assertEqual(openai_client.return_value.responses.create.call_count, 1)
+                cache = json.loads((cache_dir / "raw-discoveries.json").read_text(encoding="utf-8"))
+                cached = next(iter(cache.values()))
+                self.assertEqual(cached["incomplete_reason"], "max_output_tokens")
+                self.assertEqual(cached["status"], "incomplete")
+
     def test_rejected_paid_output_is_metered_and_cached(self) -> None:
         invalid_finding = {
             "observations": [],
