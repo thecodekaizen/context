@@ -3,7 +3,8 @@ export type SkillObject = {
   id: string;
   name: string;
   color: string;
-  shape: "base" | "washer" | "bracket" | "bolt";
+  shape: "base" | "washer" | "bracket" | "bolt" | "component";
+  visualDescription?: string;
 };
 
 export type SkillAction = {
@@ -12,14 +13,19 @@ export type SkillAction = {
   objectId: string;
   requires: string[];
   produces: string[];
+  /** Candidate states seen in one trace; these are not universal constraints. */
+  fromState?: string;
+  toState?: string;
   explanation: string;
   recovery: string;
+  evidence?: { startSeconds: number; endSeconds: number; observation: string }[];
 };
 
 export type SkillModel = {
   id: string;
   title: string;
-  status: "illustrative-fixture" | "learned-from-demonstration";
+  status: "illustrative-fixture" | "candidate-needs-review" | "learned-from-demonstration";
+  states?: { id: string; label: string }[];
   objects: SkillObject[];
   initialState: string[];
   actions: SkillAction[];

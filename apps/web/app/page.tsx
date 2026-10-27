@@ -3,10 +3,34 @@
 import { useEffect, useRef, useState } from "react";
 import { completedActions, simulateAction } from "@/lib/simulate";
 import { SAMPLE_SKILL, type SkillModel } from "@/lib/skill-model";
+import { processToSkill } from "@/lib/process-to-skill";
 
 type Mode = "teach" | "do" | "simulate";
+type LearnedProcess = {
+  task_summary: string;
+  objects: { id: string; label: string; visual_description: string }[];
+  states: { id: string; description: string; observable_facts: string[] }[];
+  transitions: {
+    id: string;
+    action: string;
+    object_ids: string[];
+    from_state: string;
+    to_state: string;
+    preconditions: string[];
+    postconditions: string[];
+    evidence: { start_seconds: number; end_seconds: number; observation: string }[];
+  }[];
+  ordering_observations: { before_transition_id: string; after_transition_id: string; evidence: { start_seconds: number; end_seconds: number; observation: string }[] }[];
+  uncertainties: string[];
+  _run?: { model?: string; usage?: { input_tokens?: number; output_tokens?: number }; source?: { duration_seconds?: number } };
+  _validation?: string;
+};
 
-function AssemblyView({ state }: { state: string[] }) {
+function AssemblyView({ state, model }: { state: string[]; model: SkillModel }) {
+  if (model.status === "learned-from-demonstration") {
+    const stateNames = (model.states ?? []).filter((item) => state.includes(item.id));
+    return <div className="learned-state-view"><div className="eyebrow">STATE OBSERVED IN THE DEMONSTRATION</div>{stateNames.length ? stateNames.map((item) => <div className="learned-state-chip" key={item.id}><span>◉</span>{item.label}</div>) : <div className="learned-state-chip muted">No matching state in this candidate model</div>}<p>State transitions are shown as the model described them; this view does not simulate physical forces or geometry.</p></div>;
+  }
   const washer = state.includes("washer_seated");
   const bracket = state.includes("bracket_mounted");
   const bolt = state.includes("fastener_inserted");
@@ -33,14 +57,18 @@ function VideoPreview({ src }: { src: string }) {
 
 export default function Home() {
   const [mode, setMode] = useState<Mode>("simulate");
-  const [model] = useState<SkillModel>(SAMPLE_SKILL);
+  const [model, setModel] = useState<SkillModel>(SAMPLE_SKILL);
   const [state, setState] = useState<string[]>(model.initialState);
   const [result, setResult] = useState<ReturnType<typeof simulateAction> | null>(null);
   const [mediaUrl, setMediaUrl] = useState("");
+  const [sourceFile, setSourceFile] = useState<File | null>(null);
   const [cameraOn, setCameraOn] = useState(false);
   const [cameraError, setCameraError] = useState("");
   const [narration, setNarration] = useState("");
-  const [learned, setLearned] = useState(false);
+  const [learnedProcess, setLearnedProcess] = useState<LearnedProcess | null>(null);
+  const [candidateReviewed, setCandidateReviewed] = useState(false);
+  const [learnError, setLearnError] = useState("");
+  const [learning, setLearning] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -86,13 +114,46 @@ export default function Home() {
     setCameraOn(false);
   }
 
+  function loadReviewedCandidate() {
+    if (!learnedProcess) return;
+    const nextModel = processToSkill(learnedProcess);
+    setModel(nextModel);
+    setState(nextModel.initialState);
+    setResult(null);
+    setMode("simulate");
+  }
+
   function chooseVideo(file?: File) {
     if (!file) return;
+    setSourceFile(file);
     setMediaUrl((previous) => {
       if (previous.startsWith("blob:")) URL.revokeObjectURL(previous);
       return URL.createObjectURL(file);
     });
-    setLearned(false);
+    setLearnedProcess(null);
+    setLearnError("");
+  }
+
+  async function learnFromVideo() {
+    if (!sourceFile) return;
+    setLearning(true);
+    setLearnError("");
+    setLearnedProcess(null);
+    const form = new FormData();
+    form.set("video", sourceFile);
+    form.set("narration", narration);
+    try {
+      const api = process.env.NEXT_PUBLIC_SHOWME_API_URL ?? "http://localhost:8000";
+      const response = await fetch(`${api}/api/skills/learn`, { method: "POST", body: form });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(typeof payload.detail === "string" ? payload.detail : "SHOWME could not learn from this video.");
+      setLearnedProcess(payload.process as LearnedProcess);
+      setCandidateReviewed(false);
+    } catch (error) {
+      setLearnError(error instanceof Error ? error.message : "SHOWME could not reach the local learning service.");
+    } finally {
+      setLearning(false);
+    }
   }
 
   const done = completedActions(model, state);
@@ -111,7 +172,7 @@ export default function Home() {
       <section className="main-panel">
         <header className="topbar">
           <div className="breadcrumbs">WORKSPACE <span>/</span> {mode.toUpperCase()}</div>
-          <div className="model-status"><span className="status-dot" /> {model.status === "learned-from-demonstration" ? "LEARNED SKILL" : "ILLUSTRATIVE SKILL FIXTURE"}</div>
+          <div className="model-status"><span className="status-dot" /> {model.status === "learned-from-demonstration" ? "REVIEWED SKILL MODEL" : "ILLUSTRATIVE SKILL FIXTURE"}</div>
         </header>
 
         <div className="page-content">
@@ -132,9 +193,9 @@ export default function Home() {
             <section className="card simulation-card">
               <div className="card-heading"><div><div className="eyebrow">THE SHARED SKILL MODEL</div><h2>{model.title}</h2></div><button className="text-action" onClick={resetSimulation}>↺ Reset</button></div>
               <div className="fixture-note"><span>i</span><p>This is an illustrative fixture to make the process model tangible. It has not been learned from a demonstration yet.</p></div>
-              <AssemblyView state={state} />
+              <AssemblyView state={state} model={model} />
               <div className="state-summary"><div><span className="eyebrow">CURRENT STATE</span><strong>{done.length === model.actions.length ? "Assembly complete" : `${done.length} of ${model.actions.length} actions complete`}</strong></div><span className="state-pip"><i className={result?.accepted === false ? "warning" : ""} /></span></div>
-              {result && <div className={`result-callout ${result.accepted ? "success" : "blocked"}`} role="status"><span className="result-icon">{result.accepted ? "✓" : "!"}</span><div><strong>{result.accepted ? "ACTION ALLOWED" : "DEPENDENCY NOT MET"}</strong><p>{result.message}</p>{!result.accepted && <small>Missing state: {result.missing.map((item) => item.replaceAll("_", " ")).join(", ")}<br />Recovery: {result.action.recovery}</small>}</div></div>}
+              {result && <div className={`result-callout ${result.accepted ? "success" : result.kind === "unobserved" ? "unobserved" : "blocked"}`} role="status"><span className="result-icon">{result.accepted ? "✓" : result.kind === "unobserved" ? "?" : "!"}</span><div><strong>{result.accepted ? "OBSERVED TRANSITION" : result.kind === "unobserved" ? "ALTERNATIVE NOT OBSERVED" : "CONFIRMED REQUIREMENT NOT MET"}</strong><p>{result.message}</p>{!result.accepted && <small>{result.kind === "unobserved" ? "Evidence needed: another demonstration or human confirmation." : `Missing state: ${result.missing.map((item) => item.replaceAll("_", " ")).join(", ")}`}<br />{result.action.recovery}</small>}</div></div>}
               <div className="what-if"><span className="what-if-mark">?</span><div><strong>What if I do this next?</strong><p>Choose an action. SHOWME applies its preconditions and previews the resulting process state.</p></div></div>
               <div className="action-list">{model.actions.map((action, index) => {
                 const finished = action.produces.every((condition) => state.includes(condition));
@@ -144,7 +205,7 @@ export default function Home() {
             <aside className="card model-card">
               <div className="eyebrow">PROCESS MODEL</div><h3>What the skill knows</h3><p className="model-copy">A compact set of objects, states, and action constraints. Teach will eventually replace this fixture with a model inferred from a real demonstration.</p>
               <div className="model-section"><span>OBJECTS</span>{model.objects.map((object) => <div className="model-row" key={object.id}><i className={`object-swatch ${object.color}`} /><span>{object.name}</span><small>{state.some((item) => item.startsWith(object.id) || item.includes(object.id)) ? "IN USE" : "READY"}</small></div>)}</div>
-              <div className="model-section"><span>DEPENDENCY</span><div className="dependency-flow"><div className={state.includes("washer_seated") ? "on" : ""}>Spacer ring seated</div><b>↓</b><div className={state.includes("bracket_mounted") ? "on" : ""}>Bracket mounted</div><b>↓</b><div className={state.includes("fastener_inserted") ? "on" : ""}>Fastener inserted</div></div></div>
+              <div className="model-section"><span>{model.status === "learned-from-demonstration" ? "OBSERVED TRANSITIONS" : "CONFIRMED DEPENDENCY"}</span><div className="dependency-flow">{model.actions.map((action, index) => <div className={state.includes(action.toState ?? action.produces[0]) ? "on" : ""} key={action.id}>{action.label}{model.status === "learned-from-demonstration" && <small className="observed-edge">{action.fromState?.replaceAll("_", " ")} → {action.toState?.replaceAll("_", " ")}</small>}{index < model.actions.length - 1 && <b>↓</b>}</div>)}</div>{model.status === "learned-from-demonstration" && <p className="model-copy model-caveat">Observed order is evidence about this clip, not proof of a universal requirement.</p>}</div>
               <div className="model-foot"><span className="status-dot" /> Deterministic state transition demo</div>
             </aside>
           </div>}
@@ -155,8 +216,15 @@ export default function Home() {
               <input ref={fileInput} type="file" accept="video/*" hidden onChange={(event) => chooseVideo(event.target.files?.[0])} />
               {mediaUrl && <button className="text-action replace-video" onClick={() => fileInput.current?.click()}>Choose a different video</button>}
               <label className="field-label" htmlFor="narration">WHAT SHOULD SHOWME NOTICE?</label><textarea id="narration" value={narration} onChange={(event) => setNarration(event.target.value)} placeholder="Narrate while you demonstrate: ‘The spacer goes under the bracket…’" />
-              <div className="capture-actions"><span className="small-note">{learned ? "Demo extraction is not connected yet." : "Local preview only · no video is uploaded"}</span><button className="primary-button" disabled={!mediaUrl} onClick={() => setLearned(true)}>{learned ? "Model connection needed" : "Learn this skill"}<span>→</span></button></div>
-              {learned && <div className="inline-honesty" role="status">The video preview works. The Meta-backed extraction step is not wired to this screen yet, so no learned skill is being claimed.</div>}
+              <div className="capture-actions"><span className="small-note">Choosing Learn uploads this clip to Meta for inference and may use API credits.</span><button className="primary-button" disabled={!sourceFile || learning} onClick={() => void learnFromVideo()}>{learning ? "Learning from video…" : "Learn this skill"}<span>→</span></button></div>
+              {learnError && <div className="inline-honesty" role="alert">{learnError}</div>}
+              {learnedProcess && <section className="candidate-review" aria-live="polite"><div className="candidate-heading"><div><div className="eyebrow">CANDIDATE PROCESS · HUMAN REVIEW REQUIRED</div><h3>{learnedProcess.task_summary}</h3></div><span className="candidate-state">{learnedProcess._validation === "passed" ? "STRUCTURE CHECK PASSED" : "REVIEW"}</span></div>
+                <p className="candidate-warning">This is a hypothesis from one observed trace. The observed order is not treated as a required dependency. Inspect the evidence and uncertainty before allowing this model to guide someone.</p>
+                <div className="candidate-columns"><div><span className="eyebrow">OBJECTS · {learnedProcess.objects.length}</span>{learnedProcess.objects.map((object) => <div className="candidate-item" key={object.id}><strong>{object.label}</strong><small>{object.visual_description}</small></div>)}</div><div><span className="eyebrow">OBSERVED ACTIONS · {learnedProcess.transitions.length}</span>{learnedProcess.transitions.map((transition) => <div className="candidate-item" key={transition.id}><strong>{transition.action}</strong><small>{transition.evidence.map((evidence) => `${evidence.start_seconds.toFixed(1)}–${evidence.end_seconds.toFixed(1)}s · ${evidence.observation}`).join(" ")}</small>{transition.preconditions.length > 0 && <small className="tentative-condition">Model-proposed preconditions to verify: {transition.preconditions.join(", ")}</small>}</div>)}</div></div>
+                <div className="candidate-bottom"><span>{learnedProcess.states.length} states · {learnedProcess.ordering_observations.length} observed ordering notes · {learnedProcess.uncertainties.length} uncertainties</span><span>{learnedProcess._run?.model ?? "Muse Spark"} · {learnedProcess._run?.usage?.input_tokens ?? 0} input tokens</span></div>
+                {learnedProcess.uncertainties.length > 0 && <div className="candidate-uncertainties"><strong>Open questions</strong><ul>{learnedProcess.uncertainties.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul></div>}
+                <div className="candidate-actions"><label><input type="checkbox" checked={candidateReviewed} onChange={(event) => setCandidateReviewed(event.target.checked)} /><span>I reviewed this candidate. The clip shows observed transitions; model-suggested prerequisites are not enforced from a single trace.</span></label><button className="primary-button" disabled={!candidateReviewed || learnedProcess.transitions.length === 0} onClick={loadReviewedCandidate}>Use this Skill Model <span>→</span></button></div>
+              </section>}
             </section>
             <aside className="card learn-card"><div className="eyebrow">THE SKILL MODEL</div><h3>Teach builds the shared model.</h3><p>It should preserve evidence for every inferred transition, and keep uncertain steps visible for review.</p><div className="learn-steps">{["Objects", "Actions", "Before → after states", "Dependencies", "Open questions"].map((item, index) => <div key={item}><span>{String(index + 1).padStart(2, "0")}</span>{item}</div>)}</div><div className="model-foot"><span className="status-dot muted" /> No model extraction has run in this screen</div></aside>
           </div>}

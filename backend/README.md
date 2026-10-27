@@ -4,6 +4,24 @@ The new `showme` package is the active hackathon direction. The earlier
 `thread_engine` remains available as legacy research; do not extend it for
 SHOWME features.
 
+## SHOWME local app API
+
+The Teach surface can send an explicitly selected video to this local service
+for one Meta Model API inference. The upload is staged in a temporary directory,
+converted to a bounded silent MP4, and deleted locally when the request ends.
+The Meta adapter also attempts to delete its uploaded provider file. A returned
+process is a candidate that needs human review; one observed trace does not
+establish required dependencies.
+
+```bash
+backend/.venv/bin/pip install -e 'backend[api,meta]'
+PYTHONPATH=backend backend/.venv/bin/uvicorn showme.api:app --reload --port 8000
+```
+
+The browser only calls `/api/skills/learn` after the user presses **Learn this
+skill**. That call may use Meta API credits. The local `.env` file is read by
+the backend and is never sent to the browser.
+
 ## Prepare local video
 
 ```bash

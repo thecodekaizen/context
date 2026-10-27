@@ -30,11 +30,11 @@ class MuseVideoLearner:
             raise ValueError("Set MODEL_API_KEY in the local .env file or environment")
         return cls(api_key=api_key, model=os.environ.get("SHOWME_META_MODEL", MODEL))
 
-    def learn(self, video: Path, *, duration_seconds: float) -> dict[str, Any]:
+    def learn(self, video: Path, *, duration_seconds: float, narration: str = "") -> dict[str, Any]:
         """Infer a candidate process from a demonstration clip."""
         return self.analyze_video(
             video,
-            prompt=_learning_prompt(duration_seconds),
+            prompt=_learning_prompt(duration_seconds, narration),
             schema=PROCESS_SCHEMA,
             schema_name="showme_process_model",
             max_output_tokens=3000,
@@ -115,8 +115,13 @@ class MuseVideoLearner:
                     pass
 
 
-def _learning_prompt(duration_seconds: float) -> str:
-    return f"""Learn a candidate process from this demonstration video only. Do not assume a task or inject an expected mistake. This single clip is one observed trace, not proof of which steps are necessary. Identify only actions and state facts supported by visible evidence. Keep the representation concise: at most 8 states and 7 transitions. Give each transition a stable unique ID. Every transition needs timestamped evidence within the clip duration ({duration_seconds:.3f} seconds); timestamps may be approximate but must point to visible support. Distinguish visible facts from inference. Record ordering_observations only for pairs whose order is visibly supported, with evidence intervals. These observations mean only “happened before in this clip”; they are not prerequisites and must never be phrased as requirements. Do not infer dependencies, required order, or positional rules from one demonstration. Do not claim hidden conditions. If the procedure or an object is ambiguous, put that uncertainty in uncertainties. Return the requested JSON schema."""
+def _learning_prompt(duration_seconds: float, narration: str = "") -> str:
+    narration_section = (
+        f"\n\nExpert narration (use as additional evidence, but distinguish spoken claims from visible facts):\n{narration.strip()}"
+        if narration.strip()
+        else ""
+    )
+    return f"""Learn a candidate process from this demonstration video only. Do not assume a task or inject an expected mistake. This single clip is one observed trace, not proof of which steps are necessary. Identify only actions and state facts supported by visible evidence. Keep the representation concise: at most 8 states and 7 transitions. Give each transition a stable unique ID. Every transition needs timestamped evidence within the clip duration ({duration_seconds:.3f} seconds); timestamps may be approximate but must point to visible support. Distinguish visible facts from inference. Record ordering_observations only for pairs whose order is visibly supported, with evidence intervals. These observations mean only “happened before in this clip”; they are not prerequisites and must never be phrased as requirements. Do not infer dependencies, required order, or positional rules from one demonstration. Do not claim hidden conditions. If the procedure or an object is ambiguous, put that uncertainty in uncertainties. Return the requested JSON schema.{narration_section}"""
 
 
 def _usage(response: Any) -> dict[str, int]:
