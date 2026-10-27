@@ -155,3 +155,9 @@ Run the controlled task with matched clips, inspect the learned process and evid
 
 - Re-captured Teach, Do, Simulate, and the blocked what-if from the production build at desktop width, replacing the older README captures. The blocked screen shows the dashed attempted bracket plus the unchanged valid state.
 - Visually checked the output and documented that Do is shown with camera off and no SAM result; SAM requires an explicit selected-frame model call. Screenshots remain illustrations of app flows, not evidence of task accuracy.
+
+### Implementation checkpoint — Timed procedural playback
+
+- Added Play/Pause/Replay to the deterministic Simulate sequence. It advances the existing Skill Model transitions at a readable interval, preserves manual stepping, and stops at the last result, including a blocked attempt.
+- Resetting, reordering, rerunning, changing the starting checkpoint, or manually stepping stops playback so state cannot drift from the visible sequence. The controls wrap on narrow screens.
+- This is timed state progression, not physical animation or a claim of physics simulation. LEGO geometry and real-task verification remain dependent on the user's recordings.

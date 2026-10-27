@@ -104,6 +104,7 @@ export default function Home() {
   const [sequenceDraft, setSequenceDraft] = useState<string[]>(model.actions.map((action) => action.id));
   const [sequenceResult, setSequenceResult] = useState<ReturnType<typeof simulateSequence> | null>(null);
   const [sequenceCursor, setSequenceCursor] = useState(-1);
+  const [sequencePlaying, setSequencePlaying] = useState(false);
   const [simulationOrigin, setSimulationOrigin] = useState<SimulationOrigin>({ state: SAMPLE_SKILL.initialState, actionIds: SAMPLE_SKILL.actions.map((action) => action.id), source: "skill-start", label: "Skill start" });
   const [whatIfPrompt, setWhatIfPrompt] = useState("");
   const [whatIfMessage, setWhatIfMessage] = useState("");
@@ -172,6 +173,23 @@ export default function Home() {
     if (storageReady && activeProcess) saveReviewedProcess(activeProcess);
   }, [activeProcess, storageReady]);
 
+  useEffect(() => {
+    if (!sequencePlaying || !sequenceResult) return;
+    const timer = window.setTimeout(() => {
+      const nextCursor = sequenceCursor + 1;
+      const step = sequenceResult.steps[nextCursor];
+      if (!step) {
+        setSequencePlaying(false);
+        return;
+      }
+      setSequenceCursor(nextCursor);
+      setState(step.result.state);
+      setResult(step.result);
+      if (nextCursor === sequenceResult.steps.length - 1) setSequencePlaying(false);
+    }, 850);
+    return () => window.clearTimeout(timer);
+  }, [sequencePlaying, sequenceCursor, sequenceResult]);
+
   useEffect(() => () => {
     if (mediaUrl.startsWith("blob:")) URL.revokeObjectURL(mediaUrl);
     streamRef.current?.getTracks().forEach((track) => track.stop());
@@ -216,6 +234,7 @@ export default function Home() {
   }, [cameraOn]);
 
   function resetSimulation() {
+    setSequencePlaying(false);
     setState(simulationOrigin.state);
     setResult(null);
     setSequenceDraft(simulationOrigin.actionIds);
@@ -228,6 +247,7 @@ export default function Home() {
   function moveSequenceAction(index: number, offset: -1 | 1) {
     const target = index + offset;
     if (target < 0 || target >= sequenceDraft.length) return;
+    setSequencePlaying(false);
     setSequenceDraft((current) => {
       const next = [...current];
       [next[index], next[target]] = [next[target], next[index]];
@@ -241,6 +261,7 @@ export default function Home() {
   }
 
   function runSequenceWhatIf() {
+    setSequencePlaying(false);
     const next = simulateSequence(model, sequenceDraft, simulationOrigin.state);
     setSequenceResult(next);
     const firstStep = next.steps[0];
@@ -262,6 +283,7 @@ export default function Home() {
 
   function applyNaturalWhatIf() {
     if (!whatIfProposal) return;
+    setSequencePlaying(false);
     setSequenceDraft(whatIfProposal.actionIds);
     setSequenceResult(null);
     setSequenceCursor(-1);
@@ -273,12 +295,29 @@ export default function Home() {
 
   function moveSimulationCursor(offset: -1 | 1) {
     if (!sequenceResult) return;
+    setSequencePlaying(false);
     const nextCursor = Math.max(0, Math.min(sequenceResult.steps.length - 1, sequenceCursor + offset));
     const step = sequenceResult.steps[nextCursor];
     if (!step) return;
     setSequenceCursor(nextCursor);
     setState(step.result.state);
     setResult(step.result);
+  }
+
+  function toggleSequencePlayback() {
+    if (!sequenceResult?.steps.length) return;
+    if (sequencePlaying) {
+      setSequencePlaying(false);
+      return;
+    }
+    if (sequenceCursor >= sequenceResult.steps.length - 1) {
+      const firstStep = sequenceResult.steps[0];
+      if (!firstStep) return;
+      setSequenceCursor(0);
+      setState(firstStep.result.state);
+      setResult(firstStep.result);
+    }
+    setSequencePlaying(sequenceResult.steps.length > 1);
   }
 
   async function startCamera() {
@@ -672,6 +711,7 @@ export default function Home() {
 
   function startSimulationFromSnapshot() {
     if (!snapshotCanContinue || !snapshotObservation || snapshotObservation.assessment !== "consistent") return;
+    setSequencePlaying(false);
     const isInitial = model.initialState.includes(snapshotObservation.state_id);
     const remainingActions = isInitial ? model.actions : model.actions.slice(snapshotActionIndex + 1);
     const origin: SimulationOrigin = {
@@ -755,7 +795,7 @@ export default function Home() {
                   </div>)}
                 </div>
                 <small className="sequence-disclaimer">The comparison uses the same Skill Model. An observed reference trace is evidence of what happened once, not proof that other orders are impossible.</small>
-                {sequenceResult.steps.length > 0 && <div className="sequence-playback"><span>STEP {sequenceCursor + 1} OF {sequenceResult.steps.length} · {sequenceResult.steps[sequenceCursor]?.result.action.label}</span><div><button className="secondary-button" disabled={sequenceCursor <= 0} onClick={() => moveSimulationCursor(-1)}>← Previous</button><button className="secondary-button" disabled={sequenceCursor >= sequenceResult.steps.length - 1} onClick={() => moveSimulationCursor(1)}>Next →</button></div></div>}
+                {sequenceResult.steps.length > 0 && <div className="sequence-playback"><span>STEP {sequenceCursor + 1} OF {sequenceResult.steps.length} · {sequenceResult.steps[sequenceCursor]?.result.action.label}</span><div><button className="secondary-button" disabled={sequencePlaying || sequenceCursor <= 0} onClick={() => moveSimulationCursor(-1)}>← Previous</button><button className="secondary-button" disabled={sequencePlaying || sequenceCursor >= sequenceResult.steps.length - 1} onClick={() => moveSimulationCursor(1)}>Next →</button><button className="secondary-button" disabled={sequenceResult.steps.length < 2} onClick={toggleSequencePlayback}>{sequencePlaying ? "Pause" : sequenceCursor >= sequenceResult.steps.length - 1 ? "Replay" : "Play"} {sequencePlaying ? "Ⅱ" : "▶"}</button></div></div>}
                 <ol>{sequenceResult.steps.map(({ index, result: step }) => <li className={sequenceCursor === index ? "current" : ""} key={`${step.action.id}-${index}`}><span>{step.accepted ? "✓" : step.kind === "blocked" ? "!" : "?"}</span><div><b>{step.action.label}</b><small>{step.accepted ? "Applied to the simulated state." : step.message}{!step.accepted && step.kind === "blocked" && ` Missing: ${step.missing.join(", ")}. Basis: ${step.blockedBy.map((item) => item.source.replaceAll("-", " ")).join(", ")}.`}</small></div></li>)}</ol>
                 <small className="sequence-disclaimer">This is a procedural state preview, not a physics simulation or a claim about what happened in the camera view.</small>
               </section>}
