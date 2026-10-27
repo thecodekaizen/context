@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "project": {
+    "id": "project-ember-table",
+    "title": "Ember Table"
+  },
+  "artifacts": [
+    {
+      "id": "ember-001",
+      "date": "2024-01-12",
+      "modality": "note",
+      "title": "Private recipe notebook",
+      "content": "I am keeping this as my own recipe notebook: small-batch breads and winter soups from my kitchen. I want to carve a simple linocut beside each recipe, but the recipes and drawings are mine for now."
+    },
+    {
+      "id": "ember-002",
+      "date": "2024-04-04",
+      "modality": "sketch",
+      "title": "Bread and margin drawings",
+      "content": "Reworked the rye loaf measurements after two more tries. The notebook still feels like a record of what I cook at home. Added a linocut of the old oven in the margin."
+    },
+    {
+      "id": "ember-003",
+      "date": "2024-08-17",
+      "modality": "field-note",
+      "title": "One supper annotation test",
+      "content": "Four friends cooked at one table tonight. I tried recipe cards where guests could mark a substitution in pencil. This was one evening to see whether the cards were readable; the notebook remains my personal collection."
+    },
+    {
+      "id": "ember-004",
+      "date": "2024-11-03",
+      "modality": "prototype",
+      "title": "Shared card prototype",
+      "content": "Made one prototype recipe card pairing my soup recipe and linocut with a friend's note about adding beans. It is a private draft to test the layout, not a collected or published book."
+    },
+    {
+      "id": "ember-005",
+      "date": "2025-03-20",
+      "modality": "proposal",
+      "title": "Seasonal table collection proposal",
+      "content": "I would like to invite people from the supper group to contribute one seasonal recipe each for a small Ember Table collection. This is only a proposal; I have not gathered recipes or assembled an issue. I hope the linocut drawings can sit beside each recipe."
+    },
+    {
+      "id": "ember-006",
+      "date": "2025-09-27",
+      "modality": "release-note",
+      "title": "First Ember Table booklet shared",
+      "content": "Finished and shared the first Ember Table seasonal recipe booklet with twelve supper-group cooks credited as contributors. Their recipes and substitutions sit alongside my original linocut illustrations. This is the first completed group booklet."
+    }
+  ]
+}
