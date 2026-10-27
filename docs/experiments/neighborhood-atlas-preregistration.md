@@ -34,6 +34,7 @@ The ablation input is `datasets/synthetic/experiments/neighborhood-atlas/ablatio
 - Provider/model: Meta Model API, Muse Spark 1.3 (`muse-spark-1.3`), Standard mode.
 - API: Responses API at `https://api.meta.ai/v1/responses`.
 - Reasoning effort: `high`.
+- Maximum output budget: 4096 tokens (including reasoning tokens).
 - One inference for the complete case and one for the ablation. No prompt retries or manual steering; retry only a transport/API failure and record it. Save the exact request, response, model ID, timestamp, and usage metadata under ignored `.thread-experiment-runs/`. Never save API keys.
 - Present artifacts in chronological order with their original IDs, dates, modality, title, and content.
 
