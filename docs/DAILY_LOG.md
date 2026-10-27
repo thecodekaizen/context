@@ -182,3 +182,11 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - Updated the participant checklist for the locked SHOWME task, current hackathon requirements, and verified credit claim.
 - Marked the old THREAD evaluation strategy as archived and corrected demo-script wording to match the interface and current evidence boundaries.
 - The README screenshots still predate the latest copy pass. Browser capture was unavailable in this session; keep the existing date/caveat until fresh screenshots can be captured and reviewed.
+# 2026-10-27 — Manual-step checks for learner video
+
+- Added a reference-step ledger to learner-video review. Each transition cited by the instruction PDF must be labeled visible match, possible mismatch, not shown, or unclear, with timestamped evidence where visible and a concrete next action when the clip cannot verify it.
+- The API validator now rejects omitted/duplicate/unknown cited steps, unsupported mismatch timestamps, and claims that a not-shown step has a visible timestamp. The Do screen and CLI expose the results.
+- Replayed the same 111-second IMG_7663 learner clip against the saved IMG_7660 process and LEGO manual; no second Teach run was needed. Muse Spark 1.3 returned 18 step checks: 15 not shown, 3 visible matches, one possible divergence at 42s, and recovered after later consistent evidence at 60s and 88s. It used 33,305 input and 2,289 output tokens and took 49.2s.
+- Reviewed the cited frames against manual page 2. The frames support a possible temporary white-tile misplacement followed by correction. This is one promising observation, not a passed evaluation: the error labels were not preregistered and early steps remain outside the clip.
+- SAM 3.1 returned zero detections for the cockpit core and wing assembly at 42s. Visual grounding failed on this close, hand-occluded frame.
+- Verification: 80 backend tests, 15 frontend tests, and TypeScript checks pass. The controlled P0 evaluation remains incomplete.

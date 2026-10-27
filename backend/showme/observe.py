@@ -14,6 +14,10 @@ def observation_schema(process: dict[str, Any]) -> dict[str, Any]:
     object_ids = [item["id"] for item in process["objects"]]
     state_choices = [*state_ids, "unknown"]
     object_choices = [*object_ids, "unknown"]
+    reference_transition_ids = [
+        transition["id"] for transition in process["transitions"]
+        if transition.get("reference_evidence")
+    ] or ["none"]
     return {
         "type": "object",
         "properties": {
@@ -52,8 +56,23 @@ def observation_schema(process: dict[str, Any]) -> dict[str, Any]:
                 "enum": ["no_divergence_observed", "underway", "recovered", "unclear"],
             },
             "uncertainties": {"type": "array", "items": {"type": "string"}},
+            "reference_checks": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "transition_id": {"type": "string", "enum": reference_transition_ids},
+                        "status": {"type": "string", "enum": ["matches_reference", "possible_mismatch", "not_shown", "unclear"]},
+                        "time_seconds": {"type": ["number", "null"], "minimum": 0},
+                        "evidence": {"type": "string"},
+                        "next_guidance": {"type": "string"},
+                    },
+                    "required": ["transition_id", "status", "time_seconds", "evidence", "next_guidance"],
+                    "additionalProperties": False,
+                },
+            },
         },
-        "required": ["events", "divergences", "recovery_status", "uncertainties"],
+        "required": ["events", "divergences", "recovery_status", "uncertainties", "reference_checks"],
         "additionalProperties": False,
     }
 
@@ -73,6 +92,13 @@ def observation_prompt(process: dict[str, Any], duration_seconds: float) -> str:
         "when the video cannot support a match. Use only declared state/object IDs or "
         "'unknown'. Include evidence that a reviewer can locate in the clip. Do not "
         "claim recovery unless the clip visibly returns to a process-consistent state. "
+        "For every transition that has reference_evidence, return exactly one reference_check using its transition ID. "
+        "Use matches_reference only with direct visual evidence; use possible_mismatch only for a visible conflict "
+        "with the cited manual step, and add the same issue to divergences. Use not_shown when the step is absent "
+        "or the part is already assembled: do not infer it is missing. Use unclear when blur, hands, or occlusion "
+        "prevent a decision. Include a timestamp for visible evidence and null when not_shown; for every status "
+        "except matches_reference, give one concrete next action (perform the cited step, show the relevant joint, "
+        "or correct the visible mismatch). The manual states intended steps; the learner clip shows current evidence. "
         f"All times must be in [0, {duration_seconds:.3f}) seconds.\n\n"
         f"Learned process:\n{json.dumps(clean_process, ensure_ascii=False, sort_keys=True)}"
     )
@@ -113,6 +139,7 @@ def validate_observation(
         _validate_objects(divergence.get("object_ids"), object_ids, f"divergence {index}")
 
     status = observation.get("recovery_status")
+    _validate_reference_checks(observation, process, duration_seconds, divergences)
     allowed_statuses = {"no_divergence_observed", "underway", "recovered", "unclear"}
     if status not in allowed_statuses:
         raise ValueError("observation has an invalid recovery_status")
@@ -228,16 +255,68 @@ def _validate_objects(value: Any, object_ids: set[str], label: str) -> None:
             raise ValueError(f"{label} references an unknown object_id")
 
 
+def _validate_reference_checks(
+    observation: dict[str, Any], process: dict[str, Any], duration: float, divergences: list[Any],
+) -> None:
+    expected = {
+        transition["id"] for transition in process["transitions"]
+        if transition.get("reference_evidence")
+    }
+    checks = observation.get("reference_checks")
+    if not isinstance(checks, list):
+        raise ValueError("reference_checks must be an array")
+    seen: set[str] = set()
+    for index, check in enumerate(checks):
+        if not isinstance(check, dict):
+            raise ValueError(f"reference check {index} must be an object")
+        transition_id = check.get("transition_id")
+        if not isinstance(transition_id, str) or transition_id not in expected:
+            raise ValueError(f"reference check {index} references an unexpected transition")
+        if transition_id in seen:
+            raise ValueError("reference_checks must contain each reference transition exactly once")
+        seen.add(transition_id)
+        status = check.get("status")
+        if not isinstance(status, str) or status not in {"matches_reference", "possible_mismatch", "not_shown", "unclear"}:
+            raise ValueError(f"reference check {index} has an invalid status")
+        evidence = check.get("evidence")
+        guidance = check.get("next_guidance")
+        if not isinstance(evidence, str) or not evidence.strip():
+            raise ValueError(f"reference check {index} needs evidence")
+        if not isinstance(guidance, str):
+            raise ValueError(f"reference check {index} next_guidance must be a string")
+        timestamp = check.get("time_seconds")
+        if timestamp is None:
+            if status in {"matches_reference", "possible_mismatch"}:
+                raise ValueError(f"reference check {index} needs a timestamp for visible evidence")
+        else:
+            if isinstance(timestamp, bool) or not isinstance(timestamp, (int, float)):
+                raise ValueError(f"reference check {index} time_seconds must be numeric or null")
+            if not math.isfinite(timestamp) or not 0 <= timestamp < duration:
+                raise ValueError(f"reference check {index} time_seconds must be within the clip")
+            if status == "not_shown":
+                raise ValueError(f"reference check {index} must use a null timestamp when not_shown")
+        if status != "matches_reference" and not guidance.strip():
+            raise ValueError(f"reference check {index} needs actionable next_guidance")
+        if status == "possible_mismatch" and not any(
+            abs(float(item["time_seconds"]) - float(timestamp)) <= 2.0
+            for item in divergences
+        ):
+            raise ValueError("possible reference mismatches need a divergence record at the same evidence time")
+    if seen != expected:
+        raise ValueError("reference_checks must contain each reference transition exactly once")
+
+
 def observe_video(
     learner: MuseSparkClient,
     video_path: Any,
     process: dict[str, Any],
     duration_seconds: float,
 ) -> dict[str, Any]:
+    has_references = any(item.get("reference_evidence") for item in process["transitions"])
     return learner.analyze_video(
         video_path,
         prompt=observation_prompt(process, duration_seconds),
         schema=observation_schema(process),
         schema_name="showme_learner_observation",
-        max_output_tokens=2500,
+        max_output_tokens=4500 if has_references else 2500,
     )

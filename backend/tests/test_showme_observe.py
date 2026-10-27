@@ -25,6 +25,7 @@ class ObservationValidationTests(unittest.TestCase):
             "divergences": [],
             "recovery_status": "no_divergence_observed",
             "uncertainties": [],
+            "reference_checks": [],
         }
 
     def test_accepts_grounded_valid_timeline(self):
@@ -103,6 +104,12 @@ class ObservationValidationTests(unittest.TestCase):
         state_enum = schema["properties"]["events"]["items"]["properties"]["state_id"]["enum"]
         self.assertEqual(state_enum, ["separate", "stacked", "unknown"])
 
+    def test_reference_check_schema_limits_to_cited_transitions(self):
+        self.process["transitions"][0]["reference_evidence"] = [{"page": 1, "step": "1", "observation": "Place red on blue."}]
+        schema = observation_schema(self.process)
+        transition_enum = schema["properties"]["reference_checks"]["items"]["properties"]["transition_id"]["enum"]
+        self.assertEqual(transition_enum, [self.process["transitions"][0]["id"]])
+
     def test_prompt_does_not_include_run_metadata(self):
         self.process["_run"] = {"remote_file_id": "secret-file-id", "model": "muse-spark-1.3"}
         prompt = observation_prompt(self.process, 12.0)
@@ -113,6 +120,45 @@ class ObservationValidationTests(unittest.TestCase):
         prompt = observation_prompt(self.process, 12.0)
         self.assertIn("not required prerequisites", prompt)
         self.assertIn("not call a learner divergent only because", prompt)
+
+    def test_reference_transitions_require_one_check_each(self):
+        self.process["transitions"][0]["reference_evidence"] = [{"page": 1, "step": "1", "observation": "Place red on blue."}]
+        with self.assertRaisesRegex(ValueError, "each reference transition exactly once"):
+            validate_observation(self.valid, self.process, 5.0)
+
+    def test_accepts_not_shown_reference_step_with_guidance(self):
+        self.process["transitions"][0]["reference_evidence"] = [{"page": 1, "step": "1", "observation": "Place red on blue."}]
+        output = copy.deepcopy(self.valid)
+        output["reference_checks"] = [{
+            "transition_id": self.process["transitions"][0]["id"],
+            "status": "not_shown",
+            "time_seconds": None,
+            "evidence": "The clip begins after the blocks are already arranged.",
+            "next_guidance": "Show the starting pieces, then place the red block on the blue block.",
+        }]
+        validate_observation(output, self.process, 5.0)
+
+    def test_rejects_duplicate_reference_checks(self):
+        self.process["transitions"][0]["reference_evidence"] = [{"page": 1, "step": "1", "observation": "Place red on blue."}]
+        check = {"transition_id": self.process["transitions"][0]["id"], "status": "unclear", "time_seconds": 1.0, "evidence": "Hands cover the joint.", "next_guidance": "Move your hand and show the joint."}
+        output = copy.deepcopy(self.valid)
+        output["reference_checks"] = [check, copy.deepcopy(check)]
+        with self.assertRaisesRegex(ValueError, "exactly once"):
+            validate_observation(output, self.process, 5.0)
+
+    def test_rejects_mismatch_without_divergence(self):
+        self.process["transitions"][0]["reference_evidence"] = [{"page": 1, "step": "1", "observation": "Place red on blue."}]
+        output = copy.deepcopy(self.valid)
+        output["reference_checks"] = [{"transition_id": self.process["transitions"][0]["id"], "status": "possible_mismatch", "time_seconds": 1.0, "evidence": "Red is beside blue.", "next_guidance": "Place red on top of blue."}]
+        with self.assertRaisesRegex(ValueError, "at the same evidence time"):
+            validate_observation(output, self.process, 5.0)
+
+    def test_rejects_unshown_reference_step_with_timestamp(self):
+        self.process["transitions"][0]["reference_evidence"] = [{"page": 1, "step": "1", "observation": "Place red on blue."}]
+        output = copy.deepcopy(self.valid)
+        output["reference_checks"] = [{"transition_id": self.process["transitions"][0]["id"], "status": "not_shown", "time_seconds": 1.0, "evidence": "The step is not in the clip.", "next_guidance": "Show the step."}]
+        with self.assertRaisesRegex(ValueError, "null timestamp"):
+            validate_observation(output, self.process, 5.0)
 
 
 class SnapshotValidationTests(unittest.TestCase):

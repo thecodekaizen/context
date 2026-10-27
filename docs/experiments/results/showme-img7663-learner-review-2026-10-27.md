@@ -36,6 +36,16 @@ Three frames around 89, 92, and 97 seconds were compared with the step 17–18 d
 - The model could see both wings in some frames but could not verify the smooth/studded faces or hinge-to-body connections because of motion blur and hand occlusion.
 - Usage: 11,293 input tokens and 456 output tokens.
 
+### Manual-backed step ledger replay
+
+After adding explicit per-manual-step checks, the same 111-second learner clip and saved process were replayed once. Muse Spark 1.3 returned 18 reference checks, five observed events, one divergence, and `recovered` in 49.2 seconds. Usage was 33,305 input tokens and 2,289 output tokens.
+
+- Steps 1–15: `not_shown`; the clip begins with those subassemblies already built. The output did not claim they were missing and supplied the next step or view needed for each.
+- Step 16: the model reported that the white round tile was briefly placed on the cockpit area at 42 seconds, although the manual shows it on the wing panel.
+- At 60 seconds, the model reported the tile on the wing panel; at 88 seconds, both wings were attached. It treated these later states as consistent and marked recovery.
+- I inspected the extracted frames at 42, 60, and 88 seconds against manual page 2. The sequence supports a possible temporary placement error followed by correction. This is a useful single-run signal, not an independently preregistered or repeated evaluation.
+- SAM 3.1 returned zero detections for both the cockpit core and wing panel on the cited 42-second frame. Visual grounding failed; the frame is tightly cropped and the hand covers the assembly.
+
 ## Human observation and limits
 
 The user reports that the learner clip contains multiple mistakes and incorrect arrangements. This establishes a human-observed false negative for the current runs, but the exact mistake timestamps and labels have not been independently recorded. Therefore this result is qualitative; it is not a precision/recall score.
@@ -44,10 +54,10 @@ The clip begins with the central body and wing assemblies already built. It test
 
 ## Conclusion
 
-**Fail for the current setup.** The model did not detect the reported mistakes and could not validate the final arrangement against the official instructions. The broad candidate Skill Model from IMG_7660 is not detailed enough to check piece-level relationships. Adding the instructions improved the target description but did not overcome the visibility limits. The claim that the model recognized a recovery is not supported.
+**Partial signal; core hypothesis not yet passed.** Earlier runs missed the reported mistakes. The manual-backed step ledger produced one plausible, visually supported catch and a later correction in this clip. However, it is one run without independently recorded ground truth, most early steps were not visible, and recovery was inferred from two later frames rather than observed continuously. SAM grounding failed on the cited moment. This does not establish reliable mistake detection, complete-task guidance, or live intervention.
 
 Do not present this run as proof that SHOWME catches physical mistakes or guides recovery.
 
 ## Engineering consequence
 
-The Do experience needs a verified target model and a way to ask for a clearer view when the decisive connection is hidden. It must leave the state unresolved when it cannot see enough evidence, and it must not call an action a recovery unless a confirmed mismatch is followed by a clearly visible, target-consistent state. A future controlled capture should hold the completed assembly still from above and show both wing faces and attachment points unobstructed; this clip remains useful as a hard, realistic failure case.
+The Do experience now presents a check for every cited manual step, links visible checks to timestamps, and gives next actions for steps that are absent or unclear. Keep the mismatch visibly labeled as possible until a human reviews it. A future controlled capture should show the pieces before assembly, hold each decisive joint unobstructed, and record the intended mistake and correction as separate labeled evaluation conditions; this clip remains a realistic hard case.

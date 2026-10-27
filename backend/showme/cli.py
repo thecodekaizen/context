@@ -155,6 +155,10 @@ def _observe_video(process_path: Path, video: Path, output: Path) -> int:
         "observation_file": str((output / "observation.json").resolve()),
         "events": len(observation.get("events", [])),
         "divergences": len(observation.get("divergences", [])),
+        "reference_checks": {
+            status: sum(check.get("status") == status for check in observation.get("reference_checks", []))
+            for status in ("matches_reference", "possible_mismatch", "not_shown", "unclear")
+        },
         "recovery_status": observation.get("recovery_status"),
         "usage": observation.get("_run", {}).get("usage", {}),
     }, indent=2))

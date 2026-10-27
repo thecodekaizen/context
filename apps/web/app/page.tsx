@@ -14,6 +14,7 @@ type LearnerObservation = {
   divergences: { time_seconds: number; process_difference: string; object_ids: string[]; evidence: string }[];
   recovery_status: "no_divergence_observed" | "underway" | "recovered" | "unclear";
   uncertainties: string[];
+  reference_checks: { transition_id: string; status: "matches_reference" | "possible_mismatch" | "not_shown" | "unclear"; time_seconds: number | null; evidence: string; next_guidance: string }[];
   _run?: { model?: string; usage?: { input_tokens?: number; output_tokens?: number } };
 };
 type SnapshotObservation = {
@@ -880,6 +881,11 @@ export default function Home() {
                     return <div className={`recovery-summary recovery-${observation.recovery_status}`}><span className="eyebrow">RECOVERY CHECK</span><strong>{recoveryCopy[0]}</strong><p>{recoveryCopy[1]}</p>{recoveryEvent && <button className="text-action" onClick={() => inspectLearnerEvidence(recoveryEvent.time_seconds)}>Review later consistent state · {recoveryEvent.time_seconds.toFixed(1)}s →</button>}</div>;
                   })()}
                   <p className="evidence-review-hint">Select a timestamp to inspect the supporting moment. Locate sends one frame and one object phrase to SAM, using API credits; it segments pixels but does not verify the reported difference.</p>
+                  {observation.reference_checks.length > 0 && <div className="reference-step-checks"><strong>Manual step review · {observation.reference_checks.length}</strong>{observation.reference_checks.map((check) => {
+                    const transition = activeProcess?.transitions.find((item) => item.id === check.transition_id);
+                    const statusCopy = { matches_reference: "Visible match", possible_mismatch: "Possible mismatch", not_shown: "Not shown in clip", unclear: "Need a clearer view" }[check.status];
+                    return <article className={`reference-step-check reference-${check.status}`} key={check.transition_id}><div className="reference-step-heading"><b>{transition?.action ?? check.transition_id}</b><span>{statusCopy}</span></div><p>{check.evidence}</p>{transition?.reference_evidence?.map((citation, index) => <small key={`${check.transition_id}-${index}`}>Manual p. {citation.page}, step {citation.step}: {citation.observation}</small>)}{check.time_seconds !== null && <button className="text-action" onClick={() => inspectLearnerEvidence(check.time_seconds!)}>Inspect clip at {check.time_seconds.toFixed(1)}s →</button>}{check.next_guidance && <p className="reference-next"><strong>Next:</strong> {check.next_guidance}</p>}</article>;
+                  })}</div>}
                   {observation.divergences.length > 0 && <div className="divergence-list"><strong>Differences to inspect · {observation.divergences.length}</strong>{observation.divergences.map((item, index) => <div className="divergence-entry" key={`${item.time_seconds}-${index}`}><button className="evidence-row" onClick={() => inspectLearnerEvidence(item.time_seconds)}><span>{item.time_seconds.toFixed(1)}s</span><div><b>{item.process_difference}</b><p>{item.evidence}</p><small>{objectLabels(item.object_ids)}</small></div></button>{item.object_ids.filter((id) => id !== "unknown" && activeProcess?.objects.some((object) => object.id === id)).map((id) => <button className="ground-evidence-button" disabled={learnerGroundingBusy} key={id} onClick={() => void groundLearnerEvidence(item.time_seconds, id)}>Find {activeProcess?.objects.find((object) => object.id === id)?.label ?? id} in frame</button>)}</div>)}</div>}
                   {learnerGroundingError && <div className="inline-honesty" role="alert">{learnerGroundingError}</div>}
                   {learnerGroundingBusy && <p className="evidence-review-hint">Opening the selected video moment and looking for the object…</p>}
