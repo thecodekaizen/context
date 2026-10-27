@@ -1,277 +1,176 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { completedActions, simulateAction } from "@/lib/simulate";
+import { SAMPLE_SKILL, type SkillModel } from "@/lib/skill-model";
 
-type Evidence = {
-  memory_id: string;
-  source_id: string;
-  date: string;
-  title: string;
-  summary: string;
-  theme: string;
-};
+type Mode = "teach" | "do" | "simulate";
 
-type Finding = {
-  id: string;
-  project_title: string;
-  hypothesis: string;
-  earlier_theme: string;
-  later_theme: string;
-  start_date: string;
-  end_date: string;
-  supporting_evidence: Evidence[];
-  counter_evidence: Evidence[];
-  uncertainty: string[];
-  extraction_provider: string;
-  extraction_model: string | null;
-  api_usage?: { requests: number; cache_hits: number; estimated_usd: number; cumulative_estimated_usd: number };
-};
-
-type Session = { session_id: string; finding: Finding; stage: string; first_question: string };
-type Artifact = { title: string; kind: string; body: string; source_ids: string[]; based_on_insight: string };
-
-const API = process.env.NEXT_PUBLIC_THREAD_API_URL ?? "http://localhost:8000";
-
-async function request<T>(path: string, body?: unknown): Promise<T> {
-  let response: Response;
-  try {
-    response = await fetch(`${API}${path}`, {
-      method: body ? "POST" : "GET",
-      headers: body ? { "Content-Type": "application/json" } : undefined,
-      body: body ? JSON.stringify(body) : undefined,
-    });
-  } catch {
-    throw new Error("THREAD’s local engine is not connected. Start the backend, then try again.");
-  }
-  const payload = await response.json();
-  if (!response.ok) {
-    const detail = Array.isArray(payload.detail)
-      ? payload.detail.map((item: { msg?: string }) => item.msg).filter(Boolean).join(" ")
-      : payload.detail;
-    throw new Error(typeof detail === "string" ? detail : "The request could not be completed.");
-  }
-  return payload as T;
+function AssemblyView({ state }: { state: string[] }) {
+  const washer = state.includes("washer_seated");
+  const bracket = state.includes("bracket_mounted");
+  const bolt = state.includes("fastener_inserted");
+  return (
+    <div className="assembly-scene" aria-label="Illustrative assembly state">
+      <div className="scene-glow" />
+      <div className="part-label label-bracket">SUPPORT BRACKET</div>
+      <div className="part-label label-washer">SPACER RING</div>
+      <div className="part-label label-base">MOUNTING BASE</div>
+      <div className="assembly">
+        {bolt && <div className="bolt-part"><span /></div>}
+        {bracket && <div className="bracket-part"><span /></div>}
+        {washer && <div className="washer-part"><span /></div>}
+        <div className="base-part"><span /></div>
+      </div>
+      <div className="scene-caption">STATE VIEW · PROCEDURAL, NOT PHYSICS</div>
+    </div>
+  );
 }
 
-function dateLabel(value: string) {
-  return new Intl.DateTimeFormat("en", { month: "short", year: "numeric" }).format(new Date(`${value}T00:00:00`));
+function VideoPreview({ src }: { src: string }) {
+  return <video className="video-preview" src={src} controls playsInline />;
 }
 
 export default function Home() {
-  const [provider, setProvider] = useState<"fixture" | "meta">("fixture");
-  const [session, setSession] = useState<Session | null>(null);
-  const [artifact, setArtifact] = useState<Artifact | null>(null);
-  const [stage, setStage] = useState<"welcome" | "evidence" | "challenge" | "confirm" | "created">("welcome");
-  const [context, setContext] = useState("");
-  const [interviewQuestion, setInterviewQuestion] = useState("");
-  const [interviewStep, setInterviewStep] = useState(1);
-  const [interpretation, setInterpretation] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
-  const started = useRef(false);
+  const [mode, setMode] = useState<Mode>("simulate");
+  const [model] = useState<SkillModel>(SAMPLE_SKILL);
+  const [state, setState] = useState<string[]>(model.initialState);
+  const [result, setResult] = useState<ReturnType<typeof simulateAction> | null>(null);
+  const [mediaUrl, setMediaUrl] = useState("");
+  const [cameraOn, setCameraOn] = useState(false);
+  const [cameraError, setCameraError] = useState("");
+  const [narration, setNarration] = useState("");
+  const [learned, setLearned] = useState(false);
+  const fileInput = useRef<HTMLInputElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
 
-  const discover = useCallback(async (selected: "fixture" | "meta" = "fixture") => {
-    setBusy(true);
-    setError("");
-    setArtifact(null);
-    try {
-      const result = await request<Session>("/api/discover", { provider: selected });
-      setSession(result);
-      setProvider(selected);
-      setStage("welcome");
-      setContext("");
-      setInterviewQuestion(result.first_question);
-      setInterviewStep(1);
-      setInterpretation("");
-    } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Discovery failed.");
-    } finally {
-      setBusy(false);
-    }
-  }, []);
+  useEffect(() => () => {
+    if (mediaUrl.startsWith("blob:")) URL.revokeObjectURL(mediaUrl);
+    streamRef.current?.getTracks().forEach((track) => track.stop());
+  }, [mediaUrl]);
 
   useEffect(() => {
-    if (started.current) return;
-    started.current = true;
-    void discover("fixture");
-  }, [discover]);
+    if (cameraOn && videoRef.current && streamRef.current) videoRef.current.srcObject = streamRef.current;
+  }, [cameraOn]);
 
-  async function saveChallenge() {
-    if (!session) return;
-    setBusy(true);
-    setError("");
+  function resetSimulation() {
+    setState(model.initialState);
+    setResult(null);
+  }
+
+  function tryAction(actionId: string) {
+    const next = simulateAction(model, state, actionId);
+    setResult(next);
+    if (next.accepted) setState(next.state);
+  }
+
+  async function startCamera() {
+    setCameraError("");
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setCameraError("Camera access is unavailable here. Open SHOWME on localhost or HTTPS.");
+      return;
+    }
     try {
-      const result = await request<{ stage: string; next_question?: string; context?: string }>(
-        `/api/sessions/${session.session_id}/challenge`,
-        { answer: context },
-      );
-      if (result.stage === "interviewing" && result.next_question) {
-        setInterviewQuestion(result.next_question);
-        setInterviewStep(2);
-        setContext("");
-        return;
-      }
-      const finalContext = result.context ?? context;
-      setContext(finalContext);
-      setInterpretation(`The project did not leave ${finding?.earlier_theme ?? "its original purpose"} behind. It made ${finding?.later_theme ?? "its newer direction"} the lead, while keeping the earlier need in view.`);
-      setStage("confirm");
-    } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Could not save your perspective.");
-    } finally {
-      setBusy(false);
+      streamRef.current?.getTracks().forEach((track) => track.stop());
+      streamRef.current = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
+      setCameraOn(true);
+    } catch {
+      setCameraError("Camera permission was not granted. You can still inspect the sample procedure.");
     }
   }
 
-  async function confirmInsight() {
-    if (!session) return;
-    setBusy(true);
-    setError("");
-    try {
-      await request(`/api/sessions/${session.session_id}/confirm`, { interpretation });
-      const result = await request<{ artifact: Artifact }>(`/api/sessions/${session.session_id}/artifact`, { kind: "direction-note" });
-      setArtifact(result.artifact);
-      setStage("created");
-    } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Could not confirm this insight.");
-    } finally {
-      setBusy(false);
-    }
+  function stopCamera() {
+    streamRef.current?.getTracks().forEach((track) => track.stop());
+    streamRef.current = null;
+    setCameraOn(false);
   }
 
-  const finding = session?.finding;
-  const sources = finding ? [...finding.supporting_evidence, ...finding.counter_evidence] : [];
+  function chooseVideo(file?: File) {
+    if (!file) return;
+    setMediaUrl((previous) => {
+      if (previous.startsWith("blob:")) URL.revokeObjectURL(previous);
+      return URL.createObjectURL(file);
+    });
+    setLearned(false);
+  }
+
+  const done = completedActions(model, state);
 
   return (
-    <main className="shell">
-      <aside className="rail" aria-label="Primary navigation">
-        <div className="brand-mark" aria-label="THREAD">t<span>.</span></div>
-        <button className="rail-button active" aria-label="Discover" title="Discover">⌕</button>
-        <button className="rail-button" aria-label="Projects" title="Projects" onClick={() => void discover("fixture")}>◫</button>
-        <div className="rail-bottom"><span className="avatar">A</span></div>
+    <main className="app-shell">
+      <aside className="sidebar">
+        <a className="brand" href="#home" aria-label="SHOWME home"><span className="brand-symbol">s</span><span>SHOWME</span></a>
+        <div className="sidebar-label">YOUR WORKSPACE</div>
+        <button className={`nav-item ${mode === "teach" ? "selected" : ""}`} onClick={() => setMode("teach")}><span className="nav-icon">◉</span> Teach <span className="nav-step">01</span></button>
+        <button className={`nav-item ${mode === "do" ? "selected" : ""}`} onClick={() => setMode("do")}><span className="nav-icon">◎</span> Do <span className="nav-step">02</span></button>
+        <button className={`nav-item ${mode === "simulate" ? "selected" : ""}`} onClick={() => setMode("simulate")}><span className="nav-icon">⌁</span> Simulate <span className="nav-step">03</span></button>
+        <div className="sidebar-bottom"><span className="local-indicator" /> LOCAL PROTOTYPE</div>
       </aside>
 
-      <section className="workspace">
+      <section className="main-panel">
         <header className="topbar">
-          <div className="wordmark">THREAD<span className="wordmark-dot">.</span></div>
-          <div className="topbar-center"><span className="live-dot" /> PRIVATE WORKSPACE <span className="topbar-separator">/</span> CREATIVE ARCHIVE</div>
-          <div className="topbar-right">
-            <label className="provider-label" htmlFor="provider">MODEL</label>
-            <select id="provider" value={provider} onChange={(event) => setProvider(event.target.value as "fixture" | "meta")}>
-              <option value="fixture">Fixture · no API cost</option>
-              <option value="meta">Muse Spark · API</option>
-            </select>
-            <span className="avatar small">A</span>
-          </div>
+          <div className="breadcrumbs">WORKSPACE <span>/</span> {mode.toUpperCase()}</div>
+          <div className="model-status"><span className="status-dot" /> {model.status === "learned-from-demonstration" ? "LEARNED SKILL" : "ILLUSTRATIVE SKILL FIXTURE"}</div>
         </header>
 
-        <div className="content">
-          <div className="breadcrumb"><span>PROJECTS</span><span className="slash">/</span><span>{finding?.project_title.toUpperCase() ?? "CREATIVE ARCHIVE"}</span></div>
+        <div className="page-content">
+          <div className="page-heading">
+            <div>
+              <div className="eyebrow">SHOWME · {mode === "teach" ? "CAPTURE A DEMONSTRATION" : mode === "do" ? "GUIDED EXECUTION" : "EXPLORE A SKILL MODEL"}</div>
+              <h1>{mode === "teach" ? <>Show us<br /><em>how it works.</em></> : mode === "do" ? <>Let’s do<br /><em>this together.</em></> : <>A procedure,<br /><em>in motion.</em></>}</h1>
+              <p className="lead">{mode === "teach" ? "Record a demonstration and narrate the details that matter. SHOWME will turn the observed steps into a skill model." : mode === "do" ? "Bring the learned process beside your workspace. SHOWME’s camera view is ready; automatic observation is the next integration." : "Try an action against the same process model. Dependencies determine what can happen next."}</p>
+            </div>
+            <div className="product-thesis"><span>THE IDEA</span><p>Tutorials can show you what to do.<br /><strong>They can’t see what you’re doing.</strong></p></div>
+          </div>
 
-          {!finding && (
-            <section className="welcome-panel">
-              <div className="eyebrow">A RESEARCH JOURNAL FOR YOUR WORK</div>
-              <h1>See what your work<br />has been becoming.</h1>
-              <p>THREAD follows ideas through your dated creative artifacts, then makes the evidence and uncertainty visible for you to inspect.</p>
-              <button className="button primary" onClick={() => void discover(provider)} disabled={busy}>{busy ? "Opening the archive…" : "Open the sample project"}<span>↗</span></button>
-              <div className="welcome-note"><span className="tiny-spark">✳</span> Synthetic sample data · nothing leaves this workspace</div>
+          <div className="mode-tabs" role="tablist" aria-label="SHOWME modes">
+            {(["teach", "do", "simulate"] as const).map((tab, index) => <button key={tab} role="tab" aria-selected={mode === tab} className={mode === tab ? "active" : ""} onClick={() => setMode(tab)}><span>0{index + 1}</span>{tab[0].toUpperCase() + tab.slice(1)}</button>)}
+          </div>
+
+          {mode === "simulate" && <div className="work-grid">
+            <section className="card simulation-card">
+              <div className="card-heading"><div><div className="eyebrow">THE SHARED SKILL MODEL</div><h2>{model.title}</h2></div><button className="text-action" onClick={resetSimulation}>↺ Reset</button></div>
+              <div className="fixture-note"><span>i</span><p>This is an illustrative fixture to make the process model tangible. It has not been learned from a demonstration yet.</p></div>
+              <AssemblyView state={state} />
+              <div className="state-summary"><div><span className="eyebrow">CURRENT STATE</span><strong>{done.length === model.actions.length ? "Assembly complete" : `${done.length} of ${model.actions.length} actions complete`}</strong></div><span className="state-pip"><i className={result?.accepted === false ? "warning" : ""} /></span></div>
+              {result && <div className={`result-callout ${result.accepted ? "success" : "blocked"}`} role="status"><span className="result-icon">{result.accepted ? "✓" : "!"}</span><div><strong>{result.accepted ? "ACTION ALLOWED" : "DEPENDENCY NOT MET"}</strong><p>{result.message}</p>{!result.accepted && <small>Missing state: {result.missing.map((item) => item.replaceAll("_", " ")).join(", ")}<br />Recovery: {result.action.recovery}</small>}</div></div>}
+              <div className="what-if"><span className="what-if-mark">?</span><div><strong>What if I do this next?</strong><p>Choose an action. SHOWME applies its preconditions and previews the resulting process state.</p></div></div>
+              <div className="action-list">{model.actions.map((action, index) => {
+                const finished = action.produces.every((condition) => state.includes(condition));
+                return <button className={`action-option ${finished ? "completed" : ""}`} key={action.id} onClick={() => tryAction(action.id)}><span className="action-number">{finished ? "✓" : `0${index + 1}`}</span><span><strong>{action.label}</strong><small>Requires {action.requires.map((condition) => condition.replaceAll("_", " ")).join(" + ")}</small></span><span className="action-arrow">↗</span></button>;
+              })}</div>
             </section>
-          )}
+            <aside className="card model-card">
+              <div className="eyebrow">PROCESS MODEL</div><h3>What the skill knows</h3><p className="model-copy">A compact set of objects, states, and action constraints. Teach will eventually replace this fixture with a model inferred from a real demonstration.</p>
+              <div className="model-section"><span>OBJECTS</span>{model.objects.map((object) => <div className="model-row" key={object.id}><i className={`object-swatch ${object.color}`} /><span>{object.name}</span><small>{state.some((item) => item.startsWith(object.id) || item.includes(object.id)) ? "IN USE" : "READY"}</small></div>)}</div>
+              <div className="model-section"><span>DEPENDENCY</span><div className="dependency-flow"><div className={state.includes("washer_seated") ? "on" : ""}>Spacer ring seated</div><b>↓</b><div className={state.includes("bracket_mounted") ? "on" : ""}>Bracket mounted</div><b>↓</b><div className={state.includes("fastener_inserted") ? "on" : ""}>Fastener inserted</div></div></div>
+              <div className="model-foot"><span className="status-dot" /> Deterministic state transition demo</div>
+            </aside>
+          </div>}
 
-          {finding && (
-            <>
-              <div className="project-heading">
-                <div>
-                  <div className="eyebrow">PROJECT STUDY <span className="study-number">NO. 01</span></div>
-                  <h1>{finding.project_title}</h1>
-                  <p className="project-meta">A dated collection of field notes, sketches, interviews, and drafts <span>·</span> 2022—2025</p>
-                </div>
-                <button className="text-button" onClick={() => void discover(provider)} disabled={busy}>↻ <span>Re-read archive</span></button>
-              </div>
+          {mode === "teach" && <div className="work-grid teach-grid">
+            <section className="card capture-card"><div className="card-heading"><div><div className="eyebrow">STEP 01 · PROVIDE A DEMONSTRATION</div><h2>Show it once.</h2></div><span className="capture-icon">↥</span></div>
+              {mediaUrl ? <VideoPreview src={mediaUrl} /> : <button className="upload-drop" onClick={() => fileInput.current?.click()}><span className="upload-symbol">↥</span><strong>Choose a demonstration video</strong><small>MP4 or MOV · a short, clear view of the task</small><span className="outline-button">Browse files</span></button>}
+              <input ref={fileInput} type="file" accept="video/*" hidden onChange={(event) => chooseVideo(event.target.files?.[0])} />
+              {mediaUrl && <button className="text-action replace-video" onClick={() => fileInput.current?.click()}>Choose a different video</button>}
+              <label className="field-label" htmlFor="narration">WHAT SHOULD SHOWME NOTICE?</label><textarea id="narration" value={narration} onChange={(event) => setNarration(event.target.value)} placeholder="Narrate while you demonstrate: ‘The spacer goes under the bracket…’" />
+              <div className="capture-actions"><span className="small-note">{learned ? "Demo extraction is not connected yet." : "Local preview only · no video is uploaded"}</span><button className="primary-button" disabled={!mediaUrl} onClick={() => setLearned(true)}>{learned ? "Model connection needed" : "Learn this skill"}<span>→</span></button></div>
+              {learned && <div className="inline-honesty" role="status">The video preview works. The Meta-backed extraction step is not wired to this screen yet, so no learned skill is being claimed.</div>}
+            </section>
+            <aside className="card learn-card"><div className="eyebrow">THE SKILL MODEL</div><h3>Teach builds the shared model.</h3><p>It should preserve evidence for every inferred transition, and keep uncertain steps visible for review.</p><div className="learn-steps">{["Objects", "Actions", "Before → after states", "Dependencies", "Open questions"].map((item, index) => <div key={item}><span>{String(index + 1).padStart(2, "0")}</span>{item}</div>)}</div><div className="model-foot"><span className="status-dot muted" /> No model extraction has run in this screen</div></aside>
+          </div>}
 
-              <div className="stage-line" aria-label="Workflow progress">
-                {["Discover", "Inspect", "Interview", "Confirm", "Create"].map((label, index) => {
-                  const current = stage === "welcome" ? 0 : stage === "evidence" ? 1 : stage === "challenge" ? 2 : stage === "confirm" ? 3 : 4;
-                  return <div className={`stage-item ${index <= current ? "reached" : ""} ${index === current ? "current" : ""}`} key={label}><span>{String(index + 1).padStart(2, "0")}</span>{label}</div>;
-                })}
-              </div>
+          {mode === "do" && <div className="work-grid do-grid">
+            <section className="card camera-card"><div className="card-heading"><div><div className="eyebrow">STEP 02 · PERFORM THE TASK</div><h2>Keep your hands in view.</h2></div><span className={`record-indicator ${cameraOn ? "recording" : ""}`}><i /> {cameraOn ? "CAMERA ON" : "CAMERA OFF"}</span></div>
+              <div className="camera-stage">{cameraOn ? <video ref={videoRef} className="camera-feed" autoPlay muted playsInline /> : <div className="camera-empty"><span>◎</span><strong>Your workspace will appear here</strong><small>Camera preview stays on this device.</small></div>}<div className="camera-crosshair" /></div>
+              <div className="camera-controls">{cameraOn ? <button className="secondary-button" onClick={stopCamera}>Stop camera</button> : <button className="primary-button" onClick={() => void startCamera()}>Start camera <span>◎</span></button>}<span className="small-note">Automatic visual state tracking is not connected yet.</span></div>
+              {cameraError && <div className="inline-honesty">{cameraError}</div>}
+            </section>
+            <aside className="card guide-card"><div className="eyebrow">GUIDANCE · SAMPLE PROCEDURE</div><h3>Follow the demonstrated order.</h3><div className="guide-list">{model.actions.map((action, index) => <div className="guide-step" key={action.id}><span className={`guide-check ${state.includes(action.produces[0]) ? "done" : ""}`}>{state.includes(action.produces[0]) ? "✓" : String(index + 1).padStart(2, "0")}</span><div><strong>{action.label}</strong><small>{action.explanation}</small></div></div>)}</div><div className="guide-boundary"><span>i</span><p>This screen shows the camera feed and procedure. It does not yet detect learner actions; simulation is active in the Simulate mode.</p></div><button className="text-action" onClick={() => setMode("simulate")}>Try the process model <span>→</span></button></aside>
+          </div>}
 
-              {(stage === "welcome" || stage === "evidence") && (
-                <>
-                  <section className="finding-intro">
-                    <div className="finding-label"><span className="hypothesis-icon">✳</span> A THREAD TO LOOK CLOSER AT <span className="confidence-label">HYPOTHESIS</span></div>
-                    <h2>{finding.earlier_theme} <span className="arrow">→</span> {finding.later_theme}</h2>
-                    <p className="finding-statement">{finding.hypothesis}</p>
-                    <div className="finding-footer"><span>{dateLabel(finding.start_date)} — {dateLabel(finding.end_date)}</span><span className="source-count">{finding.supporting_evidence.length + finding.counter_evidence.length} EVIDENCE FRAGMENTS</span></div>
-                  </section>
-
-                  <section className="timeline-section">
-                    <div className="section-heading"><div><div className="eyebrow">THE WORK, OVER TIME</div><h3>Follow the shift</h3></div><span className="method-note">THEMES FROM {finding.extraction_provider === "meta" ? finding.extraction_model?.toUpperCase() ?? "META MODEL" : "SYNTHETIC FIXTURE"}</span></div>
-                    <div className="timeline">
-                      <div className="timeline-rule" />
-                      {finding.supporting_evidence.map((item, index) => (
-                        <article className={`timeline-entry entry-${index % 3}`} key={`${item.source_id}-${item.theme}`}>
-                          <span className="timeline-node" />
-                          <div className="entry-date">{dateLabel(item.date)}</div>
-                          <div className="entry-card"><div className="entry-top"><span className="entry-type">{item.title.split("—")[0].trim().toUpperCase()}</span><span className="entry-theme">{item.theme}</span></div><h4>{item.title}</h4><p>{item.summary}</p><span className="source-id">SOURCE · {item.source_id}</span></div>
-                        </article>
-                      ))}
-                    </div>
-                  </section>
-
-                  <section className="evidence-grid" id="evidence">
-                    <div className="evidence-column supporting"><div className="evidence-title"><span className="evidence-mark">+</span><div><div className="eyebrow">WHAT SUPPORTS THE SHIFT</div><h3>Signals in the work</h3></div></div>
-                      {finding.supporting_evidence.slice(0, 3).map((item) => <div className="evidence-row" key={`s-${item.source_id}`}><div className="evidence-date">{dateLabel(item.date)}</div><div><h4>{item.title}</h4><p>{item.summary}</p><span className="source-id">{item.source_id} · {item.theme}</span></div></div>)}
-                    </div>
-                    <div className="evidence-column counter"><div className="evidence-title"><span className="evidence-mark">↗</span><div><div className="eyebrow">WHAT COMPLICATES IT</div><h3>The thread continues</h3></div></div>
-                      {finding.counter_evidence.map((item) => <div className="evidence-row" key={`c-${item.source_id}`}><div className="evidence-date">{dateLabel(item.date)}</div><div><h4>{item.title}</h4><p>{item.summary}</p><span className="source-id">{item.source_id} · still includes {item.theme}</span></div></div>)}
-                      <div className="counter-reading">This may be an expansion of the project’s purpose, not a replacement of its original goal.</div>
-                    </div>
-                  </section>
-
-                  <section className="uncertainty"><span className="uncertainty-mark">?</span><div><div className="eyebrow">WHAT THIS CANNOT KNOW</div><p>{finding.uncertainty.join(" ")}</p></div></section>
-
-                  {stage === "welcome" && <div className="actions"><span className="action-caption">A pattern is only useful if it fits your experience.</span><button className="button secondary" onClick={() => setStage("evidence")}>Inspect the evidence <span>↓</span></button><button className="button primary" onClick={() => setStage("challenge")}>Add your perspective <span>↗</span></button></div>}
-                  {stage === "evidence" && <div className="actions"><button className="button quiet" onClick={() => setStage("welcome")}>← Back to finding</button><button className="button primary" onClick={() => setStage("challenge")}>Challenge or add context <span>↗</span></button></div>}
-                </>
-              )}
-
-              {stage === "challenge" && (
-                <section className="reflection-panel">
-                  <div className="eyebrow">ECHO INTERVIEW · QUESTION {interviewStep} OF 2</div>
-                  <h2>{interviewQuestion}</h2>
-                  <p>THREAD has found a possible change in the dated work. Your answers can correct the interpretation before it becomes an insight.</p>
-                  <label htmlFor="context" className="field-label">Your answer, in your own words</label>
-                  <textarea id="context" value={context} onChange={(event) => setContext(event.target.value)} placeholder="Add the context only you would know…" maxLength={1200} />
-                  <div className="field-footer"><span>Kept in this local demo session</span><span>{context.length}/1200</span></div>
-                  <div className="actions"><button className="button quiet" onClick={() => setStage("evidence")}>← Review evidence</button><button className="button primary" onClick={() => void saveChallenge()} disabled={busy || context.trim().length < 12}>{busy ? "Saving your answer…" : interviewStep === 1 ? "Answer & continue" : "Review interpretation"}<span>↗</span></button></div>
-                </section>
-              )}
-
-              {stage === "confirm" && (
-                <section className="reflection-panel confirm-panel">
-                  <div className="eyebrow">A HUMAN-CONFIRMED INSIGHT STARTS HERE</div>
-                  <h2>Put the shift in your words.</h2>
-                  <div className="context-quote"><span>YOUR CONTEXT</span><p>“{context}”</p></div>
-                  <label htmlFor="interpretation" className="field-label">Revise the interpretation, or keep this draft</label>
-                  <textarea id="interpretation" value={interpretation} onChange={(event) => setInterpretation(event.target.value)} maxLength={600} />
-                  <div className="confirmation-boundary"><span>✓</span><p>Only after you confirm will THREAD make a direction note. It will include your wording and the source trail.</p></div>
-                  <div className="actions"><button className="button quiet" onClick={() => setStage("evidence")}>← Review evidence</button><button className="button primary" onClick={() => void confirmInsight()} disabled={busy || interpretation.trim().length < 12}>{busy ? "Creating from confirmed insight…" : "Confirm & create direction note"}<span>↗</span></button></div>
-                </section>
-              )}
-
-              {stage === "created" && artifact && (
-                <section className="artifact-panel">
-                  <div className="eyebrow">CREATED FROM YOUR CONFIRMED INSIGHT</div>
-                  <div className="artifact-paper"><div className="artifact-stamp">THREAD · DIRECTION NOTE</div><h2>{artifact.title}</h2><pre>{artifact.body}</pre><div className="artifact-sources">EVIDENCE TRAIL <span>{artifact.source_ids.join(" · ")}</span></div></div>
-                  <div className="artifact-footer"><span>Insight {artifact.based_on_insight} · grounded in {artifact.source_ids.length} dated sources</span><button className="text-button" onClick={() => setStage("evidence")}>Return to evidence ↗</button></div>
-                </section>
-              )}
-            </>
-          )}
-
-          {error && <div className="error-banner" role="alert"><span>!</span><div><strong>Could not continue</strong><p>{error}</p><button onClick={() => void discover(provider)}>Try again</button></div></div>}
-
-          <footer className="footer"><span>THREAD IS A RESEARCH PARTNER, NOT AN AUTHORITY.</span><span>{finding ? `${sources.length} FRAGMENTS · ${finding.extraction_provider.toUpperCase()} EXTRACTION` : "SYNTHETIC SAMPLE · LOCAL DEMO"}</span></footer>
+          <footer className="page-footer"><span>SHOWME · DEMONSTRATION → PROCESS MODEL → GUIDANCE</span><span>PROTOTYPE BUILD · 2026</span></footer>
         </div>
       </section>
     </main>
