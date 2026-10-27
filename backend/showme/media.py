@@ -171,3 +171,41 @@ def make_model_video(source_path: Path, destination: Path) -> dict[str, Any]:
         "audio_removed": True,
         "max_dimension": 1280,
     }
+
+
+def extract_evidence_frames(path: Path, output_dir: Path, timestamps: list[float]) -> dict[str, Any]:
+    """Extract explicitly selected original-resolution frames locally, without labels or uploads.
+
+    Timestamps are seek requests, not claims about the exact encoded frame time.
+    Never overwrite an existing evidence packet.
+    """
+    if not timestamps or len(timestamps) > 60:
+        raise ValueError("select between 1 and 60 evidence timestamps")
+    if any(isinstance(t, bool) or not isinstance(t, (int, float)) or not math.isfinite(t) or t < 0 for t in timestamps):
+        raise ValueError("evidence timestamps must be finite nonnegative numbers")
+    source = path.expanduser().resolve()
+    metadata = inspect_video(source)
+    times = sorted(set(timestamps))
+    if any(t >= metadata["duration_seconds"] for t in times):
+        raise ValueError("evidence timestamps must be within the clip")
+    output = output_dir.expanduser().resolve()
+    output.mkdir(parents=True, exist_ok=False)
+    frames = []
+    try:
+        for index, timestamp in enumerate(times):
+            destination = output / f"frame-{index:03d}-t{round(timestamp * 1000):08d}ms.png"
+            _run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-ss", f"{timestamp:.6f}",
+                  "-i", str(source), "-map", "0:v:0", "-frames:v", "1", str(destination)])
+            if not destination.is_file() or destination.stat().st_size == 0:
+                raise RuntimeError(f"ffmpeg produced no evidence frame at {timestamp}s")
+            frames.append({"requested_time_seconds": timestamp, "file": destination.name,
+                           "sha256": _sha256(destination)})
+        manifest = {"schema_version": 1, "purpose": "local-evidence-inspection",
+                    "preprocessing": "ffmpeg-seek-original-resolution-png",
+                    "timestamp_basis": "requested seek time; decoded frame presentation time not asserted",
+                    "source": metadata, "frames": frames}
+        (output / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+        return manifest
+    except Exception:
+        shutil.rmtree(output, ignore_errors=True)
+        raise

@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 import sys
 
-from .media import make_model_video, prepare_video
+from .media import extract_evidence_frames, make_model_video, prepare_video
 from .meta import MuseSparkClient
 from .evaluation import score_holoassist_observation
 from .observe import observation_prompt, observe_video, validate_observation
@@ -33,6 +33,11 @@ def main() -> int:
     prepare.add_argument("--output", type=Path, help="new output directory")
     prepare.add_argument("--sample-every", type=float, default=1.0, help="requested interval in seconds")
     prepare.add_argument("--max-frames", type=int, default=24, help="maximum frame count (1–240)")
+
+    evidence = commands.add_parser("inspect-frames", help="extract selected original-resolution evidence frames locally; no upload")
+    evidence.add_argument("video", type=Path)
+    evidence.add_argument("--times", type=float, nargs="+", required=True, help="seek timestamps in seconds")
+    evidence.add_argument("--output", type=Path, help="new private output directory")
 
     learn = commands.add_parser(
         "learn-video",
@@ -63,6 +68,14 @@ def main() -> int:
         return _score_holoassist(args.annotation, args.observation, args.tolerance)
     phase = {"learn-video": "learned", "observe-video": "observed"}.get(args.command, "prepared")
     output = args.output or _default_output(args.video, phase)
+    if args.command == "inspect-frames":
+        try:
+            manifest = extract_evidence_frames(args.video, output, args.times)
+        except (OSError, ValueError, RuntimeError) as exc:
+            print(f"showme: {exc}", file=sys.stderr)
+            return 2
+        print(json.dumps({"directory": str(output.resolve()), "frames": len(manifest["frames"]), "uploaded": False}))
+        return 0
     if args.command == "learn-video":
         return _learn_video(args.video, output)
     if args.command == "observe-video":
