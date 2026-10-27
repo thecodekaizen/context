@@ -52,7 +52,7 @@
 **Goal:** deliver Simulate as a mode of the active learned skill: change an action or orientation and visually explore the resulting task state from the same Skill Model.
 
 - Convert the learned process into a task-scoped scene model: named parts, initial poses, action-to-state transitions, and prerequisites.
-- Let the judge/learner change one action order, step or scrub the resulting sequence, inspect the violated prerequisite, and return to the demonstrated procedure.
+- Let the judge/learner describe a bounded before/after/first ordering question, review the interpreted action order, then run and step through the resulting sequence; direct reordering remains available. Inspect the violated prerequisite and return to the demonstrated procedure.
 - Render actual scene states and object relations in an interactive task view; use deterministic transition/constraint logic so the same question yields the same visible result.
 - Use the selected task's real geometry and constraints. Add physical contact/force simulation only if it is needed to demonstrate that task's outcome; do not imply general-purpose physics.
 

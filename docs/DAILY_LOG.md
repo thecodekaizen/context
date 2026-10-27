@@ -79,3 +79,10 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - The illustrative fixture is labeled separately from a reviewed demonstration. The map is a procedural state preview, not task-specific geometry or physics.
 - This work is independent of receiving the LEGO clips; those remain necessary to replace the fixture with the chosen assembly and validate physical-state recognition.
 - Verification: the 7 existing web tests passed, TypeScript check passed, and production build completed successfully.
+
+### Implementation checkpoint — Reviewed natural-language what-if
+
+- Added a bounded, local parser for explicit before/after/first ordering requests using action labels and object names from the active Skill Model. It is intentionally not presented as general natural-language understanding and makes no model/API call.
+- The parser proposes an order only; SHOWME displays that interpretation for review, applies it only after user confirmation, and still requires an explicit run action before deterministic simulation.
+- Added coverage for a named relative move, moving an action first, unmatched input, and self-relative ordering.
+- This makes the procedural what-if interaction testable before the LEGO task is selected; state consequences and physical geometry remain limited by the available Skill Model.

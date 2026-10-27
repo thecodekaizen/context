@@ -5,6 +5,7 @@ import { completedActions, simulateAction, simulateSequence } from "@/lib/simula
 import { SAMPLE_SKILL, type SkillModel } from "@/lib/skill-model";
 import { processToSkill } from "@/lib/process-to-skill";
 import { clearReviewedProcess, loadReviewedProcess, saveReviewedProcess, type SavedProcess } from "@/lib/skill-storage";
+import { interpretWhatIf } from "@/lib/what-if";
 
 type Mode = "teach" | "do" | "simulate";
 type LearnedProcess = SavedProcess;
@@ -92,6 +93,9 @@ export default function Home() {
   const [sequenceDraft, setSequenceDraft] = useState<string[]>(model.actions.map((action) => action.id));
   const [sequenceResult, setSequenceResult] = useState<ReturnType<typeof simulateSequence> | null>(null);
   const [sequenceCursor, setSequenceCursor] = useState(-1);
+  const [whatIfPrompt, setWhatIfPrompt] = useState("");
+  const [whatIfMessage, setWhatIfMessage] = useState("");
+  const [whatIfProposal, setWhatIfProposal] = useState<Extract<ReturnType<typeof interpretWhatIf>, { ok: true }> | null>(null);
   const [mediaUrl, setMediaUrl] = useState("");
   const [sourceFile, setSourceFile] = useState<File | null>(null);
   const [demoCameraOn, setDemoCameraOn] = useState(false);
@@ -196,6 +200,8 @@ export default function Home() {
     setSequenceDraft(model.actions.map((action) => action.id));
     setSequenceResult(null);
     setSequenceCursor(-1);
+    setWhatIfProposal(null);
+    setWhatIfMessage("");
   }
 
   function moveSequenceAction(index: number, offset: -1 | 1) {
@@ -209,6 +215,8 @@ export default function Home() {
     setSequenceResult(null);
     setSequenceCursor(-1);
     setResult(null);
+    setWhatIfProposal(null);
+    setWhatIfMessage("");
   }
 
   function runSequenceWhatIf() {
@@ -218,6 +226,28 @@ export default function Home() {
     setSequenceCursor(firstStep ? 0 : -1);
     setState(firstStep?.result.state ?? next.initialState);
     setResult(firstStep?.result ?? null);
+  }
+
+  function previewNaturalWhatIf() {
+    const interpretation = interpretWhatIf(model, sequenceDraft, whatIfPrompt);
+    if (!interpretation.ok) {
+      setWhatIfProposal(null);
+      setWhatIfMessage(interpretation.message);
+      return;
+    }
+    setWhatIfProposal(interpretation);
+    setWhatIfMessage("");
+  }
+
+  function applyNaturalWhatIf() {
+    if (!whatIfProposal) return;
+    setSequenceDraft(whatIfProposal.actionIds);
+    setSequenceResult(null);
+    setSequenceCursor(-1);
+    setResult(null);
+    setState(model.initialState);
+    setWhatIfProposal(null);
+    setWhatIfMessage("Proposed order added below. Review it, then run the simulation.");
   }
 
   function moveSimulationCursor(offset: -1 | 1) {
@@ -303,6 +333,8 @@ export default function Home() {
     setSequenceResult(null);
     setSequenceCursor(-1);
     setResult(null);
+    setWhatIfProposal(null);
+    setWhatIfMessage("");
     setSnapshotObservation(null);
     setSnapshotHistory([]);
     setMode("do");
@@ -332,6 +364,9 @@ export default function Home() {
     setSequenceResult(null);
     setSequenceCursor(-1);
     setResult(null);
+    setWhatIfPrompt("");
+    setWhatIfProposal(null);
+    setWhatIfMessage("");
     setObservation(null);
     setSnapshotObservation(null);
     setSnapshotHistory([]);
@@ -558,6 +593,13 @@ export default function Home() {
               <div className="state-summary"><div><span className="eyebrow">SIMULATED STATE</span><strong>{done.length === model.actions.length ? "Assembly complete" : `${done.length} of ${model.actions.length} actions complete`}</strong></div><span className="state-pip"><i className={result?.accepted === false ? "warning" : ""} /></span></div>
               {result && <div className={`result-callout ${result.accepted ? "success" : result.kind === "unobserved" ? "unobserved" : "blocked"}`} role="status"><span className="result-icon">{result.accepted ? "✓" : result.kind === "unobserved" ? "?" : "!"}</span><div><strong>{result.accepted ? "OBSERVED TRANSITION" : result.kind === "unobserved" ? "ALTERNATIVE NOT OBSERVED" : "CONFIRMED REQUIREMENT NOT MET"}</strong><p>{result.message}</p>{!result.accepted && <small>{result.kind === "unobserved" ? "Evidence needed: another demonstration or human confirmation." : <>Missing state: {result.missing.map((item) => item.replaceAll("_", " ")).join(", ")}<br />Constraint source: {result.blockedBy?.map((constraint) => constraint.source.replaceAll("-", " ")).join(", ")}</>}<br />{result.action.recovery}</small>}</div></div>}
               <div className="what-if"><span className="what-if-mark">?</span><div><strong>What if the steps happened in a different order?</strong><p>Reorder the demonstrated actions and run the alternative from the skill’s initial state. SHOWME stops at the first rule or observed transition that does not support it.</p></div></div>
+              <section className="natural-what-if">
+                <label className="eyebrow" htmlFor="what-if-prompt">DESCRIBE AN ALTERNATIVE</label>
+                <div className="natural-what-if-entry"><input id="what-if-prompt" value={whatIfPrompt} onChange={(event) => { setWhatIfPrompt(event.target.value); setWhatIfProposal(null); setWhatIfMessage(""); }} onKeyDown={(event) => { if (event.key === "Enter") previewNaturalWhatIf(); }} placeholder="What if I mount the bracket before the spacer ring?" /><button className="secondary-button" onClick={previewNaturalWhatIf}>Preview order</button></div>
+                {whatIfMessage && <p className="natural-what-if-message" role="status">{whatIfMessage}</p>}
+                {whatIfProposal && <div className="what-if-proposal" aria-live="polite"><strong>{whatIfProposal.summary}</strong><ol>{whatIfProposal.actionIds.map((actionId, index) => { const action = model.actions.find((item) => item.id === actionId); return action ? <li key={`${actionId}-${index}`}><span>{String(index + 1).padStart(2, "0")}</span>{action.label}</li> : null; })}</ol><button className="text-action" onClick={applyNaturalWhatIf}>Use this order in the simulator →</button></div>}
+                <small className="sequence-disclaimer">Review the interpreted order before running the deterministic process simulation.</small>
+              </section>
               <div className="sequence-editor"><div className="sequence-editor-heading"><span className="eyebrow">PROPOSED ACTION ORDER</span><span>Move a step to explore an alternative</span></div>{sequenceDraft.map((actionId, index) => {
                 const action = model.actions.find((candidate) => candidate.id === actionId);
                 if (!action) return null;
