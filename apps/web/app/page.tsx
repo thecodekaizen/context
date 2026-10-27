@@ -156,6 +156,19 @@ export default function Home() {
     setMode("do");
   }
 
+  function mapConfirmedPrecondition(transitionId: string, preconditionIndex: number, requiredState: string) {
+    setLearnedProcess((current) => {
+      if (!current) return current;
+      const remaining = (current.human_confirmed_constraints ?? []).filter((item) => !(item.transition_id === transitionId && item.precondition_index === preconditionIndex));
+      return {
+        ...current,
+        human_confirmed_constraints: requiredState
+          ? [...remaining, { transition_id: transitionId, precondition_index: preconditionIndex, required_state: requiredState }]
+          : remaining,
+      };
+    });
+  }
+
   function forgetReviewedSkill() {
     clearReviewedProcess();
     setActiveProcess(null);
@@ -352,7 +365,10 @@ export default function Home() {
               {learnError && <div className="inline-honesty" role="alert">{learnError}</div>}
               {learnedProcess && <section className="candidate-review" aria-live="polite"><div className="candidate-heading"><div><div className="eyebrow">CANDIDATE PROCESS · HUMAN REVIEW REQUIRED</div><h3>{learnedProcess.task_summary}</h3></div><span className="candidate-state">{learnedProcess._validation === "passed" ? "STRUCTURE CHECK PASSED" : "REVIEW"}</span></div>
                 <p className="candidate-warning">This is a hypothesis from one observed trace. The observed order is not treated as a required dependency. Inspect the evidence and uncertainty before allowing this model to guide someone.</p>
-                <div className="candidate-columns"><div><span className="eyebrow">OBJECTS · {learnedProcess.objects.length}</span>{learnedProcess.objects.map((object) => <div className="candidate-item" key={object.id}><strong>{object.label}</strong><small>{object.visual_description}</small></div>)}</div><div><span className="eyebrow">OBSERVED ACTIONS · {learnedProcess.transitions.length}</span>{learnedProcess.transitions.map((transition) => <div className="candidate-item" key={transition.id}><strong>{transition.action}</strong><small>{transition.evidence.map((evidence) => `${evidence.start_seconds.toFixed(1)}–${evidence.end_seconds.toFixed(1)}s · ${evidence.observation}`).join(" ")}</small>{transition.preconditions.length > 0 && <small className="tentative-condition">Model-proposed preconditions to verify: {transition.preconditions.join(", ")}</small>}</div>)}</div></div>
+                <div className="candidate-columns"><div><span className="eyebrow">OBJECTS · {learnedProcess.objects.length}</span>{learnedProcess.objects.map((object) => <div className="candidate-item" key={object.id}><strong>{object.label}</strong><small>{object.visual_description}</small></div>)}</div><div><span className="eyebrow">OBSERVED ACTIONS · {learnedProcess.transitions.length}</span>{learnedProcess.transitions.map((transition) => <div className="candidate-item" key={transition.id}><strong>{transition.action}</strong><small>{transition.evidence.map((evidence) => `${evidence.start_seconds.toFixed(1)}–${evidence.end_seconds.toFixed(1)}s · ${evidence.observation}`).join(" ")}</small>{transition.preconditions.map((precondition, index) => {
+                  const mapped = learnedProcess.human_confirmed_constraints?.find((item) => item.transition_id === transition.id && item.precondition_index === index)?.required_state ?? "";
+                  return <label className="tentative-condition condition-review" key={`${transition.id}-precondition-${index}`}><span>{mapped ? "Human-confirmed prerequisite" : "Model-proposed prerequisite · not enforced"}: {precondition}</span><select aria-label={`Map prerequisite for ${transition.action} to an observed state`} value={mapped} onChange={(event) => mapConfirmedPrecondition(transition.id, index, event.target.value)}><option value="">Keep as hypothesis</option>{learnedProcess.states.map((stateOption) => <option value={stateOption.id} key={stateOption.id}>{stateOption.description}</option>)}</select></label>;
+                })}</div>)}</div></div>
                 <div className="candidate-bottom"><span>{learnedProcess.states.length} states · {learnedProcess.ordering_observations.length} observed ordering notes · {learnedProcess.uncertainties.length} uncertainties</span><span>{learnedProcess._run?.model ?? "Muse Spark"} · {learnedProcess._run?.usage?.input_tokens ?? 0} input tokens</span></div>
                 {learnedProcess.uncertainties.length > 0 && <div className="candidate-uncertainties"><strong>Open questions</strong><ul>{learnedProcess.uncertainties.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul></div>}
                 <div className="candidate-actions"><label><input type="checkbox" checked={candidateReviewed} onChange={(event) => setCandidateReviewed(event.target.checked)} /><span>I reviewed this candidate. The clip shows observed transitions; model-suggested prerequisites are not enforced from a single trace.</span></label><button className="primary-button" disabled={!candidateReviewed || learnedProcess.transitions.length === 0} onClick={loadReviewedCandidate}>Use this Skill Model <span>→</span></button></div>

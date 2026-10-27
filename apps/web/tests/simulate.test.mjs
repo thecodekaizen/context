@@ -99,3 +99,27 @@ test("preconditions from one learned trace stay proposed when converted to the s
   }]);
   assert.equal(simulateAction(skill, ["start"], "attach-part").accepted, true);
 });
+
+test("an explicit human mapping promotes only that precondition and keeps its state requirement", () => {
+  const skill = processToSkill({
+    task_summary: "Attach a part",
+    objects: [{ id: "part", label: "Part", visual_description: "A small part." }],
+    states: [{ id: "start", description: "Part is loose." }, { id: "support-ready", description: "Support is attached." }, { id: "attached", description: "Part is attached." }],
+    transitions: [{
+      id: "attach-part",
+      action: "Attach part",
+      object_ids: ["part"],
+      from_state: "start",
+      to_state: "attached",
+      preconditions: ["Support must be attached first.", "The part must be visible."],
+      postconditions: [],
+      evidence: [],
+    }],
+    human_confirmed_constraints: [{ transition_id: "attach-part", precondition_index: 0, required_state: "support-ready" }],
+  });
+
+  assert.deepEqual(skill.actions[0].constraints.map((constraint) => constraint.status), ["confirmed", "proposed"]);
+  assert.equal(skill.actions[0].constraints[0].requiredState, "support-ready");
+  assert.equal(skill.actions[0].constraints[0].source, "human-confirmation");
+  assert.equal(simulateAction(skill, ["start"], "attach-part").kind, "blocked");
+});

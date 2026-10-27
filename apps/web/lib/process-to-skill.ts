@@ -14,6 +14,7 @@ type ProcessCandidate = {
     postconditions: string[];
     evidence: { start_seconds: number; end_seconds: number; observation: string }[];
   }[];
+  human_confirmed_constraints?: { transition_id: string; precondition_index: number; required_state: string }[];
 };
 
 /** Convert a reviewed API candidate into the shared app representation. */
@@ -40,12 +41,13 @@ export function processToSkill(
       objectId: transition.object_ids[0] ?? "unknown",
       // One demonstration cannot confirm a precondition. Keep model hypotheses
       // visible, but do not let them block a simulated transition.
-      constraints: transition.preconditions.map((description, index) => ({
-        id: `${transition.id}-hypothesis-${index + 1}`,
-        description,
-        status: "proposed" as const,
-        source: "model-hypothesis" as const,
-      })),
+      constraints: transition.preconditions.map((description, index) => {
+        const confirmed = candidate.human_confirmed_constraints?.find((item) => item.transition_id === transition.id && item.precondition_index === index);
+        const requiredState = candidate.states.find((item) => item.id === confirmed?.required_state);
+        return requiredState
+          ? { id: `${transition.id}-confirmed-${index + 1}`, description, requiredState: requiredState.id, status: "confirmed" as const, source: "human-confirmation" as const }
+          : { id: `${transition.id}-hypothesis-${index + 1}`, description, status: "proposed" as const, source: "model-hypothesis" as const };
+      }),
       produces: [transition.to_state, ...transition.postconditions],
       fromState: transition.from_state,
       toState: transition.to_state,

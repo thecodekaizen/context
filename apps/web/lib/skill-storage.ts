@@ -14,6 +14,8 @@ export type SavedProcess = {
     postconditions: string[];
     evidence: { start_seconds: number; end_seconds: number; observation: string }[];
   }[];
+  /** Explicit user mappings from a model suggestion to an observed state. */
+  human_confirmed_constraints?: { transition_id: string; precondition_index: number; required_state: string }[];
   ordering_observations: { before_transition_id: string; after_transition_id: string; evidence: { start_seconds: number; end_seconds: number; observation: string }[] }[];
   uncertainties: string[];
   _run?: { model?: string; usage?: { input_tokens?: number; output_tokens?: number }; source?: { duration_seconds?: number } };
@@ -30,6 +32,17 @@ export function isSavedProcess(value: unknown): value is SavedProcess {
   if (!value.objects.every((item) => isRecord(item) && typeof item.id === "string" && typeof item.label === "string" && typeof item.visual_description === "string")) return false;
   if (!value.states.every((item) => isRecord(item) && typeof item.id === "string" && typeof item.description === "string" && Array.isArray(item.observable_facts) && item.observable_facts.every((fact) => typeof fact === "string"))) return false;
   if (!value.transitions.every((item) => isRecord(item) && typeof item.id === "string" && typeof item.action === "string" && typeof item.from_state === "string" && typeof item.to_state === "string" && Array.isArray(item.object_ids) && item.object_ids.every((id) => typeof id === "string") && Array.isArray(item.preconditions) && item.preconditions.every((fact) => typeof fact === "string") && Array.isArray(item.postconditions) && item.postconditions.every((fact) => typeof fact === "string") && Array.isArray(item.evidence) && item.evidence.every(isEvidence))) return false;
+  if (value.human_confirmed_constraints !== undefined) {
+    const mappings = value.human_confirmed_constraints;
+    if (!Array.isArray(mappings) || !mappings.every((item) => isRecord(item) && typeof item.transition_id === "string" && Number.isInteger(item.precondition_index) && Number(item.precondition_index) >= 0 && typeof item.required_state === "string")) return false;
+    const typedMappings = mappings as NonNullable<SavedProcess["human_confirmed_constraints"]>;
+    const transitions = value.transitions as SavedProcess["transitions"];
+    const stateIds = new Set((value.states as SavedProcess["states"]).map((item) => item.id));
+    if (!typedMappings.every((item) => {
+      const transition = transitions.find((candidate) => candidate.id === item.transition_id);
+      return Boolean(transition && item.precondition_index < transition.preconditions.length && stateIds.has(item.required_state));
+    })) return false;
+  }
   if (!value.ordering_observations.every((item) => isRecord(item) && typeof item.before_transition_id === "string" && typeof item.after_transition_id === "string" && Array.isArray(item.evidence) && item.evidence.every(isEvidence))) return false;
   return value.uncertainties.every((item) => typeof item === "string");
 }
