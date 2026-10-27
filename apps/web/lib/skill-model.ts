@@ -29,7 +29,7 @@ export type SkillConstraint =
 export type SkillAction = {
   id: string;
   label: string;
-  objectId: string;
+  objectIds: string[];
   constraints: SkillConstraint[];
   produces: string[];
   /** Candidate states seen in one trace; these are not universal constraints. */
@@ -69,7 +69,7 @@ export const SAMPLE_SKILL: SkillModel = {
     {
       id: "place-washer",
       label: "Place spacer ring",
-      objectId: "washer",
+      objectIds: ["washer"],
       constraints: [
         { id: "base-ready-for-washer", description: "The base is ready.", requiredState: "base_ready", status: "confirmed", source: "illustrative-fixture" },
         { id: "washer-available", description: "The spacer ring is available.", requiredState: "washer_available", status: "confirmed", source: "illustrative-fixture" },
@@ -81,7 +81,7 @@ export const SAMPLE_SKILL: SkillModel = {
     {
       id: "place-bracket",
       label: "Mount support bracket",
-      objectId: "bracket",
+      objectIds: ["bracket", "washer"],
       constraints: [
         { id: "base-ready-for-bracket", description: "The base is ready.", requiredState: "base_ready", status: "confirmed", source: "illustrative-fixture" },
         { id: "bracket-available", description: "The support bracket is available.", requiredState: "bracket_available", status: "confirmed", source: "illustrative-fixture" },
@@ -94,7 +94,7 @@ export const SAMPLE_SKILL: SkillModel = {
     {
       id: "insert-bolt",
       label: "Insert fastener",
-      objectId: "bolt",
+      objectIds: ["bolt", "bracket"],
       constraints: [
         { id: "bracket-before-fastener", description: "The bracket is mounted first.", requiredState: "bracket_mounted", status: "confirmed", source: "illustrative-fixture" },
         { id: "fastener-available", description: "The fastener is available.", requiredState: "bolt_available", status: "confirmed", source: "illustrative-fixture" },

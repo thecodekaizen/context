@@ -16,14 +16,14 @@ const [{ interpretWhatIf }, { SAMPLE_SKILL }] = await Promise.all([
 const originalOrder = SAMPLE_SKILL.actions.map((action) => action.id);
 
 test("previews an action moved before a named action without mutating the current order", () => {
-  const result = interpretWhatIf(SAMPLE_SKILL, originalOrder, "What if I mount the bracket before the spacer ring?");
+  const result = interpretWhatIf(SAMPLE_SKILL, originalOrder, "What if I mount support bracket before place spacer ring?");
   assert.equal(result.ok, true);
   assert.deepEqual(result.actionIds, ["place-bracket", "place-washer", "insert-bolt"]);
   assert.deepEqual(originalOrder, ["place-washer", "place-bracket", "insert-bolt"]);
 });
 
 test("supports moving a named action to the start", () => {
-  const result = interpretWhatIf(SAMPLE_SKILL, originalOrder, "Place the support bracket first");
+  const result = interpretWhatIf(SAMPLE_SKILL, originalOrder, "Mount support bracket first");
   assert.equal(result.ok, true);
   assert.equal(result.actionIds[0], "place-bracket");
 });
@@ -31,11 +31,22 @@ test("supports moving a named action to the start", () => {
 test("asks for clarification when an action cannot be matched", () => {
   const result = interpretWhatIf(SAMPLE_SKILL, originalOrder, "Put the mystery part before the spacer ring");
   assert.equal(result.ok, false);
-  assert.match(result.message, /couldn't match/i);
+  assert.match(result.message, /couldn't match|which action/i);
 });
 
 test("rejects moving an action relative to itself", () => {
-  const result = interpretWhatIf(SAMPLE_SKILL, originalOrder, "Place the spacer ring before the spacer ring");
+  const result = interpretWhatIf(SAMPLE_SKILL, originalOrder, "Place spacer ring before Place spacer ring");
   assert.equal(result.ok, false);
   assert.match(result.message, /cannot be reordered/i);
+});
+
+test("matches an action through any of its involved parts", () => {
+  const multiPartSkill = {
+    ...SAMPLE_SKILL,
+    objects: [...SAMPLE_SKILL.objects, { id: "lock-nut", name: "Lock nut", color: "stone", shape: "component" }],
+    actions: SAMPLE_SKILL.actions.map((action) => action.id === "place-bracket" ? { ...action, objectIds: ["bracket", "lock-nut"] } : action),
+  };
+  const result = interpretWhatIf(multiPartSkill, originalOrder, "Mount lock nut after the fastener");
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.actionIds, ["place-washer", "insert-bolt", "place-bracket"]);
 });

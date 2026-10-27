@@ -26,7 +26,7 @@ One camera-first skill workspace. Its top-level navigation is **Teach · Do · S
 ## Simulate — explore the same Skill Model
 
 - Make this mode available from an active skill at any point; return to Do without losing the skill or task context.
-- Accept a bounded natural-language “what if?” or let the user edit an action sequence directly. The current local interpreter handles explicit before/after/first requests by matching action and object names from the active Skill Model; ambiguous or unmatched wording is rejected.
+- Accept a bounded natural-language “what if?” or let the user edit an action sequence directly. The current local interpreter handles explicit before/after/first requests by matching action and names of every involved object in the active Skill Model; ambiguous or unmatched wording is rejected. The model preserves multi-part action relationships from the learned process instead of dropping all but its first object.
 - Show the interpreted order for review; only after the user accepts does it update the editable proposal. The user explicitly runs the deterministic simulator afterward.
 - Run the alternative against the same Skill Model and visually animate the resulting task state.
 - Explain the physical consequence, the specific violated constraint, the evidence/basis for that constraint, and a recovery path.

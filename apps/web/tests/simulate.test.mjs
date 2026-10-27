@@ -24,7 +24,7 @@ function modelFor(constraint, { fromState = "start" } = {}) {
     actions: [{
       id: "attach-part",
       label: "Attach part",
-      objectId: "part",
+      objectIds: ["part"],
       constraints: constraint ? [constraint] : [],
       produces: ["attached"],
       fromState,
@@ -77,12 +77,15 @@ test("an unobserved action order is reported as unknown, not as a confirmed viol
 test("preconditions from one learned trace stay proposed when converted to the shared model", () => {
   const skill = processToSkill({
     task_summary: "Attach a part",
-    objects: [{ id: "part", label: "Part", visual_description: "A small part." }],
+    objects: [
+      { id: "part", label: "Part", visual_description: "A small part." },
+      { id: "support", label: "Support", visual_description: "A support piece." },
+    ],
     states: [{ id: "start", description: "Part is loose." }, { id: "attached", description: "Part is attached." }],
     transitions: [{
       id: "attach-part",
       action: "Attach part",
-      object_ids: ["part"],
+      object_ids: ["part", "support"],
       from_state: "start",
       to_state: "attached",
       preconditions: ["Support must be attached first."],
@@ -91,6 +94,7 @@ test("preconditions from one learned trace stay proposed when converted to the s
     }],
   });
 
+  assert.deepEqual(skill.actions[0].objectIds, ["part", "support"]);
   assert.deepEqual(skill.actions[0].constraints, [{
     id: "attach-part-hypothesis-1",
     description: "Support must be attached first.",
@@ -132,8 +136,8 @@ test("sequence simulation stops at the first confirmed prerequisite and preserve
     initialState: ["base-ready", "support-available"],
     objects: [],
     actions: [
-      { id: "place-support", label: "Place support", objectId: "support", constraints: [], produces: ["support-seated"], explanation: "Seat the support.", recovery: "Reset." },
-      { id: "attach-cap", label: "Attach cap", objectId: "cap", constraints: [{ id: "support-first", description: "The support must be seated first.", requiredState: "support-seated", status: "confirmed", source: "human-confirmation" }], produces: ["cap-attached"], explanation: "Attach the cap.", recovery: "Remove the cap and seat the support." },
+      { id: "place-support", label: "Place support", objectIds: ["support"], constraints: [], produces: ["support-seated"], explanation: "Seat the support.", recovery: "Reset." },
+      { id: "attach-cap", label: "Attach cap", objectIds: ["cap"], constraints: [{ id: "support-first", description: "The support must be seated first.", requiredState: "support-seated", status: "confirmed", source: "human-confirmation" }], produces: ["cap-attached"], explanation: "Attach the cap.", recovery: "Remove the cap and seat the support." },
     ],
   };
 

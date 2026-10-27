@@ -22,8 +22,8 @@ function resolveAction(model: SkillModel, phrase: string) {
   const query = tokens(phrase);
   if (query.length === 0) return { kind: "none" as const };
   const matches = model.actions.map((action) => {
-    const object = model.objects.find((item) => item.id === action.objectId);
-    const aliases = [action.label, object?.name ?? "", object?.visualDescription ?? ""];
+    const objects = model.objects.filter((item) => action.objectIds.includes(item.id));
+    const aliases = [action.label, ...objects.flatMap((object) => [object.name, object.visualDescription ?? ""])];
     const aliasTokens = new Set(aliases.flatMap(tokens));
     const overlap = query.filter((token) => aliasTokens.has(token)).length;
     const exactPhrase = aliases.some((alias) => {

@@ -38,7 +38,7 @@ export function processToSkill(
     actions: candidate.transitions.map((transition) => ({
       id: transition.id,
       label: transition.action,
-      objectId: transition.object_ids[0] ?? "unknown",
+      objectIds: transition.object_ids.length > 0 ? [...transition.object_ids] : ["unknown"],
       // One demonstration cannot confirm a precondition. Keep model hypotheses
       // visible, but do not let them block a simulated transition.
       constraints: transition.preconditions.map((description, index) => {

@@ -92,3 +92,9 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - After running a proposed order, Simulate now places the reference trace's final modeled state beside the alternative's final modeled state. Both are derived from the active shared Skill Model.
 - The reference is labeled as an observed trace for reviewed skills and as illustrative for the sample fixture; the UI explicitly avoids treating one observed ordering as proof that alternatives are impossible.
 - This adds a clear outcome comparison while keeping the scene a procedural state view; LEGO-specific geometry and physical consequences remain pending the selected task and recordings.
+
+### Implementation checkpoint — Multi-object actions
+
+- Updated the shared Skill Model to keep every object ID associated with a learned transition. The previous single-object field discarded secondary parts in actions such as positioning a spacer beneath a bracket.
+- The bounded what-if interpreter now resolves an action by any of its associated object names, while keeping action labels as the strongest match.
+- Added a regression check for referring to a learned action through a secondary involved part. This prepares the process representation for the actual LEGO procedure without inventing its states or constraints.
