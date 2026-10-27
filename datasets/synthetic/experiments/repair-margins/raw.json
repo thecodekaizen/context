@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "project": {
+    "id": "project-repair-margins",
+    "title": "Repair Margins"
+  },
+  "artifacts": [
+    {
+      "id": "repair-001",
+      "date": "2024-03-16",
+      "modality": "concept-notes",
+      "title": "Illustrated furniture repair cards",
+      "content": "Make a small illustrated set of furniture repair cards from methods I use in my own workshop. Each card should show the tools and steps for one repair and fit on a single page."
+    },
+    {
+      "id": "repair-002",
+      "date": "2024-07-29",
+      "modality": "layout-draft",
+      "title": "My workshop notebook",
+      "content": "The first booklet will collect my repair sketches and annotated notes about what worked. Keep the tone personal, like a record of fixes I have tried rather than a general repair manual."
+    },
+    {
+      "id": "repair-003",
+      "date": "2024-12-05",
+      "modality": "workshop-record",
+      "title": "Testing one chair card",
+      "content": "Two neighbors tried the chair-repair card in a one-afternoon workshop and marked confusing steps. This was a prototype test; the booklet is still about repairs from my own workshop."
+    },
+    {
+      "id": "repair-004",
+      "date": "2025-04-18",
+      "modality": "prototype-log",
+      "title": "A shared annotation pilot",
+      "content": "Made one wall sheet combining my chair diagram with a neighbor's handwritten note about a different joint. We are checking whether both notes fit on the page; nothing has been distributed as a shared guide."
+    },
+    {
+      "id": "repair-005",
+      "date": "2025-10-02",
+      "modality": "editorial-proposal",
+      "title": "Proposal for a neighborhood repair guide",
+      "content": "Proposed collecting residents' repair methods and the stories behind them for a neighborhood guide. This is an editorial proposal; contributions have not been collected and no guide has been produced."
+    },
+    {
+      "id": "repair-006",
+      "date": "2026-05-27",
+      "modality": "release-notes",
+      "title": "Neighborhood guide published",
+      "content": "Published an illustrated neighborhood repair guide with methods and handwritten annotations contributed by fourteen residents. The opening section retains my original workshop repair diagrams."
+    }
+  ]
+}
