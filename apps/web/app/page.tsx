@@ -63,7 +63,7 @@ function VideoPreview({ src, videoRef }: { src: string; videoRef?: React.RefObje
 }
 
 export default function Home() {
-  const [mode, setMode] = useState<Mode>("simulate");
+  const [mode, setMode] = useState<Mode>("teach");
   const [model, setModel] = useState<SkillModel>(SAMPLE_SKILL);
   const [state, setState] = useState<string[]>(model.initialState);
   const [result, setResult] = useState<ReturnType<typeof simulateAction> | null>(null);
@@ -140,7 +140,7 @@ export default function Home() {
     setModel(nextModel);
     setState(nextModel.initialState);
     setResult(null);
-    setMode("simulate");
+    setMode("do");
   }
 
   function chooseLearnerVideo(file?: File) {
