@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "project": {
+    "id": "project-roomtone",
+    "title": "Roomtone"
+  },
+  "artifacts": [
+    {
+      "id": "room-001",
+      "date": "2023-01-12",
+      "modality": "project-brief",
+      "title": "A personal sound diary",
+      "content": "Make a small tool for recording short field sounds into a personal sound diary. Save each clip with a place label so the creator can revisit it later."
+    },
+    {
+      "id": "room-002",
+      "date": "2023-04-20",
+      "modality": "prototype-notes",
+      "title": "One-touch capture",
+      "content": "The phone prototype opens directly to recording, then lets one person title a clip, inspect its waveform, and add a location label."
+    },
+    {
+      "id": "room-003",
+      "date": "2023-09-18",
+      "modality": "test-log",
+      "title": "Find a remembered sound",
+      "content": "A usability test focused on finding a sound in the creator's own archive by date and place. Listening and organizing are still individual activities."
+    },
+    {
+      "id": "room-004",
+      "date": "2024-06-03",
+      "modality": "interview-notes",
+      "title": "Game audio collaborators",
+      "content": "Two independent game-audio collaborators asked to exchange reusable field recordings, tag their mood and environment, and check whether a sound effect already exists."
+    }
+  ]
+}
