@@ -33,6 +33,7 @@
 - Do not include evaluation labels or tell the prompt which clip is wrong.
 - Require time/frame evidence for every state claim.
 - Compare a correct attempt against one deliberate mistake; record false alarms and misses.
+- Score divergence timestamps against local annotation intervals with `showme score-holoassist`; report exact overlap and any explicitly chosen tolerance separately.
 
 **Exit:** correct progress is accepted, the real divergence is named with visual evidence, and changing object positions does not break the baseline.
 

@@ -34,6 +34,19 @@ discards it after the request, and validates returned IDs against the reviewed
 process. A still image cannot establish action order or recovery. Each click may
 use API credits; no snapshot inference runs in the background.
 
+For a local HoloAssist scoring pass:
+
+```bash
+showme score-holoassist path/to/annotation.json path/to/observation.json
+```
+
+The annotation file is read only by the local evaluator and is never passed to
+Muse. By default, a divergence timestamp must fall within a human-labeled
+wrong-action interval; `--tolerance SECONDS` adds an explicit margin. The
+report counts one hit per labeled interval and includes precision, recall,
+misses, and false-alert timestamps. This scores event timing only, not the
+semantic correctness of the claimed error or recovery quality.
+
 ## Prepare local video
 
 ```bash

@@ -10,6 +10,7 @@ import sys
 
 from .media import make_model_video, prepare_video
 from .meta import MuseSparkClient
+from .evaluation import score_holoassist_observation
 from .observe import observe_video, validate_observation
 from .process import validate_references
 
@@ -48,7 +49,17 @@ def main() -> int:
     observe.add_argument("video", type=Path, help="local learner MP4; uploaded for inference")
     observe.add_argument("--output", type=Path, help="new run directory")
 
+    score = commands.add_parser(
+        "score-holoassist",
+        help="score local divergence timestamps against HoloAssist mistake annotations",
+    )
+    score.add_argument("annotation", type=Path, help="local HoloAssist annotation JSON; never sent to Muse")
+    score.add_argument("observation", type=Path, help="SHOWME observation JSON")
+    score.add_argument("--tolerance", type=float, default=0.0, help="extra interval margin in seconds (default: exact overlap)")
+
     args = parser.parse_args()
+    if args.command == "score-holoassist":
+        return _score_holoassist(args.annotation, args.observation, args.tolerance)
     phase = {"learn-video": "learned", "observe-video": "observed"}.get(args.command, "prepared")
     output = args.output or _default_output(args.video, phase)
     if args.command == "learn-video":
@@ -147,6 +158,22 @@ def _observe_video(process_path: Path, video: Path, output: Path) -> int:
         "recovery_status": observation.get("recovery_status"),
         "usage": observation.get("_run", {}).get("usage", {}),
     }, indent=2))
+    return 0
+
+
+def _score_holoassist(annotation_path: Path, observation_path: Path, tolerance: float) -> int:
+    try:
+        annotation = json.loads(annotation_path.read_text(encoding="utf-8"))
+        observation = json.loads(observation_path.read_text(encoding="utf-8"))
+        result = score_holoassist_observation(
+            observation,
+            annotation,
+            tolerance_seconds=tolerance,
+        )
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        print(f"showme: {exc}", file=sys.stderr)
+        return 2
+    print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
 
 
