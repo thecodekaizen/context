@@ -40,6 +40,7 @@ function SkillTransitionMap({ state, model, activeActionId }: { state: string[];
       <div className="skill-state-map-heading"><span>{learned ? "OBSERVED PROCESS TRACE" : "ILLUSTRATIVE PROCESS TRACE"}</span><span>{model.actions.length} transitions</span></div>
       {model.actions.map((action, index) => {
         const complete = action.produces.every((condition) => state.includes(condition));
+        const involvedParts = action.objectIds.map((objectId) => model.objects.find((object) => object.id === objectId)?.name).filter((name): name is string => Boolean(name));
         const current = action.id === activeActionId || (!activeActionId && action.id === nextActionId);
         const status = complete ? "complete" : current ? "current" : "pending";
         return <div className={`skill-transition ${status}`} key={action.id} aria-current={current ? "step" : undefined}>
@@ -47,6 +48,7 @@ function SkillTransitionMap({ state, model, activeActionId }: { state: string[];
           <div className="skill-transition-copy">
             <div className="skill-transition-title"><strong>{action.label}</strong><small>{complete ? "IN SIMULATED STATE" : current ? "CURRENT TRANSITION" : "AHEAD IN TRACE"}</small></div>
             <div className="skill-transition-states"><span>{labelFor(action.fromState ?? (index === 0 ? model.initialState.find((item) => !item.endsWith("_available")) ?? model.initialState[0] : model.actions[index - 1]?.toState ?? model.actions[index - 1]?.produces[0]))}</span><i>→</i><span>{labelFor(action.toState ?? action.produces[0])}</span></div>
+            {involvedParts.length > 0 && <small className="skill-transition-parts">PARTS · {involvedParts.join(" + ")}</small>}
             {action.evidence?.[0] && <small className="skill-transition-evidence">Evidence · {action.evidence[0].startSeconds.toFixed(1)}s — {action.evidence[0].observation}</small>}
           </div>
         </div>;

@@ -98,3 +98,5 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - Updated the shared Skill Model to keep every object ID associated with a learned transition. The previous single-object field discarded secondary parts in actions such as positioning a spacer beneath a bracket.
 - The bounded what-if interpreter now resolves an action by any of its associated object names, while keeping action labels as the strongest match.
 - Added a regression check for referring to a learned action through a secondary involved part. This prepares the process representation for the actual LEGO procedure without inventing its states or constraints.
+
+- The transition map now displays the names of all parts involved in each action, making multi-object relationships inspectable in the app.
