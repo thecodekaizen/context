@@ -4,11 +4,13 @@ from __future__ import annotations
 
 import json
 import math
+from pathlib import Path
+import hashlib
 from typing import Any
 
 from .meta import MuseSparkClient
 
-OBSERVATION_PROMPT_VERSION = "showme-observe-v4"
+OBSERVATION_PROMPT_VERSION = "showme-observe-v5"
 
 
 def observation_schema(process: dict[str, Any]) -> dict[str, Any]:
@@ -79,9 +81,18 @@ def observation_schema(process: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def observation_prompt(process: dict[str, Any], duration_seconds: float) -> str:
+def observation_prompt(process: dict[str, Any], duration_seconds: float, *, has_reference: bool = False) -> str:
     clean_process = {key: value for key, value in process.items() if not key.startswith("_")}
+    reference_context = (
+        "The attached PDF supplies direct reference evidence. Inspect its cited page/step before comparing "
+        "a source relationship; if the extracted process conflicts with the PDF, disclose the source-model "
+        "conflict in uncertainties instead of diagnosing the learner from that unsupported process claim. "
+    ) if has_reference else (
+        "No reference PDF or expert images are attached. You can compare only the extracted process claims, "
+        "not independently verify the cited manual diagrams. Disclose this limitation in uncertainties. "
+    )
     return (
+        reference_context +
         "Compare this learner video with the process learned from an expert. "
         "The process is a hypothesis, and the learner clip may be correct, divergent, "
         "ambiguous, or recovered; do not assume which. Do not infer unseen events. "
@@ -99,7 +110,11 @@ def observation_prompt(process: dict[str, Any], duration_seconds: float) -> str:
         "If the process lacks an orientation rule, report that limitation rather than inventing one. "
         "A detached component establishes a different physical state, but does not by itself establish a mistake: "
         "consider partial assembly, inspection, disassembly, and recovery. Explain the observed difference "
-        "without inferring the learner intent. "
+        "without inferring the learner intent. Compare identifiable joints, connector surfaces and relative "
+        "facing when visible. Apparent size in different views or diagram scales is not enough to establish "
+        "a wrong part: require identifiable shape/attachment evidence or mark the comparison unclear. "
+        "When a reference_check is possible_mismatch, give a divergence record at that same evidence "
+        "timestamp, even if the issue persists across several events. "
         "For every transition that has reference_evidence, return exactly one reference_check using its transition ID. "
         "Use matches_reference only with direct visual evidence; use possible_mismatch only for a visible conflict "
         "with the cited manual step, and add the same issue to divergences. Use not_shown when the step is absent "
@@ -328,14 +343,31 @@ def observe_video(
     video_path: Any,
     process: dict[str, Any],
     duration_seconds: float,
+    *,
+    reference_pdf: Path | None = None,
 ) -> dict[str, Any]:
     has_references = any(item.get("reference_evidence") for item in process["transitions"])
+    reference_metadata = None
+    if reference_pdf is not None:
+        reference_pdf = reference_pdf.expanduser().resolve()
+        if not reference_pdf.is_file() or reference_pdf.read_bytes()[:5] != b"%PDF-":
+            raise ValueError("task reference must be a readable PDF")
+        reference_metadata = {"sha256": hashlib.sha256(reference_pdf.read_bytes()).hexdigest()}
+    options = {"reference_pdf": reference_pdf} if reference_pdf is not None else {}
     observation = learner.analyze_video(
         video_path,
-        prompt=observation_prompt(process, duration_seconds),
+        prompt=observation_prompt(process, duration_seconds, has_reference=reference_pdf is not None),
         schema=observation_schema(process),
         schema_name="showme_learner_observation",
         max_output_tokens=4500 if has_references else 2500,
+        **options,
     )
     observation.setdefault("_run", {})["prompt_version"] = OBSERVATION_PROMPT_VERSION
+    # Fingerprint exactly the semantic process sent in the prompt; private run metadata is excluded.
+    clean_process = {key: value for key, value in process.items() if not key.startswith("_")}
+    observation["_run"]["process_sha256"] = hashlib.sha256(
+        json.dumps(clean_process, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    ).hexdigest()
+    observation["_run"]["comparison_source"] = "attached_reference" if reference_pdf else "extracted_process_only"
+    observation["_run"]["reference_document"] = reference_metadata
     return observation

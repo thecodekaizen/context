@@ -112,6 +112,7 @@ def learn_skill(
 def observe_learner(
     video: Annotated[UploadFile, File(description="Learner attempt video")],
     process_json: Annotated[str, Form(max_length=100_000)],
+    reference_pdf: Annotated[UploadFile | None, File(description="Optional reference PDF sent with learner video")] = None,
 ) -> dict:
     """Compare a learner clip against the reviewed candidate process."""
     suffix = _validate_video(video)
@@ -131,6 +132,15 @@ def observe_learner(
             if size == 0:
                 raise ValueError("The selected learner video is empty.")
 
+            reference_path = None
+            if reference_pdf is not None:
+                if Path(reference_pdf.filename or "").suffix.lower() != ".pdf" or reference_pdf.content_type not in {"application/pdf", "application/octet-stream"}:
+                    raise HTTPException(status_code=415, detail="Choose a PDF for the task instructions.")
+                reference_path = root / "reference.pdf"
+                reference_size = _copy_bounded(reference_pdf, reference_path)
+                if reference_size == 0 or reference_path.read_bytes()[:5] != b"%PDF-":
+                    raise ValueError("The task reference is not a readable PDF.")
+
             metadata = inspect_video(source)
             model_video = root / "model-input.mp4"
             model_metadata = make_model_video(source, model_video)
@@ -139,6 +149,7 @@ def observe_learner(
                 model_video,
                 process,
                 metadata["duration_seconds"],
+                reference_pdf=reference_path,
             )
             validate_observation(observation, process, metadata["duration_seconds"])
             run = observation.get("_run", {})
@@ -146,6 +157,9 @@ def observe_learner(
                 "model": run.get("model"),
                 "prompt_version": run.get("prompt_version"),
                 "usage": run.get("usage", {}),
+                "process_sha256": run.get("process_sha256"),
+                "comparison_source": run.get("comparison_source"),
+                "reference_document": run.get("reference_document"),
             }
             return {
                 "observation": observation,
@@ -161,6 +175,8 @@ def observe_learner(
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     finally:
         video.file.close()
+        if reference_pdf is not None:
+            reference_pdf.file.close()
 
 
 @app.post("/api/skills/observe-snapshot")

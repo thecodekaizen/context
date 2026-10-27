@@ -11,7 +11,7 @@ import sys
 from .media import make_model_video, prepare_video
 from .meta import MuseSparkClient
 from .evaluation import score_holoassist_observation
-from .observe import observe_video, validate_observation
+from .observe import observation_prompt, observe_video, validate_observation
 from .process import validate_references
 
 
@@ -47,6 +47,7 @@ def main() -> int:
     )
     observe.add_argument("process", type=Path, help="learned process JSON")
     observe.add_argument("video", type=Path, help="local learner MP4; uploaded for inference")
+    observe.add_argument("--reference-pdf", type=Path, help="optional task instructions PDF; uploaded with learner clip")
     observe.add_argument("--output", type=Path, help="new run directory")
 
     score = commands.add_parser(
@@ -65,7 +66,7 @@ def main() -> int:
     if args.command == "learn-video":
         return _learn_video(args.video, output)
     if args.command == "observe-video":
-        return _observe_video(args.process, args.video, output)
+        return _observe_video(args.process, args.video, output, reference_pdf=args.reference_pdf)
 
     try:
         manifest = prepare_video(
@@ -122,7 +123,7 @@ def _learn_video(video: Path, output: Path) -> int:
 
 
 
-def _observe_video(process_path: Path, video: Path, output: Path) -> int:
+def _observe_video(process_path: Path, video: Path, output: Path, *, reference_pdf: Path | None = None) -> int:
     try:
         process = json.loads(process_path.read_text(encoding="utf-8"))
         if not isinstance(process, dict):
@@ -131,12 +132,21 @@ def _observe_video(process_path: Path, video: Path, output: Path) -> int:
         validate_references(process, duration_seconds=source_duration)
         manifest = prepare_video(video, output / "media", sample_every_seconds=1, max_frames=24)
         model_video = make_model_video(video, output / "model-input.mp4")
+        (output / "observe-prompt.txt").write_text(
+            observation_prompt(process, manifest["source"]["duration_seconds"], has_reference=reference_pdf is not None),
+            encoding="utf-8",
+        )
         learner = MuseSparkClient.from_env()
         observation = observe_video(
             learner,
             output / "model-input.mp4",
             process,
             manifest["source"]["duration_seconds"],
+            reference_pdf=reference_pdf,
+        )
+        # Preserve raw output even if structural validation rejects it. It is not a usable observation.
+        (output / "observation-unvalidated.json").write_text(
+            json.dumps(observation, ensure_ascii=False, indent=2) + "\n", encoding="utf-8",
         )
         validate_observation(observation, process, manifest["source"]["duration_seconds"])
         observation["_run"]["source_media"] = manifest["source"]
