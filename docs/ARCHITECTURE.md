@@ -12,12 +12,13 @@ Validate API availability, modalities, rate limits, privacy terms, and output re
 ## Logical components
 
 1. **Import boundary:** accepts an explicit, small set of user-provided files or prepared fixtures; validates types and records source metadata. No broad account scraping or background collection in hackathon scope.
-2. **Memory extraction:** creates normalized temporal memories with source IDs, extracted facts/phrases, modality, timestamps, and model provenance.
-3. **Index and retrieval:** relational filters for time and metadata plus vector similarity for related memories. Retrieval must return source references, not just generated summaries.
-4. **Discovery engine:** proposes candidates by pattern family, gathers evidence, seeks counter-evidence, scores and ranks, and emits a typed candidate record.
-5. **Investigation and interview:** creates grounded questions and stores user response and explicit disposition (confirmed, revised, rejected, deferred).
-6. **Artifact generation:** accepts only a confirmed insight ID and selected evidence/context; stores the output and links it back to the insight.
-7. **API and web:** expose the workflow; web is downstream of the CLI-proven engine.
+2. **Raw archive discovery (current CLI slice):** sends a bounded set of dated source artifacts to Muse and asks for observations, one candidate, supporting evidence, complicating evidence, and limitations. It excludes pre-labeled memories and expected answers.
+3. **Evidence validation:** local code verifies output shape and each artifact ID/date against the source archive. An evolution finding needs multiple dated source moments and remains unconfirmed.
+4. **Memory/index/retrieval (later):** normalized temporal memories and metadata/vector retrieval can support larger archives after the CLI slice proves useful. Retrieval must preserve original source references.
+5. **Discovery engine:** future candidate families can gather further support and counter-evidence, rank candidates, and emit a typed record.
+6. **Investigation and interview:** creates grounded questions and stores user response and explicit disposition (confirmed, revised, rejected, deferred).
+7. **Artifact generation:** accepts only a confirmed insight ID and selected evidence/context; stores the output and links it back to the insight.
+8. **API and web:** expose the workflow; web is downstream of the CLI-proven engine.
 
 ## Model API boundary
 
@@ -27,7 +28,9 @@ Model output is untrusted input: validate structured responses, reject missing e
 
 ## Data flow
 
-`source item → memory extraction → temporal/semantic retrieval → candidate hypothesis → evidence + counter-evidence → user interview/disposition → confirmed insight → artifact`
+`raw dated artifacts → Muse candidate + evidence references → local citation validation → creator challenge/disposition → confirmed insight → artifact`
+
+For larger archives, temporal memory and retrieval may precede candidate generation, but the current CLI path must not rely on hand-authored theme labels.
 
 Each transition is explicit and persisted. No direct source-item-to-artifact shortcut in the hero flow.
 

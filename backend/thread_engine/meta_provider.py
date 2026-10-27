@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from .contracts import Memory
+from .config import model_api_key
 
 MODEL = "muse-spark-1.3"
 PROMPT_VERSION = "memory-extraction-v1"
@@ -55,9 +56,9 @@ class MetaModelProvider:
 
     @classmethod
     def from_env(cls) -> "MetaModelProvider":
-        api_key = os.environ.get("MODEL_API_KEY")
+        api_key = model_api_key()
         if not api_key:
-            raise ValueError("set MODEL_API_KEY after claiming your Meta Model API credits")
+            raise ValueError("set MODEL_API_KEY in the local .env file or shell")
         return cls(api_key=api_key, model=os.environ.get("THREAD_META_MODEL", MODEL))
 
     def extract(self, artifact: dict[str, Any]) -> Memory:

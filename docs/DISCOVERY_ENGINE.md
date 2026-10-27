@@ -12,13 +12,14 @@ A second family (such as cross-project motif or a genuine contradiction) is P1 o
 
 ## Pipeline
 
-1. Normalize source metadata and extract bounded, source-linked temporal memories.
-2. Partition and retrieve by project, time, topic, entities, modality, and semantic similarity.
-3. Generate one candidate hypothesis from retrieved memories using typed output.
-4. Retrieve additional supporting evidence and deliberately search for counter-evidence.
-5. Score evidence quality, temporal coverage, specificity, and counter-evidence transparently.
-6. Withhold generic, weak, or redundant candidates.
-7. Return candidate text, dates, evidence references, uncertainty, counter-evidence, and an investigation prompt.
+1. Validate dated source metadata and build an explicit raw-only project archive.
+2. Ask Muse to identify one possible evolution from the whole dated archive, not from hand-assigned theme labels.
+3. Return observations separately from the candidate interpretation. Require supporting and complicating artifact references.
+4. Validate response shape, artifact IDs, dates, and minimum temporal support locally. Reject fabricated references.
+5. Label every candidate as unconfirmed and preserve model-stated limitations.
+6. Let the creator inspect, challenge, revise, reject, or confirm it before producing an artifact.
+
+The raw archive path is the current CLI vertical slice. Persistent temporal memories, broad retrieval, and multiple candidate families remain later work; they must not be represented as already implemented.
 
 ## Evidence rules
 
@@ -31,7 +32,7 @@ A second family (such as cross-project motif or a genuine contradiction) is P1 o
 
 ## CLI-first contract
 
-The engine must run without the web app: load a synthetic fixture, call the configured Meta model task, run discovery, and emit inspectable structured results (JSON plus concise human-readable output). Record model/provider version and source IDs. Support deterministic fixture mode for evaluation and fallback. Choose the exact command and flags after checking the current Meta API quickstart.
+The engine runs without the web app. `thread-discover <dataset> --raw-muse --json` sends raw dated artifacts to Muse Spark, validates structured output and source references locally, and returns an explicitly unconfirmed finding. The fixture mode remains deterministic for local development. The previous `--provider meta` per-artifact theme extraction path is retained for comparison only.
 
 ## Initial scoring hypothesis
 

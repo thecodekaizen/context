@@ -22,7 +22,7 @@ Evaluate whether THREAD finds a specific change in a creative project, grounds i
 - Calibration/communication: whether caveats match the evidence; do not claim calibrated probabilities without labeled data.
 - Correction: whether user-provided context changes, narrows, or rejects the hypothesis appropriately.
 - Artifact: fidelity to the confirmed project insight, source traceability, and no unsupported additions.
-- Meta-model contribution: compare Muse Spark's constrained summary/theme extraction against the hand-authored fixture annotations, inspect source fidelity and unsupported-detail errors, and use the resulting memories in the same temporal pipeline. Record model ID and provider in every finding; the model must be part of the demonstrated working path. Explain why this is more than a basic RAG lookup.
+- Meta-model contribution: Muse Spark receives raw dated artifacts and proposes a temporal finding; deterministic application code checks that its evidence IDs and dates exist and that a claim spans distinct dates. Do not pass hand-authored themes or expected answers into the request. Record model ID/provider and cost. Keep the finding explicitly unconfirmed until creator disposition.
 
 ## Human review rubric
 
@@ -39,3 +39,7 @@ Run `python -m thread_engine.evaluate` from `backend/` to compare fixture discov
 ## Demo release gate
 
 The selected claim has traceable primary evidence and a plausible counter-reading; the Meta model contributes visibly to the workflow; the CLI returns structured source-linked output; the creator can reject or revise; artifact generation requires explicit confirmation. Preserve a short scorecard and document failures rather than hiding them.
+
+## Raw Muse discovery experiment
+
+The preregistered Neighborhood Atlas experiment used Muse Spark 1.3 Standard over raw artifacts and a decisive-evidence ablation. The complete case recovered the expected direction and the ablation withheld it, but the full result failed the preregistered language-calibration criterion because the model stated the interpretation as settled (`shifted`) rather than tentative. See [the scorecard](experiments/results/neighborhood-atlas-2026-10-27.md). Do not count the deterministic fixture baseline or this one synthetic result as real-world validation.

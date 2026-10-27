@@ -88,6 +88,30 @@ def _render_text(result: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _render_raw_discovery(result: dict[str, Any]) -> str:
+    project = result.get("project", {})
+    lines = [f"{project.get('title', 'Project')} · Muse {result.get('model', '')}"]
+    lines.append("\nCandidate hypothesis (unconfirmed):")
+    candidate = result.get("candidate_finding", "")
+    lines.append(f"  {candidate}" if candidate else "  No evolution established from this archive.")
+    lines.append("\nSupporting artifacts:")
+    for item in result.get("supporting_artifacts", []):
+        lines.append(f"  + {item['date']} · {item['artifact_id']} — {item['relevance']}")
+    lines.append("\nComplicating artifacts:")
+    for item in result.get("complicating_artifacts", []):
+        lines.append(f"  ! {item['date']} · {item['artifact_id']} — {item['relevance']}")
+    if not result.get("complicating_artifacts"):
+        lines.append("  None cited.")
+    lines.append(f"\nLimitations: {result.get('limitations', '')}")
+    if (usage := result.get("usage")) is not None:
+        lines.append(
+            f"\nAPI usage: {usage['input_tokens']} input, {usage['output_tokens']} output tokens; "
+            f"estimated ${usage['estimated_usd']:.6f}."
+        )
+    lines.append("\nCreator review is required before treating this as an insight.")
+    return "\n".join(lines)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Discover one evidence-backed evolution in a creative project.")
     parser.add_argument(
@@ -98,13 +122,19 @@ def main() -> int:
         help="path to a schema_version 1 JSON dataset",
     )
     parser.add_argument("--json", action="store_true", help="print machine-readable JSON")
+    parser.add_argument("--raw-muse", action="store_true", help="discover from raw dated artifacts with Muse; skip memory labels")
     parser.add_argument("--provider", choices=("fixture", "meta"), default="fixture", help="theme extraction source")
     args = parser.parse_args()
 
     try:
-        from .service import discover_dataset
+        if args.raw_muse:
+            from .raw_discovery import discover_raw_archive
 
-        result = discover_dataset(dataset_path=args.dataset, provider_name=args.provider)
+            result = discover_raw_archive(args.dataset)
+        else:
+            from .service import discover_dataset
+
+            result = discover_dataset(dataset_path=args.dataset, provider_name=args.provider)
     except DatasetError as exc:
         print(f"thread-discover: invalid dataset [{exc.code}]: {exc}", file=sys.stderr)
         return 2
@@ -121,8 +151,8 @@ def main() -> int:
     if args.json:
         print(json.dumps(result, indent=2, ensure_ascii=False))
     else:
-        print(_render_text(result))
-        if (usage := result.get("api_usage")) is not None:
+        print(_render_raw_discovery(result) if args.raw_muse else _render_text(result))
+        if not args.raw_muse and (usage := result.get("api_usage")) is not None:
             print(
                 "\nAPI usage this run: "
                 f"{usage['requests']} requests, {usage['cache_hits']} cache hits, "
