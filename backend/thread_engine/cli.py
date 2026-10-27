@@ -143,12 +143,22 @@ def main() -> int:
     parser.add_argument("--json", action="store_true", help="print machine-readable JSON")
     parser.add_argument("--raw-muse", action="store_true", help="discover from raw dated artifacts with Muse; skip memory labels")
     parser.add_argument("--extract-memories", action="store_true", help="extract dated source-linked memories with Muse and print them without discovery")
+    parser.add_argument("--review", action="store_true", help="run an interactive challenge, confirmation, and direction-note flow")
     parser.add_argument("--provider", choices=("fixture", "meta"), default="fixture", help="theme extraction source")
     args = parser.parse_args()
-    if args.raw_muse and args.extract_memories:
-        parser.error("--raw-muse and --extract-memories are separate CLI workflows")
+    if sum((args.raw_muse, args.extract_memories, args.review)) > 1:
+        parser.error("--raw-muse, --extract-memories, and --review are separate CLI workflows")
 
     try:
+        if args.review:
+            if args.json:
+                parser.error("--review is interactive and cannot be combined with --json")
+            from .service import discover_dataset
+            from .review import review_finding
+
+            finding = discover_dataset(dataset_path=args.dataset, provider_name=args.provider)
+            review_finding(finding)
+            return 0
         if args.extract_memories:
             from .service import extract_dataset_memories
 

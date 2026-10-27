@@ -33,7 +33,8 @@ Keep to one candidate and one artifact. Do not imply continuous monitoring. Show
 2. Follow the dated fragments and compare the supporting evidence with the later route-index counterexample.
 3. Read the uncertainty note before accepting or challenging the interpretation.
 4. Add creator context that the archive cannot know.
-5. Revise the interpretation in the creator's own words and explicitly confirm it.
-6. Create a direction note. The local API refuses artifact creation until confirmation and carries the evidence source IDs into the artifact.
+5. Challenge or revise the interpretation in the creator's own words; reject and defer remain valid outcomes.
+6. Explicitly type `CONFIRM` before the local CLI creates the note.
+7. Create a direction note. The CLI refuses artifact creation until confirmation and carries supporting, counter, and continuity evidence into the artifact.
 
 The synthetic fixture runs without an API key. Selecting Muse Spark requires a configured Meta Model API key and verified credits; show provider/model provenance and the usage estimate in the demo.

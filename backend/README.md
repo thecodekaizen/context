@@ -25,6 +25,14 @@ backend/.venv/bin/python -m thread_engine.cli datasets/synthetic/experiments/typ
 
 `--extract-memories` prints one dated memory per raw artifact, preserving source IDs, dates, modality, and title. Muse sees the bounded archive together so it can apply consistent project topic tags, and returns a concise summary for each item using Responses API structured output. The source metadata is copied locally and checked against the archive. `--provider meta` runs that one project-level extraction followed by the deterministic temporal comparison; it accepts raw-only archives and does not need hand-authored memory labels. Extraction results and token estimates are cached under the repository-root `.thread-cache/`, regardless of the launch directory. The fixture default makes no API calls. Use Standard mode (`muse-spark-1.3`) for project material. Check the [current official pricing](https://dev.meta.ai/docs/pricing-rate-limits) before changing the model or privacy mode.
 
+To run the CLI-only creator review and confirmation flow on the deterministic fixture:
+
+```sh
+backend/.venv/bin/python -m thread_engine.cli datasets/synthetic/creative-evolution.json --review
+```
+
+The flow asks for two pieces of creator context, lets you keep/revise/reject/defer the candidate, and requires you to type `CONFIRM` before writing a direction note. Session answers and notes are stored locally under the ignored `.thread-output/` directory. Add `--provider meta` to run project-level Muse memory extraction first; cached memories avoid repeat calls.
+
 The source text is synthetic and invented for the demo. Keep real personal material out of this fixture.
 
 ## Local workflow API
