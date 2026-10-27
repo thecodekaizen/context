@@ -12,3 +12,4 @@ out/
 
 # Local prompts and responses from controlled model experiments
 .thread-experiment-runs/
+*.egg-info/
