@@ -8,6 +8,7 @@ import { clearReviewedProcess, isSavedProcess, loadReviewedProcess, saveReviewed
 import { interpretWhatIf } from "@/lib/what-if";
 
 type Mode = "teach" | "do" | "simulate";
+const MAX_LEARNER_VIDEO_BYTES = 100 * 1024 * 1024;
 type LearnedProcess = SavedProcess;
 type LearnerObservation = {
   events: { time_seconds: number; action: string; state_id: string; assessment: "consistent" | "divergent" | "unclear"; object_ids: string[]; evidence: string }[];
@@ -510,6 +511,17 @@ export default function Home() {
 
   function chooseLearnerVideo(file?: File) {
     if (!file) return;
+    if (file.size > MAX_LEARNER_VIDEO_BYTES) {
+      setLearnerFile(null);
+      setLearnerUrl((previous) => {
+        if (previous.startsWith("blob:")) URL.revokeObjectURL(previous);
+        return "";
+      });
+      setObservation(null);
+      setObserveError("This video is over 100 MB. Choose a compressed copy to analyze it; the original stays on your device.");
+      if (learnerInput.current) learnerInput.current.value = "";
+      return;
+    }
     setLearnerFile(file);
     setLearnerUrl((previous) => {
       if (previous.startsWith("blob:")) URL.revokeObjectURL(previous);
