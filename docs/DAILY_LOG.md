@@ -41,7 +41,7 @@ Run the controlled task with matched clips, inspect the learned process and evid
 | Detect a deliberate divergence | Not passed | Matched error clip; detect the withheld target with frame evidence |
 | Recognize recovery | Not passed | Separate recovery clip; verify restored valid state |
 | SAM visual grounding | Not started | Begin only after baseline state distinctions pass |
-| Procedural what-if simulation | Not started | Begin only after P0 passes |
+| Procedural what-if simulation | Implemented for fixture and reviewed Skill Models; task-specific visual consequence pending | Deterministic action reordering/playback and a model-driven transition map; physical-task evidence and geometry still needed |
 | SHOWME app | Teach, Do, Simulate prototype implemented; physical-task capability not validated | Browser recording/upload, candidate review, snapshot/clip observation, procedural simulation; see [`SHOWME_APP_PLAN.md`](SHOWME_APP_PLAN.md) |
 | Demo video and submission | Not started | Only show capabilities that pass evaluation |
 
@@ -65,3 +65,10 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - The LEGO task itself remains unselected until the pieces are inspected. The guide avoids assuming a washer/bracket constraint that may not exist in the set.
 - P0 captures video only and strips audio during preprocessing; narration is optional but is not treated as model evidence in this experiment.
 - This is experiment preparation, not a result. Capability remains unvalidated until the clips are recorded and evaluated.
+
+### Implementation checkpoint — Simulate state map
+
+- Added a transition map beneath the simulated state view. It reads state labels, action order, and evidence from the same Skill Model used by Teach and Do, and highlights transitions as completed, current, or upcoming while stepping through a what-if sequence.
+- The illustrative fixture is labeled separately from a reviewed demonstration. The map is a procedural state preview, not task-specific geometry or physics.
+- This work is independent of receiving the LEGO clips; those remain necessary to replace the fixture with the chosen assembly and validate physical-state recognition.
+- Verification: the 7 existing web tests passed, TypeScript check passed, and production build completed successfully.

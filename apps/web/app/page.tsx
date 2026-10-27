@@ -24,28 +24,58 @@ type SnapshotObservation = {
   _run?: { model?: string; usage?: { input_tokens?: number; output_tokens?: number } };
 };
 
-function AssemblyView({ state, model }: { state: string[]; model: SkillModel }) {
-  if (model.status === "learned-from-demonstration") {
-    const stateNames = (model.states ?? []).filter((item) => state.includes(item.id));
-    return <div className="learned-state-view"><div className="eyebrow">STATE OBSERVED IN THE DEMONSTRATION</div>{stateNames.length ? stateNames.map((item) => <div className="learned-state-chip" key={item.id}><span>◉</span>{item.label}</div>) : <div className="learned-state-chip muted">No matching state in this candidate model</div>}<p>State transitions are shown as the model described them; this view does not simulate physical forces or geometry.</p></div>;
-  }
+function SkillTransitionMap({ state, model, activeActionId }: { state: string[]; model: SkillModel; activeActionId?: string }) {
+  const stateNames = (model.states ?? []).filter((item) => state.includes(item.id));
+  const nextActionId = model.actions.find((action) => !action.produces.every((condition) => state.includes(condition)))?.id;
+  const labelFor = (id?: string) => model.states?.find((item) => item.id === id)?.label ?? id?.replaceAll("_", " ") ?? "State not specified";
+  const learned = model.status === "learned-from-demonstration";
+  return <div className="learned-state-view skill-map-view">
+    <div className="eyebrow">CURRENT SIMULATED STATE</div>
+    <div className="learned-state-current" aria-live="polite">
+      {stateNames.length ? stateNames.map((item) => <div className="learned-state-chip" key={item.id}><span>◉</span>{item.label}</div>) : <div className="learned-state-chip muted">{state.length ? state.map(labelFor).join(" · ") : "No matching state in this model"}</div>}
+    </div>
+    <div className="skill-state-map" aria-label="Skill Model transition map">
+      <div className="skill-state-map-heading"><span>{learned ? "OBSERVED PROCESS TRACE" : "ILLUSTRATIVE PROCESS TRACE"}</span><span>{model.actions.length} transitions</span></div>
+      {model.actions.map((action, index) => {
+        const complete = action.produces.every((condition) => state.includes(condition));
+        const current = action.id === activeActionId || (!activeActionId && action.id === nextActionId);
+        const status = complete ? "complete" : current ? "current" : "pending";
+        return <div className={`skill-transition ${status}`} key={action.id} aria-current={current ? "step" : undefined}>
+          <div className="skill-transition-marker"><span>{complete ? "✓" : String(index + 1).padStart(2, "0")}</span></div>
+          <div className="skill-transition-copy">
+            <div className="skill-transition-title"><strong>{action.label}</strong><small>{complete ? "IN SIMULATED STATE" : current ? "CURRENT TRANSITION" : "AHEAD IN TRACE"}</small></div>
+            <div className="skill-transition-states"><span>{labelFor(action.fromState ?? (index === 0 ? model.initialState.find((item) => !item.endsWith("_available")) ?? model.initialState[0] : model.actions[index - 1]?.toState ?? model.actions[index - 1]?.produces[0]))}</span><i>→</i><span>{labelFor(action.toState ?? action.produces[0])}</span></div>
+            {action.evidence?.[0] && <small className="skill-transition-evidence">Evidence · {action.evidence[0].startSeconds.toFixed(1)}s — {action.evidence[0].observation}</small>}
+          </div>
+        </div>;
+      })}
+    </div>
+    <p>{learned ? "Transitions come from the reviewed demonstration. This previews process states; it does not simulate physical forces or geometry." : "Illustrative fixture only. This previews procedural state; it does not simulate physical forces or geometry."}</p>
+  </div>;
+}
+
+function AssemblyView({ state, model, activeActionId }: { state: string[]; model: SkillModel; activeActionId?: string }) {
+  if (model.status === "learned-from-demonstration") return <SkillTransitionMap state={state} model={model} activeActionId={activeActionId} />;
   const washer = state.includes("washer_seated");
   const bracket = state.includes("bracket_mounted");
   const bolt = state.includes("fastener_inserted");
   return (
-    <div className="assembly-scene" aria-label="Illustrative assembly state">
-      <div className="scene-glow" />
-      <div className="part-label label-bracket">SUPPORT BRACKET</div>
-      <div className="part-label label-washer">SPACER RING</div>
-      <div className="part-label label-base">MOUNTING BASE</div>
-      <div className="assembly">
-        {bolt && <div className="bolt-part"><span /></div>}
-        {bracket && <div className="bracket-part"><span /></div>}
-        {washer && <div className="washer-part"><span /></div>}
-        <div className="base-part"><span /></div>
+    <>
+      <div className="assembly-scene" aria-label="Illustrative assembly state">
+        <div className="scene-glow" />
+        <div className="part-label label-bracket">SUPPORT BRACKET</div>
+        <div className="part-label label-washer">SPACER RING</div>
+        <div className="part-label label-base">MOUNTING BASE</div>
+        <div className="assembly">
+          {bolt && <div className="bolt-part"><span /></div>}
+          {bracket && <div className="bracket-part"><span /></div>}
+          {washer && <div className="washer-part"><span /></div>}
+          <div className="base-part"><span /></div>
+        </div>
+        <div className="scene-caption">STATE VIEW · PROCEDURAL, NOT PHYSICS</div>
       </div>
-      <div className="scene-caption">STATE VIEW · PROCEDURAL, NOT PHYSICS</div>
-    </div>
+      <SkillTransitionMap state={state} model={model} activeActionId={activeActionId} />
+    </>
   );
 }
 
@@ -515,7 +545,7 @@ export default function Home() {
             <section className="card simulation-card">
               <div className="card-heading"><div><div className="eyebrow">THE SHARED SKILL MODEL</div><h2>{model.title}</h2></div><button className="text-action" onClick={resetSimulation}>↺ Reset</button></div>
               <div className="fixture-note"><span>i</span><p>{model.status === "learned-from-demonstration" ? "This reviewed model represents one observed trace. It does not prove the process is complete or that another order is impossible." : "This is an illustrative fixture to make the process model tangible. It has not been learned from a demonstration yet."}</p></div>
-              <AssemblyView state={state} model={model} />
+              <AssemblyView state={state} model={model} activeActionId={sequenceResult?.steps[sequenceCursor]?.result.action.id ?? result?.action.id} />
               <div className="state-summary"><div><span className="eyebrow">SIMULATED STATE</span><strong>{done.length === model.actions.length ? "Assembly complete" : `${done.length} of ${model.actions.length} actions complete`}</strong></div><span className="state-pip"><i className={result?.accepted === false ? "warning" : ""} /></span></div>
               {result && <div className={`result-callout ${result.accepted ? "success" : result.kind === "unobserved" ? "unobserved" : "blocked"}`} role="status"><span className="result-icon">{result.accepted ? "✓" : result.kind === "unobserved" ? "?" : "!"}</span><div><strong>{result.accepted ? "OBSERVED TRANSITION" : result.kind === "unobserved" ? "ALTERNATIVE NOT OBSERVED" : "CONFIRMED REQUIREMENT NOT MET"}</strong><p>{result.message}</p>{!result.accepted && <small>{result.kind === "unobserved" ? "Evidence needed: another demonstration or human confirmation." : <>Missing state: {result.missing.map((item) => item.replaceAll("_", " ")).join(", ")}<br />Constraint source: {result.blockedBy?.map((constraint) => constraint.source.replaceAll("-", " ")).join(", ")}</>}<br />{result.action.recovery}</small>}</div></div>}
               <div className="what-if"><span className="what-if-mark">?</span><div><strong>What if the steps happened in a different order?</strong><p>Reorder the demonstrated actions and run the alternative from the skill’s initial state. SHOWME stops at the first rule or observed transition that does not support it.</p></div></div>
