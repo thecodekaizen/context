@@ -58,8 +58,8 @@ function AssemblyView({ state, model }: { state: string[]; model: SkillModel }) 
   );
 }
 
-function VideoPreview({ src }: { src: string }) {
-  return <video className="video-preview" src={src} controls playsInline />;
+function VideoPreview({ src, videoRef }: { src: string; videoRef?: React.RefObject<HTMLVideoElement | null> }) {
+  return <video ref={videoRef} className="video-preview" src={src} controls playsInline />;
 }
 
 export default function Home() {
@@ -84,6 +84,7 @@ export default function Home() {
   const [observing, setObserving] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
   const learnerInput = useRef<HTMLInputElement>(null);
+  const learnerVideoRef = useRef<HTMLVideoElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
@@ -172,6 +173,18 @@ export default function Home() {
     } finally {
       setObserving(false);
     }
+  }
+
+  function inspectLearnerEvidence(seconds: number) {
+    const video = learnerVideoRef.current;
+    if (!video) return;
+    video.currentTime = Math.max(0, Math.min(seconds, Number.isFinite(video.duration) ? video.duration : seconds));
+    void video.play().catch(() => undefined);
+  }
+
+  function objectLabels(ids: string[]) {
+    if (ids.length === 0) return "No specific object grounded";
+    return ids.map((id) => activeProcess?.objects.find((object) => object.id === id)?.label ?? id.replaceAll("_", " ")).join(" · ");
   }
 
   function chooseVideo(file?: File) {
@@ -288,13 +301,14 @@ export default function Home() {
               <div className="observe-panel"><div className="eyebrow">TEST A RECORDED ATTEMPT</div><h3>Compare a learner clip.</h3><p>Use a separate recording to inspect timestamped events against the reviewed Skill Model. This is clip analysis, not live tracking.</p>
                 <button className="upload-drop compact-drop" onClick={() => learnerInput.current?.click()}><span className="upload-symbol">↥</span><strong>{learnerFile ? learnerFile.name : "Choose learner video"}</strong><small>MP4, MOV, M4V, or WebM · up to 100 MB</small></button>
                 <input ref={learnerInput} type="file" accept="video/mp4,video/quicktime,video/x-m4v,video/webm" hidden onChange={(event) => chooseLearnerVideo(event.target.files?.[0])} />
-                {learnerUrl && <VideoPreview src={learnerUrl} />}
+                {learnerUrl && <VideoPreview src={learnerUrl} videoRef={learnerVideoRef} />}
                 <div className="capture-actions"><span className="small-note">Analysis sends this clip to Meta and may use API credits.</span><button className="primary-button" disabled={!learnerFile || !activeProcess || observing} onClick={() => void observeLearnerVideo()}>{observing ? "Comparing clip…" : "Observe attempt"}<span>→</span></button></div>
                 {!activeProcess && <div className="inline-honesty">Teach a demonstration and load its reviewed Skill Model before observing a learner clip.</div>}
                 {observeError && <div className="inline-honesty" role="alert">{observeError}</div>}
                 {observation && <section className="observation-results" aria-live="polite"><div className="observation-heading"><div><div className="eyebrow">MODEL OBSERVATION · {observation._run?.model ?? "MUSE SPARK"}</div><h4>{observation.recovery_status.replaceAll("_", " ")}</h4></div><span>{observation._run?.usage?.input_tokens ?? 0} INPUT TOKENS</span></div>
-                  {observation.divergences.length > 0 && <div className="divergence-list"><strong>Differences to inspect · {observation.divergences.length}</strong>{observation.divergences.map((item, index) => <article key={`${item.time_seconds}-${index}`}><span>{item.time_seconds.toFixed(1)}s</span><div><b>{item.process_difference}</b><p>{item.evidence}</p></div></article>)}</div>}
-                  <div className="observed-events"><strong>Observed events · {observation.events.length}</strong>{observation.events.map((item, index) => <article key={`${item.time_seconds}-${index}`}><span>{item.time_seconds.toFixed(1)}s</span><i className={`event-dot ${item.assessment}`} /><div><b>{item.action}</b><p>{item.evidence}</p></div><small>{item.assessment.toUpperCase()}</small></article>)}</div>
+                  <p className="evidence-review-hint">Select a timestamp to inspect the supporting moment in the learner clip. Object names are model references, not segmentation overlays.</p>
+                  {observation.divergences.length > 0 && <div className="divergence-list"><strong>Differences to inspect · {observation.divergences.length}</strong>{observation.divergences.map((item, index) => <button className="evidence-row" key={`${item.time_seconds}-${index}`} onClick={() => inspectLearnerEvidence(item.time_seconds)}><span>{item.time_seconds.toFixed(1)}s</span><div><b>{item.process_difference}</b><p>{item.evidence}</p><small>{objectLabels(item.object_ids)}</small></div></button>)}</div>}
+                  <div className="observed-events"><strong>Observed events · {observation.events.length}</strong>{observation.events.map((item, index) => <button className="evidence-event" key={`${item.time_seconds}-${index}`} onClick={() => inspectLearnerEvidence(item.time_seconds)}><span>{item.time_seconds.toFixed(1)}s</span><i className={`event-dot ${item.assessment}`} /><div><b>{item.action}</b><p>{item.evidence}</p><small>{objectLabels(item.object_ids)}</small></div><small>{item.assessment.toUpperCase()}</small></button>)}</div>
                   {observation.uncertainties.length > 0 && <div className="candidate-uncertainties"><strong>Uncertain from this clip</strong><ul>{observation.uncertainties.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul></div>}
                 </section>}
               </div>
