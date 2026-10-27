@@ -1,23 +1,34 @@
-# THREAD web client
+# SHOWME web app
 
-The client is a Next.js App Router experience for the P0 flow: **discover → inspect → challenge → confirm → create**. It uses the synthetic project by default and can explicitly request Muse Spark from the model selector.
+The Next.js App Router client provides the three SHOWME surfaces—**Teach, Do, Simulate**—over one shared Skill Model.
 
-## Run locally
+## Run the local API
 
-From `backend/`, install the API extra and start the local API:
+From the repository root, install dependencies and start the local API:
 
 ```sh
-pip install -e '.[api]'
-uvicorn thread_engine.api:app --reload
+python3 -m venv backend/.venv
+backend/.venv/bin/pip install -e 'backend[api,meta]'
+PYTHONPATH=backend backend/.venv/bin/uvicorn showme.api:app --reload --port 8000
 ```
 
-From `apps/web/`, install and start the client:
+Set `MODEL_API_KEY` in the ignored repository `.env` file or API process environment. Keep it server-side; never expose it to the browser or commit it. Model calls may use Meta API credits.
+
+## Run this app
+
+In another terminal:
 
 ```sh
+cd apps/web
 npm install
 npm run dev
 ```
 
-Open `http://localhost:3000`. For Muse Spark, install the backend `meta` extra, set `MODEL_API_KEY`, verify credits and a spend alert in Meta Billing, then choose Muse Spark in the selector. The fixture path makes no model calls.
+Open `http://localhost:3000`. The API defaults to `http://localhost:8000`; override it with `NEXT_PUBLIC_SHOWME_API_URL` if needed.
 
-The API keeps demo workflow sessions in memory and binds to local development by default. Restarting the backend resets sessions. The generated direction note is deliberately local and requires both a creator context note and explicit confirmation.
+## Honest capability boundaries
+
+- Teach returns a model-generated candidate that needs human review.
+- Do supports explicit snapshot checks and separate recorded-clip comparison. It is not continuous tracking.
+- Simulate replays a reordered action sequence against the Skill Model. It is a procedural state preview, not physics.
+- See the root [README](../../README.md) for current screenshots and the locked product definition.

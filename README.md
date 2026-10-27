@@ -1,58 +1,83 @@
-<div align="center">
-
 # SHOWME
 
-### Demonstrations into understanding.
+### Tutorials can show you what to do. They can’t see what you’re doing.
 
-**Show it once. Learn it. Simulate it. Teach it.**
+**SHOWME turns demonstrations into understanding.** Show it once. Learn it. Simulate it. Teach it.
 
-</div>
+## The problem
 
----
+People learn physical tasks from videos and manuals, but those resources cannot see the learner’s workspace. They cannot tell that a part is missing, an action was done out of order, or the learner has recovered from a mistake. SHOWME aims to connect an expert’s demonstration to the learner’s actual task state.
 
-Tutorials can show someone what happened. SHOWME aims to understand the process well enough to watch another person try it, notice when their physical state diverges, and help them recover.
+## The product
 
-    Expert demonstration
-             ↓
-    Objects, actions, states, dependencies
-             ↓
-    Process model
-             ↓
-    Observe another attempt
-             ↓
-    Grounded guidance and recovery
-             ↓
-    Simulate an alternative with that same Skill Model
+SHOWME learns one bounded physical procedure as an evidence-linked **Skill Model**. That same model powers three connected surfaces:
 
-## First proof
+1. **Teach** — Record or upload an expert demonstration. SHOWME proposes objects, actions, observable states, transitions, and possible dependencies for human review.
+2. **Do** — Observe a learner’s separate attempt, compare it with the reviewed Skill Model, explain supported differences, and guide recovery.
+3. **Simulate** — Change the action order and explore the resulting procedural state using that same Skill Model.
 
-The final product has exactly three surfaces: **Teach → Do → Simulate**, all powered by one shared Skill Model. SHOWME transforms a visual demonstration into an executable model of one physical procedure, watches another person perform it, catches and guides recovery from a mistake, then lets the learner explore a changed action and see its consequence in that same learned skill. It does not claim arbitrary task learning or general-purpose physics.
+The Skill Model is the product: Teach creates it; Do executes against it; Simulate explores it. The hackathon targets one safe, visually clear task. It does not claim arbitrary task learning or general-purpose physics.
 
-See the proof-of-magic experiment in docs/SHOWME_PROOF_OF_MAGIC.md for the protocol, evidence rules, first milestone, and kill criteria.
+## Current app screenshots
 
-## Build and app plans
+These are screenshots of the **current local app**, captured October 27, 2026. Simulate uses an explicitly illustrative stacked-mount fixture. Do currently offers camera preview, one-frame checks, and recorded-clip comparison; it does not yet track continuously. These screenshots show the interface and working prototype flows, not proof that physical mistakes are reliably detected.
 
-- [Active roadmap and phase status](docs/SHOWME_BUILD_PLAN.md)
+| Teach | Do |
+|---|---|
+| ![Teach: capture a demonstration](design/screenshots/01-teach.jpg) | ![Do: camera preview and learner clip workflow](design/screenshots/02-do.jpg) |
+
+| Simulate | What-if result |
+|---|---|
+| ![Simulate: reorder the procedure](design/screenshots/03-simulate.jpg) | ![What-if simulation stops at a confirmed missing prerequisite](design/screenshots/04-simulate-what-if.jpg) |
+
+## What works now
+
+- Teach accepts a short demonstration video and narration, then asks Muse Spark for a structured candidate Skill Model with timestamped evidence.
+- A person reviews the candidate. Model-proposed prerequisites remain hypotheses unless explicitly mapped to a state and confirmed by the reviewer.
+- Do can request a single camera-frame check or compare a separately recorded learner clip. These are discrete observations, not continuous tracking.
+- Simulate lets a person reorder actions, step through a deterministic procedural replay, and inspect the first confirmed blocker. A sequence absent from one demonstration is reported as **unobserved**, not impossible.
+- Skill candidates and human-reviewed constraint mappings persist in browser-local storage. Uploaded clips and camera frames are not stored by the app after the request.
+
+The current simulation view is procedural rather than a geometry or physics simulator. The matched demonstration / correct attempt / mistake / recovery evaluation is still pending with the selected task.
+
+## Run locally
+
+From the repository root, install the optional API dependencies and start the local SHOWME API:
+
+```sh
+python3 -m venv backend/.venv
+backend/.venv/bin/pip install -e 'backend[api,meta]'
+PYTHONPATH=backend backend/.venv/bin/uvicorn showme.api:app --reload --port 8000
+```
+
+Set `MODEL_API_KEY` in the repository’s ignored local `.env` file or in the API process environment. Never commit the key. Model calls can use hackathon API credits.
+
+In a second terminal, start the web app:
+
+```sh
+cd apps/web
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000). The app uses the local API at `http://localhost:8000` by default.
+
+## Product and build documents
+
 - [Locked product definition](docs/PRODUCT.md)
-- [Camera-first app and mockup plan](docs/SHOWME_APP_PLAN.md)
+- [Hackathon build plan and evidence status](docs/SHOWME_BUILD_PLAN.md)
+- [Proof-of-magic experiment](docs/SHOWME_PROOF_OF_MAGIC.md)
+- [Final app plan](docs/SHOWME_APP_PLAN.md)
 - [Interactive simulation design](docs/SHOWME_SIMULATION_DESIGN.md)
-- [Current progress and evidence log](docs/DAILY_LOG.md)
-- [Target three-minute demo flow](design/flows/demo-flow.md)
+- [Three-minute demo flow](design/flows/demo-flow.md)
+- [Daily progress log](docs/DAILY_LOG.md)
 
-Two SHOWME concept mockups are in `design/mockups/`; they illustrate Do guidance/recovery and Simulate. They are not implemented screens, and their example assembly is not the selected task. Teach, Do, and Simulate must all use the same Skill Model. The older direction board and `apps/web/` are legacy THREAD work, not the SHOWME interface.
+## Meta model roles
 
-## Meta models
+Muse Spark performs structured multimodal interpretation of demonstrations and learner observations in the current API path. SAM 3.1 and Muse Voice are considered for object grounding and narration, but they are not represented here as working integrations until implemented and verified.
 
-The intended roles are substantive and distinct: Muse Spark interprets the demonstration and learner attempt; SAM 3.1 segments and tracks relevant objects for visual grounding; Muse Voice Transcribe may provide a separate narration transcript. Capabilities and costs must be checked against the current API and proved in the experiment before they become demo claims.
+## Hackathon and responsible use
 
-## Existing repository
+Meta Global AI Developer Hackathon 2026 · Indie Developer / Push the Frontier. The submission needs a public repository and a demo video of at most three minutes. Clearly identify work created during the October 27–November 4 build period.
 
-This repository began as THREAD. Its Python CLI, FastAPI setup, Meta API adapter patterns, evaluation habits, and Next.js toolchain may be useful infrastructure. THREAD-specific product logic, datasets, experiments, and UI are legacy; they are not SHOWME specifications. See AGENTS.md for current working agreements. Inspect legacy material before reuse; preserve useful infrastructure.
-
-## Hackathon
-
-Meta Global AI Developer Hackathon 2026 · Indie Developer / Push the Frontier. The public submission needs to clearly identify work created during the Oct 27–Nov 4 building period, use Meta models in the working path, and include a three-minute demo. This is a local prototype first; no accounts, production infrastructure, robot control, or general-purpose task support in P0.
-
-## Safety and data
-
-Use a safe, repeatable task and clips the team has permission to record and share. Keep faces and private details out of footage. Never commit API keys, private recordings, raw model payloads, or evaluation labels. The system gives guidance only; it does not control tools or machinery.
+Use safe tasks and footage you have permission to record and share. Avoid faces and private details. Do not commit API keys, private recordings, raw model payloads, or evaluation labels. SHOWME provides guidance; it does not control tools or machinery.

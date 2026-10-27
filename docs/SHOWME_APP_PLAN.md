@@ -46,6 +46,8 @@ One camera-first skill workspace. Its top-level navigation is **Teach · Do · S
 - [`02-what-if-procedure-preview.png`](../design/mockups/02-what-if-procedure-preview.png): concept for Simulate (alternate sequence and consequence).
 - **Teach mockup still needed:** demonstration capture/narration and evidence-linked Skill Model review.
 
+Current implementation screenshots are under [`design/screenshots`](../design/screenshots/README.md) and are embedded in the root README. They document the local prototype separately from these concept mockups.
+
 The current mockups use an illustrative washer/bracket assembly. It is not the selected task or evidence that mistake detection works. Once the 4–6-piece task is selected, make Teach, Do, and Simulate use that same task vocabulary and visual assets.
 
 ## Implementation status
