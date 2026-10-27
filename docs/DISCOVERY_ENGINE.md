@@ -33,7 +33,7 @@ Two model-backed CLI paths are available for comparison: `--extract-memories` ex
 
 ## CLI-first contract
 
-The engine runs without the web app. `thread-discover <dataset> --extract-memories --json` prints Muse-produced dated memories whose source provenance is copied locally. `thread-discover <dataset> --provider meta --json` runs extraction and deterministic temporal comparison on raw-only datasets. `thread-discover <dataset> --raw-muse --json` directly asks Muse Spark for a hypothesis and validates structured output and source references locally. All live results remain candidates for creator review. Fixture mode remains deterministic for local development.
+The engine runs without the web app. `thread-discover <dataset> --extract-memories --json` prints Muse-produced dated memories whose source provenance is copied locally. `thread-discover <dataset> --provider meta --json` runs extraction and deterministic temporal comparison on raw-only datasets. `thread-discover <dataset> --raw-muse --json` directly asks Muse Spark for a hypothesis and validates structured output and source references locally. `thread-discover <dataset> --raw-muse --review` carries that validated raw finding into the interview, disposition, exact-confirmation, and direction-note flow while retaining observed source stages and provenance. Empty candidates skip the interview. Fixture mode remains deterministic for local development.
 
 ## Initial scoring hypothesis
 

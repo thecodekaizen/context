@@ -152,22 +152,32 @@ def main() -> int:
         help="path to a schema_version 1 JSON dataset",
     )
     parser.add_argument("--json", action="store_true", help="print machine-readable JSON")
-    parser.add_argument("--raw-muse", action="store_true", help="discover from raw dated artifacts with Muse; skip memory labels")
+    parser.add_argument("--raw-muse", action="store_true", help="discover directly from raw artifacts; combine with --review for creator interview")
     parser.add_argument("--extract-memories", action="store_true", help="extract dated source-linked memories with Muse and print them without discovery")
-    parser.add_argument("--review", action="store_true", help="run an interactive challenge, confirmation, and direction-note flow")
+    parser.add_argument("--review", action="store_true", help="interview and disposition a candidate; combine with --raw-muse for direct Muse discovery")
     parser.add_argument("--provider", choices=("fixture", "meta"), default="fixture", help="theme extraction source")
     args = parser.parse_args()
-    if sum((args.raw_muse, args.extract_memories, args.review)) > 1:
-        parser.error("--raw-muse, --extract-memories, and --review are separate CLI workflows")
+    if args.extract_memories and (args.review or args.raw_muse):
+        parser.error("--extract-memories cannot be combined with --review or --raw-muse")
 
     try:
         if args.review:
             if args.json:
                 parser.error("--review is interactive and cannot be combined with --json")
-            from .service import discover_dataset
             from .review import review_finding
+            if args.raw_muse:
+                from .raw_discovery import discover_raw_archive
+                from .review import adapt_raw_discovery
 
-            finding = discover_dataset(dataset_path=args.dataset, provider_name=args.provider)
+                raw_result = discover_raw_archive(args.dataset)
+                if not raw_result.get("candidate_finding", "").strip():
+                    print(_render_raw_discovery(raw_result))
+                    return 0
+                finding = adapt_raw_discovery(raw_result)
+            else:
+                from .service import discover_dataset
+
+                finding = discover_dataset(dataset_path=args.dataset, provider_name=args.provider)
             review_finding(finding)
             return 0
         if args.extract_memories:

@@ -3,12 +3,59 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+import hashlib
 import json
 from pathlib import Path
 from typing import Callable
 from uuid import uuid4
 
 REPO_OUTPUT_DIR = Path(__file__).resolve().parents[2] / ".thread-output"
+
+
+def adapt_raw_discovery(raw: dict) -> dict:
+    """Adapt a validated raw Muse result to the creator-review contract."""
+    candidate = raw.get("candidate_finding", "").strip()
+    if not candidate:
+        raise ValueError("raw discovery has no candidate to review")
+    project = raw.get("project", {})
+
+    def evidence(items: list[dict]) -> list[dict]:
+        return [
+            {
+                "source_id": item["artifact_id"],
+                "date": item["date"],
+                "summary": item["relevance"],
+                "theme": "raw source",
+            }
+            for item in items
+        ]
+
+    candidate_id = hashlib.sha256(
+        f"{project.get('id', '')}\0{candidate}".encode("utf-8")
+    ).hexdigest()[:16]
+    return {
+        "id": f"raw-{candidate_id}",
+        "project_title": project.get("title", "Project"),
+        "hypothesis": candidate,
+        "supporting_evidence": evidence(raw.get("supporting_artifacts", [])),
+        "counter_evidence": evidence(raw.get("complicating_artifacts", [])),
+        "continuity_evidence": [],
+        "observations": [
+            {
+                "source_id": item["artifact_id"],
+                "date": item["date"],
+                "summary": item["observation"],
+                "evidence_stage": item["evidence_stage"],
+            }
+            for item in raw.get("observations", [])
+        ],
+        "uncertainty": [raw["limitations"]] if raw.get("limitations") else [],
+        "discovery_mode": "raw",
+        "extraction_provider": raw.get("provider", "meta"),
+        "extraction_model": raw.get("model", "model unknown"),
+        "response": raw.get("response", {}),
+        "usage": raw.get("usage", {}),
+    }
 
 
 def _validate_answer(value: str, label: str) -> str:
@@ -62,7 +109,21 @@ def review_finding(
                 emit(str(exc))
 
     save()
-    if finding.get("extraction_provider") == "meta":
+    if finding.get("discovery_mode") == "raw":
+        response_status = finding.get("response", {}).get("status") or "unknown"
+        emit(
+            f"\nDirect raw discovery: Meta Model API · {finding.get('extraction_model', 'model unknown')} "
+            f"(response {response_status})"
+        )
+        usage = finding.get("usage", {})
+        if usage:
+            emit(
+                f"API usage: {usage.get('input_tokens', 0)} input, "
+                f"{usage.get('output_tokens', 0)} output tokens; "
+                f"estimated ${usage.get('estimated_usd', 0):.6f} this run; "
+                f"${usage.get('cumulative_estimated_usd', 0):.6f} cumulative."
+            )
+    elif finding.get("extraction_provider") == "meta":
         emit(f"\nMemory extraction: Meta Model API · {finding.get('extraction_model', 'model unknown')}")
         usage = finding.get("api_usage", {})
         emit(
@@ -84,6 +145,12 @@ def review_finding(
         emit("\nContinuity evidence:")
         for item in finding["continuity_evidence"]:
             emit(f"  = {item['date']} · {item['source_id']} — {item['theme']}")
+    if finding.get("observations"):
+        emit("\nObserved chronology (source-stage labels are model classified):")
+        for item in finding["observations"]:
+            emit(
+                f"  · {item['date']} · {item['source_id']} · {item['evidence_stage']} — {item['summary']}"
+            )
     for caveat in finding.get("uncertainty", []):
         emit(f"  ? {caveat}")
 
@@ -144,7 +211,8 @@ def review_finding(
     supporting = finding["supporting_evidence"]
     continuity = finding.get("continuity_evidence", [])
     counter = finding.get("counter_evidence", [])
-    all_evidence = [*supporting, *counter, *continuity]
+    observations = finding.get("observations", [])
+    all_evidence = [*supporting, *counter, *continuity, *observations]
     unique_sources = list(dict.fromkeys(item["source_id"] for item in all_evidence))
     artifact = {
         "title": f"{finding['project_title']} — direction note",
@@ -200,9 +268,22 @@ def _direction_note(finding: dict, interpretation: str, answers: list[str], insi
                 for item in items
             )
             sections.append("")
+    observations = finding.get("observations", [])
+    if observations:
+        sections.extend(["## Observed chronology", ""])
+        sections.extend(
+            f"- {item['date']} · `{item['source_id']}` [{item['evidence_stage']}] — {item['summary']}"
+            for item in observations
+        )
+        sections.append("")
+    limitations = finding.get("uncertainty", [])
+    if limitations:
+        sections.extend(["## Limitations", ""])
+        sections.extend(f"- {item}" for item in limitations)
+        sections.append("")
     sources = list(dict.fromkeys(
         item["source_id"]
-        for key in ("supporting_evidence", "counter_evidence", "continuity_evidence")
+        for key in ("supporting_evidence", "counter_evidence", "continuity_evidence", "observations")
         for item in finding.get(key, [])
     ))
     sections.extend([f"**Sources:** {', '.join(f'`{source}`' for source in sources)}", ""])

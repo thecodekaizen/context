@@ -7,7 +7,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from thread_engine.review import review_finding
+from thread_engine.review import adapt_raw_discovery, review_finding
 
 
 FINDING = {
@@ -91,6 +91,58 @@ class ReviewFlowTests(unittest.TestCase):
             )
             self.assertEqual(state["stage"], "unconfirmed")
             self.assertEqual(list(Path(folder).glob("direction-note-*.md")), [])
+
+    def test_raw_discovery_adapter_preserves_evidence_and_stages_in_confirmed_note(self) -> None:
+        raw = {
+            "candidate_finding": "The project appears to broaden into a shared illustrated collection.",
+            "project": {"id": "project-ember", "title": "Ember Table"},
+            "provider": "meta",
+            "model": "muse-spark-1.3",
+            "response": {"status": "completed"},
+            "usage": {"input_tokens": 200, "output_tokens": 300, "estimated_usd": 0.0015},
+            "supporting_artifacts": [
+                {"artifact_id": "ember-001", "date": "2024-01-12", "relevance": "Personal starting point."},
+                {"artifact_id": "ember-006", "date": "2025-09-27", "relevance": "Shared booklet released."},
+            ],
+            "complicating_artifacts": [
+                {"artifact_id": "ember-004", "date": "2024-11-03", "relevance": "Only a prototype."},
+            ],
+            "observations": [
+                {"artifact_id": "ember-004", "date": "2024-11-03", "observation": "Private prototype.", "evidence_stage": "experimental"},
+                {"artifact_id": "ember-006", "date": "2025-09-27", "observation": "Booklet shared.", "evidence_stage": "released"},
+            ],
+            "limitations": "Only six synthetic artifacts.",
+        }
+        finding = adapt_raw_discovery(raw)
+        answers = [
+            "The group booklet was the main thing that changed this project.",
+            "The linocut illustrations still matter in the published collection.",
+            "revise",
+            "The project appears to extend my notebook into a shared seasonal booklet.",
+            "CONFIRM",
+        ]
+        emitted: list[str] = []
+        with tempfile.TemporaryDirectory() as folder:
+            state = review_finding(
+                finding,
+                ask=lambda _: answers.pop(0),
+                emit=emitted.append,
+                output_dir=Path(folder),
+            )
+            self.assertEqual(state["stage"], "artifact-created")
+            self.assertEqual(state["disposition"], "revise")
+            self.assertIn("Direct raw discovery: Meta Model API", "\n".join(emitted))
+            self.assertIn("experimental", "\n".join(emitted))
+            note = Path(state["artifact_path"]).read_text(encoding="utf-8")
+            self.assertIn("## Observed chronology", note)
+            self.assertIn("[released]", note)
+            self.assertIn("## Limitations", note)
+            self.assertIn("Only six synthetic artifacts.", note)
+            self.assertIn("`ember-006`", note)
+            self.assertEqual(
+                set(state["artifact"]["source_ids"]),
+                {"ember-001", "ember-004", "ember-006"},
+            )
 
 
 if __name__ == "__main__":

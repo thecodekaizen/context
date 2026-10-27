@@ -8,6 +8,7 @@
 - Project-level Muse memory extraction with stable topic tags, source-linked temporal memories, repository-root caching, and a local spend ledger.
 - Temporal comparison output now keeps continuity evidence separate from the themes driving the candidate shift.
 - Interactive CLI review flow: creator context, keep/revise/reject/defer, exact `CONFIRM`, and a source-linked direction note.
+- Direct raw Muse discoveries can now flow into the same creator-review CLI; the interview shows model-classified source stages and the confirmed note preserves observations, limitations, and source IDs. An empty candidate skips the interview.
 - Raw-discovery observations now include a source-linked evidence stage (`planned`, `experimental`, `ongoing`, `released`, or `unclear`), with local validation and CLI timeline display. This makes experiment-vs-release status inspectable; it does not yet prevent unsupported direction claims.
 - Raw Muse API status and incomplete-response reasons are now reported and cached on failures; live successful calls show their response status. A cached Cook's Margin replay also caught and fixed a missing project-title display.
 - Raw discovery now uses minimal reasoning and includes reasoning effort and output-token cap in cache identity, following the Cook's Margin ablation that exhausted the cap.

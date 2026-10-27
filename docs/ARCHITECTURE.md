@@ -29,9 +29,9 @@ Model output is untrusted input: validate structured responses, reject missing e
 
 ## Data flow
 
-`raw dated artifacts → Muse temporal memories → source-linked temporal comparison → creator challenge/disposition → confirmed insight → artifact`
+`raw dated artifacts → Muse candidate and source-linked observations → creator challenge/disposition → confirmed insight → artifact`
 
-The separate `--raw-muse` experiment path asks Muse to propose the candidate directly from the same raw-only boundary. Neither path may rely on hand-authored theme labels for model-backed claims.
+The direct `thread-discover <dataset> --raw-muse --review` path sends only the projected raw archive to Muse, adapts its validated candidate and evidence into the creator-review contract, and preserves model-classified source stages in the session and direction note. The separate `--provider meta --review` path extracts temporal memories first and compares them locally. Neither path may rely on hand-authored theme labels for model-backed claims; keep their results distinct in evaluations.
 
 Each transition is explicit and persisted. No direct source-item-to-artifact shortcut in the hero flow.
 
