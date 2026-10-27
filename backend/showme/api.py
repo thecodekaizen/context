@@ -17,6 +17,7 @@ from .meta import MuseSparkClient
 from .observe import observe_snapshot, observe_video, validate_observation, validate_snapshot
 from .process import validate_references
 from .sam import segment_image
+from .session import reconcile_session
 
 MAX_UPLOAD_BYTES = 100 * 1024 * 1024
 MAX_SNAPSHOT_BYTES = 5 * 1024 * 1024
@@ -288,6 +289,18 @@ def inspect_selected_joint(
     finally:
         reference_image.file.close()
         learner_image.file.close()
+
+
+@app.post("/api/skills/reconcile-session")
+def reconcile_physical_session(payload: dict) -> dict:
+    """Local-only replay of explicit observations; no provider request or media upload."""
+    try:
+        process = payload.get("process")
+        if not isinstance(process, dict):
+            raise ValueError("provide a reviewed process object")
+        return {"session": reconcile_session(process, payload.get("checks"))}
+    except (ValueError, TypeError, KeyError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
 
 
 def _copy_bounded(

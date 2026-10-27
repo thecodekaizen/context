@@ -38,3 +38,7 @@ A separate scene adapter may map semantic object IDs to render assets, task-loca
 ## New optional joint inspection — October 28
 
 The backend now exposes explicit `POST /api/skills/inspect-joint` for a source image, learner frame, reviewed backend process and selected transition. See `../experiments/showme-joint-inspection-v1.md` for exact fields, result states and frontend integration rules. This is selected-joint comparison, not temporal recovery or a full assembly verdict. Provider accuracy remains unvalidated.
+
+## Optional physical-session projection — October 28
+
+`POST /api/skills/reconcile-session` accepts JSON `{process, checks}` and locally projects an ordered physical snapshot history. It separates current and historical matches, rejects simulation/model-revision mixing, and withholds unproven recovery/completion claims. See `../experiments/showme-task-session.md`. It is optional; preserve a single frontend history rather than duplicating state stores.
