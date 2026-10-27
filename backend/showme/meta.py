@@ -11,7 +11,7 @@ import base64
 from .process import PROCESS_SCHEMA
 
 MODEL = "muse-spark-1.3"
-PROMPT_VERSION = "showme-video-analysis-v2"
+PROMPT_VERSION = "showme-video-analysis-v3"
 
 
 class MuseSparkClient:
@@ -31,14 +31,23 @@ class MuseSparkClient:
             raise ValueError("Set MODEL_API_KEY in the local .env file or environment")
         return cls(api_key=api_key, model=os.environ.get("SHOWME_META_MODEL", MODEL))
 
-    def learn(self, video: Path, *, duration_seconds: float, narration: str = "") -> dict[str, Any]:
-        """Infer a candidate process from a demonstration clip."""
+    def learn(
+        self,
+        video: Path,
+        *,
+        duration_seconds: float,
+        narration: str = "",
+        reference_pdf: Path | None = None,
+    ) -> dict[str, Any]:
+        """Infer a candidate process, optionally grounded in a reference PDF."""
+        prompt = _learning_prompt(duration_seconds, narration, has_reference=reference_pdf is not None)
         return self.analyze_video(
             video,
-            prompt=_learning_prompt(duration_seconds, narration),
+            prompt=prompt,
             schema=PROCESS_SCHEMA,
             schema_name="showme_process_model",
-            max_output_tokens=3000,
+            max_output_tokens=6000 if reference_pdf is not None else 3000,
+            reference_pdf=reference_pdf,
         )
 
     def analyze_video(
@@ -49,28 +58,40 @@ class MuseSparkClient:
         schema: dict[str, Any],
         schema_name: str,
         max_output_tokens: int = 3000,
+        reference_pdf: Path | None = None,
     ) -> dict[str, Any]:
-        """Upload one video, request strict JSON, and clean up the remote file."""
+        """Upload the video and optional PDF, request strict JSON, then clean up."""
         video = video.expanduser().resolve()
         if not video.is_file():
             raise ValueError(f"video file does not exist: {video}")
-        uploaded = None
+        if reference_pdf is not None:
+            reference_pdf = reference_pdf.expanduser().resolve()
+            if not reference_pdf.is_file():
+                raise ValueError(f"reference PDF does not exist: {reference_pdf}")
+        uploaded = []
         try:
-            with video.open("rb") as media:
-                uploaded = self.client.files.create(
-                    purpose="user_data",
-                    file=media,
-                    expires_after={"anchor": "created_at", "seconds": 3600},
-                )
+            for source in (video, reference_pdf):
+                if source is None:
+                    continue
+                with source.open("rb") as media:
+                    uploaded.append(self.client.files.create(
+                        purpose="user_data",
+                        file=media,
+                        expires_after={"anchor": "created_at", "seconds": 3600},
+                    ))
+            content = [
+                {"type": "input_text", "text": prompt},
+                {"type": "input_file", "file_id": uploaded[0].id},
+            ]
+            if reference_pdf is not None:
+                content.append({"type": "input_file", "file_id": uploaded[1].id})
             return self._structured_response(
-                [
-                    {"type": "input_text", "text": prompt},
-                    {"type": "input_file", "file_id": uploaded.id},
-                ],
+                content,
                 schema=schema,
                 schema_name=schema_name,
                 max_output_tokens=max_output_tokens,
-                remote_file_id=uploaded.id,
+                remote_file_id=uploaded[0].id,
+                reference_filename=reference_pdf.name if reference_pdf else None,
             )
         except self._api_error as exc:
             raise RuntimeError(
@@ -78,9 +99,9 @@ class MuseSparkClient:
                 "repeating a potentially billable request; inspect billing before retrying."
             ) from exc
         finally:
-            if uploaded is not None:
+            for file in uploaded:
                 try:
-                    self.client.files.delete(uploaded.id)
+                    self.client.files.delete(file.id)
                 except Exception:
                     # The one-hour expiry is the fallback if remote cleanup fails.
                     pass
@@ -124,6 +145,7 @@ class MuseSparkClient:
         schema_name: str,
         max_output_tokens: int,
         remote_file_id: str | None = None,
+        reference_filename: str | None = None,
     ) -> dict[str, Any]:
         response = self.client.responses.create(
             model=self.model,
@@ -154,19 +176,38 @@ class MuseSparkClient:
             "model": self.model,
             "prompt_version": PROMPT_VERSION,
             "remote_file_id": remote_file_id,
+            "reference_filename": reference_filename,
             "api_response_id": getattr(response, "id", None),
             "usage": _usage(response),
         }
         return result
 
 
-def _learning_prompt(duration_seconds: float, narration: str = "") -> str:
+def _learning_prompt(duration_seconds: float, narration: str = "", *, has_reference: bool = False) -> str:
     narration_section = (
         f"\n\nExpert narration (use as additional evidence, but distinguish spoken claims from visible facts):\n{narration.strip()}"
         if narration.strip()
         else ""
     )
-    return f"""Learn a candidate process from this demonstration video only. Do not assume a task or inject an expected mistake. This single clip is one observed trace, not proof of which steps are necessary. Identify only actions and state facts supported by visible evidence. Keep the representation concise: at most 8 states and 7 transitions. Give each transition a stable unique ID. Every transition needs timestamped evidence within the clip duration ({duration_seconds:.3f} seconds); timestamps may be approximate but must point to visible support. Distinguish visible facts from inference. Record ordering_observations only for pairs whose order is visibly supported, with evidence intervals. These observations mean only “happened before in this clip”; they are not prerequisites and must never be phrased as requirements. Do not infer dependencies, required order, or positional rules from one demonstration. If a potential constraint is useful to preserve, put it in candidate_constraints as an unverified hypothesis, and also disclose the uncertainty. Never describe a candidate constraint as a fact or prerequisite. Do not claim hidden conditions. If the procedure or an object is ambiguous, put that uncertainty in uncertainties. Return the requested JSON schema.{narration_section}"""
+    reference_section = (
+        "An attached PDF is the task's reference instructions. Treat explicit visual/text instructions in that PDF "
+        "as the source for intended steps and constraints; treat the video only as evidence of what this person "
+        "actually did. Do not promote an action from the video to a requirement unless the PDF supports it. "
+        "If the PDF and video differ, preserve the PDF target and describe the video difference as an observed "
+        "deviation or uncertainty. Model up to 18 distinct steps when the reference contains them. For each "
+        "transition, include timestamped video evidence when the action is visible and page/step reference_evidence "
+        "when supported by the PDF; a transition may rely on either source. Cite page and step details when legible. "
+    ) if has_reference else ""
+    source_instruction = (
+        "Without an attached reference document, this single clip is one observed trace, not proof of which steps are necessary. "
+        "Identify actions and states only when supported by visible video evidence. Keep the model to at most 8 states and 7 transitions. "
+        "Each transition must cite timestamped video evidence. Set reference_evidence to an empty array. "
+    ) if not has_reference else (
+        "Build the intended sequence from the PDF, including steps not shown in the video. Set video evidence to an empty array "
+        "for a transition not visible in the clip, and cite its PDF page and step in reference_evidence. Use up to 20 states "
+        "and 18 transitions when needed to represent the reference procedure. "
+    )
+    return f"""Learn a candidate process from this demonstration video. Do not assume a task or inject an expected mistake. {reference_section}{source_instruction}Give each transition a stable unique ID. Every state/action claim must be grounded in the source allowed above. Distinguish observed video facts from intended reference instructions. Record ordering_observations only for pairs whose order is visibly supported in the video, with timestamp evidence. These observations mean only “happened before in this clip”; they are not prerequisites. Do not infer dependencies or required order from the demonstration. If a potential constraint is useful to preserve, put it in candidate_constraints as an unverified hypothesis and disclose uncertainty. Do not claim hidden conditions. If the procedure or an object is ambiguous, put that uncertainty in uncertainties. Return the requested JSON schema.{narration_section}"""
 
 
 def _usage(response: Any) -> dict[str, int]:

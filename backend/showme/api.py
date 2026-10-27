@@ -39,8 +39,9 @@ def health() -> dict[str, str]:
 def learn_skill(
     video: Annotated[UploadFile, File(description="Short demonstration video")],
     narration: Annotated[str, Form(max_length=4000)] = "",
+    reference_pdf: Annotated[UploadFile | None, File(description="Optional authoritative task instructions PDF")] = None,
 ) -> dict:
-    """Create a candidate process from one video; the model call is billable."""
+    """Create a candidate process from a video and optional instruction PDF."""
     suffix = Path(video.filename or "").suffix.lower()
     if suffix not in ALLOWED_SUFFIXES:
         raise HTTPException(status_code=415, detail="Choose an MP4, MOV, M4V, or WebM video.")
@@ -55,6 +56,19 @@ def learn_skill(
             if size == 0:
                 raise ValueError("The selected video is empty.")
 
+            reference_path = None
+            reference_name = None
+            if reference_pdf is not None:
+                reference_name = Path(reference_pdf.filename or "instructions.pdf").name
+                if Path(reference_name).suffix.lower() != ".pdf":
+                    raise HTTPException(status_code=415, detail="Choose a PDF for the task instructions.")
+                if reference_pdf.content_type not in {"application/pdf", "application/octet-stream"}:
+                    raise HTTPException(status_code=415, detail="The task reference must be a PDF.")
+                reference_path = root / "reference.pdf"
+                reference_size = _copy_bounded(reference_pdf, reference_path)
+                if reference_size == 0 or reference_path.read_bytes()[:5] != b"%PDF-":
+                    raise ValueError("The task reference is not a readable PDF.")
+
             metadata = inspect_video(source)
             model_video = root / "model-input.mp4"
             model_metadata = make_model_video(source, model_video)
@@ -62,6 +76,7 @@ def learn_skill(
                 model_video,
                 duration_seconds=metadata["duration_seconds"],
                 narration=narration,
+                reference_pdf=reference_path,
             )
             validate_references(process, duration_seconds=metadata["duration_seconds"])
 
@@ -72,6 +87,7 @@ def learn_skill(
                 "model": run.get("model"),
                 "prompt_version": run.get("prompt_version"),
                 "usage": run.get("usage", {}),
+                "reference_filename": reference_name,
                 "source": {
                     "filename": Path(video.filename or "demonstration").name,
                     "size_bytes": size,
@@ -88,6 +104,8 @@ def learn_skill(
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     finally:
         video.file.close()
+        if reference_pdf is not None:
+            reference_pdf.file.close()
 
 
 @app.post("/api/skills/observe")

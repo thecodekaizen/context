@@ -15,6 +15,7 @@ type ProcessCandidate = {
     preconditions?: string[];
     postconditions: string[];
     evidence: { start_seconds: number; end_seconds: number; observation: string }[];
+    reference_evidence?: { page: number; step: string; observation: string }[];
   }[];
   human_confirmed_constraints?: { transition_id: string; candidate_constraint_index?: number; precondition_index?: number; required_state: string }[];
 };

@@ -15,12 +15,13 @@ export type SavedProcess = {
     preconditions?: string[];
     postconditions: string[];
     evidence: { start_seconds: number; end_seconds: number; observation: string }[];
+    reference_evidence?: { page: number; step: string; observation: string }[];
   }[];
   /** Explicit user mappings from a model suggestion to an observed state. */
   human_confirmed_constraints?: { transition_id: string; candidate_constraint_index?: number; precondition_index?: number; required_state: string }[];
   ordering_observations: { before_transition_id: string; after_transition_id: string; evidence: { start_seconds: number; end_seconds: number; observation: string }[] }[];
   uncertainties: string[];
-  _run?: { model?: string; usage?: { input_tokens?: number; output_tokens?: number }; source?: { duration_seconds?: number } };
+  _run?: { model?: string; usage?: { input_tokens?: number; output_tokens?: number }; source?: { duration_seconds?: number }; reference_filename?: string | null };
   _validation?: string;
 };
 
@@ -47,7 +48,8 @@ export function isSavedProcess(value: unknown): value is SavedProcess {
       && Array.isArray(item.postconditions)
       && item.postconditions.every((fact) => typeof fact === "string")
       && Array.isArray(item.evidence)
-      && item.evidence.every(isEvidence);
+      && item.evidence.every(isEvidence)
+      && (item.reference_evidence === undefined || (Array.isArray(item.reference_evidence) && item.reference_evidence.every((source) => isRecord(source) && Number.isInteger(source.page) && Number(source.page) >= 1 && typeof source.step === "string" && typeof source.observation === "string")));
   })) return false;
   if (value.human_confirmed_constraints !== undefined) {
     const mappings = value.human_confirmed_constraints;

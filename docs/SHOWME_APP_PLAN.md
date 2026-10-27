@@ -52,7 +52,7 @@ The current mockups use an illustrative washer/bracket assembly. It is not the s
 
 ## Implementation status
 
-- Teach now supports both video upload and browser-camera recording; the recorded clip stays local until the user submits it to Muse Spark for analysis.
+- Teach supports video upload/browser-camera recording and optional task-instruction PDF upload. With a PDF, Muse Spark can derive intended steps from the reference even when the video omits them, while keeping manual page/step citations separate from timestamped video evidence. Both files are sent only when the user explicitly requests process generation; the candidate still requires human review.
 - Do can also record a learner attempt locally or accept an uploaded clip; both Teach and Do previews can download the clip to the user's device. **Learn this skill** and **Observe attempt** remain explicit model-call actions. Camera streams are stopped when the user leaves that surface.
 
 - Product contract: locked in [`PRODUCT.md`](PRODUCT.md).

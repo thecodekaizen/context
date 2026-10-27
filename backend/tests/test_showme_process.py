@@ -25,6 +25,7 @@ VALID_PROCESS = {
         "candidate_constraints": [],
         "postconditions": ["red above blue"],
         "evidence": [{"start_seconds": 0.5, "end_seconds": 1.0, "observation": "Red block visibly moves above blue."}],
+        "reference_evidence": [],
     }],
     "ordering_observations": [],
     "uncertainties": [],
@@ -37,6 +38,7 @@ class ProcessValidationTests(unittest.TestCase):
         self.assertIn("candidate_constraints", transition["properties"])
         self.assertNotIn("preconditions", transition["properties"])
         self.assertIn("Unverified model hypotheses", transition["properties"]["candidate_constraints"]["description"])
+        self.assertIn("reference_evidence", transition["properties"])
 
     def test_accepts_well_formed_references(self):
         validate_references(copy.deepcopy(VALID_PROCESS))
@@ -92,6 +94,7 @@ class ProcessValidationTests(unittest.TestCase):
             "candidate_constraints": [],
             "postconditions": [],
             "evidence": [{"start_seconds": 0.1, "end_seconds": 0.3, "observation": "Red is placed beside blue."}],
+            "reference_evidence": [],
         })
         process["ordering_observations"] = [{
             "before_transition_id": "separate_blocks",
@@ -108,7 +111,28 @@ class ProcessValidationTests(unittest.TestCase):
     def test_rejects_transitions_without_visual_evidence(self):
         process = copy.deepcopy(VALID_PROCESS)
         process["transitions"][0]["evidence"] = []
-        with self.assertRaisesRegex(ValueError, "needs at least one evidence interval"):
+        with self.assertRaisesRegex(ValueError, "needs video or reference evidence"):
+            validate_references(process)
+
+    def test_accepts_a_reference_only_transition_with_a_page_and_step_citation(self):
+        process = copy.deepcopy(VALID_PROCESS)
+        transition = process["transitions"][0]
+        transition["evidence"] = []
+        transition["reference_evidence"] = [{"page": 2, "step": "17", "observation": "The diagram shows the left wing attached to the body."}]
+        validate_references(process)
+
+    def test_rejects_reference_only_transition_without_a_source_citation(self):
+        process = copy.deepcopy(VALID_PROCESS)
+        transition = process["transitions"][0]
+        transition["evidence"] = []
+        transition["reference_evidence"] = [{"page": 0, "step": "", "observation": ""}]
+        with self.assertRaisesRegex(ValueError, "page must be a positive integer"):
+            validate_references(process)
+
+    def test_rejects_transition_without_video_or_manual_evidence(self):
+        process = copy.deepcopy(VALID_PROCESS)
+        process["transitions"][0]["evidence"] = []
+        with self.assertRaisesRegex(ValueError, "needs video or reference evidence"):
             validate_references(process)
 
 

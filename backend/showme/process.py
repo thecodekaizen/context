@@ -65,8 +65,22 @@ PROCESS_SCHEMA: dict[str, Any] = {
                             "additionalProperties": False,
                         },
                     },
+                    "reference_evidence": {
+                        "type": "array",
+                        "description": "Citations to task instructions that support intended steps; empty when no reference PDF is supplied.",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "page": {"type": "integer", "minimum": 1},
+                                "step": {"type": "string"},
+                                "observation": {"type": "string"},
+                            },
+                            "required": ["page", "step", "observation"],
+                            "additionalProperties": False,
+                        },
+                    },
                 },
-                "required": ["id", "from_state", "action", "object_ids", "to_state", "candidate_constraints", "postconditions", "evidence"],
+                "required": ["id", "from_state", "action", "object_ids", "to_state", "candidate_constraints", "postconditions", "evidence", "reference_evidence"],
                 "additionalProperties": False,
             },
         },
@@ -129,7 +143,25 @@ def validate_references(process: dict[str, Any], *, duration_seconds: float | No
         for object_id in references:
             if object_id not in object_ids:
                 raise ValueError(f"{label} references unknown object_id {object_id!r}")
-        _validate_evidence(transition.get("evidence"), label, duration_seconds)
+        evidence = transition.get("evidence")
+        reference_evidence = transition.get("reference_evidence")
+        if not isinstance(evidence, list) or not isinstance(reference_evidence, list):
+            raise ValueError(f"{label} evidence fields must be arrays")
+        if not evidence and not reference_evidence:
+            raise ValueError(f"{label} needs video or reference evidence")
+        if evidence:
+            _validate_evidence(evidence, label, duration_seconds)
+        for reference_index, item in enumerate(reference_evidence):
+            reference_label = f"{label} reference evidence {reference_index}"
+            if not isinstance(item, dict):
+                raise ValueError(f"{reference_label} must be an object")
+            page = item.get("page")
+            if isinstance(page, bool) or not isinstance(page, int) or page < 1:
+                raise ValueError(f"{reference_label} page must be a positive integer")
+            for field in ("step", "observation"):
+                value = item.get(field)
+                if not isinstance(value, str) or not value.strip():
+                    raise ValueError(f"{reference_label} needs a {field}")
 
     ordering_observations = process.get("ordering_observations")
     if not isinstance(ordering_observations, list):

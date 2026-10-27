@@ -12,7 +12,7 @@ Videos and manuals show a procedure, but they cannot inspect the learner’s wor
 
 SHOWME builds one evidence-linked **Process Model** from a bounded physical procedure. The same model supports three connected surfaces:
 
-1. **Teach** — Record or upload a demonstration. SHOWME proposes objects, actions, states, transitions, and possible dependencies for human review.
+1. **Teach** — Record or upload a demonstration and optionally attach the task's official instructions. SHOWME keeps intended steps from the reference separate from actions observed in the video, then proposes a process model for human review.
 2. **Do** — Check a selected camera frame or analyze a separate learner recording against the reviewed model. Inspect reported differences in the video.
 3. **Simulate** — Change an action order and play through the resulting modeled states. The current simulator does not model physical forces or geometry.
 
@@ -40,7 +40,7 @@ See the [full mockup inventory](design/mockups/README.md) for the Do and Simulat
 
 ## What works now
 
-- Teach can capture a short demonstration from the browser camera or accept an uploaded video and narration, save the clip locally, then ask Muse Spark for a structured candidate process model with timestamped evidence.
+- Teach can capture a short demonstration from the browser camera or accept an uploaded video and narration. An optional PDF reference can define the intended procedure; Muse Spark cites manual page/step evidence separately from timestamped video evidence. Candidate models still require human review.
 - A person reviews the candidate. Model-proposed prerequisites remain hypotheses unless explicitly mapped to a state and confirmed by the reviewer.
 - Do can capture and save a learner clip in-browser or accept an upload, then compare it with the reviewed process model; it can also request a single camera-frame check. These are discrete observations, not continuous tracking.
 - Simulate lets a person reorder actions, use timed Play/Pause/Replay or manual stepping, and inspect the first confirmed blocker. A sequence absent from one demonstration is reported as **unobserved**, not impossible.
