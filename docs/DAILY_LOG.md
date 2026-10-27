@@ -126,3 +126,9 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - Updated the build plan and proof-of-magic protocol to reflect the current code: SAM accepts a user-selected still or a single frame at a Muse-reported divergence timestamp. It returns phrase-grounded masks/boxes for inspection.
 - The integration smoke does not establish task-level object grounding, persistent tracking, or correctness of the reported divergence. These still require repeated LEGO footage.
 - The immediate dependency is now concrete: inspect the set, record matched A/B/C/D clips, run blind evaluation, then decide whether the overlay helps the demo.
+
+### Implementation checkpoint — Skill-specific simulator copy
+
+- Updated Simulate's process-model description to distinguish the sample fixture from a reviewed demonstration model. The reviewed state now explains its evidence and hypothesis caveats instead of saying Teach will replace the fixture later.
+- Corrected the locked product document's implementation status to match the existing SAM still-image integration while retaining the explicit limitation that task grounding is not validated.
+- Verification: web unit tests, TypeScript check, and production build passed.
