@@ -14,8 +14,8 @@ A second family (such as cross-project motif or a genuine contradiction) is P1 o
 
 1. Validate dated source metadata and build an explicit raw-only project archive.
 2. Ask Muse to identify one possible evolution from the whole dated archive, not from hand-assigned theme labels.
-3. Return observations separately from the candidate interpretation. Require supporting and complicating artifact references.
-4. Validate response shape, artifact IDs, dates, and minimum temporal support locally. Reject fabricated references. In the temporal-memory route, copy source metadata locally and expose persistent topics separately from candidate-shift evidence.
+3. Return observations separately from the candidate interpretation. Each observation labels the source's evidence stage as planned, experimental, ongoing, released, or unclear. Require supporting and complicating artifact references.
+4. Validate response shape, evidence-stage values, artifact IDs, dates, and minimum temporal support locally. Reject fabricated references. The stage is a model classification of source status, not ground truth or a calibrated confidence score; the CLI displays it for human inspection. In the temporal-memory route, copy source metadata locally and expose persistent topics separately from candidate-shift evidence.
 5. Withhold a non-empty finding if it lacks explicit tentative wording; label accepted candidates as unconfirmed and preserve model-stated limitations. This lexical gate catches overconfident phrasing but does not calibrate the model's uncertainty.
 6. Let the creator inspect, challenge, revise, reject, or confirm it before producing an artifact.
 
@@ -27,6 +27,7 @@ Two model-backed CLI paths are available for comparison: `--extract-memories` ex
 - Distinguish source content from model interpretation. Link each statement to the original item or span.
 - Do not infer sensitive traits, diagnose, or claim why the creator changed unless sources establish that explanation.
 - Preserve ambiguity, missing dates, and contradictory evidence; do not resolve them by averaging.
+- Keep a proposal, rehearsal, prototype, or pilot distinct from ongoing practice and a released work. Do not describe an experiment as an adopted project direction unless later evidence supports that interpretation.
 - A score ranks candidates; it is not a calibrated probability unless calibration is demonstrated.
 - The Meta model contributes to the working project path. Application logic validates typed outputs and provenance; model prose alone is never evidence.
 

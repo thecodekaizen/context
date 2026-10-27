@@ -14,7 +14,7 @@ from .cli import DatasetError
 from .config import model_api_key
 
 MODEL = "muse-spark-1.3"
-PROMPT_VERSION = "raw-temporal-discovery-v2"
+PROMPT_VERSION = "raw-temporal-discovery-v3"
 MAX_OUTPUT_TOKENS = 4096
 DEFAULT_DATASET = Path(__file__).resolve().parents[2] / "datasets" / "synthetic" / "creative-evolution.json"
 REPO_CACHE_DIR = Path(__file__).resolve().parents[2] / ".thread-cache"
@@ -27,7 +27,11 @@ PROMPT = (
     "If evidence is insufficient, say so and leave candidate_finding empty. Separate direct "
     "observations from interpretation. Cite only supplied artifact IDs and exact dates. Include "
     "evidence that complicates the interpretation. Do not infer the creator's personality or "
-    "invent causes. Phrase an interpretation as a tentative hypothesis (for example, use "
+    "invent causes. For each observation, classify its evidence stage using only explicit wording: "
+    "planned (an intention or proposal), experimental (a test, prototype, pilot, or rehearsal), "
+    "ongoing (active practice without evidence of a completed release), released (a completed "
+    "or publicly issued deliverable), or unclear (the source does not establish status). Never "
+    "upgrade a plan or experiment to ongoing or released. Phrase an interpretation as a tentative hypothesis (for example, use "
     "'appears to' rather than stating an inference as settled fact)."
 )
 
@@ -47,8 +51,12 @@ OBSERVATION_SCHEMA: dict[str, Any] = {
         "artifact_id": {"type": "string"},
         "date": {"type": "string"},
         "observation": {"type": "string"},
+        "evidence_stage": {
+            "type": "string",
+            "enum": ["planned", "experimental", "ongoing", "released", "unclear"],
+        },
     },
-    "required": ["artifact_id", "date", "observation"],
+    "required": ["artifact_id", "date", "observation", "evidence_stage"],
     "additionalProperties": False,
 }
 DISCOVERY_SCHEMA: dict[str, Any] = {
@@ -148,8 +156,12 @@ def validate_discovery(value: Any, archive: dict[str, Any]) -> dict[str, Any]:
 
     source_by_id = {item["id"]: item for item in archive["artifacts"]}
     for observation in value["observations"]:
-        if not isinstance(observation, dict) or set(observation) != {"artifact_id", "date", "observation"}:
-            raise DiscoveryValidationError("each observation must include artifact_id, date, and observation")
+        if not isinstance(observation, dict) or set(observation) != {
+            "artifact_id", "date", "observation", "evidence_stage"
+        }:
+            raise DiscoveryValidationError(
+                "each observation must include artifact_id, date, observation, and evidence_stage"
+            )
         artifact_id = observation["artifact_id"]
         observed_date = observation["date"]
         if not isinstance(artifact_id, str) or not isinstance(observed_date, str):
@@ -159,6 +171,11 @@ def validate_discovery(value: Any, archive: dict[str, Any]) -> dict[str, Any]:
             raise DiscoveryValidationError("observation cites an unknown artifact or mismatched date")
         if not isinstance(observation["observation"], str) or not observation["observation"].strip():
             raise DiscoveryValidationError("observation text must be non-empty")
+        evidence_stage = observation["evidence_stage"]
+        if not isinstance(evidence_stage, str) or evidence_stage not in {
+            "planned", "experimental", "ongoing", "released", "unclear"
+        }:
+            raise DiscoveryValidationError("observation evidence_stage must be a recognized stage")
 
     def validate_refs(key: str) -> list[dict[str, str]]:
         refs: list[dict[str, str]] = []

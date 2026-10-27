@@ -8,6 +8,7 @@
 - Project-level Muse memory extraction with stable topic tags, source-linked temporal memories, repository-root caching, and a local spend ledger.
 - Temporal comparison output now keeps continuity evidence separate from the themes driving the candidate shift.
 - Interactive CLI review flow: creator context, keep/revise/reject/defer, exact `CONFIRM`, and a source-linked direction note.
+- Raw-discovery observations now include a source-linked evidence stage (`planned`, `experimental`, `ongoing`, `released`, or `unclear`), with local validation and CLI timeline display. This makes experiment-vs-release status inspectable; it does not yet prevent unsupported direction claims.
 - All output/session data stays in ignored local folders; source artifacts in the repo are synthetic.
 
 ### Evidence
@@ -20,7 +21,7 @@
 
 ### Verification and spend
 
-- `python -m unittest discover -s backend/tests -v`: 20 passed.
+- `python -m unittest discover -s backend/tests -v`: 23 passed after the evidence-stage change.
 - `python -m thread_engine.evaluate`: 6/6 seed cases matched.
 - Local token-based estimated spend: **$0.080430** after the Paper Satellites calls; check the Meta Billing dashboard for actual usage.
 

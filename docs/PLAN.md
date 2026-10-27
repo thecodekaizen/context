@@ -66,7 +66,7 @@ The CLI gate is demonstrated on controlled synthetic archives. Do not present sy
 - Added deterministic continuity evidence to distinguish a shift in emphasis from complete replacement.
 - Added an interactive CLI creator-review flow with keep/revise/reject/defer outcomes and an exact `CONFIRM` gate before a local direction note is created.
 - Ran four controlled synthetic evaluations across raw-discovery and project-memory routes: Neighborhood Atlas failed its wording criterion; Tiny Type Lab direct raw discovery passed; Roomtone batch-memory full/ablation passed; Paper Satellites full passed but its ablation failed by overreading an early pilot. The Paper Satellites preregistration also specified minimal reasoning while the runner used high; this deviation is disclosed. The Type Lab memory-path iteration is exploratory only.
-- Latest full check: 20 unit tests pass; the existing deterministic evaluator matches 6/6 cases.
+- Latest offline check: 23 unit tests pass; the existing deterministic evaluator matches 6/6 cases. Raw-discovery observations now expose validated evidence-stage labels in CLI output; this is an inspectability improvement, not a validated correction for overclaiming.
 - Local token-based spend estimate: about **$0.080430**. This is not the Meta Billing total.
 - No public personal data or `.env` secrets are committed; model responses, usage cache, user review sessions, and generated notes remain git-ignored.
 

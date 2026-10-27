@@ -9,6 +9,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from thread_engine import raw_discovery
+from thread_engine.cli import _render_raw_discovery
 from thread_engine.raw_discovery import (
     DiscoveryValidationError,
     load_raw_archive,
@@ -46,8 +47,8 @@ class CitationValidationTests(unittest.TestCase):
     def candidate(self) -> dict[str, object]:
         return {
             "observations": [
-                {"artifact_id": "artifact-001", "date": "2022-03-14", "observation": "Early brief focuses on routes."},
-                {"artifact_id": "artifact-005", "date": "2025-02-08", "observation": "Stories lead the later draft."},
+                {"artifact_id": "artifact-001", "date": "2022-03-14", "observation": "Early brief focuses on routes.", "evidence_stage": "planned"},
+                {"artifact_id": "artifact-005", "date": "2025-02-08", "observation": "Stories lead the later draft.", "evidence_stage": "released"},
             ],
             "candidate_finding": "The project appears to become more story-led while retaining wayfinding.",
             "supporting_artifacts": [
@@ -81,6 +82,34 @@ class CitationValidationTests(unittest.TestCase):
         value["supporting_artifacts"][0]["date"] = "2020-01-01"  # type: ignore[index]
         with self.assertRaisesRegex(DiscoveryValidationError, "mismatched date"):
             validate_discovery(value, self.archive)
+
+    def test_observation_with_unknown_evidence_stage_is_rejected(self) -> None:
+        for stage in ("probably-released", ["released"]):
+            with self.subTest(stage=stage):
+                value = self.candidate()
+                value["observations"][0]["evidence_stage"] = stage  # type: ignore[index]
+                with self.assertRaisesRegex(DiscoveryValidationError, "recognized stage"):
+                    validate_discovery(value, self.archive)
+
+    def test_observation_still_requires_matching_source_and_date(self) -> None:
+        value = self.candidate()
+        value["observations"][0]["date"] = "2020-01-01"  # type: ignore[index]
+        with self.assertRaisesRegex(DiscoveryValidationError, "observation cites an unknown artifact or mismatched date"):
+            validate_discovery(value, self.archive)
+
+    def test_cli_timeline_shows_observation_evidence_stage(self) -> None:
+        rendered = _render_raw_discovery({
+            "project": {"title": "Example"},
+            "model": "muse-spark-1.3",
+            "candidate_finding": "The project appears to broaden.",
+            "observations": [{
+                "date": "2025-02-08",
+                "artifact_id": "artifact-005",
+                "evidence_stage": "released",
+                "observation": "The illustrated story collection is released.",
+            }],
+        })
+        self.assertIn("artifact-005 · released", rendered)
 
     def test_evolution_needs_multiple_distinct_source_dates(self) -> None:
         value = self.candidate()

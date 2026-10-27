@@ -100,6 +100,11 @@ def _render_raw_discovery(result: dict[str, Any]) -> str:
     lines.append("\nCandidate hypothesis (unconfirmed):")
     candidate = result.get("candidate_finding", "")
     lines.append(f"  {candidate}" if candidate else "  No evolution established from this archive.")
+    lines.append("\nObserved chronology:")
+    for item in result.get("observations", []):
+        lines.append(
+            f"  · {item['date']} · {item['artifact_id']} · {item['evidence_stage']} — {item['observation']}"
+        )
     lines.append("\nSupporting artifacts:")
     for item in result.get("supporting_artifacts", []):
         lines.append(f"  + {item['date']} · {item['artifact_id']} — {item['relevance']}")
