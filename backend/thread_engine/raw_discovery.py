@@ -206,16 +206,14 @@ def validate_discovery(value: Any, archive: dict[str, Any]) -> dict[str, Any]:
             raise DiscoveryValidationError("an evolution hypothesis needs at least two cited artifacts")
         if len({ref["date"] for ref in support}) < 2:
             raise DiscoveryValidationError("an evolution hypothesis needs evidence from distinct dates")
-        chronologically_ordered = sorted(
-            archive["artifacts"], key=lambda item: (item["date"], item["id"])
-        )
-        split_index = max(1, (len(chronologically_ordered) + 1) // 2)
-        earlier_ids = {item["id"] for item in chronologically_ordered[:split_index]}
-        later_ids = {item["id"] for item in chronologically_ordered[split_index:]}
+        chronologically_ordered = sorted(archive["artifacts"], key=lambda item: (item["date"], item["id"]))
+        quarter_size = max(1, (len(chronologically_ordered) + 3) // 4)
+        earliest_ids = {item["id"] for item in chronologically_ordered[:quarter_size]}
+        latest_ids = {item["id"] for item in chronologically_ordered[-quarter_size:]}
         supporting_ids = {ref["artifact_id"] for ref in support}
-        if not supporting_ids & earlier_ids or not supporting_ids & later_ids:
+        if not supporting_ids & earliest_ids or not supporting_ids & latest_ids:
             raise DiscoveryValidationError(
-                "No sufficiently supported evolution finding: supporting artifacts must come from both earlier and later portions of the timeline"
+                "No sufficiently supported evolution finding: supporting artifacts must anchor both the earliest and latest timeline quarters"
             )
     return {
         **value,

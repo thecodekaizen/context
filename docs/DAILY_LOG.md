@@ -11,7 +11,7 @@
 - Raw-discovery observations now include a source-linked evidence stage (`planned`, `experimental`, `ongoing`, `released`, or `unclear`), with local validation and CLI timeline display. This makes experiment-vs-release status inspectable; it does not yet prevent unsupported direction claims.
 - Raw Muse API status and incomplete-response reasons are now reported and cached on failures; live successful calls show their response status. A cached Cook's Margin replay also caught and fixed a missing project-title display.
 - Raw discovery now uses minimal reasoning and includes reasoning effort and output-token cap in cache identity, following the Cook's Margin ablation that exhausted the cap.
-- Raw discovery's local gate now requires supporting citations from both halves of the archive. Cached Repair Margins full and ablation outputs, which cited support only from later artifacts, were both withheld without new API calls. This is a post-hoc safeguard pending a fresh preregistered evaluation.
+- Raw discovery's local gate now requires supporting citations in the earliest and latest chronological quarters. The previous midpoint gate admitted the Pocket Observatory ablation; the strengthened rule withholds its cached candidate while allowing the full candidate, without another API call. This is a post-hoc regression check, not independent validation.
 - All output/session data stays in ignored local folders; source artifacts in the repo are synthetic.
 
 ### Evidence

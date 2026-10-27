@@ -121,13 +121,13 @@ class CitationValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DiscoveryValidationError, "at least two"):
             validate_discovery(value, self.archive)
 
-    def test_evolution_support_must_span_early_and_late_timeline(self) -> None:
+    def test_evolution_support_must_anchor_earliest_and_latest_timeline_quarters(self) -> None:
         value = self.candidate()
         value["supporting_artifacts"] = [
-            {"artifact_id": "artifact-004", "date": "2024-06-11", "relevance": "Later experiment."},
-            {"artifact_id": "artifact-005", "date": "2025-02-08", "relevance": "Later draft."},
+            {"artifact_id": "artifact-003", "date": "2023-01-19", "relevance": "Middle stage."},
+            {"artifact_id": "artifact-006", "date": "2025-11-21", "relevance": "Latest stage."},
         ]
-        with self.assertRaisesRegex(DiscoveryValidationError, "No sufficiently supported evolution finding.*both earlier and later portions"):
+        with self.assertRaisesRegex(DiscoveryValidationError, "No sufficiently supported evolution finding.*earliest and latest timeline quarters"):
             validate_discovery(value, self.archive)
 
     def test_empty_candidate_is_valid_when_evidence_is_insufficient(self) -> None:

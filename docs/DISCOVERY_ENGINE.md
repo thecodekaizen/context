@@ -23,7 +23,7 @@ Two model-backed CLI paths are available for comparison: `--extract-memories` ex
 
 ## Evidence rules
 
-- An evolution claim needs supporting citations from both the earlier and later portions of the dated archive; two dates confined to one period are insufficient. A single source may support only a clearly labeled observation.
+- An evolution claim needs supporting citations anchored in both the earliest and latest chronological quarters of the dated archive; a middle-stage experiment cannot substitute for the starting direction. A single source may support only a clearly labeled observation. This deterministic guard is a heuristic, not a learned change-point model, and requires independent evaluation.
 - Distinguish source content from model interpretation. Link each statement to the original item or span.
 - Do not infer sensitive traits, diagnose, or claim why the creator changed unless sources establish that explanation.
 - Preserve ambiguity, missing dates, and contradictory evidence; do not resolve them by averaging.
