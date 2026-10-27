@@ -34,7 +34,7 @@ These are screenshots of the **current local app**, captured October 27, 2026. S
 
 - Teach can capture a short demonstration from the browser camera or accept an uploaded video and narration, then ask Muse Spark for a structured candidate Skill Model with timestamped evidence.
 - A person reviews the candidate. Model-proposed prerequisites remain hypotheses unless explicitly mapped to a state and confirmed by the reviewer.
-- Do can request a single camera-frame check or compare a separately recorded learner clip. These are discrete observations, not continuous tracking.
+- Do can capture a learner clip in-browser or accept an upload, then compare it with the reviewed Skill Model; it can also request a single camera-frame check. These are discrete observations, not continuous tracking.
 - Simulate lets a person reorder actions, step through a deterministic procedural replay, and inspect the first confirmed blocker. A sequence absent from one demonstration is reported as **unobserved**, not impossible.
 - Skill candidates and human-reviewed constraint mappings persist in browser-local storage. Uploaded clips and camera frames are not stored by the app after the request.
 

@@ -67,6 +67,7 @@ export default function Home() {
   const [recordingDemo, setRecordingDemo] = useState(false);
   const [demoCaptureError, setDemoCaptureError] = useState("");
   const [cameraOn, setCameraOn] = useState(false);
+  const [recordingAttempt, setRecordingAttempt] = useState(false);
   const [cameraError, setCameraError] = useState("");
   const [narration, setNarration] = useState("");
   const [learnedProcess, setLearnedProcess] = useState<LearnedProcess | null>(null);
@@ -88,6 +89,8 @@ export default function Home() {
   const demoStreamRef = useRef<MediaStream | null>(null);
   const demoRecorderRef = useRef<MediaRecorder | null>(null);
   const demoChunksRef = useRef<Blob[]>([]);
+  const attemptRecorderRef = useRef<MediaRecorder | null>(null);
+  const attemptChunksRef = useRef<Blob[]>([]);
   const learnerInput = useRef<HTMLInputElement>(null);
   const learnerVideoRef = useRef<HTMLVideoElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -129,8 +132,27 @@ export default function Home() {
 
   useEffect(() => () => {
     if (demoRecorderRef.current?.state === "recording") demoRecorderRef.current.stop();
+    if (attemptRecorderRef.current?.state === "recording") attemptRecorderRef.current.stop();
     demoStreamRef.current?.getTracks().forEach((track) => track.stop());
+    streamRef.current?.getTracks().forEach((track) => track.stop());
   }, []);
+
+  useEffect(() => () => {
+    if (mode === "teach") {
+      if (demoRecorderRef.current?.state === "recording") demoRecorderRef.current.stop();
+      demoStreamRef.current?.getTracks().forEach((track) => track.stop());
+      demoStreamRef.current = null;
+      setDemoCameraOn(false);
+      setRecordingDemo(false);
+    }
+    if (mode === "do") {
+      if (attemptRecorderRef.current?.state === "recording") attemptRecorderRef.current.stop();
+      streamRef.current?.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
+      setCameraOn(false);
+      setRecordingAttempt(false);
+    }
+  }, [mode]);
 
   useEffect(() => {
     if (cameraOn && videoRef.current && streamRef.current) videoRef.current.srcObject = streamRef.current;
@@ -192,9 +214,51 @@ export default function Home() {
   }
 
   function stopCamera() {
+    if (attemptRecorderRef.current?.state === "recording") {
+      attemptRecorderRef.current.stop();
+      return;
+    }
     streamRef.current?.getTracks().forEach((track) => track.stop());
     streamRef.current = null;
     setCameraOn(false);
+  }
+
+  async function startAttemptRecording() {
+    if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
+      setCameraError("Camera recording is unavailable here. You can upload a learner clip instead.");
+      return;
+    }
+    try {
+      let stream = streamRef.current;
+      if (!stream) {
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false });
+        streamRef.current = stream;
+        setCameraOn(true);
+      }
+      const mimeType = ["video/webm;codecs=vp9", "video/webm;codecs=vp8", "video/mp4"]
+        .find((candidate) => MediaRecorder.isTypeSupported(candidate));
+      const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+      attemptChunksRef.current = [];
+      recorder.ondataavailable = (event) => {
+        if (event.data.size > 0) attemptChunksRef.current.push(event.data);
+      };
+      recorder.onstop = () => {
+        const blob = new Blob(attemptChunksRef.current, { type: recorder.mimeType || "video/webm" });
+        const extension = blob.type.includes("mp4") ? "mp4" : "webm";
+        if (blob.size > 0) chooseLearnerVideo(new File([blob], `showme-attempt.${extension}`, { type: blob.type }));
+        streamRef.current?.getTracks().forEach((track) => track.stop());
+        streamRef.current = null;
+        attemptRecorderRef.current = null;
+        setRecordingAttempt(false);
+        setCameraOn(false);
+      };
+      attemptRecorderRef.current = recorder;
+      recorder.start(1000);
+      setRecordingAttempt(true);
+      setCameraError("");
+    } catch {
+      setCameraError("The browser could not start recording. You can upload a learner clip instead.");
+    }
   }
 
   function loadReviewedCandidate() {
@@ -496,17 +560,17 @@ export default function Home() {
           </div>}
 
           {mode === "do" && <div className="work-grid do-grid">
-            <section className="card camera-card"><div className="card-heading"><div><div className="eyebrow">STEP 02 · PERFORM THE TASK</div><h2>Keep your hands in view.</h2></div><span className={`record-indicator ${cameraOn ? "recording" : ""}`}><i /> {cameraOn ? "CAMERA ON" : "CAMERA OFF"}</span></div>
+            <section className="card camera-card"><div className="card-heading"><div><div className="eyebrow">STEP 02 · PERFORM THE TASK</div><h2>Keep your hands in view.</h2></div><span className={`record-indicator ${recordingAttempt ? "recording" : ""}`}><i /> {recordingAttempt ? "RECORDING" : cameraOn ? "CAMERA ON" : "CAMERA OFF"}</span></div>
               <div className="camera-stage">{cameraOn ? <video ref={videoRef} className="camera-feed" autoPlay muted playsInline /> : <div className="camera-empty"><span>◎</span><strong>Your workspace will appear here</strong><small>Camera preview stays on this device.</small></div>}<div className="camera-crosshair" /></div>
-              <div className="camera-controls">{cameraOn ? <button className="secondary-button" onClick={stopCamera}>Stop camera</button> : <button className="primary-button" onClick={() => void startCamera()}>Start camera <span>◎</span></button>}<button className="secondary-button" disabled={!cameraOn || !activeProcess || checkingSnapshot} onClick={() => void checkCurrentState()}>{checkingSnapshot ? "Checking frame…" : "Check current state"}</button><span className="small-note">Each check sends one still frame to Muse Spark and may use credits. No background checks run.</span></div>
+              <div className="camera-controls">{cameraOn ? <><button className="secondary-button" onClick={stopCamera}>{recordingAttempt ? "Stop and use this clip" : "Stop camera"}</button><button className="primary-button" disabled={recordingAttempt} onClick={() => void startAttemptRecording()}>{recordingAttempt ? "Recording…" : "Record learner attempt"}<span>●</span></button></> : <><button className="secondary-button" onClick={() => void startCamera()}>Start camera <span>◎</span></button><button className="primary-button" onClick={() => void startAttemptRecording()}>Record learner attempt<span>●</span></button></>}<button className="secondary-button" disabled={!cameraOn || recordingAttempt || !activeProcess || checkingSnapshot} onClick={() => void checkCurrentState()}>{checkingSnapshot ? "Checking frame…" : "Check current state"}</button><span className="small-note">Camera stays on this device. Record a clip for review, or send one still frame to Muse Spark for a paid check.</span></div>
               {cameraError && <div className="inline-honesty">{cameraError}</div>}
               {snapshotError && <div className="inline-honesty" role="alert">{snapshotError}</div>}
               {snapshotObservation && <section className={`snapshot-result snapshot-${snapshotObservation.assessment}`} aria-live="polite"><div className="eyebrow">ONE-FRAME CHECK · {snapshotObservation._run?.model ?? "MUSE SPARK"}</div><strong>{snapshotObservation.assessment === "consistent" ? "Matches a demonstrated state" : snapshotObservation.assessment === "possible_divergence" ? "Possible difference from the demonstrated states" : "The frame is unclear"}</strong><p>{snapshotObservation.evidence}</p><small>{snapshotObservation.state_id === "unknown" ? "No matching state identified" : activeProcess?.states.find((state) => state.id === snapshotObservation.state_id)?.description ?? snapshotObservation.state_id} · {objectLabels(snapshotObservation.object_ids)}</small>{snapshotObservation.uncertainties.length > 0 && <ul>{snapshotObservation.uncertainties.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul>}<small className="snapshot-boundary">A still frame cannot show what happened before it or confirm recovery. This is not continuous tracking.</small></section>}
               <div className="observe-panel"><div className="eyebrow">TEST A RECORDED ATTEMPT</div><h3>Compare a learner clip.</h3><p>Use a separate recording to inspect timestamped events against the reviewed Skill Model. This is clip analysis, not live tracking.</p>
-                <button className="upload-drop compact-drop" onClick={() => learnerInput.current?.click()}><span className="upload-symbol">↥</span><strong>{learnerFile ? learnerFile.name : "Choose learner video"}</strong><small>MP4, MOV, M4V, or WebM · up to 100 MB</small></button>
+                <button className="upload-drop compact-drop" disabled={cameraOn} onClick={() => learnerInput.current?.click()}><span className="upload-symbol">↥</span><strong>{learnerFile ? learnerFile.name : "Choose learner video"}</strong><small>MP4, MOV, M4V, or WebM · up to 100 MB</small></button>
                 <input ref={learnerInput} type="file" accept="video/mp4,video/quicktime,video/x-m4v,video/webm" hidden onChange={(event) => chooseLearnerVideo(event.target.files?.[0])} />
                 {learnerUrl && <VideoPreview src={learnerUrl} videoRef={learnerVideoRef} />}
-                <div className="capture-actions"><span className="small-note">Analysis sends this clip to Meta and may use API credits.</span><button className="primary-button" disabled={!learnerFile || !activeProcess || observing} onClick={() => void observeLearnerVideo()}>{observing ? "Comparing clip…" : "Observe attempt"}<span>→</span></button></div>
+                <div className="capture-actions"><span className="small-note">Analysis sends this clip to Meta and may use API credits.</span><button className="primary-button" disabled={!learnerFile || !activeProcess || observing || cameraOn} onClick={() => void observeLearnerVideo()}>{observing ? "Comparing clip…" : "Observe attempt"}<span>→</span></button></div>
                 {!activeProcess && <div className="inline-honesty">Teach a demonstration and load its reviewed Skill Model before observing a learner clip.</div>}
                 {observeError && <div className="inline-honesty" role="alert">{observeError}</div>}
                 {observation && <section className="observation-results" aria-live="polite"><div className="observation-heading"><div><div className="eyebrow">MODEL OBSERVATION · {observation._run?.model ?? "MUSE SPARK"}</div><h4>{observation.recovery_status.replaceAll("_", " ")}</h4></div><span>{observation._run?.usage?.input_tokens ?? 0} INPUT TOKENS</span></div>
@@ -528,7 +592,7 @@ export default function Home() {
                 </section>}
               </div>
             </section>
-            <aside className="card guide-card"><div className="eyebrow">GUIDANCE · {activeProcess ? "REVIEWED SKILL" : "SAMPLE PROCEDURE"}</div><h3>Follow the demonstrated order.</h3><div className="guide-list">{model.actions.map((action, index) => <div className="guide-step" key={action.id}><span className={`guide-check ${state.includes(action.produces[0]) ? "done" : ""}`}>{state.includes(action.produces[0]) ? "✓" : String(index + 1).padStart(2, "0")}</span><div><strong>{action.label}</strong><small>{action.explanation}</small></div></div>)}</div><div className="guide-boundary"><span>i</span><p>This screen shows the camera feed and procedure. It does not yet detect learner actions live; recorded clip analysis is available after selecting a learner video.</p></div><button className="text-action" onClick={() => setMode("simulate")}>Try the process model <span>→</span></button>{activeProcess && <button className="text-action forget-skill" onClick={forgetReviewedSkill}>Forget saved skill</button>}</aside>
+            <aside className="card guide-card"><div className="eyebrow">GUIDANCE · {activeProcess ? "REVIEWED SKILL" : "SAMPLE PROCEDURE"}</div><h3>Follow the demonstrated order.</h3><div className="guide-list">{model.actions.map((action, index) => <div className="guide-step" key={action.id}><span className={`guide-check ${state.includes(action.produces[0]) ? "done" : ""}`}>{state.includes(action.produces[0]) ? "✓" : String(index + 1).padStart(2, "0")}</span><div><strong>{action.label}</strong><small>{action.explanation}</small></div></div>)}</div><div className="guide-boundary"><span>i</span><p>Record a learner clip here for review. SHOWME analyzes it only after you select Observe attempt; the camera does not track actions continuously.</p></div><button className="text-action" onClick={() => setMode("simulate")}>Try the process model <span>→</span></button>{activeProcess && <button className="text-action forget-skill" onClick={forgetReviewedSkill}>Forget saved skill</button>}</aside>
           </div>}
 
           <footer className="page-footer"><span>SHOWME · DEMONSTRATION → PROCESS MODEL → GUIDANCE</span><span>PROTOTYPE BUILD · 2026</span></footer>

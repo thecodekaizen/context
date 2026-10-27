@@ -29,6 +29,6 @@ Open `http://localhost:3000`. The API defaults to `http://localhost:8000`; overr
 ## Honest capability boundaries
 
 - Teach returns a model-generated candidate that needs human review.
-- Do supports explicit snapshot checks and separate recorded-clip comparison. It is not continuous tracking.
+- Do supports local learner-clip recording or upload, explicit snapshot checks, and a separate clip comparison request. It is not continuous tracking.
 - Simulate replays a reordered action sequence against the Skill Model. It is a procedural state preview, not physics.
 - See the root [README](../../README.md) for current screenshots and the locked product definition.

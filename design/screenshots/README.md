@@ -3,7 +3,7 @@
 Captured from the local web app on October 27, 2026 at 1440 px desktop width; each image extends to the end of that surface.
 
 - `01-teach.jpg` — demonstration upload, in-browser recording, and narration capture.
-- `02-do.jpg` — camera preview and recorded learner-clip workflow.
+- `02-do.jpg` — camera-first learner surface with direct capture and recorded-clip controls.
 - `03-simulate.jpg` — action-order editor with the illustrative fixture.
 - `04-simulate-what-if.jpg` — fixture run with the support bracket moved before the spacer; simulation stops on its explicitly illustrative prerequisite.
 

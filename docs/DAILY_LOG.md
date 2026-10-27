@@ -23,7 +23,7 @@ This log records SHOWME work only. Earlier entries described the retired THREAD 
 
 ### Decisions
 
-- Keep the CLI experiment as the current work; do not build the SHOWME UI, SAM overlays, or simulation on a failed P0 result.
+- This was a provisional experiment gate and is superseded as a product-plan decision by the locked SHOWME product. The app is now being built in parallel, while the failed P0 result still blocks any claim that task understanding is validated.
 - Next, choose a short, safe, visually discrete task with a small number of objects and a clearly visible, recoverable mistake. Record our own controlled clips if available footage cannot provide matched learn/control/error/recovery attempts.
 - Reuse the exact same expert process for separate correct, error, and recovery attempts. Keep expected labels out of model prompts and preserve the human answer key separately.
 
@@ -51,3 +51,9 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - Recording does not upload automatically; selecting **Learn this skill** is the explicit model-call boundary. Camera tracks stop after recording or when the app unmounts.
 - This is capture plumbing, not evidence that SHOWME can infer a reliable skill. The matched LEGO demonstration/correct/error/recovery evaluation remains the next scientific gate.
 - Verification: all 7 web tests, TypeScript check, and production build passed. A temporary fake-camera browser run started and stopped MediaRecorder, produced a local preview, enabled **Learn this skill**, and stopped the camera without making a model request. The Teach screenshot in [`design/screenshots/`](../design/screenshots/README.md) shows the new capture control.
+
+### Implementation checkpoint — Do learner recording
+
+- Do can start recording a learner attempt directly or preview the live camera separately; the resulting clip joins the existing upload/preview path and only reaches Muse Spark after the user selects **Observe attempt**.
+- Switching away from Teach or Do stops that surface's camera stream; stopping a learner recording creates a local clip and releases the camera.
+- Verification: the recording lifecycle passed an isolated browser smoke with a fake camera. The clip preview appeared and **Observe attempt** became available without triggering a model call. Web tests, type check, and production build passed.
