@@ -7,4 +7,4 @@ Captured from the production build on October 27, 2026 at 1440 px desktop width;
 - `03-simulate.jpg` — action-order editor with the illustrative fixture.
 - `04-simulate-what-if.jpg` — fixture run with the support bracket moved before the spacer; the scene shows the attempted bracket position as a blocked preview and explicitly keeps the simulator's valid state unchanged.
 
-The Simulate screenshots were captured before timed Play/Pause/Replay controls were added; the current interface includes those controls after a sequence is run. These images show the implemented interface. The sample assembly is a fixture, not the selected LEGO task or evidence of physical-task generalization. Do is not continuous tracking, and the current simulation is procedural rather than geometric or physics-based.
+The screenshots predate both the timed Play/Pause/Replay controls and the October 27 copy/navigation refresh. They document earlier prototype screens. The sample assembly is a fixture, not the selected LEGO task or evidence of physical-task generalization. Do is not continuous tracking, and the current simulation is procedural rather than geometric or physics-based.

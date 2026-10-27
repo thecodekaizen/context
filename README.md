@@ -1,26 +1,26 @@
 # SHOWME
 
-### Tutorials can show you what to do. They can’t see what you’re doing.
+### Build a process model from a demonstration.
 
-**SHOWME turns demonstrations into understanding.** Show it once. Learn it. Simulate it. Teach it.
+Use the same model to inspect a learner’s attempt and test a different step order.
 
 ## The problem
 
-People learn physical tasks from videos and manuals, but those resources cannot see the learner’s workspace. They cannot tell that a part is missing, an action was done out of order, or the learner has recovered from a mistake. SHOWME aims to connect an expert’s demonstration to the learner’s actual task state.
+Videos and manuals show a procedure, but they cannot inspect the learner’s workspace. SHOWME is a prototype for turning one task video into a reviewable process model, then comparing selected frames or a separate recording with that model.
 
 ## The product
 
-SHOWME learns one bounded physical procedure as an evidence-linked **Skill Model**. That same model powers three connected surfaces:
+SHOWME builds one evidence-linked **Process Model** from a bounded physical procedure. The same model supports three connected surfaces:
 
-1. **Teach** — Record or upload an expert demonstration. SHOWME proposes objects, actions, observable states, transitions, and possible dependencies for human review.
-2. **Do** — Observe a learner’s separate attempt, compare it with the reviewed Skill Model, explain supported differences, and guide recovery.
-3. **Simulate** — Change the action order and explore the resulting procedural state using that same Skill Model.
+1. **Teach** — Record or upload a demonstration. SHOWME proposes objects, actions, states, transitions, and possible dependencies for human review.
+2. **Do** — Check a selected camera frame or analyze a separate learner recording against the reviewed model. Inspect reported differences in the video.
+3. **Simulate** — Change an action order and play through the resulting modeled states. The current simulator does not model physical forces or geometry.
 
-The Skill Model is the product: Teach creates it; Do executes against it; Simulate explores it. The hackathon targets one safe, visually clear task. It does not claim arbitrary task learning or general-purpose physics.
+The shared process model connects Teach, Do, and Simulate. The hackathon targets one safe, visually clear task. The prototype does not provide continuous tracking, proven recovery guidance, arbitrary task learning, or general-purpose physics.
 
 ## Current app screenshots
 
-These screenshots were captured from the production build on October 27, 2026 at 1440 px width. They include the current blocked-attempt preview. Simulate uses an explicitly illustrative stacked-mount fixture. The Do screenshot shows the camera-off starting view; SAM grounding appears only after an explicit model call on a selected frame. The images show prototype flows, not proof that physical mistakes are reliably detected.
+These screenshots were captured from the production build on October 27, 2026 at 1440 px width, before the current copy and navigation update. They include the blocked-attempt preview. Simulate uses an explicitly illustrative stacked-mount fixture. The Do screenshot shows the camera-off starting view; SAM grounding appears only after an explicit model call on a selected frame. The images show prototype flows, not proof that physical mistakes are reliably detected.
 
 | Teach | Do |
 |---|---|
@@ -40,10 +40,10 @@ See the [full mockup inventory](design/mockups/README.md) for the Do and Simulat
 
 ## What works now
 
-- Teach can capture a short demonstration from the browser camera or accept an uploaded video and narration, save the clip locally, then ask Muse Spark for a structured candidate Skill Model with timestamped evidence.
+- Teach can capture a short demonstration from the browser camera or accept an uploaded video and narration, save the clip locally, then ask Muse Spark for a structured candidate process model with timestamped evidence.
 - A person reviews the candidate. Model-proposed prerequisites remain hypotheses unless explicitly mapped to a state and confirmed by the reviewer.
-- Do can capture and save a learner clip in-browser or accept an upload, then compare it with the reviewed Skill Model; it can also request a single camera-frame check. These are discrete observations, not continuous tracking.
-- Simulate lets a person reorder actions, step through a deterministic procedural replay, and inspect the first confirmed blocker. A sequence absent from one demonstration is reported as **unobserved**, not impossible.
+- Do can capture and save a learner clip in-browser or accept an upload, then compare it with the reviewed process model; it can also request a single camera-frame check. These are discrete observations, not continuous tracking.
+- Simulate lets a person reorder actions, use timed Play/Pause/Replay or manual stepping, and inspect the first confirmed blocker. A sequence absent from one demonstration is reported as **unobserved**, not impossible.
 - Skill candidates and human-reviewed constraint mappings persist in browser-local storage. Uploaded clips and camera frames are not stored by the app after the request.
 
 The current simulation view is procedural rather than a geometry or physics simulator. The matched demonstration / correct attempt / mistake / recovery evaluation is still pending with the selected task.

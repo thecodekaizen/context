@@ -161,3 +161,10 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - Added Play/Pause/Replay to the deterministic Simulate sequence. It advances the existing Skill Model transitions at a readable interval, preserves manual stepping, and stops at the last result, including a blocked attempt.
 - Resetting, reordering, rerunning, changing the starting checkpoint, or manually stepping stops playback so state cannot drift from the visible sequence. The controls wrap on narrow screens.
 - This is timed state progression, not physical animation or a claim of physics simulation. LEGO geometry and real-task verification remain dependent on the user's recordings.
+
+### UX checkpoint — Clearer workflow and capability labels
+
+- Rewrote the Teach, Do, and Simulate headings, descriptions, buttons, and helper text to name the action and outcome. The three stages now appear as a workflow with short descriptions.
+- Clarified that Teach proposes a model for review, Do checks a selected frame or separate recording rather than continuously tracking, and Simulate shows modeled states rather than physics.
+- Improved type scale, contrast, navigation states, buttons, spacing, and narrow-screen layout. Updated page metadata and README copy to match the actual prototype.
+- Existing screenshots predate the updated interface; no screenshot is presented as evidence of capability. The app tests, TypeScript check, and production build passed.
