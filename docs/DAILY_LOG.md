@@ -40,6 +40,7 @@ Run the controlled task with matched clips, inspect the learned process and evid
 | Recognize correct learner state | Not passed | Matched learner clip; measure false alarms |
 | Detect a deliberate divergence | Not passed | Matched error clip; detect the withheld target with frame evidence |
 | Recognize recovery | Not passed | Separate recovery clip; verify restored valid state |
+| Do-session continuity | Partial prototype | Last 12 explicit still-frame checks appear in a local timeline; no inference between frames |
 | SAM visual grounding | Not started | Begin only after baseline state distinctions pass |
 | Procedural what-if simulation | Implemented for fixture and reviewed Skill Models; task-specific visual consequence pending | Deterministic action reordering/playback and a model-driven transition map; physical-task evidence and geometry still needed |
 | SHOWME app | Teach, Do, Simulate prototype implemented; physical-task capability not validated | Browser recording/upload, candidate review, snapshot/clip observation, procedural simulation; see [`SHOWME_APP_PLAN.md`](SHOWME_APP_PLAN.md) |
@@ -65,6 +66,12 @@ Run the controlled task with matched clips, inspect the learned process and evid
 - The LEGO task itself remains unselected until the pieces are inspected. The guide avoids assuming a washer/bracket constraint that may not exist in the set.
 - P0 captures video only and strips audio during preprocessing; narration is optional but is not treated as model evidence in this experiment.
 - This is experiment preparation, not a result. Capability remains unvalidated until the clips are recorded and evaluated.
+
+### Implementation checkpoint — Do session checkpoints
+
+- Do retains up to 12 successful explicit still-frame checks in a session-local timeline, including time, assessment, identified state/objects, and model evidence.
+- Each check remains an explicit paid Muse Spark request. The timeline clears when a different reviewed skill is loaded or forgotten; it is not continuous tracking and does not infer recovery from a sequence of snapshots.
+- This is usable before the LEGO set arrives and will let us inspect state changes during the later physical-task test without overstating what the model observed.
 
 ### Implementation checkpoint — Simulate state map
 

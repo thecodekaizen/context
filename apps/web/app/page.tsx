@@ -23,6 +23,7 @@ type SnapshotObservation = {
   uncertainties: string[];
   _run?: { model?: string; usage?: { input_tokens?: number; output_tokens?: number } };
 };
+type SnapshotCheck = { checkedAt: string; observation: SnapshotObservation };
 
 function SkillTransitionMap({ state, model, activeActionId }: { state: string[]; model: SkillModel; activeActionId?: string }) {
   const stateNames = (model.states ?? []).filter((item) => state.includes(item.id));
@@ -110,6 +111,7 @@ export default function Home() {
   const [learnerUrl, setLearnerUrl] = useState("");
   const [observation, setObservation] = useState<LearnerObservation | null>(null);
   const [snapshotObservation, setSnapshotObservation] = useState<SnapshotObservation | null>(null);
+  const [snapshotHistory, setSnapshotHistory] = useState<SnapshotCheck[]>([]);
   const [snapshotError, setSnapshotError] = useState("");
   const [checkingSnapshot, setCheckingSnapshot] = useState(false);
   const [observeError, setObserveError] = useState("");
@@ -301,6 +303,8 @@ export default function Home() {
     setSequenceResult(null);
     setSequenceCursor(-1);
     setResult(null);
+    setSnapshotObservation(null);
+    setSnapshotHistory([]);
     setMode("do");
   }
 
@@ -329,6 +333,8 @@ export default function Home() {
     setSequenceCursor(-1);
     setResult(null);
     setObservation(null);
+    setSnapshotObservation(null);
+    setSnapshotHistory([]);
     setLearnerFile(null);
     setLearnerUrl((previous) => {
       if (previous.startsWith("blob:")) URL.revokeObjectURL(previous);
@@ -378,6 +384,7 @@ export default function Home() {
     setCheckingSnapshot(true);
     setSnapshotError("");
     setSnapshotObservation(null);
+    const checkedAt = new Date().toISOString();
     try {
       const scale = Math.min(1, 1280 / Math.max(video.videoWidth, video.videoHeight));
       const canvas = document.createElement("canvas");
@@ -394,7 +401,9 @@ export default function Home() {
       const response = await fetch(`${api}/api/skills/observe-snapshot`, { method: "POST", body: form });
       const payload = await response.json();
       if (!response.ok) throw new Error(typeof payload.detail === "string" ? payload.detail : "SHOWME could not inspect this camera frame.");
-      setSnapshotObservation(payload.observation as SnapshotObservation);
+      const nextObservation = payload.observation as SnapshotObservation;
+      setSnapshotObservation(nextObservation);
+      setSnapshotHistory((history) => [...history, { checkedAt, observation: nextObservation }].slice(-12));
     } catch (error) {
       setSnapshotError(error instanceof Error ? error.message : "SHOWME could not reach the local snapshot service.");
     } finally {
@@ -592,10 +601,20 @@ export default function Home() {
           {mode === "do" && <div className="work-grid do-grid">
             <section className="card camera-card"><div className="card-heading"><div><div className="eyebrow">STEP 02 · PERFORM THE TASK</div><h2>Keep your hands in view.</h2></div><span className={`record-indicator ${recordingAttempt ? "recording" : ""}`}><i /> {recordingAttempt ? "RECORDING" : cameraOn ? "CAMERA ON" : "CAMERA OFF"}</span></div>
               <div className="camera-stage">{cameraOn ? <video ref={videoRef} className="camera-feed" autoPlay muted playsInline /> : <div className="camera-empty"><span>◎</span><strong>Your workspace will appear here</strong><small>Camera preview stays on this device.</small></div>}<div className="camera-crosshair" /></div>
-              <div className="camera-controls">{cameraOn ? <><button className="secondary-button" onClick={stopCamera}>{recordingAttempt ? "Stop and use this clip" : "Stop camera"}</button><button className="primary-button" disabled={recordingAttempt} onClick={() => void startAttemptRecording()}>{recordingAttempt ? "Recording…" : "Record learner attempt"}<span>●</span></button></> : <><button className="secondary-button" onClick={() => void startCamera()}>Start camera <span>◎</span></button><button className="primary-button" onClick={() => void startAttemptRecording()}>Record learner attempt<span>●</span></button></>}<button className="secondary-button" disabled={!cameraOn || recordingAttempt || !activeProcess || checkingSnapshot} onClick={() => void checkCurrentState()}>{checkingSnapshot ? "Checking frame…" : "Check current state"}</button><span className="small-note">Camera stays on this device. Record a clip for review, or send one still frame to Muse Spark for a paid check.</span></div>
+              <div className="camera-controls">{cameraOn ? <><button className="secondary-button" onClick={stopCamera}>{recordingAttempt ? "Stop and use this clip" : "Stop camera"}</button><button className="primary-button" disabled={recordingAttempt} onClick={() => void startAttemptRecording()}>{recordingAttempt ? "Recording…" : "Record learner attempt"}<span>●</span></button></> : <><button className="secondary-button" onClick={() => void startCamera()}>Start camera <span>◎</span></button><button className="primary-button" onClick={() => void startAttemptRecording()}>Record learner attempt<span>●</span></button></>}<button className="secondary-button" disabled={!cameraOn || recordingAttempt || !activeProcess || checkingSnapshot} onClick={() => void checkCurrentState()}>{checkingSnapshot ? "Checking frame…" : "Check current state"}</button><span className="small-note">Camera stays on this device. Each explicit check sends one still frame to Muse Spark and adds a local session checkpoint.</span></div>
               {cameraError && <div className="inline-honesty">{cameraError}</div>}
               {snapshotError && <div className="inline-honesty" role="alert">{snapshotError}</div>}
               {snapshotObservation && <section className={`snapshot-result snapshot-${snapshotObservation.assessment}`} aria-live="polite"><div className="eyebrow">ONE-FRAME CHECK · {snapshotObservation._run?.model ?? "MUSE SPARK"}</div><strong>{snapshotObservation.assessment === "consistent" ? "Matches a demonstrated state" : snapshotObservation.assessment === "possible_divergence" ? "Possible difference from the demonstrated states" : "The frame is unclear"}</strong><p>{snapshotObservation.evidence}</p><small>{snapshotObservation.state_id === "unknown" ? "No matching state identified" : activeProcess?.states.find((state) => state.id === snapshotObservation.state_id)?.description ?? snapshotObservation.state_id} · {objectLabels(snapshotObservation.object_ids)}</small>{snapshotObservation.uncertainties.length > 0 && <ul>{snapshotObservation.uncertainties.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul>}<small className="snapshot-boundary">A still frame cannot show what happened before it or confirm recovery. This is not continuous tracking.</small></section>}
+              {snapshotHistory.length > 0 && <section className="snapshot-history" aria-label="Camera check history">
+                <div className="snapshot-history-heading"><div><span className="eyebrow">SESSION CHECKPOINTS</span><small>Last {snapshotHistory.length} manual frame checks</small></div><button className="text-action" onClick={() => { setSnapshotHistory([]); setSnapshotObservation(null); }}>Clear</button></div>
+                <ol className="snapshot-history-list" aria-live="polite">{[...snapshotHistory].reverse().map(({ checkedAt, observation: item }) => <li className={`snapshot-history-item history-${item.assessment}`} key={checkedAt}>
+                  <span className="history-marker" aria-hidden="true" />
+                  <div className="history-body"><div className="history-meta"><time dateTime={checkedAt}>{checkedAt.slice(11, 16)} UTC</time><strong>{item.assessment === "consistent" ? "MATCH" : item.assessment === "possible_divergence" ? "POSSIBLE DIFFERENCE" : "UNCLEAR"}</strong></div>
+                    <p>{item.state_id === "unknown" ? "No matching state identified" : activeProcess?.states.find((candidate) => candidate.id === item.state_id)?.description ?? item.state_id.replaceAll("_", " ")}{item.object_ids.length > 0 && ` · ${objectLabels(item.object_ids)}`}</p><small>{item.evidence}</small>
+                  </div>
+                </li>)}</ol>
+                <p className="snapshot-history-boundary">These are separate, user-requested frame checks. SHOWME does not observe the actions between them or infer recovery from this list.</p>
+              </section>}
               <div className="observe-panel"><div className="eyebrow">TEST A RECORDED ATTEMPT</div><h3>Compare a learner clip.</h3><p>Use a separate recording to inspect timestamped events against the reviewed Skill Model. This is clip analysis, not live tracking.</p>
                 <button className="upload-drop compact-drop" disabled={cameraOn} onClick={() => learnerInput.current?.click()}><span className="upload-symbol">↥</span><strong>{learnerFile ? learnerFile.name : "Choose learner video"}</strong><small>MP4, MOV, M4V, or WebM · up to 100 MB</small></button>
                 <input ref={learnerInput} type="file" accept="video/mp4,video/quicktime,video/x-m4v,video/webm" hidden onChange={(event) => chooseLearnerVideo(event.target.files?.[0])} />
