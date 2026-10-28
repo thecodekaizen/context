@@ -168,7 +168,7 @@ def tool_wire_schema(context):
     branches=[]
     for operation in ('fit_candidate','register_revision','propose_experiment','stop'):
         if operation=='fit_candidate' and context['fit_calls_remaining']<=0:continue
-        if operation=='register_revision' and not context['candidate_fits']:continue
+        if operation=='register_revision' and (not context['candidate_fits'] or not context['recorded_mismatches']):continue
         if operation=='propose_experiment' and (context['actions_remaining']<=0 or context['unresolved_actions']):continue
         schema=json.loads(json.dumps(tool_schema(context)))
         properties=schema['properties'];properties['operation']={'type':'string','enum':[operation]}
@@ -194,6 +194,11 @@ def tool_wire_schema(context):
                 confirmation['properties']['kind']={'type':'string','enum':['confirmation']}
                 confirmation['properties']['model_id']={'type':'string','enum':revised}
                 branches.append(confirmation)
+        elif operation=='register_revision':
+            # Only a parent with measured mismatch may receive a staged revision.
+            eligible={r['model_id'] for r in context['recorded_mismatches']}
+            properties['model_id']={'type':'string','enum':[m['model_id'] for m in context['registered_models'] if m['model_id'] in eligible]}
+            branches.append(schema)
         else:branches.append(schema)
     return {'type':'object','properties':{'decision':{'anyOf':branches}},'required':['decision'],'additionalProperties':False}
 

@@ -109,3 +109,13 @@ class InvestigatorToolTests(unittest.TestCase):
         result['assessment']['probe_rmse_c']=1.
         exported['actions'][0]['result']=json.dumps(result)
         with self.assertRaises(ValueError):review_export(exported)
+    def test_wire_cannot_register_without_measured_mismatch(self):
+        from thermal_investigator.investigator_tools import tool_wire_schema
+        self.tools.fit('linear',['initial-0'])
+        operations=[b['properties']['operation']['enum'][0] for b in tool_wire_schema(self.tools.context())['properties']['decision']['anyOf']]
+        self.assertNotIn('register_revision',operations)
+        self.store.prepare('s','failure','v1',self.plan.to_dict())
+        wrong={**self.obs,'temperature_c':[[a+1,b+1] for a,b in self.obs['temperature_c']]}
+        self.store.execute('s','failure',lambda *args:wrong)
+        operations=[b['properties']['operation']['enum'][0] for b in tool_wire_schema(self.tools.context())['properties']['decision']['anyOf']]
+        self.assertIn('register_revision',operations)

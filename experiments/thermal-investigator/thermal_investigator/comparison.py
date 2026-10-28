@@ -14,7 +14,7 @@ from .model_registry import execute_candidate
 from .meta import MetaDecider,load_api_key
 from .run import LabClient,write_json
 
-SEEDS=(1103,1129,1153,1181,1213)
+SEEDS=(1301,1327,1361,1399,1423)
 METHODS=('fixed_bic','disagreement_bic','meta_direct','meta_investigator')
 
 def bic(candidate,observations):
@@ -28,12 +28,12 @@ def bic(candidate,observations):
 def select(candidates,observations):return min(candidates,key=lambda c:bic(c,observations))
 
 def protocol():
-    return {'version':'unrestricted-paired-v1','seeds':SEEDS,'worlds':['coupled','sensor-delay'],
+    return {'version':'unrestricted-paired-v2','seeds':SEEDS,'worlds':['coupled','sensor-delay'],
             'methods':METHODS,'primary':'system-mean sealed RMSE C at equal seven-action budget ceiling',
             'practical_gate':'investigator median error at least 20% below both conventional baselines; report paired differences and failures',
             'initial_trials':3,'maximum_total_experiment_actions':7,'reset_seconds_per_trial':300,
             'maximum_fits':9,'shared_initial_fits':3,'max_calls_per_Meta_case':8,
-            'max_Meta_calls_total':160,'bootstrap':'paired median difference, 10000 resamples, seed 148, descriptive 95% interval','guard_per_Meta_case_usd':.5,'aggregate_local_guard_usd':10,
+            'max_Meta_calls_total':160,'bootstrap':'paired median difference, 10000 resamples, seed 148, descriptive 95% interval','guard_per_Meta_case_usd':.45,'aggregate_local_guard_usd':9,
             'no_automatic_retries':True,'initial_selection':'BIC across all three supplied families; same fitted candidates for each method',
             'fixed_schedule':['sustained-both','left-stair','staggered','right-stair'],
             'active_baseline':'maximum supplied-family prediction variance; refit all families after two and four new trials',
@@ -59,7 +59,7 @@ def run_case(folder,seed,delayed,method,key):
         store.add_model(session,'initial',final_model,ids)
         write_json(folder/'initial-models.json',{'candidates':candidates,'bic_scores':{c['family']:bic(c,observations) for c in candidates},'selected':chosen['family']})
         if method.startswith('meta_'):
-            provider=MetaDecider(key,folder/'provider',max_calls=8,budget_usd=.5)
+            provider=MetaDecider(key,folder/'provider',max_calls=8,budget_usd=.45)
             for i in range(8):
                 write_json(folder/f'context-{i+1}.json',tools.context())
                 decision,usage=decide_with_tools(provider,tools,method)
