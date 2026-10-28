@@ -66,3 +66,12 @@ Meta pricing was not verified in this planning pass; a guessed pricing route did
 The first milestone uses first/second-order autoregressive input-output models, not generated physical equations. This establishes numerical prediction, leakage boundaries, action budgets and a comparison floor with NumPy alone. The original heat-balance simulator is not copied from or calibrated to TCLab. Its reset is an explicitly idealized exact-ambient fixture with a fixed time charge. Stronger experimental design and evidence-driven structural modeling remain future work.
 
 The comparison is currently time/action matched, not energy matched. Preserve that distinction in claims. The challenge uses one predeclared input sequence and development instances; it is not the frozen final test.
+
+
+## D10 — Preserve credits and make provider work explicit
+
+User requested preservation of hackathon credits, then cancelled the Muse configuration detour. No coding-provider configuration was edited and no live Meta experiment was run. Default experiment and pilot dry-run commands incur no API cost. The adapter has a persistent call/cost guard and no automatic retries. An explicit live invocation is distinct from ordinary local development.
+
+Meta Standard pricing verified from https://dev.meta.ai/docs/pricing-rate-limits on 28 October 2026: input $1.25/M, output $4.25/M, cached input $0.15/M. These rates support local estimates; account balance is still unknown.
+
+The new conventional method is D-optimal regressor-information selection averaged per parameter across supplied ARX families, with fixed scaling and regularization. Treat it as an approximation because regressors contain noisy outputs; do not call it globally optimal.

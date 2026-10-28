@@ -4,7 +4,7 @@
 
 The user approved planning and implementing the Experimental Investigator on 28 October 2026, after explicitly abandoning SHOWME. Start with [docs/experimental-investigator/README.md](docs/experimental-investigator/README.md), then PRODUCT.md, PROTOCOL.md and IMPLEMENTATION.md in that folder.
 
-The first application is budgeted identification of a two-heater thermal system. Establish prediction quality and comparison evidence before building a product interface. Current implementation is a numerical development baseline only; Meta investigation decisions and a demonstrated advantage remain unimplemented.
+The first application is budgeted identification of a two-heater thermal system. Establish prediction quality and comparison evidence before building a product interface. Current implementation includes numerical baselines and an offline-tested Meta decision adapter. Live Meta decisions and a demonstrated advantage remain unvalidated. Preserve hackathon credits: default local runs and pilot dry runs make no API requests; live runs must stay explicitly bounded.
 
 SHOWME, THREAD, the remnant planner and the scientific-scene editor are historical directions. Their locked-product statements do not override the user's subsequent pivot. Previous agreements are preserved in docs/archive/AGENTS_SHOWME_2026-10-28.md for context.
 

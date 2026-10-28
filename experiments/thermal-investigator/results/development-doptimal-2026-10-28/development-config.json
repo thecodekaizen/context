@@ -1,0 +1,43 @@
+{
+  "protocol": "development-v0.2",
+  "development_only": true,
+  "additional_experiments": 3,
+  "seeds": [
+    11,
+    23,
+    37
+  ],
+  "sample_interval_s": 2.0,
+  "strategies": [
+    "fixed",
+    "random",
+    "disagreement",
+    "d_optimal"
+  ],
+  "worlds": [
+    "coupled",
+    "delayed_sensor"
+  ],
+  "meta_calls": 0,
+  "python_version": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "numpy_version": "2.3.5",
+  "source_sha256": {
+    "__init__.py": "a718642bf14f3582ef1386a22c4ba0edabaaefc7f3903e237cbc948b7a9ed429",
+    "contracts.py": "e32c44ce72cb0b4d818c31b901ea0fae83d8de956a982e8761377e0c4dbc4c9b",
+    "decisions.py": "de70ad3ccc2b6d3dd96ee1ef6caf8c793e7777ca506f1286bbfa9c3406007d87",
+    "design.py": "fc2e6964d7ae939af82282a46cef1169d9e3b1eb8ae012d641cf1edfba8f9607",
+    "lab.py": "7d4855f0fbd2226922ea08dec11d243f1a9b60a6f220b0e4f3138c183457980f",
+    "meta.py": "a94d91862e28d45df02a48dfc29743e64b8056c370c825d4ff02d609f7efac1b",
+    "pilot.py": "66a15427959414babdaf96fa6c39cb4a009f1bd258c357cccf3487be940f2c45",
+    "predictor.py": "023c29087a99485a8332dae4b4c8f4ef470a6370788c90abce2390af2f75c6da",
+    "review.py": "43b89864013ab04c0c27620ae1fa15b6e8a5cae10cdd983802b78b4e3cbc2b09",
+    "run.py": "ab958836540e2785e962c4527f2e1269e47b3ac9b09bcc1b4e9e066f16d46f97"
+  },
+  "limitations": [
+    "one predeclared challenge schedule",
+    "three development seeds by default",
+    "idealized exact ambient reset with 300 second charge",
+    "ARX predictors are not physical mechanism discoveries",
+    "no held-out pilot and no hardware validation"
+  ]
+}

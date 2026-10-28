@@ -14,6 +14,8 @@ import numpy as np
 
 from .contracts import DT, experiment_library, initial_schedule
 from .predictor import choose_disagreement, fit_candidates, select_model
+from .design import choose_d_optimal
+from .decisions import public_context
 
 
 class LabClient:
@@ -54,7 +56,7 @@ def write_json(path: Path, value: dict) -> None:
     path.write_text(json.dumps(value, indent=2, allow_nan=False) + "\n")
 
 
-def run_case(output: Path, seed: int, delayed: bool, strategy: str, additional: int) -> dict:
+def run_case(output: Path, seed: int, delayed: bool, strategy: str, additional: int, meta_decider=None) -> dict:
     output.mkdir(parents=True, exist_ok=False)
     ledger = output / "events.jsonl"
 
@@ -65,7 +67,7 @@ def run_case(output: Path, seed: int, delayed: bool, strategy: str, additional: 
             stream.write(json.dumps(entry, allow_nan=False) + "\n")
 
     lab = LabClient(seed, delayed, additional + 1)
-    observations, selections = [], []
+    observations, selections, decisions, meta_usage = [], [], [], []
     plans = experiment_library()
     rng = np.random.default_rng(seed + 100000)
     start = time.monotonic()
@@ -76,14 +78,28 @@ def run_case(output: Path, seed: int, delayed: bool, strategy: str, additional: 
         event("observation", first)
         for step in range(additional):
             candidates = fit_candidates(observations)
-            if strategy == "fixed":
+            if strategy in ("meta_direct", "meta_investigator"):
+                if meta_decider is None:
+                    raise ValueError("Meta strategy requires an explicitly configured provider")
+                context = public_context(observations, candidates, plans, decisions=decisions)
+                event("public_decision_context", context)
+                decision, usage = meta_decider.decide(context, strategy)
+                decisions.append(decision)
+                meta_usage.append(usage)
+                plan = next(p for p in plans if p.id == decision["schedule_id"])
+                reason = {"selector": strategy, "decision": decision, "usage": usage}
+            elif strategy == "fixed":
                 plan = plans[0]
                 reason = {"selector": "predeclared_library_order"}
             elif strategy == "random":
                 plan = plans[int(rng.integers(len(plans)))]
                 reason = {"selector": "uniform_without_replacement"}
-            else:
+            elif strategy == "d_optimal":
+                plan, reason = choose_d_optimal(candidates, observations, plans)
+            elif strategy == "disagreement":
                 plan, reason = choose_disagreement(candidates, plans)
+            else:
+                raise ValueError("Unknown experiment strategy")
             event("proposal", {"schedule": plan.to_dict(), "reason": reason,
                                "candidate_models": [m.to_dict() for m in candidates]})
             observed = lab.request({"operation": "experiment", "schedule": plan.to_dict()})
@@ -93,6 +109,14 @@ def run_case(output: Path, seed: int, delayed: bool, strategy: str, additional: 
             event("observation", observed)
         candidates = fit_candidates(observations)
         model = select_model(candidates)
+        if strategy in ("meta_direct", "meta_investigator"):
+            context = public_context(observations, candidates, [], decisions=decisions, final=True)
+            event("public_decision_context", context)
+            decision, usage = meta_decider.decide(context, strategy)
+            decisions.append(decision)
+            meta_usage.append(usage)
+            model = next(m for m in candidates if m.order == decision["model_order"])
+            event("final_model_decision", {"decision": decision, "usage": usage})
         inputs = lab.request({"operation": "challenge_inputs"})
         prediction = {"temperature_c": model.predict(inputs["commands_fraction"], inputs["ambient_c"]).tolist()}
         committed = {"model": model.to_dict(), "challenge_inputs": inputs, "prediction": prediction}
@@ -109,12 +133,16 @@ def run_case(output: Path, seed: int, delayed: bool, strategy: str, additional: 
                        "experimental_time_s": sum(o["experiment_s"] + o["reset_charge_s"] for o in observations),
                        "energy_proxy_fraction_seconds": sum(o["command_energy_proxy_fraction_seconds"] for o in observations),
                        "wall_seconds": time.monotonic() - start, "prediction_sha256": commitment,
-                       "meta_calls": 0})
+                       "meta_calls": sum(not u["cache_hit"] for u in meta_usage),
+                       "meta_cache_hits": sum(u["cache_hit"] for u in meta_usage),
+                       "meta_estimated_usd": sum(u["estimated_usd"] for u in meta_usage if not u["cache_hit"]),
+                       "model_decisions": decisions})
         write_json(output / "result.json", result)
         return result
     except Exception as exc:
         failure = {"strategy": strategy, "error": str(exc), "status": "failed",
-                   "wall_seconds": time.monotonic() - start}
+                   "wall_seconds": time.monotonic() - start,
+                   "meta_calls_before_failure": sum(not u["cache_hit"] for u in meta_usage)}
         write_json(output / "result.json", failure)
         return failure
     finally:
@@ -159,13 +187,15 @@ def main():
     parser.add_argument("--output", type=Path, default=Path(".runs") / str(uuid.uuid4()))
     parser.add_argument("--seeds", type=int, nargs="+", default=[11, 23, 37])
     parser.add_argument("--additional", type=int, default=3)
+    parser.add_argument("--strategies", nargs="+", choices=["fixed", "random", "disagreement", "d_optimal"],
+                        default=["fixed", "random", "disagreement", "d_optimal"])
     args = parser.parse_args()
     if not 1 <= args.additional <= 6 or any(seed < 0 for seed in args.seeds) or len(set(args.seeds)) != len(args.seeds):
         parser.error("Use 1–6 additional experiments and unique nonnegative seeds")
     args.output.mkdir(parents=True, exist_ok=False)
-    config = {"protocol": "development-v0.1", "development_only": True,
+    config = {"protocol": "development-v0.2", "development_only": True,
               "additional_experiments": args.additional, "seeds": args.seeds,
-              "sample_interval_s": DT, "strategies": ["fixed", "random", "disagreement"],
+              "sample_interval_s": DT, "strategies": args.strategies,
               "worlds": ["coupled", "delayed_sensor"], "meta_calls": 0, "python_version": sys.version, "numpy_version": np.__version__,
               "source_sha256": {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
                                 for p in sorted(Path(__file__).parent.glob("*.py"))},
@@ -193,7 +223,7 @@ def main():
             errors = [r["mean_rmse_c"] for r in subset if "mean_rmse_c" in r]
             median = f"{np.median(errors):.4f}" if errors else "failed"
             rows.append(f"| {world} | {strategy} | {len(errors)}/{len(subset)} | {median} |")
-    rows += ["", "The disagreement method is a simple numerical heuristic, not yet a strong optimal-design baseline.",
+    rows += ["", "Disagreement is a simple heuristic. D-optimal design uses regularized ARX regressor information, an approximation under measurement noise.",
              "These development cases were used during implementation; they are not held-out evidence.",
              "All methods use the same experiment count, duration and reset charge. Energy proxies can differ.",
              "The displayed median includes completed runs only; completion counts expose failures.",

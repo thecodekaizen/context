@@ -47,6 +47,10 @@ def features(y, u, t: int, order: int) -> np.ndarray:
 
 
 def fit_one(observations: list[dict], order: int, ridge: float) -> Predictor:
+    if type(order) is not int or order not in (1, 2):
+        raise ValueError("Unsupported predictor order")
+    if not math.isfinite(ridge) or ridge <= 0:
+        raise ValueError("Regularization must be finite and positive")
     xs, targets = [], []
     for obs in observations:
         u = np.asarray(obs["commands_fraction"], dtype=float)
@@ -120,7 +124,8 @@ def fit_candidates(observations: list[dict]) -> list[Predictor]:
 def select_model(candidates: list[Predictor]) -> Predictor:
     # A simpler initial predictor is a declared prior, not a hidden evaluation decision.
     return min(candidates, key=lambda m: (
-        m.validation_rmse_c if m.validation_rmse_c is not None else float(m.order), m.order))
+        0 if m.validation_rmse_c is not None else 1,
+        m.validation_rmse_c if m.validation_rmse_c is not None else 0., m.order))
 
 
 def choose_disagreement(candidates: list[Predictor], schedules: list) -> tuple[object, dict]:

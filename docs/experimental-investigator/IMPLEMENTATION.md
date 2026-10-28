@@ -24,12 +24,12 @@ Morning / first 2 hours:
 - [ ] Freeze useful prediction thresholds and verify noise-floor assumptions.
 
 Next 2 hours:
-- [ ] Implement a conventional active design baseline with the full supported candidate library.
+- [x] Implement a regularized D-optimal ARX design baseline across the supported candidate library; its information criterion remains an approximation under output noise.
 - [ ] Check underdetermined and unsupported cases. Independent prediction errors must expose failures.
 - [ ] Freeze initial protocol and development/test seed separation before Meta comparison calls.
 
 Next 2–4 hours:
-- [ ] Adapt existing Meta structured outputs to bounded model/investigation proposals.
+- [x] Implement a bounded Meta Responses decision adapter using the existing endpoint/credential convention; local mocked-transport checks pass. Live behavior remains untested.
 - [ ] Run a bounded smoke pilot and inspect meaningful decisions, usage and failures.
 - [ ] Run the paired comparison pilot if the smoke pilot is valid.
 - [ ] Publish a continuation decision with all methods and failures. If speed/cost prevents the comparison, report that as unresolved instead of marking the day successful.
@@ -121,3 +121,12 @@ Median per-sensor RMSE in degrees Celsius, three development seeds each:
 Fixed schedules are strongest in this small development run. The disagreement heuristic has no demonstrated advantage. The stronger conventional active-design baseline, Meta investigation decisions, fresh challenge families, physical-data check and product UI remain outstanding. The ARX baseline does not recover a physical mechanism.
 
 A validation-handling bug was corrected: a stable fit on all data may remain provisional when a reduced-data validation fold is unstable; the result must not claim complete validation. The original failed run remains available locally. Public recorded results use the corrected run.
+
+
+## Milestone 2 — experiment selection and offline Meta adapter
+
+Implemented regularized D-optimal regressor design, explicit evidence-citing decisions, a six-call/$1 guarded Meta adapter, cache/no-repeat handling and offline run review. A model-selection issue was corrected: independently validated models take priority over provisional models; their incomparable fallback scores are no longer mixed.
+
+All 24 development runs complete and 23 tests pass. No live Meta request was made, including after the user's credit-preservation instruction. A dry run of the proposed pilot displays its protocol without loading credentials or creating output.
+
+D-optimal median RMSE: coupled 0.0162°C, sensor delay 0.2438°C. Fixed remains stronger on the delay cases. Meta's scientific contribution, structural generation and held-out advantage remain unproven. The next evidence step is the bounded integration pilot and then a fresh paired comparison; it must not be confused with a completed contribution gate.

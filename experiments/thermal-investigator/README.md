@@ -1,6 +1,6 @@
 # Thermal Investigator — numerical experiment
 
-This is the first implementation of the experimental-investigator plan. It learns temperature-response predictors from bounded experiments and independently scores a future input schedule. **Current status: numerical baseline only; no Meta investigation decisions yet.**
+This is the first implementation of the experimental-investigator plan. It learns temperature-response predictors from bounded experiments and independently scores a future input schedule. **Current status: numerical baselines plus a locally tested Meta decision adapter. No live Meta decisions have been run.**
 
 ## Run
 
@@ -22,7 +22,7 @@ The Codex bundled Python runtime also has NumPy available; it was used for the r
 - Original two-node lumped thermal simulation with optional sensor lag, noisy readings, bounded heater commands and fixed-duration experiments.
 - Numerical autoregressive predictors of orders one and two, fitted by regularized least squares.
 - Whole-trial leave-one-out validation for model selection. If a reduced-data fit is unstable but the full-data model is valid, its validation remains explicitly incomplete.
-- Fixed schedules, random schedules and a simple between-family disagreement selector.
+- Fixed schedules, random schedules, a simple between-family disagreement selector and regularized D-optimal regressor design.
 - Prediction commitment before challenge results, SHA-256 integrity check, JSON event ledger, error report and SVG trace plot.
 
 This code is not copied from TCLab, and it is not validated against TCLab hardware. Standard heat-balance equations supply the simulator; predictor coefficients do not establish the true mechanism. Candidate models receive observed traces and controls, not hidden coefficients or labels.
@@ -53,3 +53,19 @@ See `results/development-2026-10-28/REPORT.md` when present in the repository. F
 2. Add evidence-linked Meta decisions through a bounded declarative specification.
 3. Compare that investigator and a direct tool-using Meta agent with equal information, models and budgets.
 4. Build the product workspace once the scientific decision gate passes.
+
+
+## Offline inspection and Meta integration
+
+```sh
+python -m thermal_investigator.review results/development-doptimal-2026-10-28/dev-lag-11-d_optimal
+python -m thermal_investigator.pilot --output .runs/unused-dry-run
+```
+
+The first command recomputes scores and checks commitments, ledger order and budgets from saved files. It makes no lab/model calls and verifies internal consistency, not the authenticity of the observations. The second command only displays the frozen development pilot. It does not read an API key or create a run directory.
+
+The `--live` pilot path is explicit and bounded to six decision calls and a $1 local guard. It has not been executed. Credit preservation is a current priority; no paid experiment or automatic retry is started by normal local runs. Prices were verified against https://dev.meta.ai/docs/pricing-rate-limits on 28 October 2026. Guards reserve estimated cost before a request and retain uncertain attempts. Provider billing remains authoritative.
+
+Both Meta policies receive the same measured traces, numerical candidates and experiment scores. They choose among supplied ARX families and legal schedules; this is not generation of new physical equations. Explanations must cite available observations and unsupported choices fail validation. A single development instance is a smoke check only.
+
+The latest numerical run has 24 completed cases, across four methods and the same three development seeds. D-optimal design improves median coupled-system error from 0.0188°C to 0.0162°C, but has worse delayed-sensor error than the fixed method (0.2438°C versus 0.1755°C). This approximation assumes regressor information without whitening input-output measurement noise; it is not guaranteed optimal physical experimental design. No overall advantage has been established.
