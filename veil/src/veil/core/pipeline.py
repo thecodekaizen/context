@@ -55,13 +55,15 @@ def sample_frames(source, root, prefix, media):
 
 
 class MetaPipeline:
-    def __init__(self, env_file):
+    def __init__(self, env_file, max_calls=12):
+        if not 1<=max_calls<=12:raise ValueError('Call budget must be between 1 and 12')
         self.env_file=env_file
+        self.max_calls=max_calls
 
     def context(self, root):
-        return client(self.env_file),Calls(root,max_calls=12)
+        return client(self.env_file),Calls(root,max_calls=self.max_calls)
 
-    def detect(self, root, media, *, seed_omit_phone=False):
+    def detect(self, root, media, *, seed_omit_phone=False, face_action='cover'):
         c,ledger=self.context(root)
         source=root/'input.mp4'
         frames=sample_frames(source,root,'source',media)
@@ -76,7 +78,7 @@ class MetaPipeline:
             groups=defaultdict(list)
             for row in rows:groups[str(row['track_id'])].append(FrameRegion(frame=row['frame'],box=row['box']))
             for ident,regions in groups.items():
-                tracks.append(VisualTrack(id=f'face-{ident}',category='face',source='sam-3.1',regions=regions))
+                tracks.append(VisualTrack(id=f'face-{ident}',category='face',source='sam-3.1',action=face_action,regions=regions))
             # One plate seed per sampled frame; choose first observed instance for this bounded prototype.
             plates=[(f,e) for f in observed.frames for e in f.exposures if e.category=='license_plate']
             if plates:

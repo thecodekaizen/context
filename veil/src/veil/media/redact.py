@@ -9,6 +9,25 @@ def covered_bounds(box,width,height,padding=12):
  x1,y1,x2,y2=box
  return max(0,math.floor(x1)-padding),max(0,math.floor(y1)-padding),min(width,math.ceil(x2)+padding),min(height,math.ceil(y2)+padding)
 
+def apply_redactions(frame,operations,padding=12):
+ """Erase text before blurring, then restore opaque covers after overlap."""
+ height,width=frame.shape[:2]
+ regions=[(covered_bounds(box,width,height,padding),action) for box,action in operations]
+ for (x1,y1,x2,y2),action in regions:
+  if action=='cover':frame[y1:y2,x1:x2]=0
+ for (x1,y1,x2,y2),action in regions:
+  if action=='blur':
+   region=frame[y1:y2,x1:x2]
+   if region.size:
+    sigma=max(18.,min(region.shape[:2])/3)
+    frame[y1:y2,x1:x2]=cv2.GaussianBlur(region,(0,0),sigmaX=sigma,sigmaY=sigma)
+  elif action!='cover':raise ValueError('Unsupported redaction action')
+ # Blurring an overlapping face must never soften a mandatory opaque cover.
+ for (x1,y1,x2,y2),action in regions:
+  if action=='cover':frame[y1:y2,x1:x2]=0
+ return frame
+
+
 def render(source:Path,target:Path,timeline:Timeline,padding=12):
  cap=cv2.VideoCapture(str(source));fps=cap.get(cv2.CAP_PROP_FPS)
  width=int(cap.get(cv2.CAP_PROP_FRAME_WIDTH));height=int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -17,7 +36,7 @@ def render(source:Path,target:Path,timeline:Timeline,padding=12):
  for track in timeline.visual_tracks:
   for region in track.regions:
    if region.frame>=frame_count:raise ValueError('Region outside source video')
-   by_frame.setdefault(region.frame,[]).append(region.box)
+   by_frame.setdefault(region.frame,[]).append((region.box,track.action))
  intermediate=target.with_name(target.stem+'-silent.mp4')
  writer=cv2.VideoWriter(str(intermediate),cv2.VideoWriter_fourcc(*'mp4v'),fps,(width,height))
  if not writer.isOpened():raise ValueError('Cannot open video writer')
@@ -26,9 +45,7 @@ def render(source:Path,target:Path,timeline:Timeline,padding=12):
   while True:
    ok,frame=cap.read()
    if not ok:break
-   for box in by_frame.get(count,[]):
-    x1,y1,x2,y2=covered_bounds(box,width,height,padding)
-    frame[y1:y2,x1:x2]=0
+   apply_redactions(frame,by_frame.get(count,[]),padding)
    writer.write(frame);count+=1
  finally:writer.release();cap.release()
  if count!=frame_count:raise ValueError('Source decoding stopped early')

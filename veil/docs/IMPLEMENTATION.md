@@ -51,3 +51,13 @@ Next: additional synthetic scenes and short-exposure/negative controls, configur
 - [x] 25 tests pass in the build environment, including actual short-exposure and negative-control OCR checks.
 
 See VERIFIER_BENCHMARK.md for counts, cost, latency, reproduction and limitations. These are verifier-only comparisons on three composited clips; shorter/misaligned exposures, long benign identifiers, multiple moving objects and presence-aware short-lived-object repair remain open.
+
+
+## Optional face blur
+
+- [x] Explicit face-only blur in validated timeline, detect API and SDK; opaque default preserved.
+- [x] Mandatory opaque text/plate covers, including overlap and pixel-spread safeguards.
+- [x] Freshly render and audit optional face-blur variant with two real Meta requests (estimated $0.004672).
+- [x] Full 180-frame fixture-region/audio checks remain intact; 29 local tests pass in build environment.
+
+See REDACTION_STYLES.md. Geometry remains padded boxes; no contour-mask or anonymity guarantee is claimed.

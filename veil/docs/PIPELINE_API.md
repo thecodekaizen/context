@@ -75,3 +75,8 @@ The default verifier now retains three Spark samples while sampling local OCR ev
 If OCR fails or is unavailable and no known residual exists, status is `review_incomplete`, not a passing result. `check_status` and `checks_complete` expose the difference. Known residuals remain `residual_observed` even if OCR fails. Receipt `verification_scope` includes coverage/check statuses bound to the export hash/revision and is invalidated after repair. The SDK returns incomplete reviews for human handling; it does not certify them.
 
 See VERIFIER_BENCHMARK.md: fixed three-clip comparison found 4/5 category-events with the sparse baseline and 5/5 after local augmentation, with zero alarms on one clean clip. Six real requests, estimated $0.0142505; no additional cloud calls for the dense comparison. This is an anticipated sampling test, not general recall or end-to-end repair validation on those new scenes.
+
+
+## Explicit face style
+
+`POST /detect` now accepts optional `face_action: "cover" | "blur"`; opaque cover remains default. The option changes face tracks only. `VisualTrack.action` permits blur only for category `face`; plate and phone tracks reject it. SDK `protect` and `cloud_action(..., "detect")` expose the same option. Audit/repair requests reject non-default detection-only options. Repair of a residual remains conservative opaque covering. See REDACTION_STYLES.md and the separately audited `artifacts/face-blur-001/export.mp4`.

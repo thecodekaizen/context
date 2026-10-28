@@ -217,3 +217,10 @@ The standard: a judge should instantly see **what leaked, when it leaked, how VE
 ## Core contract addendum: denser independent OCR
 
 The default verifier now uses three Spark samples plus bounded local OCR at 250 ms cadence. `frames` may include OCR-only timestamps; preserve the `source` label. `coverage` and `independent_ocr.sample_times_ms` state the actual local scope, separate from Spark `sample_times_ms`. Status `review_incomplete` means an independent check failed or was unavailable; it is not a passing audit. Show `check_status`, `checks_complete` and excessive-masking warnings. Historical recorded results keep their historical three-frame scope. New three-clip verifier evidence is in `veil/docs/VERIFIER_BENCHMARK.md`; do not present it as general accuracy or end-to-end repair on new scenes.
+
+
+## Face-style option and new comparison asset
+
+Core now supports **optional face blur** while keeping opaque covers mandatory for plates/phone numbers and as the default for faces. Detect payload may include `face_action: "blur"`; reviewed face tracks may use `action: "blur"`. Text tracks reject blur. Read `veil/docs/REDACTION_STYLES.md` for the contract and limitations.
+
+Fresh variant: `veil/artifacts/face-blur-001/export.mp4`, `frame-2000.jpg`, `frame-7600.jpg`, `frame-16000.jpg`, and `receipt.json`. It has a fresh audit; do not reuse the opaque variant's receipt. You may add a clearly labeled optional face-blur choice/recorded comparison. Never label blur anonymous or leak-proof. Conservative padding remains unchanged; no polygon/contour rendering is claimed. Keep the opaque default and old evidence available. Frontend only requests the style; Python bakes the pixels.

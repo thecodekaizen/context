@@ -46,12 +46,12 @@ class VeilClient:
             temporary.unlink(missing_ok=True)
 
 
-    def cloud_action(self, job_id, action, *, seed_omit_phone=False):
+    def cloud_action(self, job_id, action, *, seed_omit_phone=False,face_action='cover'):
         if action not in ('detect','verify','repair'):
             raise ValueError('Unsupported cloud action')
         response=self.http.post(f'/v1/jobs/{job_id}/{action}',json={
             'allow_cloud_transfer':True,'media_is_synthetic_or_consented':True,
-            'seed_omit_phone':seed_omit_phone})
+            'seed_omit_phone':seed_omit_phone,'face_action':face_action})
         response.raise_for_status()
         return response.json()
 
@@ -61,14 +61,16 @@ class VeilClient:
         return response.json()
 
 
-    def protect(self, path, destination, *, allow_cloud_transfer, media_is_synthetic_or_consented, max_repairs=1):
+    def protect(self, path, destination, *, allow_cloud_transfer, media_is_synthetic_or_consented, max_repairs=1, face_action='cover'):
         """Real bounded workflow; residuals and utility warnings remain in returned evidence."""
         if allow_cloud_transfer is not True or media_is_synthetic_or_consented is not True:
             raise ValueError('Explicit cloud permission and synthetic/consented-media confirmation required')
+        if face_action not in ('cover','blur'):
+            raise ValueError('Face action must be cover or blur')
         if max_repairs not in (0,1,2):
             raise ValueError('Repair budget must be 0, 1 or 2')
         job=self.create_job(path)
-        self.cloud_action(job['id'],'detect')
+        self.cloud_action(job['id'],'detect',face_action=face_action)
         self.process(job['id'])
         job=self.cloud_action(job['id'],'verify')
         for _ in range(max_repairs):

@@ -1,0 +1,24 @@
+{
+  "video": "protected.mp4",
+  "decoded_video_frames": 180,
+  "expected_video_frames": 180,
+  "plate_full_rectangle_black_fraction_min": 0.5347826086956522,
+  "plate_visible_rectangle_black_fraction_min": 1.0,
+  "plate_visible_frames_below_99pct_cover": [],
+  "printed_digits_rectangle_black_fraction_min": 1.0,
+  "muted_speech_rms": 0.0,
+  "muted_speech_max_absolute_sample": 0.0,
+  "source_container_duration_s": 18.0,
+  "output_container_duration_s": 18.005,
+  "output_codecs": [
+    "h264",
+    "aac"
+  ],
+  "evaluation_only": true,
+  "limitations": [
+    "One composited synthetic fixture, not a real-camera benchmark.",
+    "Black-pixel coverage is a mask coverage check, not proof of unreadability or absence of other leaks.",
+    "Occluded plate region is excluded only in visible-region metric; full rectangle metric is retained.",
+    "Face source-panel bounds are not pixel-accurate facial ground truth."
+  ]
+}

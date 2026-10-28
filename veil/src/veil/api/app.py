@@ -14,6 +14,7 @@ class CloudRequest(StrictModel):
     allow_cloud_transfer: Literal[True]
     media_is_synthetic_or_consented: Literal[True]
     seed_omit_phone: bool = False
+    face_action: Literal['cover','blur'] = 'cover'
 
 
 def create_app(root: Path | None = None, pipeline=None):
@@ -87,10 +88,10 @@ def create_app(root: Path | None = None, pipeline=None):
         return cloud(job_id, 'repair', request)
 
     def cloud(job_id, action, request):
-        if request.seed_omit_phone and action != 'detect':
-            raise HTTPException(422, 'Seeded omission is only accepted during controlled detection tests')
+        if (request.seed_omit_phone or request.face_action!='cover') and action != 'detect':
+            raise HTTPException(422, 'Detection-only options cannot be supplied for audit or repair')
         try:
-            return store.cloud_action(job_id, action, seed_omit_phone=request.seed_omit_phone)
+            return store.cloud_action(job_id, action, seed_omit_phone=request.seed_omit_phone,face_action=request.face_action)
         except (Conflict, FileNotFoundError):
             raise
         except Exception as exc:

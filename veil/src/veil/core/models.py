@@ -17,8 +17,13 @@ class VisualTrack(StrictModel):
  id:str
  category:Literal['face','license_plate','phone_number']
  source:str
- action:Literal['cover']='cover'
+ action:Literal['cover','blur']='cover'
  regions:list[FrameRegion]
+ @model_validator(mode='after')
+ def safe_action(self):
+  if self.action=='blur' and self.category!='face':
+   raise ValueError('Sensitive text and plate tracks require an opaque cover')
+  return self
 class AudioInterval(StrictModel):
  start_ms:int=Field(ge=0)
  end_ms:int=Field(gt=0)

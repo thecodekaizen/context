@@ -107,6 +107,7 @@ class JobStore:
                 receipt = {'job_id': job_id, 'input_sha256': digest(directory / 'input.mp4'),
                            'output_sha256': digest(directory / 'export.mp4'),
                            'timeline_source': 'meta_detection' if automatic else 'client_supplied_reviewed_timeline',
+                           'redaction_actions':{track.id:track.action for track in timeline.visual_tracks},
                            'automatic_detection': job['detection'], 'privacy_verification': 'not_run',
                            'needs_human_review': True, 'zero_leaks_guaranteed': False,
                            'media_inspection': inspection, 'render_additional_api_cost_usd': 0}
@@ -125,7 +126,7 @@ class JobStore:
                 (directory / 'export.partial.mp4').unlink(missing_ok=True)
 
 
-    def cloud_action(self, job_id, action, *, seed_omit_phone=False):
+    def cloud_action(self, job_id, action, *, seed_omit_phone=False, face_action='cover'):
         if self.pipeline is None:
             raise Conflict('Meta pipeline is not configured')
         with self.lock(job_id):
@@ -145,8 +146,8 @@ class JobStore:
             self.write(root / 'job.json', job)
             try:
                 if action == 'detect':
-                    self.pipeline.detect(root, job['media'], seed_omit_phone=seed_omit_phone)
-                    job.update(status='detected', detection='completed', seeded_phone_omission=seed_omit_phone)
+                    self.pipeline.detect(root, job['media'], seed_omit_phone=seed_omit_phone,face_action=face_action)
+                    job.update(status='detected', detection='completed', seeded_phone_omission=seed_omit_phone,face_action=face_action)
                 elif action == 'verify':
                     report = self.pipeline.verify(root, job['media'], job['revision'])
                     job.update(status='rendered', verification=report['status'],
@@ -182,6 +183,11 @@ class JobStore:
                         }
                     elif action=='repair':
                         receipt['verification_scope']={'revision':job['revision'],'status':'not_run'}
+                        repair_path=root/'repair-timeline.json'
+                        if repair_path.exists():
+                            repair_timeline=Timeline.model_validate_json(repair_path.read_text())
+                            receipt.setdefault('repair_actions',[]).append({'revision':job['revision'],
+                                'tracks':{track.id:track.action for track in repair_timeline.visual_tracks}})
                     self.write(root/'receipt.json',receipt)
                 return job
             except Exception as exc:
