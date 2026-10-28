@@ -63,6 +63,7 @@ def main() -> int:
     joint.add_argument("reference_image", type=Path)
     joint.add_argument("learner_image", type=Path)
     joint.add_argument("--transition", required=True)
+    joint.add_argument("--relationship", choices=["all", "contact", "facing"], default="all")
     joint.add_argument("--output", type=Path)
 
     score = commands.add_parser(
@@ -78,7 +79,7 @@ def main() -> int:
         return _score_holoassist(args.annotation, args.observation, args.tolerance)
     if args.command == "inspect-joint":
         output = args.output or _default_output(args.learner_image, "joint-inspection")
-        return _inspect_joint(args.process, args.reference_image, args.learner_image, args.transition, output)
+        return _inspect_joint(args.process, args.reference_image, args.learner_image, args.transition, output, relationship_target=args.relationship)
     phase = {"learn-video": "learned", "observe-video": "observed"}.get(args.command, "prepared")
     output = args.output or _default_output(args.video, phase)
     if args.command == "inspect-frames":
@@ -221,14 +222,14 @@ if __name__ == "__main__":
     raise SystemExit(main())
 
 
-def _inspect_joint(process_path: Path, reference: Path, learner: Path, transition: str, output: Path) -> int:
+def _inspect_joint(process_path: Path, reference: Path, learner: Path, transition: str, output: Path, *, relationship_target: str = "all") -> int:
     """Preserve raw evidence and failures; never retry or overwrite an old run."""
     started = time.monotonic()
     created = False
     try:
         process = json.loads(process_path.read_text())
         validate_references(process)
-        prompt = inspection_prompt(process, transition)
+        prompt = inspection_prompt(process, transition, relationship_target=relationship_target)
         inputs = []
         for role, path in [("reference", reference), ("learner", learner)]:
             if not path.is_file() or path.suffix.lower() not in {".jpg", ".jpeg", ".png"}:
@@ -242,10 +243,10 @@ def _inspect_joint(process_path: Path, reference: Path, learner: Path, transitio
         result = MuseSparkClient.from_env().analyze_images([reference, learner], prompt=prompt,
             schema=inspection_schema(), schema_name="showme_joint_inspection")
         (output / "inspection-unvalidated.json").write_text(json.dumps(result, indent=2))
-        validate_inspection(result, process, transition)
+        validate_inspection(result, process, transition, relationship_target=relationship_target)
         from .focus import PROMPT_VERSION
         from .session import process_fingerprint
-        result.setdefault("_run", {}).update({"prompt_version": PROMPT_VERSION, "transition_id": transition,
+        result.setdefault("_run", {}).update({"prompt_version": PROMPT_VERSION, "transition_id": transition, "relationship_target": relationship_target,
             "process_sha256": process_fingerprint(process),
             "evidence_images": inputs, "elapsed_seconds": round(time.monotonic()-started, 2)})
         (output / "inspection.json").write_text(json.dumps(result, indent=2))

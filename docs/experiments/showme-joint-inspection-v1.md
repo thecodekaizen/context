@@ -40,3 +40,7 @@ Three approved comparisons have now run, all unclear due to hidden joint contact
 ## v2 additive response fields — October 28
 
 Each relation now also supplies `relationship` (`contact`, `facing`, `overall_arrangement`), `reference_visibility` and `learner_visibility` (`visible`, `occluded`, `ambiguous`). Matches/differences require visible evidence in both inputs; overall joint verdicts require a specific contact/facing comparison. Existing top-level status fields are unchanged. Version is `showme-joint-inspection-v2`. Previously saved v1 reports remain historical artifacts and do not satisfy the new validator automatically. See `results/showme-hands-off-stills-2026-10-28.md` for the live v1 failure that motivated this change.
+
+## v3 relationship target
+
+Optional multipart `relationship_target` on `/api/skills/inspect-joint` is `all` (default), `contact`, or `facing`. CLI equivalent: `--relationship facing`. A selected facing question must not demand hidden contact proof or return contact rows. Guidance validates that the report stays within its recorded target. The target describes what to inspect, never which outcome to return. This is a narrower assessment scope, not a proven perception improvement. See the v2 run report for the observed all-unclear outcome that motivated separating these questions.

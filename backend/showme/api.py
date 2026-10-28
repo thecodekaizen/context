@@ -265,6 +265,7 @@ def inspect_selected_joint(
     learner_image: Annotated[UploadFile, File(description="Explicitly selected learner frame")],
     process_json: Annotated[str, Form(max_length=100_000)],
     transition_id: Annotated[str, Form(max_length=100)],
+    relationship_target: Annotated[str, Form(max_length=20)] = "all",
 ) -> dict:
     """Paid comparison only when explicitly requested; cannot establish recovery."""
     try:
@@ -284,7 +285,7 @@ def inspect_selected_joint(
                 if _copy_bounded(upload, path, max_bytes=MAX_SNAPSHOT_BYTES) == 0:
                     raise ValueError("evidence image is empty")
                 paths.append(path)
-            result = inspect_joint(MuseSparkClient.from_env(), paths[0], paths[1], process, transition_id)
+            result = inspect_joint(MuseSparkClient.from_env(), paths[0], paths[1], process, transition_id, relationship_target=relationship_target)
             return {"inspection": result, "status": result["assessment"]}
     except (OSError, ValueError, RuntimeError) as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc

@@ -103,3 +103,18 @@ class JointInspectionTests(unittest.TestCase):
         self.result['relations'][0]['reference_visibility'] = 'ambiguous'
         with self.assertRaisesRegex(ValueError, 'occluded or ambiguous'):
             validate_inspection(self.result, VALID_PROCESS, self.tid)
+
+    def test_targeted_facing_does_not_request_hidden_contact(self):
+        prompt = inspection_prompt(VALID_PROCESS, self.tid, relationship_target='facing')
+        self.assertIn('Inspect only the facing relationship', prompt)
+        self.assertIn('not a statement of its correct or incorrect value', prompt)
+        self.result['relations'][0]['relationship'] = 'facing'
+        validate_inspection(self.result, VALID_PROCESS, self.tid, relationship_target='facing')
+
+    def test_unrequested_relationship_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'unrequested'):
+            validate_inspection(self.result, VALID_PROCESS, self.tid, relationship_target='facing')
+
+    def test_invalid_target_rejected_before_prompt(self):
+        with self.assertRaises(ValueError):
+            inspection_prompt(VALID_PROCESS, self.tid, relationship_target='wrong-wing')

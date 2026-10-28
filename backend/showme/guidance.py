@@ -19,7 +19,7 @@ def build_guidance(process: dict[str, Any], report: dict[str, Any], report_kind:
     if transition is None:
         raise ValueError("report refers to an undeclared transition")
     if report_kind == "joint-inspection":
-        validate_inspection(report, process, transition_id)
+        validate_inspection(report, process, transition_id, relationship_target=run.get("relationship_target", "all"))
         status = report["assessment"]
         if status == "matches":
             decision, message = "continue_observing", "The reported joint relationships match. Other parts and later changes remain unchecked."
