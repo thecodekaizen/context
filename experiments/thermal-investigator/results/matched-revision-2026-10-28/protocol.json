@@ -1,0 +1,209 @@
+{
+  "version": "matched-revision-v1",
+  "seeds": [
+    701,
+    733,
+    769,
+    809,
+    853,
+    887
+  ],
+  "worlds": [
+    "coupled",
+    "sensor-delay",
+    "nonlinear-loss-stress"
+  ],
+  "action_budget": 5,
+  "experiment_seconds": 600,
+  "reset_charge_seconds": 1500,
+  "meta_calls": 0,
+  "methods": [
+    "frozen_initial",
+    "batch_all_families_five_trials",
+    "mismatch_revision_four_then_confirm"
+  ],
+  "primary_endpoint": "raw held-out mean per-sensor RMSE at matched five-action budget",
+  "secondary": "confirmation support/rejection versus sealed failure; no discarded scores",
+  "target_c": 0.3,
+  "initial_family_selection": "whole-trial CV across both supplied families for every method",
+  "probe": {
+    "id": "sustained",
+    "segments": [
+      {
+        "seconds": 120.0,
+        "q1_percent": 60,
+        "q2_percent": 60
+      }
+    ]
+  },
+  "confirmation": {
+    "id": "revision-confirmation",
+    "segments": [
+      {
+        "seconds": 20.0,
+        "q1_percent": 40,
+        "q2_percent": 5
+      },
+      {
+        "seconds": 20.0,
+        "q1_percent": 5,
+        "q2_percent": 60
+      },
+      {
+        "seconds": 20.0,
+        "q1_percent": 55,
+        "q2_percent": 25
+      },
+      {
+        "seconds": 20.0,
+        "q1_percent": 0,
+        "q2_percent": 0
+      },
+      {
+        "seconds": 20.0,
+        "q1_percent": 25,
+        "q2_percent": 45
+      },
+      {
+        "seconds": 20.0,
+        "q1_percent": 10,
+        "q2_percent": 10
+      }
+    ]
+  },
+  "sealed_inputs": [
+    {
+      "id": "sealed-ramp",
+      "segments": [
+        {
+          "seconds": 20.0,
+          "q1_percent": 5,
+          "q2_percent": 15
+        },
+        {
+          "seconds": 20.0,
+          "q1_percent": 15,
+          "q2_percent": 25
+        },
+        {
+          "seconds": 20.0,
+          "q1_percent": 25,
+          "q2_percent": 35
+        },
+        {
+          "seconds": 20.0,
+          "q1_percent": 35,
+          "q2_percent": 45
+        },
+        {
+          "seconds": 20.0,
+          "q1_percent": 45,
+          "q2_percent": 55
+        },
+        {
+          "seconds": 20.0,
+          "q1_percent": 55,
+          "q2_percent": 65
+        }
+      ]
+    },
+    {
+      "id": "sealed-asymmetric",
+      "segments": [
+        {
+          "seconds": 20.0,
+          "q1_percent": 65,
+          "q2_percent": 10
+        },
+        {
+          "seconds": 20.0,
+          "q1_percent": 0,
+          "q2_percent": 30
+        },
+        {
+          "seconds": 20.0,
+          "q1_percent": 40,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 20.0,
+          "q1_percent": 10,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 20.0,
+          "q1_percent": 0,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 20.0,
+          "q1_percent": 30,
+          "q2_percent": 15
+        }
+      ]
+    },
+    {
+      "id": "sealed-bursts",
+      "segments": [
+        {
+          "seconds": 20.0,
+          "q1_percent": 65,
+          "q2_percent": 65
+        },
+        {
+          "seconds": 20.0,
+          "q1_percent": 0,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 20.0,
+          "q1_percent": 65,
+          "q2_percent": 65
+        },
+        {
+          "seconds": 20.0,
+          "q1_percent": 0,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 20.0,
+          "q1_percent": 20,
+          "q2_percent": 50
+        },
+        {
+          "seconds": 20.0,
+          "q1_percent": 0,
+          "q2_percent": 0
+        }
+      ]
+    }
+  ],
+  "source_sha256": {
+    "predictor.py": "023c29087a99485a8332dae4b4c8f4ef470a6370788c90abce2390af2f75c6da",
+    "adequacy.py": "c2e95f82cfd69e728e500795d41bda0be3020669e55d57b6f6c663313b924d8a",
+    "adequacy_check.py": "e97da88041b510b4c4f5784accce930bbb80bf007d578a8058c265335a631399",
+    "pilot.py": "66a15427959414babdaf96fa6c39cb4a009f1bd258c357cccf3487be940f2c45",
+    "run.py": "ab958836540e2785e962c4527f2e1269e47b3ac9b09bcc1b4e9e066f16d46f97",
+    "revision_check.py": "bd1998a292838cc113fbdeffe53e84707c0e83c22fb7136f79d00545a392e42e",
+    "decisions.py": "de70ad3ccc2b6d3dd96ee1ef6caf8c793e7777ca506f1286bbfa9c3406007d87",
+    "design.py": "fc2e6964d7ae939af82282a46cef1169d9e3b1eb8ae012d641cf1edfba8f9607",
+    "__init__.py": "a718642bf14f3582ef1386a22c4ba0edabaaefc7f3903e237cbc948b7a9ed429",
+    "review.py": "43b89864013ab04c0c27620ae1fa15b6e8a5cae10cdd983802b78b4e3cbc2b09",
+    "contracts.py": "e32c44ce72cb0b4d818c31b901ea0fae83d8de956a982e8761377e0c4dbc4c9b",
+    "investigation.py": "76bb8aa8d00e393cb63608614af5ca41e30530a237f8540da1180313698cfb9f",
+    "investigation_demo.py": "4641d0a911f4e86d4dd0debdfe2af99bac9d8f6f8c8c93cab0c2ca2b4c189b36",
+    "physical.py": "bd7ba38b300c54e44694093f2e81593486c0ba115ffe5e9cc653cb3a474cb1e1",
+    "physical_check.py": "3b7f5cd9a46346ba5396132ba0cf7e032177dfd6ef3d93ae67c56d1ed3c5c8b6",
+    "lab.py": "7d4855f0fbd2226922ea08dec11d243f1a9b60a6f220b0e4f3138c183457980f",
+    "meta.py": "a94d91862e28d45df02a48dfc29743e64b8056c370c825d4ff02d609f7efac1b",
+    "validation.py": "40af64b949211e212b75a02ebba83482dc2cc5d2c7fe22c3bd70b1c5c20e5e38"
+  },
+  "limitations": [
+    "simulation only",
+    "same-process numerical evaluator",
+    "six instances per world",
+    "fixed shared collection policy",
+    "human-authored revision policy",
+    "not Meta comparison"
+  ]
+}
