@@ -28,3 +28,13 @@ PYTHONPATH=src .venv/bin/python scripts/evaluate_plate_dataset.py run --root art
 ## Next dataset gates
 
 Add consent-cleared face video and labeled plate sequences; retain source terms, hashes and frozen selection. Measure boundary frames, occlusion, temporal coverage and collateral masking. Keep still-image scores separate from video scores. Avoid claiming a dataset was tested until results exist.
+
+## Observed first run: plate-dataset-001
+
+Frozen fixture commit: `708cb5d`. Four actual Spark requests completed, no retries, estimated $0.01462575; summed model latency approximately 16.78 seconds.
+
+All six source images produced a plate finding. With the diagnostic harness's deliberately tight 4-pixel padding, only 2/6 entire plate-crop rectangles were covered. Per-sample coverage: 100%, 55.56%, 38.89%, 88.08%, 100%, 38.89%. Fresh output review flagged partial plate exposures in the other four images. This is a failed tight-localization experiment, not production pipeline accuracy: production also has SAM tracking and uses different padding. Whole-crop coverage includes plate borders and is stricter than digit-only coverage.
+
+The harness intentionally isolates Spark localization and does not invoke the video pipeline, SAM, audio or repair. These scores must not be presented as end-to-end video results. Next engineering task: refine proposals using independent geometric/text evidence, evaluate tight masks against measured coverage and preserved image area, then run temporal tests. Do not just grow every mask to the entire frame.
+
+Evidence: `artifacts/plate-dataset-001/results.json`, call ledger, raw observations, source/redacted images and mask rasters. Dataset credit: Mariia Shpir, Nadiya Shvai, Amir Nakib; Synthetic Ukrainian license plate dataset, 2024; https://doi.org/10.5281/zenodo.13342103; CC BY 4.0. No full dataset archive is committed.

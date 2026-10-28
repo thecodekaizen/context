@@ -1,0 +1,48 @@
+{
+  "samples": [
+    {
+      "sample": 0,
+      "plate_pixel_coverage": 1.0,
+      "unnecessary_mask_fraction_of_frame": 0.01140625,
+      "masked_frame_fraction": 0.07171875
+    },
+    {
+      "sample": 1,
+      "plate_pixel_coverage": 0.5555555555555556,
+      "unnecessary_mask_fraction_of_frame": 0.022157118055555557,
+      "masked_frame_fraction": 0.04103732638888889
+    },
+    {
+      "sample": 2,
+      "plate_pixel_coverage": 0.3888888888888889,
+      "unnecessary_mask_fraction_of_frame": 0.015789930555555557,
+      "masked_frame_fraction": 0.02162326388888889
+    },
+    {
+      "sample": 3,
+      "plate_pixel_coverage": 0.8808290155440415,
+      "unnecessary_mask_fraction_of_frame": 0.006879340277777778,
+      "masked_frame_fraction": 0.060004340277777776
+    },
+    {
+      "sample": 4,
+      "plate_pixel_coverage": 1.0,
+      "unnecessary_mask_fraction_of_frame": 0.009461805555555555,
+      "masked_frame_fraction": 0.043446180555555554
+    },
+    {
+      "sample": 5,
+      "plate_pixel_coverage": 0.3888888888888889,
+      "unnecessary_mask_fraction_of_frame": 0.015789930555555557,
+      "masked_frame_fraction": 0.02162326388888889
+    }
+  ],
+  "fully_covered": 2,
+  "sample_size": 6,
+  "estimated_usd": 0.01462575,
+  "limitations": [
+    "six synthetic still-image composites, no natural video/temporal recall",
+    "same-model review can share detection errors",
+    "no tuning or retries on this sample"
+  ]
+}

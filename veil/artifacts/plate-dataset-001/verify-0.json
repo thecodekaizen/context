@@ -1,0 +1,41 @@
+{
+  "coordinate_space": "source_pixels",
+  "frames": [
+    {
+      "time_ms": 0,
+      "exposures": []
+    },
+    {
+      "time_ms": 1000,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            337.92,
+            180.0,
+            456.32,
+            204.48
+          ],
+          "reason": "partial plate characters still visible above opaque cover",
+          "text": "3074 CA"
+        }
+      ]
+    },
+    {
+      "time_ms": 2000,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            245.12,
+            126.0,
+            318.72,
+            151.92
+          ],
+          "reason": "plate characters still visible above opaque cover",
+          "text": "AO 3239 TC"
+        }
+      ]
+    }
+  ]
+}

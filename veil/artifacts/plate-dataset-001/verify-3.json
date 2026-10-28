@@ -1,0 +1,41 @@
+{
+  "coordinate_space": "source_pixels",
+  "frames": [
+    {
+      "time_ms": 3000,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            442.88,
+            88.92,
+            466.56,
+            162.0
+          ],
+          "reason": "partial plate characters visible beyond opaque cover edge",
+          "text": null
+        }
+      ]
+    },
+    {
+      "time_ms": 4000,
+      "exposures": []
+    },
+    {
+      "time_ms": 5000,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            428.8,
+            208.08,
+            532.48,
+            235.08
+          ],
+          "reason": "partial plate identifier visible above opaque cover",
+          "text": "CA 4872 EK"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "coordinate_space": "source_pixels",
+  "frames": [
+    {
+      "time_ms": 3000,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            299.52,
+            91.08,
+            465.92,
+            162.0
+          ],
+          "reason": "vehicle plate identifier clearly legible",
+          "text": "AX 7860 HT"
+        }
+      ]
+    },
+    {
+      "time_ms": 4000,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            99.84,
+            219.96,
+            244.48,
+            275.04
+          ],
+          "reason": "vehicle plate identifier clearly legible",
+          "text": "BH 3934 0I"
+        }
+      ]
+    },
+    {
+      "time_ms": 5000,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            429.44,
+            236.88,
+            526.08,
+            274.32
+          ],
+          "reason": "vehicle plate identifier clearly legible",
+          "text": "CA 4832 EK"
+        }
+      ]
+    }
+  ]
+}

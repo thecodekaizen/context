@@ -1,0 +1,53 @@
+{
+  "coordinate_space": "source_pixels",
+  "frames": [
+    {
+      "time_ms": 0,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            78.72,
+            119.88,
+            273.92,
+            191.16
+          ],
+          "reason": "clearly visible vehicle license plate",
+          "text": "AA 0047 OT"
+        }
+      ]
+    },
+    {
+      "time_ms": 1000,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            339.2,
+            208.08,
+            485.76,
+            261.0
+          ],
+          "reason": "clearly visible vehicle license plate",
+          "text": "AE 7831 CA"
+        }
+      ]
+    },
+    {
+      "time_ms": 2000,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            219.52,
+            126.0,
+            316.8,
+            164.88
+          ],
+          "reason": "clearly visible vehicle license plate",
+          "text": "AO 3239 TC"
+        }
+      ]
+    }
+  ]
+}

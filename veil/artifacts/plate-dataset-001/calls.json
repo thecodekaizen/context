@@ -1,0 +1,90 @@
+[
+  {
+    "name": "detect-0",
+    "model": "muse-spark-1.3",
+    "endpoint": "/v1/responses",
+    "status": "completed",
+    "cloud_transfer": "3 decoded source frames; no ground truth or prior findings",
+    "started_unix_s": 1793192611.2893271,
+    "latency_s": 4.519839459040668,
+    "usage": {
+      "input_tokens": 1050,
+      "input_tokens_details": {
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      },
+      "output_tokens": 514,
+      "output_tokens_details": {
+        "reasoning_tokens": 323
+      },
+      "total_tokens": 1564
+    },
+    "estimated_usd": 0.003497
+  },
+  {
+    "name": "verify-0",
+    "model": "muse-spark-1.3",
+    "endpoint": "/v1/responses",
+    "status": "completed",
+    "cloud_transfer": "3 decoded export frames; no ground truth or prior findings",
+    "started_unix_s": 1793192615.8153028,
+    "latency_s": 4.913878666993696,
+    "usage": {
+      "input_tokens": 1061,
+      "input_tokens_details": {
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      },
+      "output_tokens": 639,
+      "output_tokens_details": {
+        "reasoning_tokens": 489
+      },
+      "total_tokens": 1700
+    },
+    "estimated_usd": 0.004042
+  },
+  {
+    "name": "detect-3",
+    "model": "muse-spark-1.3",
+    "endpoint": "/v1/responses",
+    "status": "completed",
+    "cloud_transfer": "3 decoded source frames; no ground truth or prior findings",
+    "started_unix_s": 1793192620.729856,
+    "latency_s": 2.1220817079884,
+    "usage": {
+      "input_tokens": 1051,
+      "input_tokens_details": {
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      },
+      "output_tokens": 408,
+      "output_tokens_details": {
+        "reasoning_tokens": 214
+      },
+      "total_tokens": 1459
+    },
+    "estimated_usd": 0.00304775
+  },
+  {
+    "name": "verify-3",
+    "model": "muse-spark-1.3",
+    "endpoint": "/v1/responses",
+    "status": "completed",
+    "cloud_transfer": "3 decoded export frames; no ground truth or prior findings",
+    "started_unix_s": 1793192622.8615942,
+    "latency_s": 5.223515834019054,
+    "usage": {
+      "input_tokens": 1062,
+      "input_tokens_details": {
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      },
+      "output_tokens": 638,
+      "output_tokens_details": {
+        "reasoning_tokens": 490
+      },
+      "total_tokens": 1700
+    },
+    "estimated_usd": 0.004039
+  }
+]
