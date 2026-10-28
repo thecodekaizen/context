@@ -1,0 +1,70 @@
+{
+  "revision": 1,
+  "frames": [
+    {
+      "time_ms": 2000,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            693.12,
+            221.4,
+            768.96,
+            258.66
+          ],
+          "reason": "partial plate characters '146' still visible to the right of opaque cover",
+          "text": "146"
+        }
+      ]
+    },
+    {
+      "time_ms": 7600,
+      "exposures": []
+    },
+    {
+      "time_ms": 16000,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            693.12,
+            221.4,
+            768.96,
+            258.66
+          ],
+          "reason": "partial plate characters '146' still visible to the right of opaque cover",
+          "text": "146"
+        }
+      ]
+    }
+  ],
+  "spoken_phone_intervals": [],
+  "transcript": "",
+  "status": "residual_observed",
+  "sample_times_ms": [
+    2000,
+    7600,
+    16000
+  ],
+  "needs_human_review": true,
+  "limitations": [
+    "3 sampled output frames; short exposures can be missed",
+    "same model family may share perception errors",
+    "speech recognition may miss or misread numbers",
+    "not a zero-leak guarantee"
+  ],
+  "independent_ocr": {
+    "status": "completed",
+    "sample_times_ms": [
+      2000,
+      7600,
+      16000
+    ],
+    "findings": [],
+    "limitations": [
+      "phone-like patterns only; false positives possible",
+      "sampled frames only",
+      "macOS-specific local adapter"
+    ]
+  }
+}

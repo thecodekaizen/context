@@ -22,7 +22,7 @@ class VeilClient:
         response.raise_for_status()
         return response.json()
 
-    def process(self, job_id, timeline):
+    def process(self, job_id, timeline=None):
         response = self.http.post(f'/v1/jobs/{job_id}/redact', json=timeline)
         response.raise_for_status()
         return response.json()
@@ -44,3 +44,36 @@ class VeilClient:
             temporary.replace(target)
         finally:
             temporary.unlink(missing_ok=True)
+
+
+    def cloud_action(self, job_id, action, *, seed_omit_phone=False):
+        if action not in ('detect','verify','repair'):
+            raise ValueError('Unsupported cloud action')
+        response=self.http.post(f'/v1/jobs/{job_id}/{action}',json={
+            'allow_cloud_transfer':True,'media_is_synthetic_or_consented':True,
+            'seed_omit_phone':seed_omit_phone})
+        response.raise_for_status()
+        return response.json()
+
+    def verification(self, job_id):
+        response=self.http.get(f'/v1/jobs/{job_id}/verification')
+        response.raise_for_status()
+        return response.json()
+
+
+    def protect(self, path, destination, *, allow_cloud_transfer, media_is_synthetic_or_consented, max_repairs=1):
+        """Real bounded workflow; residuals and utility warnings remain in returned evidence."""
+        if allow_cloud_transfer is not True or media_is_synthetic_or_consented is not True:
+            raise ValueError('Explicit cloud permission and synthetic/consented-media confirmation required')
+        if max_repairs not in (0,1,2):
+            raise ValueError('Repair budget must be 0, 1 or 2')
+        job=self.create_job(path)
+        self.cloud_action(job['id'],'detect')
+        self.process(job['id'])
+        job=self.cloud_action(job['id'],'verify')
+        for _ in range(max_repairs):
+            if job['verification']!='residual_observed':break
+            self.cloud_action(job['id'],'repair')
+            job=self.cloud_action(job['id'],'verify')
+        self.download(job['id'],destination)
+        return {'job':job,'verification':self.verification(job['id']),'receipt':self.receipt(job['id'])}

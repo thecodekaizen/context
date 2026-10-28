@@ -1,0 +1,47 @@
+{
+  "revision": 1,
+  "frames": [
+    {
+      "time_ms": 2000,
+      "exposures": []
+    },
+    {
+      "time_ms": 7600,
+      "exposures": []
+    },
+    {
+      "time_ms": 16000,
+      "exposures": []
+    }
+  ],
+  "spoken_phone_intervals": [],
+  "transcript": "",
+  "status": "no_exposure_observed_in_samples",
+  "sample_times_ms": [
+    2000,
+    7600,
+    16000
+  ],
+  "needs_human_review": true,
+  "limitations": [
+    "3 sampled output frames; short exposures can be missed",
+    "same model family may share perception errors",
+    "speech recognition may miss or misread numbers",
+    "not a zero-leak guarantee"
+  ],
+  "independent_ocr": {
+    "status": "completed",
+    "sample_times_ms": [
+      2000,
+      7600,
+      16000
+    ],
+    "findings": [],
+    "limitations": [
+      "phone-like patterns only; false positives possible",
+      "sampled frames only",
+      "macOS-specific local adapter"
+    ]
+  },
+  "export_sha256": "7f2bf0291f229beb75842c9f6a0e4554132490cfc7d004477411c9006a7b5233"
+}

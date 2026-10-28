@@ -1,0 +1,160 @@
+[
+  {
+    "name": "source-observations",
+    "model": "muse-spark-1.3",
+    "endpoint": "/v1/responses",
+    "status": "completed",
+    "cloud_transfer": "3 decoded source frames; no ground truth or prior findings",
+    "started_unix_s": 1793187130.238949,
+    "latency_s": 6.9153373329900205,
+    "usage": {
+      "input_tokens": 2092,
+      "input_tokens_details": {
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      },
+      "output_tokens": 1065,
+      "output_tokens_details": {
+        "reasoning_tokens": 628
+      },
+      "total_tokens": 3157
+    },
+    "estimated_usd": 0.00714125
+  },
+  {
+    "name": "face-tracking",
+    "model": "sam-3.1",
+    "endpoint": "/v1/responses",
+    "status": "completed",
+    "cloud_transfer": "Authorized job MP4 referenced by file ID",
+    "started_unix_s": 1793187140.175928,
+    "latency_s": 14.574579290987458,
+    "regions": 180,
+    "masks_decoded": 180,
+    "estimated_usd": 0.036000000000000004,
+    "cost_basis": "180 submitted video frames at published rate, provisional until provider usage available"
+  },
+  {
+    "name": "plate-tracking",
+    "model": "sam-3.1",
+    "endpoint": "/v1/responses",
+    "status": "completed",
+    "cloud_transfer": "Authorized job MP4 referenced by file ID",
+    "started_unix_s": 1793187154.751148,
+    "latency_s": 16.692722750012763,
+    "regions": 173,
+    "masks_decoded": 173,
+    "estimated_usd": 0.036000000000000004,
+    "cost_basis": "180 submitted video frames at published rate, provisional until provider usage available"
+  },
+  {
+    "name": "source-transcription",
+    "model": "muse-voice-transcribe-1.0",
+    "endpoint": "/v1/asr/transcribe",
+    "status": "completed",
+    "cloud_transfer": "Mono 24 kHz PCM audio extracted from authorized job media",
+    "started_unix_s": 1793187176.2885609,
+    "latency_s": 4.400918083963916,
+    "estimated_usd": 0.0009,
+    "audio_seconds": 18.005333333333333
+  },
+  {
+    "name": "audit-0",
+    "model": "muse-spark-1.3",
+    "endpoint": "/v1/responses",
+    "status": "completed",
+    "cloud_transfer": "3 decoded export frames; no ground truth or prior findings",
+    "started_unix_s": 1793187181.08671,
+    "latency_s": 6.149580583034549,
+    "usage": {
+      "input_tokens": 2103,
+      "input_tokens_details": {
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      },
+      "output_tokens": 929,
+      "output_tokens_details": {
+        "reasoning_tokens": 514
+      },
+      "total_tokens": 3032
+    },
+    "estimated_usd": 0.006577
+  },
+  {
+    "name": "audit-0-voice",
+    "model": "muse-voice-transcribe-1.0",
+    "endpoint": "/v1/asr/transcribe",
+    "status": "completed",
+    "cloud_transfer": "Mono 24 kHz PCM audio extracted from authorized job media",
+    "started_unix_s": 1793187187.2900212,
+    "latency_s": 4.1021807080251165,
+    "estimated_usd": 0.0009,
+    "audio_seconds": 18.005333333333333
+  },
+  {
+    "name": "audit-1",
+    "model": "muse-spark-1.3",
+    "endpoint": "/v1/responses",
+    "status": "completed",
+    "cloud_transfer": "3 decoded export frames; no ground truth or prior findings",
+    "started_unix_s": 1793187192.349737,
+    "latency_s": 6.594041083008051,
+    "usage": {
+      "input_tokens": 2103,
+      "input_tokens_details": {
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      },
+      "output_tokens": 646,
+      "output_tokens_details": {
+        "reasoning_tokens": 488
+      },
+      "total_tokens": 2749
+    },
+    "estimated_usd": 0.00537425
+  },
+  {
+    "name": "audit-1-voice",
+    "model": "muse-voice-transcribe-1.0",
+    "endpoint": "/v1/asr/transcribe",
+    "status": "completed",
+    "cloud_transfer": "Mono 24 kHz PCM audio extracted from authorized job media",
+    "started_unix_s": 1793187198.997047,
+    "latency_s": 4.059550582955126,
+    "estimated_usd": 0.0009,
+    "audio_seconds": 18.005333333333333
+  },
+  {
+    "name": "audit-2",
+    "model": "muse-spark-1.3",
+    "endpoint": "/v1/responses",
+    "status": "completed",
+    "cloud_transfer": "3 decoded export frames; no ground truth or prior findings",
+    "started_unix_s": 1793187467.155849,
+    "latency_s": 2.865234708006028,
+    "usage": {
+      "input_tokens": 2103,
+      "input_tokens_details": {
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      },
+      "output_tokens": 298,
+      "output_tokens_details": {
+        "reasoning_tokens": 232
+      },
+      "total_tokens": 2401
+    },
+    "estimated_usd": 0.00389525
+  },
+  {
+    "name": "audit-2-voice",
+    "model": "muse-voice-transcribe-1.0",
+    "endpoint": "/v1/asr/transcribe",
+    "status": "completed",
+    "cloud_transfer": "Mono 24 kHz PCM audio extracted from authorized job media",
+    "started_unix_s": 1793187470.070955,
+    "latency_s": 5.438487667008303,
+    "estimated_usd": 0.0009,
+    "audio_seconds": 18.005333333333333
+  }
+]

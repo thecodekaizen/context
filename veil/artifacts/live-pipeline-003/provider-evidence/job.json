@@ -1,0 +1,17 @@
+{
+  "id": "8c9e64759265489cb9a7f79c8c40dc8a",
+  "status": "rendered",
+  "media": {
+    "width": 960,
+    "height": 540,
+    "fps": 10.0,
+    "duration_ms": 18000,
+    "has_audio": true,
+    "container_duration_s": 18.0
+  },
+  "detection": "completed",
+  "verification": "no_exposure_observed_in_samples",
+  "needs_human_review": true,
+  "seeded_phone_omission": true,
+  "revision": 1
+}

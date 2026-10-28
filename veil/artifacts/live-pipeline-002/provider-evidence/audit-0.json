@@ -1,0 +1,108 @@
+{
+  "coordinate_space": "source_pixels",
+  "frames": [
+    {
+      "time_ms": 2000,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            582.72,
+            218.7,
+            675.84,
+            272.7
+          ],
+          "reason": "partial plate text 'TEST' still visible beside opaque cover",
+          "text": "TEST"
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            718.08,
+            218.7,
+            770.88,
+            272.7
+          ],
+          "reason": "partial plate text '146' still visible beside opaque cover",
+          "text": "146"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            61.44,
+            410.94,
+            458.88,
+            489.78
+          ],
+          "reason": "full demo contact number still visible",
+          "text": "202-555-0146"
+        }
+      ]
+    },
+    {
+      "time_ms": 7600,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            582.72,
+            218.7,
+            675.84,
+            272.7
+          ],
+          "reason": "partial plate text 'TEST' still visible beside opaque cover",
+          "text": "TEST"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            61.44,
+            410.94,
+            458.88,
+            489.78
+          ],
+          "reason": "full demo contact number still visible",
+          "text": "202-555-0146"
+        }
+      ]
+    },
+    {
+      "time_ms": 16000,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            582.72,
+            218.7,
+            675.84,
+            272.7
+          ],
+          "reason": "partial plate text 'TEST' still visible beside opaque cover",
+          "text": "TEST"
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            718.08,
+            218.7,
+            770.88,
+            272.7
+          ],
+          "reason": "partial plate text '146' still visible beside opaque cover",
+          "text": "146"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            61.44,
+            410.94,
+            458.88,
+            489.78
+          ],
+          "reason": "full demo contact number still visible",
+          "text": "202-555-0146"
+        }
+      ]
+    }
+  ]
+}

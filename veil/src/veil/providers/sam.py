@@ -12,10 +12,10 @@ async def _parse(events,video):
   finally:events.close()
  return await parse_responses_stream(source(),video_segmentation_format() if video else image_segmentation_format()).final_result()
 
-def segment(client,ledger,root,name,concept,*,image=None,file_id=None):
+def segment(client,ledger,root,name,concept,*,image=None,file_id=None,frame_count=180):
  video=file_id is not None
  media={'type':'input_video','file_id':file_id} if video else {'type':'input_image','image_url':'data:image/jpeg;base64,'+base64.b64encode(Path(image).read_bytes()).decode()}
- start=ledger.begin(name,'sam-3.1','/v1/responses', 'Uploaded synthetic MP4 referenced by file ID' if video else 'One synthetic JPEG frame')
+ start=ledger.begin(name,'sam-3.1','/v1/responses', 'Authorized job MP4 referenced by file ID' if video else 'Authorized JPEG frame')
  try:
   events=client.responses.create(model='sam-3.1',input=[{'type':'message','role':'user','content':[{'type':'input_text','text':concept},media]}],stream=True,metadata={'mask_encoding':'one_bit'})
   result=asyncio.run(_parse(events,video))
@@ -33,8 +33,8 @@ def segment(client,ledger,root,name,concept,*,image=None,file_id=None):
   mask_count=sum(r.kind=='mask' for r in result.records)
   save(root/f'{name}.json',{'concept':concept,'video':video,'regions':rows,'masks_decoded':mask_count,
        'diagnostics':[d.code for d in result.diagnostics]})
-  estimated=.0002*max(50,180) if video else .0025
+  estimated=.0002*max(50,frame_count) if video else .0025
   ledger.finish(name,start,regions=len(rows),masks_decoded=mask_count,estimated_usd=estimated,
-                cost_basis='180 input video frames at published rate, provisional until provider usage available' if video else 'published per-image rate')
+                cost_basis=f'{frame_count} submitted video frames at published rate, provisional until provider usage available' if video else 'published per-image rate')
   return rows
  except Exception as exc:ledger.fail(name,start,exc);raise

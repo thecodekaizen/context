@@ -1,0 +1,24 @@
+{
+  "job": {
+    "id": "03ae20753ebd4cbf9b581c2b653d5f62",
+    "status": "failed",
+    "media": {
+      "width": 960,
+      "height": 540,
+      "fps": 10.0,
+      "duration_ms": 18000,
+      "has_audio": true,
+      "container_duration_s": 18.0
+    },
+    "detection": "completed",
+    "verification": "not_run",
+    "needs_human_review": true,
+    "seeded_phone_omission": true,
+    "revision": 0,
+    "failed_action": "verify",
+    "error_type": "ValueError"
+  },
+  "calls": 5,
+  "estimated_usd": 0.08396775000000001,
+  "billing_reconciled": false
+}

@@ -12,3 +12,6 @@ test = ["pytest>=8,<10"]
 where = ["src"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
+
+[tool.setuptools.package-data]
+"veil.verification" = ["*.swift"]

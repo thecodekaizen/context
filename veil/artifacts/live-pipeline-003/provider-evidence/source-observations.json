@@ -1,0 +1,119 @@
+{
+  "coordinate_space": "source_pixels",
+  "frames": [
+    {
+      "time_ms": 2000,
+      "exposures": [
+        {
+          "category": "face",
+          "box": [
+            143.04,
+            71.28,
+            261.12,
+            257.04
+          ],
+          "reason": "fully visible human face in portrait on left",
+          "text": null
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            587.52,
+            216.0,
+            817.92,
+            275.4
+          ],
+          "reason": "fully visible vehicle plate identifier TEST 0146 on car graphic",
+          "text": "TEST 0146"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            71.04,
+            444.96,
+            336.96,
+            477.36
+          ],
+          "reason": "fully visible demo contact phone number",
+          "text": "202-555-0146"
+        }
+      ]
+    },
+    {
+      "time_ms": 7600,
+      "exposures": [
+        {
+          "category": "face",
+          "box": [
+            138.24,
+            75.6,
+            208.32,
+            257.58
+          ],
+          "reason": "left half of human face still visible, right half covered",
+          "text": null
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            587.52,
+            216.0,
+            695.04,
+            274.32
+          ],
+          "reason": "partially visible plate showing TEST, remainder covered",
+          "text": "TEST"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            67.2,
+            445.5,
+            330.24,
+            477.36
+          ],
+          "reason": "fully visible demo contact phone number",
+          "text": "202-555-0146"
+        }
+      ]
+    },
+    {
+      "time_ms": 16000,
+      "exposures": [
+        {
+          "category": "face",
+          "box": [
+            125.76,
+            68.04,
+            248.64,
+            302.4
+          ],
+          "reason": "fully visible human face in portrait on left",
+          "text": null
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            530.88,
+            214.92,
+            762.24,
+            275.4
+          ],
+          "reason": "fully visible vehicle plate identifier TEST 0146 on car graphic",
+          "text": "TEST 0146"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            50.88,
+            445.5,
+            313.92,
+            477.36
+          ],
+          "reason": "fully visible demo contact phone number",
+          "text": "202-555-0146"
+        }
+      ]
+    }
+  ]
+}

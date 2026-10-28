@@ -29,7 +29,7 @@ Source: [speech to text](https://dev.meta.ai/docs/speech-to-text).
 - Exact ID: `muse-spark-1.3`; `POST https://api.meta.ai/v1/responses`.
 - Request: `input_text` and JPEG data URL `input_image`; structured JSON schema response via `text.format`. Saved scripts contain the exact schemas. No tools or web search requested.
 - Observed: classified and localized face, fake plate and printed number. Fresh exported-frame review found the omitted number; another fresh review rejected a repair covering only one digit. Final review inspected actual exported frames at 2, 7.5 and 16 seconds and reported no exposures in those samples.
-- This is a second pass on output pixels, using the same model family: independent of protector metadata, not independent of all correlated model errors. OCR and separate visual detector audits remain unimplemented.
+- This is a second pass on output pixels, using the same model family: independent of protector metadata, not independent of all correlated model errors. Independent local macOS OCR is now available; separate visual detector audits remain unimplemented.
 - Generic inline media ceiling documented as 50 MB; specific image count/size limits were not exhaustively tested. Video-native Spark ingestion is not used in this experiment.
 - Price: $1.25/M input tokens, $4.25/M output, $0.15/M cached input. Ledger retains actual token usage and estimates; dashboard billing is not reconciled.
 
@@ -38,3 +38,8 @@ Sources: [image understanding](https://dev.meta.ai/docs/image-understanding), [p
 ## Fixture generation only
 
 `muse-image-1.0`, `/v1/images/generations`, generated a fictional portrait from text with external tools disabled. Cost $0.01. This is fixture preparation, not a claimed engine capability. Synthetic speech was generated locally with macOS Samantha. No real person's media was uploaded.
+
+
+## Integration update
+
+Spark now explicitly returns normalized 0–1000 boxes; the adapter validates and converts to source pixels. Out-of-range prior responses were rejected and saved. SAM whole-box plate seeding succeeded after point seeding selected a digit. Live export verification combines fresh Spark/Voice requests and local macOS OCR. See LIVE_EVALUATION.md for costs, limits and the eight-request working run.

@@ -1,0 +1,54 @@
+{
+  "status": "completed",
+  "sample_times_ms": [
+    2000,
+    7600,
+    16000
+  ],
+  "findings": [
+    {
+      "category": "phone_number",
+      "time_ms": 2000,
+      "box": [
+        73.99999987349398,
+        445.9999999807229,
+        335.999999873494,
+        477.9999999807229
+      ],
+      "text": "202-555-0146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 7600,
+      "box": [
+        67.99999987228918,
+        445.9999999807229,
+        331.9999998722892,
+        477.9999999807229
+      ],
+      "text": "202-555-0146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 16000,
+      "box": [
+        51.48612581649857,
+        442.20107673787015,
+        314.48722444931104,
+        481.1449282088174
+      ],
+      "text": "202-555-0146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    }
+  ],
+  "limitations": [
+    "phone-like patterns only; false positives possible",
+    "sampled frames only",
+    "macOS-specific local adapter"
+  ]
+}

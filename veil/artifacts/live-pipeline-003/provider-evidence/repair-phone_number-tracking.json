@@ -1,0 +1,11 @@
+{
+  "uncertain_frames": [],
+  "observed_fragments": 2,
+  "seed_box": [
+    69.12,
+    443.88,
+    336.96,
+    478.44
+  ],
+  "limitation": "single tracked envelope per category; separate moving objects require stronger association"
+}

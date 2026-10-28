@@ -1,0 +1,53 @@
+{
+  "coordinate_space": "source_pixels",
+  "frames": [
+    {
+      "time_ms": 2000,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            69.12,
+            443.88,
+            336.96,
+            478.44
+          ],
+          "reason": "fully legible phone number text in DEMO CONTACT box",
+          "text": "202-555-0146"
+        }
+      ]
+    },
+    {
+      "time_ms": 7600,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            66.24,
+            442.8,
+            331.2,
+            478.44
+          ],
+          "reason": "fully legible phone number text in DEMO CONTACT box",
+          "text": "202-555-0146"
+        }
+      ]
+    },
+    {
+      "time_ms": 16000,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            48.96,
+            442.8,
+            314.88,
+            478.44
+          ],
+          "reason": "fully legible phone number text in DEMO CONTACT box",
+          "text": "202-555-0146"
+        }
+      ]
+    }
+  ]
+}

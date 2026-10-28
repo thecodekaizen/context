@@ -1,0 +1,41 @@
+{
+  "coordinate_space": "source_pixels",
+  "frames": [
+    {
+      "time_ms": 2000,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            693.12,
+            221.4,
+            768.96,
+            258.66
+          ],
+          "reason": "partial plate characters '146' still visible to the right of opaque cover",
+          "text": "146"
+        }
+      ]
+    },
+    {
+      "time_ms": 7600,
+      "exposures": []
+    },
+    {
+      "time_ms": 16000,
+      "exposures": [
+        {
+          "category": "license_plate",
+          "box": [
+            693.12,
+            221.4,
+            768.96,
+            258.66
+          ],
+          "reason": "partial plate characters '146' still visible to the right of opaque cover",
+          "text": "146"
+        }
+      ]
+    }
+  ]
+}

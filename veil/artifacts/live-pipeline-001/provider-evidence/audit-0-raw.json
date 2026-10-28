@@ -1,0 +1,174 @@
+{
+  "id": "resp_6ae1dc84179e4a3a016242dc",
+  "access_programs": null,
+  "created_at": 1793186948.0,
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "metadata": null,
+  "model": "muse-spark-1.3",
+  "object": "response",
+  "output": [
+    {
+      "id": "rs_6ae1dc84179e4a3a016242dc:rs_7c7cd1e2-a14b-483b-95c9-4ad6fbf17a31",
+      "summary": [],
+      "type": "reasoning",
+      "content": null,
+      "encrypted_content": null,
+      "status": "completed"
+    },
+    {
+      "id": "msg_a2fd3b20-11de-4817-b840-01038fb729ad",
+      "content": [
+        {
+          "annotations": [],
+          "text": "{\"frames\": [{\"exposures\": [{\"box\": [71, 825, 306, 883], \"category\": \"phone_number\", \"reason\": \"clearly readable phone number text in demo contact box\", \"text\": \"202-555-0146\"}], \"time_ms\": 2000}, {\"exposures\": [{\"box\": [68, 826, 300, 882], \"category\": \"phone_number\", \"reason\": \"clearly readable phone number text in demo contact box\", \"text\": \"202-555-0146\"}], \"time_ms\": 7600}, {\"exposures\": [{\"box\": [51, 830, 283, 883], \"category\": \"phone_number\", \"reason\": \"clearly readable phone number text in demo contact box\", \"text\": \"202-555-0146\"}], \"time_ms\": 16000}]}",
+          "type": "output_text",
+          "logprobs": []
+        }
+      ],
+      "role": "assistant",
+      "status": "completed",
+      "type": "message",
+      "phase": null
+    }
+  ],
+  "parallel_tool_calls": true,
+  "temperature": 1.0,
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1.0,
+  "background": false,
+  "completed_at": 1793186948.0,
+  "conversation": null,
+  "max_output_tokens": 3000,
+  "max_tool_calls": null,
+  "moderation": null,
+  "previous_response_id": null,
+  "prompt": null,
+  "prompt_cache_diagnostics": null,
+  "prompt_cache_key": null,
+  "prompt_cache_options": null,
+  "prompt_cache_retention": null,
+  "reasoning": {
+    "context": null,
+    "effort": "minimal",
+    "generate_summary": null,
+    "mode": null,
+    "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "auto",
+  "status": "completed",
+  "text": {
+    "format": {
+      "name": "privacy_observations",
+      "schema_": {
+        "type": "object",
+        "required": [
+          "frames"
+        ],
+        "title": "Observations",
+        "$defs": {
+          "Exposure": {
+            "additionalProperties": false,
+            "properties": {
+              "box": {
+                "items": {
+                  "type": "number"
+                },
+                "title": "Box",
+                "type": "array"
+              },
+              "category": {
+                "enum": [
+                  "face",
+                  "license_plate",
+                  "phone_number"
+                ],
+                "title": "Category",
+                "type": "string"
+              },
+              "reason": {
+                "title": "Reason",
+                "type": "string"
+              },
+              "text": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Text"
+              }
+            },
+            "required": [
+              "category",
+              "box",
+              "reason",
+              "text"
+            ],
+            "title": "Exposure",
+            "type": "object"
+          },
+          "FrameObservations": {
+            "additionalProperties": false,
+            "properties": {
+              "exposures": {
+                "items": {
+                  "$ref": "#/$defs/Exposure"
+                },
+                "title": "Exposures",
+                "type": "array"
+              },
+              "time_ms": {
+                "minimum": 0,
+                "title": "Time Ms",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "time_ms",
+              "exposures"
+            ],
+            "title": "FrameObservations",
+            "type": "object"
+          }
+        },
+        "properties": {
+          "frames": {
+            "items": {
+              "$ref": "#/$defs/FrameObservations"
+            },
+            "title": "Frames",
+            "type": "array"
+          }
+        },
+        "additionalProperties": false
+      },
+      "type": "json_schema",
+      "description": null,
+      "strict": true
+    },
+    "verbosity": null
+  },
+  "top_logprobs": 0,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 2073,
+    "input_tokens_details": {
+      "cache_write_tokens": null,
+      "cached_tokens": 0
+    },
+    "output_tokens": 553,
+    "output_tokens_details": {
+      "reasoning_tokens": 358
+    },
+    "total_tokens": 2626
+  },
+  "user": null,
+  "store": true
+}

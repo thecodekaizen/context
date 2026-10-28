@@ -1,0 +1,213 @@
+{
+  "revision": 0,
+  "frames": [
+    {
+      "time_ms": 2000,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            73.99999987349398,
+            445.9999999807229,
+            335.999999873494,
+            477.9999999807229
+          ],
+          "text": "202-555-0146",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            582.72,
+            218.7,
+            675.84,
+            272.7
+          ],
+          "reason": "partial plate text 'TEST' still visible beside opaque cover",
+          "text": "TEST"
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            718.08,
+            218.7,
+            770.88,
+            272.7
+          ],
+          "reason": "partial plate text '146' still visible beside opaque cover",
+          "text": "146"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            61.44,
+            410.94,
+            458.88,
+            489.78
+          ],
+          "reason": "full demo contact number still visible",
+          "text": "202-555-0146"
+        }
+      ]
+    },
+    {
+      "time_ms": 7600,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            67.99999987228918,
+            445.9999999807229,
+            331.9999998722892,
+            477.9999999807229
+          ],
+          "text": "202-555-0146",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            582.72,
+            218.7,
+            675.84,
+            272.7
+          ],
+          "reason": "partial plate text 'TEST' still visible beside opaque cover",
+          "text": "TEST"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            61.44,
+            410.94,
+            458.88,
+            489.78
+          ],
+          "reason": "full demo contact number still visible",
+          "text": "202-555-0146"
+        }
+      ]
+    },
+    {
+      "time_ms": 16000,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            51.48612581649857,
+            442.20107673787015,
+            314.48722444931104,
+            481.1449282088174
+          ],
+          "text": "202-555-0146",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            582.72,
+            218.7,
+            675.84,
+            272.7
+          ],
+          "reason": "partial plate text 'TEST' still visible beside opaque cover",
+          "text": "TEST"
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            718.08,
+            218.7,
+            770.88,
+            272.7
+          ],
+          "reason": "partial plate text '146' still visible beside opaque cover",
+          "text": "146"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            61.44,
+            410.94,
+            458.88,
+            489.78
+          ],
+          "reason": "full demo contact number still visible",
+          "text": "202-555-0146"
+        }
+      ]
+    }
+  ],
+  "spoken_phone_intervals": [],
+  "transcript": "",
+  "status": "residual_observed",
+  "sample_times_ms": [
+    2000,
+    7600,
+    16000
+  ],
+  "needs_human_review": true,
+  "limitations": [
+    "3 sampled output frames; short exposures can be missed",
+    "same model family may share perception errors",
+    "speech recognition may miss or misread numbers",
+    "not a zero-leak guarantee"
+  ],
+  "independent_ocr": {
+    "status": "completed",
+    "sample_times_ms": [
+      2000,
+      7600,
+      16000
+    ],
+    "findings": [
+      {
+        "category": "phone_number",
+        "time_ms": 2000,
+        "box": [
+          73.99999987349398,
+          445.9999999807229,
+          335.999999873494,
+          477.9999999807229
+        ],
+        "text": "202-555-0146",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 7600,
+        "box": [
+          67.99999987228918,
+          445.9999999807229,
+          331.9999998722892,
+          477.9999999807229
+        ],
+        "text": "202-555-0146",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 16000,
+        "box": [
+          51.48612581649857,
+          442.20107673787015,
+          314.48722444931104,
+          481.1449282088174
+        ],
+        "text": "202-555-0146",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      }
+    ],
+    "limitations": [
+      "phone-like patterns only; false positives possible",
+      "sampled frames only",
+      "macOS-specific local adapter"
+    ]
+  }
+}

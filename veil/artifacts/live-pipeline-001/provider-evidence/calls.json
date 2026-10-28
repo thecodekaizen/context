@@ -1,0 +1,85 @@
+[
+  {
+    "name": "source-observations",
+    "model": "muse-spark-1.3",
+    "endpoint": "/v1/responses",
+    "status": "completed",
+    "cloud_transfer": "3 decoded source frames; no ground truth or prior findings",
+    "started_unix_s": 1793186827.6375291,
+    "latency_s": 6.734499083016999,
+    "usage": {
+      "input_tokens": 2062,
+      "input_tokens_details": {
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      },
+      "output_tokens": 835,
+      "output_tokens_details": {
+        "reasoning_tokens": 406
+      },
+      "total_tokens": 2897
+    },
+    "estimated_usd": 0.00612625
+  },
+  {
+    "name": "face-tracking",
+    "model": "sam-3.1",
+    "endpoint": "/v1/responses",
+    "status": "completed",
+    "cloud_transfer": "Authorized job MP4 referenced by file ID",
+    "started_unix_s": 1793186900.626281,
+    "latency_s": 14.760075624973979,
+    "regions": 180,
+    "masks_decoded": 180,
+    "estimated_usd": 0.036000000000000004,
+    "cost_basis": "180 submitted video frames at published rate, provisional until provider usage available"
+  },
+  {
+    "name": "plate-tracking",
+    "model": "sam-3.1",
+    "endpoint": "/v1/responses",
+    "status": "completed",
+    "cloud_transfer": "Authorized job MP4 referenced by file ID",
+    "started_unix_s": 1793186915.3870022,
+    "latency_s": 19.51533287501661,
+    "regions": 180,
+    "masks_decoded": 180,
+    "estimated_usd": 0.036000000000000004,
+    "cost_basis": "180 submitted video frames at published rate, provisional until provider usage available"
+  },
+  {
+    "name": "source-transcription",
+    "model": "muse-voice-transcribe-1.0",
+    "endpoint": "/v1/asr/transcribe",
+    "status": "completed",
+    "cloud_transfer": "Mono 24 kHz PCM audio extracted from authorized job media",
+    "started_unix_s": 1793186939.571785,
+    "latency_s": 4.625532625010237,
+    "estimated_usd": 0.0009,
+    "audio_seconds": 18.005333333333333
+  },
+  {
+    "name": "audit-0",
+    "model": "muse-spark-1.3",
+    "endpoint": "/v1/responses",
+    "status": "failed_no_retry",
+    "cloud_transfer": "3 decoded export frames; no ground truth or prior findings",
+    "started_unix_s": 1793186944.590666,
+    "latency_s": 5.275865042000078,
+    "error_type": "ValueError",
+    "usage": {
+      "input_tokens": 2073,
+      "input_tokens_details": {
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      },
+      "output_tokens": 553,
+      "output_tokens_details": {
+        "reasoning_tokens": 358
+      },
+      "total_tokens": 2626
+    },
+    "estimated_usd": 0.0049415,
+    "cost_reconstructed_from_saved_usage": true
+  }
+]

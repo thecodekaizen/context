@@ -1,15 +1,24 @@
-"""Loopback-only reference API; no cloud transfers occur on these routes."""
+"""Loopback reference API. Cloud operations require explicit per-request authorization."""
 import os
 from pathlib import Path
 from fastapi import FastAPI, HTTPException, UploadFile
+from typing import Literal
+from veil.core.models import StrictModel
+from veil.core.pipeline import MetaPipeline
 from fastapi.responses import FileResponse
 from veil.core.jobs import JobStore, Conflict
 from veil.core.models import Timeline
 
 
-def create_app(root: Path | None = None):
-    app = FastAPI(title='VEIL', version='0.2.0', description='Local reviewed-timeline rendering. Automatic detection and privacy audit are not yet exposed.')
-    store = JobStore(root or Path(os.getenv('VEIL_JOBS_DIR', 'artifacts/private/jobs')))
+class CloudRequest(StrictModel):
+    allow_cloud_transfer: Literal[True]
+    media_is_synthetic_or_consented: Literal[True]
+    seed_omit_phone: bool = False
+
+
+def create_app(root: Path | None = None, pipeline=None):
+    app = FastAPI(title='VEIL', version='0.3.0', description='Bounded Meta detection, redaction, sampled exported-media audit and repair. No zero-leak guarantee.')
+    store = JobStore(root or Path(os.getenv('VEIL_JOBS_DIR', 'artifacts/private/jobs')), pipeline or MetaPipeline(os.getenv('VEIL_ENV_FILE', '.env')))
     app.state.store = store
 
     @app.exception_handler(FileNotFoundError)
@@ -36,7 +45,7 @@ def create_app(root: Path | None = None):
         return store.get(job_id)
 
     @app.post('/v1/jobs/{job_id}/redact')
-    def redact_job(job_id: str, timeline: Timeline):
+    def redact_job(job_id: str, timeline: Timeline | None = None):
         try:
             return store.redact(job_id, timeline)
         except ValueError as exc:
@@ -47,7 +56,7 @@ def create_app(root: Path | None = None):
         import json
         directory = store.directory(job_id)
         path = directory / 'timeline.json'
-        return {'detection': 'not_run', 'source': 'client_supplied_reviewed_timeline',
+        return {'detection': store.get(job_id)['detection'], 'source': 'job_timeline',
                 'timeline': json.loads(path.read_text()) if path.exists() else None}
 
     @app.get('/v1/jobs/{job_id}/receipt')
@@ -64,5 +73,37 @@ def create_app(root: Path | None = None):
         if store.get(job_id)['status'] != 'rendered':
             raise Conflict('Export is not ready')
         return FileResponse(directory / 'export.mp4', media_type='video/mp4', filename='veil-redacted.mp4')
+
+    @app.post('/v1/jobs/{job_id}/detect')
+    def detect(job_id: str, request: CloudRequest):
+        return cloud(job_id, 'detect', request)
+
+    @app.post('/v1/jobs/{job_id}/verify')
+    def verify(job_id: str, request: CloudRequest):
+        return cloud(job_id, 'verify', request)
+
+    @app.post('/v1/jobs/{job_id}/repair')
+    def repair(job_id: str, request: CloudRequest):
+        return cloud(job_id, 'repair', request)
+
+    def cloud(job_id, action, request):
+        if request.seed_omit_phone and action != 'detect':
+            raise HTTPException(422, 'Seeded omission is only accepted during controlled detection tests')
+        try:
+            return store.cloud_action(job_id, action, seed_omit_phone=request.seed_omit_phone)
+        except (Conflict, FileNotFoundError):
+            raise
+        except Exception as exc:
+            # Provider errors can contain private response content: keep public errors generic.
+            raise HTTPException(502, 'Processing failed; inspect the local job and call ledger. No automatic retry.') from exc
+
+    @app.get('/v1/jobs/{job_id}/verification')
+    def verification(job_id: str):
+        import json
+        directory = store.directory(job_id)
+        job = store.get(job_id)
+        if job['verification'] == 'not_run':
+            return {'status':'not_run','revision':job.get('revision',0)}
+        return json.loads((directory/'verification.json').read_text())
 
     return app

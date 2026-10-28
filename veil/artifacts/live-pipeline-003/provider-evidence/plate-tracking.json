@@ -1,0 +1,1988 @@
+{
+  "concept": "<20f>7<|box;x1=587;y1=216;x2=817;y2=275;w=960;h=540|>",
+  "video": true,
+  "regions": [
+    {
+      "frame": 20,
+      "track_id": "7",
+      "box": [
+        587,
+        216,
+        818,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 21,
+      "track_id": "7",
+      "box": [
+        587,
+        216,
+        817,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 22,
+      "track_id": "7",
+      "box": [
+        589,
+        216,
+        819,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 23,
+      "track_id": "7",
+      "box": [
+        590,
+        216,
+        820,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 24,
+      "track_id": "7",
+      "box": [
+        592,
+        216,
+        821,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 25,
+      "track_id": "7",
+      "box": [
+        593,
+        216,
+        822,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 26,
+      "track_id": "7",
+      "box": [
+        593,
+        216,
+        823,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 27,
+      "track_id": "7",
+      "box": [
+        595,
+        216,
+        824,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 28,
+      "track_id": "7",
+      "box": [
+        595,
+        216,
+        824,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 29,
+      "track_id": "7",
+      "box": [
+        596,
+        216,
+        825,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 30,
+      "track_id": "7",
+      "box": [
+        597,
+        217,
+        826,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 31,
+      "track_id": "7",
+      "box": [
+        597,
+        217,
+        827,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 32,
+      "track_id": "7",
+      "box": [
+        597,
+        216,
+        827,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 33,
+      "track_id": "7",
+      "box": [
+        598,
+        216,
+        828,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 34,
+      "track_id": "7",
+      "box": [
+        599,
+        216,
+        829,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 35,
+      "track_id": "7",
+      "box": [
+        599,
+        217,
+        829,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 36,
+      "track_id": "7",
+      "box": [
+        599,
+        216,
+        829,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 37,
+      "track_id": "7",
+      "box": [
+        601,
+        217,
+        830,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 38,
+      "track_id": "7",
+      "box": [
+        601,
+        217,
+        831,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 39,
+      "track_id": "7",
+      "box": [
+        601,
+        217,
+        831,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 40,
+      "track_id": "7",
+      "box": [
+        601,
+        216,
+        831,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 41,
+      "track_id": "7",
+      "box": [
+        602,
+        217,
+        832,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 42,
+      "track_id": "7",
+      "box": [
+        602,
+        216,
+        832,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 43,
+      "track_id": "7",
+      "box": [
+        602,
+        216,
+        832,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 44,
+      "track_id": "7",
+      "box": [
+        602,
+        216,
+        832,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 45,
+      "track_id": "7",
+      "box": [
+        602,
+        217,
+        832,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 46,
+      "track_id": "7",
+      "box": [
+        602,
+        216,
+        832,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 47,
+      "track_id": "7",
+      "box": [
+        602,
+        217,
+        832,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 48,
+      "track_id": "7",
+      "box": [
+        602,
+        217,
+        832,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 49,
+      "track_id": "7",
+      "box": [
+        602,
+        217,
+        832,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 50,
+      "track_id": "7",
+      "box": [
+        602,
+        217,
+        832,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 51,
+      "track_id": "7",
+      "box": [
+        601,
+        217,
+        831,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 52,
+      "track_id": "7",
+      "box": [
+        601,
+        217,
+        831,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 53,
+      "track_id": "7",
+      "box": [
+        601,
+        217,
+        831,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 54,
+      "track_id": "7",
+      "box": [
+        601,
+        217,
+        830,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 55,
+      "track_id": "7",
+      "box": [
+        601,
+        217,
+        830,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 56,
+      "track_id": "7",
+      "box": [
+        600,
+        217,
+        829,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 57,
+      "track_id": "7",
+      "box": [
+        600,
+        217,
+        829,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 58,
+      "track_id": "7",
+      "box": [
+        598,
+        217,
+        828,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 59,
+      "track_id": "7",
+      "box": [
+        597,
+        217,
+        827,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 60,
+      "track_id": "7",
+      "box": [
+        597,
+        216,
+        827,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 61,
+      "track_id": "7",
+      "box": [
+        597,
+        216,
+        826,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 62,
+      "track_id": "7",
+      "box": [
+        596,
+        216,
+        826,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 63,
+      "track_id": "7",
+      "box": [
+        596,
+        216,
+        825,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 64,
+      "track_id": "7",
+      "box": [
+        594,
+        216,
+        825,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 65,
+      "track_id": "7",
+      "box": [
+        594,
+        216,
+        824,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 66,
+      "track_id": "7",
+      "box": [
+        593,
+        216,
+        823,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 67,
+      "track_id": "7",
+      "box": [
+        592,
+        216,
+        821,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 68,
+      "track_id": "7",
+      "box": [
+        590,
+        216,
+        820,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 69,
+      "track_id": "7",
+      "box": [
+        589,
+        216,
+        819,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 70,
+      "track_id": "7",
+      "box": [
+        588,
+        216,
+        699,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 71,
+      "track_id": "7",
+      "box": [
+        587,
+        216,
+        698,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 72,
+      "track_id": "7",
+      "box": [
+        586,
+        216,
+        697,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 73,
+      "track_id": "7",
+      "box": [
+        585,
+        216,
+        696,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 74,
+      "track_id": "7",
+      "box": [
+        584,
+        216,
+        695,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 75,
+      "track_id": "7",
+      "box": [
+        582,
+        216,
+        693,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 76,
+      "track_id": "7",
+      "box": [
+        581,
+        216,
+        692,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 77,
+      "track_id": "7",
+      "box": [
+        581,
+        216,
+        691,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 78,
+      "track_id": "7",
+      "box": [
+        579,
+        216,
+        689,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 79,
+      "track_id": "7",
+      "box": [
+        579,
+        216,
+        689,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 80,
+      "track_id": "7",
+      "box": [
+        576,
+        216,
+        687,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 81,
+      "track_id": "7",
+      "box": [
+        574,
+        216,
+        685,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 82,
+      "track_id": "7",
+      "box": [
+        575,
+        217,
+        804,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 83,
+      "track_id": "7",
+      "box": [
+        573,
+        217,
+        802,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 84,
+      "track_id": "7",
+      "box": [
+        572,
+        217,
+        801,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 85,
+      "track_id": "7",
+      "box": [
+        570,
+        217,
+        799,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 86,
+      "track_id": "7",
+      "box": [
+        569,
+        216,
+        798,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 87,
+      "track_id": "7",
+      "box": [
+        567,
+        216,
+        798,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 88,
+      "track_id": "7",
+      "box": [
+        566,
+        216,
+        795,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 89,
+      "track_id": "7",
+      "box": [
+        563,
+        216,
+        794,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 90,
+      "track_id": "7",
+      "box": [
+        562,
+        216,
+        793,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 91,
+      "track_id": "7",
+      "box": [
+        562,
+        217,
+        791,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 92,
+      "track_id": "7",
+      "box": [
+        560,
+        217,
+        789,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 93,
+      "track_id": "7",
+      "box": [
+        559,
+        217,
+        788,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 94,
+      "track_id": "7",
+      "box": [
+        557,
+        216,
+        787,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 95,
+      "track_id": "7",
+      "box": [
+        556,
+        216,
+        786,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 96,
+      "track_id": "7",
+      "box": [
+        555,
+        216,
+        785,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 97,
+      "track_id": "7",
+      "box": [
+        553,
+        217,
+        782,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 98,
+      "track_id": "7",
+      "box": [
+        552,
+        216,
+        782,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 99,
+      "track_id": "7",
+      "box": [
+        549,
+        216,
+        780,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 100,
+      "track_id": "7",
+      "box": [
+        548,
+        217,
+        777,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 101,
+      "track_id": "7",
+      "box": [
+        547,
+        217,
+        777,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 102,
+      "track_id": "7",
+      "box": [
+        545,
+        216,
+        776,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 103,
+      "track_id": "7",
+      "box": [
+        545,
+        217,
+        774,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 104,
+      "track_id": "7",
+      "box": [
+        543,
+        217,
+        772,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 105,
+      "track_id": "7",
+      "box": [
+        543,
+        217,
+        772,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 106,
+      "track_id": "7",
+      "box": [
+        541,
+        216,
+        770,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 107,
+      "track_id": "7",
+      "box": [
+        540,
+        216,
+        770,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 108,
+      "track_id": "7",
+      "box": [
+        538,
+        216,
+        767,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 109,
+      "track_id": "7",
+      "box": [
+        537,
+        216,
+        768,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 110,
+      "track_id": "7",
+      "box": [
+        535,
+        216,
+        766,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 111,
+      "track_id": "7",
+      "box": [
+        534,
+        216,
+        765,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 112,
+      "track_id": "7",
+      "box": [
+        534,
+        216,
+        763,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 113,
+      "track_id": "7",
+      "box": [
+        533,
+        216,
+        763,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 114,
+      "track_id": "7",
+      "box": [
+        531,
+        216,
+        762,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 115,
+      "track_id": "7",
+      "box": [
+        531,
+        216,
+        760,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 116,
+      "track_id": "7",
+      "box": [
+        530,
+        216,
+        759,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 117,
+      "track_id": "7",
+      "box": [
+        529,
+        216,
+        758,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 118,
+      "track_id": "7",
+      "box": [
+        528,
+        216,
+        757,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 119,
+      "track_id": "7",
+      "box": [
+        527,
+        216,
+        756,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 120,
+      "track_id": "7",
+      "box": [
+        527,
+        216,
+        756,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 121,
+      "track_id": "7",
+      "box": [
+        524,
+        216,
+        755,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 122,
+      "track_id": "7",
+      "box": [
+        524,
+        216,
+        755,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 123,
+      "track_id": "7",
+      "box": [
+        523,
+        216,
+        754,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 124,
+      "track_id": "7",
+      "box": [
+        523,
+        216,
+        754,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 125,
+      "track_id": "7",
+      "box": [
+        522,
+        216,
+        753,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 126,
+      "track_id": "7",
+      "box": [
+        521,
+        216,
+        752,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 127,
+      "track_id": "7",
+      "box": [
+        521,
+        217,
+        751,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 128,
+      "track_id": "7",
+      "box": [
+        521,
+        216,
+        751,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 129,
+      "track_id": "7",
+      "box": [
+        521,
+        217,
+        750,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 130,
+      "track_id": "7",
+      "box": [
+        521,
+        217,
+        750,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 131,
+      "track_id": "7",
+      "box": [
+        520,
+        216,
+        750,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 132,
+      "track_id": "7",
+      "box": [
+        519,
+        216,
+        750,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 133,
+      "track_id": "7",
+      "box": [
+        519,
+        216,
+        750,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 134,
+      "track_id": "7",
+      "box": [
+        519,
+        216,
+        750,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 135,
+      "track_id": "7",
+      "box": [
+        520,
+        217,
+        749,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 136,
+      "track_id": "7",
+      "box": [
+        518,
+        216,
+        749,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 137,
+      "track_id": "7",
+      "box": [
+        518,
+        216,
+        749,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 138,
+      "track_id": "7",
+      "box": [
+        518,
+        216,
+        748,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 139,
+      "track_id": "7",
+      "box": [
+        519,
+        216,
+        750,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 140,
+      "track_id": "7",
+      "box": [
+        519,
+        216,
+        750,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 141,
+      "track_id": "7",
+      "box": [
+        519,
+        216,
+        750,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 142,
+      "track_id": "7",
+      "box": [
+        519,
+        216,
+        750,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 143,
+      "track_id": "7",
+      "box": [
+        519,
+        216,
+        750,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 144,
+      "track_id": "7",
+      "box": [
+        521,
+        217,
+        750,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 145,
+      "track_id": "7",
+      "box": [
+        521,
+        217,
+        750,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 146,
+      "track_id": "7",
+      "box": [
+        521,
+        217,
+        750,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 147,
+      "track_id": "7",
+      "box": [
+        521,
+        216,
+        752,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 148,
+      "track_id": "7",
+      "box": [
+        522,
+        216,
+        753,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 149,
+      "track_id": "7",
+      "box": [
+        522,
+        216,
+        752,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 150,
+      "track_id": "7",
+      "box": [
+        523,
+        216,
+        754,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 151,
+      "track_id": "7",
+      "box": [
+        523,
+        216,
+        754,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 152,
+      "track_id": "7",
+      "box": [
+        523,
+        216,
+        754,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 153,
+      "track_id": "7",
+      "box": [
+        526,
+        216,
+        755,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 154,
+      "track_id": "7",
+      "box": [
+        526,
+        216,
+        756,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 155,
+      "track_id": "7",
+      "box": [
+        527,
+        217,
+        756,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 156,
+      "track_id": "7",
+      "box": [
+        528,
+        217,
+        757,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 157,
+      "track_id": "7",
+      "box": [
+        529,
+        216,
+        759,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 158,
+      "track_id": "7",
+      "box": [
+        530,
+        216,
+        759,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 159,
+      "track_id": "7",
+      "box": [
+        531,
+        217,
+        760,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 160,
+      "track_id": "7",
+      "box": [
+        530,
+        216,
+        761,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 161,
+      "track_id": "7",
+      "box": [
+        533,
+        217,
+        762,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 162,
+      "track_id": "7",
+      "box": [
+        532,
+        216,
+        763,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 163,
+      "track_id": "7",
+      "box": [
+        535,
+        216,
+        764,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 164,
+      "track_id": "7",
+      "box": [
+        536,
+        216,
+        767,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 165,
+      "track_id": "7",
+      "box": [
+        536,
+        216,
+        767,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 166,
+      "track_id": "7",
+      "box": [
+        539,
+        216,
+        769,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 167,
+      "track_id": "7",
+      "box": [
+        539,
+        216,
+        769,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 168,
+      "track_id": "7",
+      "box": [
+        541,
+        216,
+        771,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 169,
+      "track_id": "7",
+      "box": [
+        542,
+        217,
+        771,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 170,
+      "track_id": "7",
+      "box": [
+        543,
+        217,
+        772,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 171,
+      "track_id": "7",
+      "box": [
+        544,
+        216,
+        775,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 172,
+      "track_id": "7",
+      "box": [
+        544,
+        216,
+        775,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 173,
+      "track_id": "7",
+      "box": [
+        547,
+        217,
+        776,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 174,
+      "track_id": "7",
+      "box": [
+        549,
+        217,
+        778,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 175,
+      "track_id": "7",
+      "box": [
+        549,
+        216,
+        780,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 176,
+      "track_id": "7",
+      "box": [
+        551,
+        216,
+        781,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 177,
+      "track_id": "7",
+      "box": [
+        553,
+        216,
+        783,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 178,
+      "track_id": "7",
+      "box": [
+        554,
+        216,
+        784,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 179,
+      "track_id": "7",
+      "box": [
+        556,
+        217,
+        785,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 19,
+      "track_id": "7",
+      "box": [
+        585,
+        216,
+        816,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 18,
+      "track_id": "7",
+      "box": [
+        585,
+        216,
+        815,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 17,
+      "track_id": "7",
+      "box": [
+        584,
+        216,
+        813,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 16,
+      "track_id": "7",
+      "box": [
+        583,
+        217,
+        812,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 15,
+      "track_id": "7",
+      "box": [
+        582,
+        216,
+        811,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 14,
+      "track_id": "7",
+      "box": [
+        580,
+        216,
+        811,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 13,
+      "track_id": "7",
+      "box": [
+        579,
+        216,
+        808,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 12,
+      "track_id": "7",
+      "box": [
+        576,
+        216,
+        806,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 11,
+      "track_id": "7",
+      "box": [
+        576,
+        216,
+        806,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 10,
+      "track_id": "7",
+      "box": [
+        574,
+        216,
+        804,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 9,
+      "track_id": "7",
+      "box": [
+        573,
+        217,
+        803,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 8,
+      "track_id": "7",
+      "box": [
+        572,
+        217,
+        801,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 7,
+      "track_id": "7",
+      "box": [
+        570,
+        216,
+        801,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 6,
+      "track_id": "7",
+      "box": [
+        570,
+        216,
+        799,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 5,
+      "track_id": "7",
+      "box": [
+        567,
+        216,
+        798,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 4,
+      "track_id": "7",
+      "box": [
+        567,
+        216,
+        797,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 3,
+      "track_id": "7",
+      "box": [
+        565,
+        216,
+        795,
+        276
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 2,
+      "track_id": "7",
+      "box": [
+        563,
+        216,
+        793,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 1,
+      "track_id": "7",
+      "box": [
+        562,
+        216,
+        792,
+        275
+      ],
+      "confidence": null
+    },
+    {
+      "frame": 0,
+      "track_id": "7",
+      "box": [
+        561,
+        216,
+        790,
+        275
+      ],
+      "confidence": null
+    }
+  ],
+  "masks_decoded": 180,
+  "diagnostics": []
+}

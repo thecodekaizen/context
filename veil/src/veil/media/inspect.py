@@ -4,6 +4,7 @@ import subprocess
 from fractions import Fraction
 from pathlib import Path
 import cv2
+import numpy as np
 
 
 def inspect_media(path: Path) -> dict:
@@ -33,13 +34,18 @@ def decode_export(path: Path) -> dict:
     metadata = inspect_media(path)
     cap = cv2.VideoCapture(str(path))
     count = 0
+    near_black=[]
     while True:
-        ok, _ = cap.read()
+        ok, frame = cap.read()
         if not ok:
             break
+        if float(np.mean(np.max(frame,axis=2)<40)) > .95:
+            near_black.append(count)
         count += 1
     cap.release()
     if count == 0 or abs(count / metadata['fps'] * 1000 - metadata['duration_ms']) > 150:
         raise ValueError('Export decoding is incomplete')
     return {**metadata, 'decoded_frames': count, 'privacy_verification': 'not_run',
+            'near_full_frame_black_frames':near_black,
+            'utility_status':'excessive_masking' if len(near_black)>count*.1 else 'review_required',
             'needs_human_review': True}

@@ -1,0 +1,180 @@
+{
+  "id": "resp_6ae1df97f4b592e9b01141b5",
+  "access_programs": null,
+  "created_at": 1793187735.0,
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "metadata": null,
+  "model": "muse-spark-1.3",
+  "object": "response",
+  "output": [
+    {
+      "id": "rs_6ae1df97f4b592e9b01141b5:rs_cff58e3d-8cd2-4a60-992d-b75128c12a8e",
+      "summary": [],
+      "type": "reasoning",
+      "content": null,
+      "encrypted_content": null,
+      "status": "completed"
+    },
+    {
+      "id": "msg_45c4e259-1a0c-45ef-8d62-52832b2f82f2",
+      "content": [
+        {
+          "annotations": [],
+          "text": "{\"coordinate_space\": \"normalized_0_1000\", \"frames\": [{\"exposures\": [{\"box\": [149, 132, 272, 476], \"category\": \"face\", \"reason\": \"fully visible human face in portrait on left\", \"text\": null}, {\"box\": [612, 400, 852, 510], \"category\": \"license_plate\", \"reason\": \"fully visible vehicle plate identifier TEST 0146 on car graphic\", \"text\": \"TEST 0146\"}, {\"box\": [74, 824, 351, 884], \"category\": \"phone_number\", \"reason\": \"fully visible demo contact phone number\", \"text\": \"202-555-0146\"}], \"time_ms\": 2000}, {\"exposures\": [{\"box\": [144, 140, 217, 477], \"category\": \"face\", \"reason\": \"left half of human face still visible, right half covered\", \"text\": null}, {\"box\": [612, 400, 724, 508], \"category\": \"license_plate\", \"reason\": \"partially visible plate showing TEST, remainder covered\", \"text\": \"TEST\"}, {\"box\": [70, 825, 344, 884], \"category\": \"phone_number\", \"reason\": \"fully visible demo contact phone number\", \"text\": \"202-555-0146\"}], \"time_ms\": 7600}, {\"exposures\": [{\"box\": [131, 126, 259, 560], \"category\": \"face\", \"reason\": \"fully visible human face in portrait on left\", \"text\": null}, {\"box\": [553, 398, 794, 510], \"category\": \"license_plate\", \"reason\": \"fully visible vehicle plate identifier TEST 0146 on car graphic\", \"text\": \"TEST 0146\"}, {\"box\": [53, 825, 327, 884], \"category\": \"phone_number\", \"reason\": \"fully visible demo contact phone number\", \"text\": \"202-555-0146\"}], \"time_ms\": 16000}]}",
+          "type": "output_text",
+          "logprobs": []
+        }
+      ],
+      "role": "assistant",
+      "status": "completed",
+      "type": "message",
+      "phase": null
+    }
+  ],
+  "parallel_tool_calls": true,
+  "temperature": 1.0,
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1.0,
+  "background": false,
+  "completed_at": 1793187735.0,
+  "conversation": null,
+  "max_output_tokens": 3000,
+  "max_tool_calls": null,
+  "moderation": null,
+  "previous_response_id": null,
+  "prompt": null,
+  "prompt_cache_diagnostics": null,
+  "prompt_cache_key": null,
+  "prompt_cache_options": null,
+  "prompt_cache_retention": null,
+  "reasoning": {
+    "context": null,
+    "effort": "minimal",
+    "generate_summary": null,
+    "mode": null,
+    "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "auto",
+  "status": "completed",
+  "text": {
+    "format": {
+      "name": "privacy_observations",
+      "schema_": {
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "coordinate_space",
+          "frames"
+        ],
+        "title": "NormalizedObservations",
+        "properties": {
+          "coordinate_space": {
+            "const": "normalized_0_1000",
+            "title": "Coordinate Space",
+            "type": "string"
+          },
+          "frames": {
+            "items": {
+              "$ref": "#/$defs/FrameObservations"
+            },
+            "title": "Frames",
+            "type": "array"
+          }
+        },
+        "$defs": {
+          "Exposure": {
+            "additionalProperties": false,
+            "properties": {
+              "box": {
+                "items": {
+                  "type": "number"
+                },
+                "title": "Box",
+                "type": "array"
+              },
+              "category": {
+                "enum": [
+                  "face",
+                  "license_plate",
+                  "phone_number"
+                ],
+                "title": "Category",
+                "type": "string"
+              },
+              "reason": {
+                "title": "Reason",
+                "type": "string"
+              },
+              "text": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Text"
+              }
+            },
+            "required": [
+              "category",
+              "box",
+              "reason",
+              "text"
+            ],
+            "title": "Exposure",
+            "type": "object"
+          },
+          "FrameObservations": {
+            "additionalProperties": false,
+            "properties": {
+              "exposures": {
+                "items": {
+                  "$ref": "#/$defs/Exposure"
+                },
+                "title": "Exposures",
+                "type": "array"
+              },
+              "time_ms": {
+                "minimum": 0,
+                "title": "Time Ms",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "time_ms",
+              "exposures"
+            ],
+            "title": "FrameObservations",
+            "type": "object"
+          }
+        }
+      },
+      "type": "json_schema",
+      "description": null,
+      "strict": true
+    },
+    "verbosity": null
+  },
+  "top_logprobs": 0,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 2092,
+    "input_tokens_details": {
+      "cache_write_tokens": null,
+      "cached_tokens": 2061
+    },
+    "output_tokens": 904,
+    "output_tokens_details": {
+      "reasoning_tokens": 451
+    },
+    "total_tokens": 2996
+  },
+  "user": null,
+  "store": true
+}

@@ -1,0 +1,1 @@
+"""Exported-media verification adapters."""

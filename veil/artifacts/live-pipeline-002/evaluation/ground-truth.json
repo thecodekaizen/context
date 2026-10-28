@@ -1,0 +1,4152 @@
+{
+  "synthetic": true,
+  "duration_ms": 18000,
+  "fps": 10,
+  "face_truth_note": "Rendered source-panel bounds, not pixel-exact facial segmentation ground truth",
+  "fake_plate": "TEST 0146",
+  "fake_phone": "202-555-0146",
+  "speech_start_ms": 3000,
+  "speech_end_ms": 9371,
+  "frames": [
+    {
+      "frame": 0,
+      "time_ms": 0,
+      "face_source_panel": [
+        75,
+        50,
+        305,
+        320
+      ],
+      "plate": [
+        560,
+        215,
+        790,
+        275
+      ],
+      "printed_phone": [
+        50,
+        412,
+        470,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 1,
+      "time_ms": 100,
+      "face_source_panel": [
+        76,
+        50,
+        306,
+        320
+      ],
+      "plate": [
+        562,
+        215,
+        792,
+        275
+      ],
+      "printed_phone": [
+        51,
+        412,
+        471,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 2,
+      "time_ms": 200,
+      "face_source_panel": [
+        76,
+        51,
+        306,
+        321
+      ],
+      "plate": [
+        563,
+        215,
+        793,
+        275
+      ],
+      "printed_phone": [
+        51,
+        412,
+        471,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 3,
+      "time_ms": 300,
+      "face_source_panel": [
+        77,
+        51,
+        307,
+        321
+      ],
+      "plate": [
+        564,
+        215,
+        794,
+        275
+      ],
+      "printed_phone": [
+        52,
+        412,
+        472,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 4,
+      "time_ms": 400,
+      "face_source_panel": [
+        78,
+        51,
+        308,
+        321
+      ],
+      "plate": [
+        566,
+        215,
+        796,
+        275
+      ],
+      "printed_phone": [
+        53,
+        412,
+        473,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 5,
+      "time_ms": 500,
+      "face_source_panel": [
+        78,
+        51,
+        308,
+        321
+      ],
+      "plate": [
+        567,
+        215,
+        797,
+        275
+      ],
+      "printed_phone": [
+        53,
+        412,
+        473,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 6,
+      "time_ms": 600,
+      "face_source_panel": [
+        79,
+        52,
+        309,
+        322
+      ],
+      "plate": [
+        569,
+        215,
+        799,
+        275
+      ],
+      "printed_phone": [
+        54,
+        412,
+        474,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 7,
+      "time_ms": 700,
+      "face_source_panel": [
+        79,
+        52,
+        309,
+        322
+      ],
+      "plate": [
+        570,
+        215,
+        800,
+        275
+      ],
+      "printed_phone": [
+        54,
+        412,
+        474,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 8,
+      "time_ms": 800,
+      "face_source_panel": [
+        80,
+        52,
+        310,
+        322
+      ],
+      "plate": [
+        571,
+        215,
+        801,
+        275
+      ],
+      "printed_phone": [
+        55,
+        412,
+        475,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 9,
+      "time_ms": 900,
+      "face_source_panel": [
+        81,
+        53,
+        311,
+        323
+      ],
+      "plate": [
+        573,
+        215,
+        803,
+        275
+      ],
+      "printed_phone": [
+        56,
+        412,
+        476,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 10,
+      "time_ms": 1000,
+      "face_source_panel": [
+        81,
+        53,
+        311,
+        323
+      ],
+      "plate": [
+        574,
+        215,
+        804,
+        275
+      ],
+      "printed_phone": [
+        56,
+        412,
+        476,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 11,
+      "time_ms": 1100,
+      "face_source_panel": [
+        82,
+        53,
+        312,
+        323
+      ],
+      "plate": [
+        576,
+        215,
+        806,
+        275
+      ],
+      "printed_phone": [
+        57,
+        412,
+        477,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 12,
+      "time_ms": 1200,
+      "face_source_panel": [
+        82,
+        53,
+        312,
+        323
+      ],
+      "plate": [
+        576,
+        215,
+        806,
+        275
+      ],
+      "printed_phone": [
+        57,
+        412,
+        477,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 13,
+      "time_ms": 1300,
+      "face_source_panel": [
+        83,
+        54,
+        313,
+        324
+      ],
+      "plate": [
+        578,
+        215,
+        808,
+        275
+      ],
+      "printed_phone": [
+        58,
+        412,
+        478,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 14,
+      "time_ms": 1400,
+      "face_source_panel": [
+        84,
+        54,
+        314,
+        324
+      ],
+      "plate": [
+        580,
+        215,
+        810,
+        275
+      ],
+      "printed_phone": [
+        59,
+        412,
+        479,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 15,
+      "time_ms": 1500,
+      "face_source_panel": [
+        84,
+        54,
+        314,
+        324
+      ],
+      "plate": [
+        581,
+        215,
+        811,
+        275
+      ],
+      "printed_phone": [
+        59,
+        412,
+        479,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 16,
+      "time_ms": 1600,
+      "face_source_panel": [
+        85,
+        54,
+        315,
+        324
+      ],
+      "plate": [
+        582,
+        215,
+        812,
+        275
+      ],
+      "printed_phone": [
+        60,
+        412,
+        480,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 17,
+      "time_ms": 1700,
+      "face_source_panel": [
+        85,
+        55,
+        315,
+        325
+      ],
+      "plate": [
+        583,
+        215,
+        813,
+        275
+      ],
+      "printed_phone": [
+        60,
+        412,
+        480,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 18,
+      "time_ms": 1800,
+      "face_source_panel": [
+        86,
+        55,
+        316,
+        325
+      ],
+      "plate": [
+        585,
+        215,
+        815,
+        275
+      ],
+      "printed_phone": [
+        61,
+        412,
+        481,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 19,
+      "time_ms": 1900,
+      "face_source_panel": [
+        86,
+        55,
+        316,
+        325
+      ],
+      "plate": [
+        585,
+        215,
+        815,
+        275
+      ],
+      "printed_phone": [
+        61,
+        412,
+        481,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 20,
+      "time_ms": 2000,
+      "face_source_panel": [
+        87,
+        55,
+        317,
+        325
+      ],
+      "plate": [
+        587,
+        215,
+        817,
+        275
+      ],
+      "printed_phone": [
+        62,
+        412,
+        482,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 21,
+      "time_ms": 2100,
+      "face_source_panel": [
+        87,
+        55,
+        317,
+        325
+      ],
+      "plate": [
+        587,
+        215,
+        817,
+        275
+      ],
+      "printed_phone": [
+        62,
+        412,
+        482,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 22,
+      "time_ms": 2200,
+      "face_source_panel": [
+        88,
+        55,
+        318,
+        325
+      ],
+      "plate": [
+        589,
+        215,
+        819,
+        275
+      ],
+      "printed_phone": [
+        63,
+        412,
+        483,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 23,
+      "time_ms": 2300,
+      "face_source_panel": [
+        88,
+        55,
+        318,
+        325
+      ],
+      "plate": [
+        590,
+        215,
+        820,
+        275
+      ],
+      "printed_phone": [
+        63,
+        412,
+        483,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 24,
+      "time_ms": 2400,
+      "face_source_panel": [
+        89,
+        56,
+        319,
+        326
+      ],
+      "plate": [
+        591,
+        215,
+        821,
+        275
+      ],
+      "printed_phone": [
+        64,
+        412,
+        484,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 25,
+      "time_ms": 2500,
+      "face_source_panel": [
+        89,
+        56,
+        319,
+        326
+      ],
+      "plate": [
+        592,
+        215,
+        822,
+        275
+      ],
+      "printed_phone": [
+        64,
+        412,
+        484,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 26,
+      "time_ms": 2600,
+      "face_source_panel": [
+        89,
+        56,
+        319,
+        326
+      ],
+      "plate": [
+        592,
+        215,
+        822,
+        275
+      ],
+      "printed_phone": [
+        64,
+        412,
+        484,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 27,
+      "time_ms": 2700,
+      "face_source_panel": [
+        90,
+        56,
+        320,
+        326
+      ],
+      "plate": [
+        594,
+        215,
+        824,
+        275
+      ],
+      "printed_phone": [
+        65,
+        412,
+        485,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 28,
+      "time_ms": 2800,
+      "face_source_panel": [
+        90,
+        56,
+        320,
+        326
+      ],
+      "plate": [
+        594,
+        215,
+        824,
+        275
+      ],
+      "printed_phone": [
+        65,
+        412,
+        485,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 29,
+      "time_ms": 2900,
+      "face_source_panel": [
+        90,
+        56,
+        320,
+        326
+      ],
+      "plate": [
+        595,
+        215,
+        825,
+        275
+      ],
+      "printed_phone": [
+        65,
+        412,
+        485,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 30,
+      "time_ms": 3000,
+      "face_source_panel": [
+        91,
+        56,
+        321,
+        326
+      ],
+      "plate": [
+        596,
+        215,
+        826,
+        275
+      ],
+      "printed_phone": [
+        66,
+        412,
+        486,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 31,
+      "time_ms": 3100,
+      "face_source_panel": [
+        91,
+        56,
+        321,
+        326
+      ],
+      "plate": [
+        597,
+        215,
+        827,
+        275
+      ],
+      "printed_phone": [
+        66,
+        412,
+        486,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 32,
+      "time_ms": 3200,
+      "face_source_panel": [
+        91,
+        56,
+        321,
+        326
+      ],
+      "plate": [
+        597,
+        215,
+        827,
+        275
+      ],
+      "printed_phone": [
+        66,
+        412,
+        486,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 33,
+      "time_ms": 3300,
+      "face_source_panel": [
+        92,
+        56,
+        322,
+        326
+      ],
+      "plate": [
+        598,
+        215,
+        828,
+        275
+      ],
+      "printed_phone": [
+        67,
+        412,
+        487,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 34,
+      "time_ms": 3400,
+      "face_source_panel": [
+        92,
+        56,
+        322,
+        326
+      ],
+      "plate": [
+        599,
+        215,
+        829,
+        275
+      ],
+      "printed_phone": [
+        67,
+        412,
+        487,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 35,
+      "time_ms": 3500,
+      "face_source_panel": [
+        92,
+        56,
+        322,
+        326
+      ],
+      "plate": [
+        599,
+        215,
+        829,
+        275
+      ],
+      "printed_phone": [
+        67,
+        412,
+        487,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 36,
+      "time_ms": 3600,
+      "face_source_panel": [
+        92,
+        56,
+        322,
+        326
+      ],
+      "plate": [
+        599,
+        215,
+        829,
+        275
+      ],
+      "printed_phone": [
+        67,
+        412,
+        487,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 37,
+      "time_ms": 3700,
+      "face_source_panel": [
+        92,
+        56,
+        322,
+        326
+      ],
+      "plate": [
+        600,
+        215,
+        830,
+        275
+      ],
+      "printed_phone": [
+        67,
+        412,
+        487,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 38,
+      "time_ms": 3800,
+      "face_source_panel": [
+        93,
+        56,
+        323,
+        326
+      ],
+      "plate": [
+        601,
+        215,
+        831,
+        275
+      ],
+      "printed_phone": [
+        68,
+        412,
+        488,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 39,
+      "time_ms": 3900,
+      "face_source_panel": [
+        93,
+        56,
+        323,
+        326
+      ],
+      "plate": [
+        601,
+        215,
+        831,
+        275
+      ],
+      "printed_phone": [
+        68,
+        412,
+        488,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 40,
+      "time_ms": 4000,
+      "face_source_panel": [
+        93,
+        55,
+        323,
+        325
+      ],
+      "plate": [
+        601,
+        215,
+        831,
+        275
+      ],
+      "printed_phone": [
+        68,
+        412,
+        488,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 41,
+      "time_ms": 4100,
+      "face_source_panel": [
+        93,
+        55,
+        323,
+        325
+      ],
+      "plate": [
+        602,
+        215,
+        832,
+        275
+      ],
+      "printed_phone": [
+        68,
+        412,
+        488,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 42,
+      "time_ms": 4200,
+      "face_source_panel": [
+        93,
+        55,
+        323,
+        325
+      ],
+      "plate": [
+        602,
+        215,
+        832,
+        275
+      ],
+      "printed_phone": [
+        68,
+        412,
+        488,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 43,
+      "time_ms": 4300,
+      "face_source_panel": [
+        93,
+        55,
+        323,
+        325
+      ],
+      "plate": [
+        602,
+        215,
+        832,
+        275
+      ],
+      "printed_phone": [
+        68,
+        412,
+        488,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 44,
+      "time_ms": 4400,
+      "face_source_panel": [
+        93,
+        55,
+        323,
+        325
+      ],
+      "plate": [
+        602,
+        215,
+        832,
+        275
+      ],
+      "printed_phone": [
+        68,
+        412,
+        488,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 45,
+      "time_ms": 4500,
+      "face_source_panel": [
+        93,
+        55,
+        323,
+        325
+      ],
+      "plate": [
+        602,
+        215,
+        832,
+        275
+      ],
+      "printed_phone": [
+        68,
+        412,
+        488,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 46,
+      "time_ms": 4600,
+      "face_source_panel": [
+        93,
+        54,
+        323,
+        324
+      ],
+      "plate": [
+        602,
+        215,
+        832,
+        275
+      ],
+      "printed_phone": [
+        68,
+        412,
+        488,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 47,
+      "time_ms": 4700,
+      "face_source_panel": [
+        93,
+        54,
+        323,
+        324
+      ],
+      "plate": [
+        602,
+        215,
+        832,
+        275
+      ],
+      "printed_phone": [
+        68,
+        412,
+        488,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 48,
+      "time_ms": 4800,
+      "face_source_panel": [
+        93,
+        54,
+        323,
+        324
+      ],
+      "plate": [
+        602,
+        215,
+        832,
+        275
+      ],
+      "printed_phone": [
+        68,
+        412,
+        488,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 49,
+      "time_ms": 4900,
+      "face_source_panel": [
+        93,
+        54,
+        323,
+        324
+      ],
+      "plate": [
+        602,
+        215,
+        832,
+        275
+      ],
+      "printed_phone": [
+        68,
+        412,
+        488,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 50,
+      "time_ms": 5000,
+      "face_source_panel": [
+        93,
+        54,
+        323,
+        324
+      ],
+      "plate": [
+        602,
+        215,
+        832,
+        275
+      ],
+      "printed_phone": [
+        68,
+        412,
+        488,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 51,
+      "time_ms": 5100,
+      "face_source_panel": [
+        92,
+        53,
+        322,
+        323
+      ],
+      "plate": [
+        601,
+        215,
+        831,
+        275
+      ],
+      "printed_phone": [
+        67,
+        412,
+        487,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 52,
+      "time_ms": 5200,
+      "face_source_panel": [
+        92,
+        53,
+        322,
+        323
+      ],
+      "plate": [
+        601,
+        215,
+        831,
+        275
+      ],
+      "printed_phone": [
+        67,
+        412,
+        487,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 53,
+      "time_ms": 5300,
+      "face_source_panel": [
+        92,
+        53,
+        322,
+        323
+      ],
+      "plate": [
+        601,
+        215,
+        831,
+        275
+      ],
+      "printed_phone": [
+        67,
+        412,
+        487,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 54,
+      "time_ms": 5400,
+      "face_source_panel": [
+        92,
+        53,
+        322,
+        323
+      ],
+      "plate": [
+        600,
+        215,
+        830,
+        275
+      ],
+      "printed_phone": [
+        67,
+        412,
+        487,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 55,
+      "time_ms": 5500,
+      "face_source_panel": [
+        92,
+        52,
+        322,
+        322
+      ],
+      "plate": [
+        600,
+        215,
+        830,
+        275
+      ],
+      "printed_phone": [
+        67,
+        412,
+        487,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 56,
+      "time_ms": 5600,
+      "face_source_panel": [
+        91,
+        52,
+        321,
+        322
+      ],
+      "plate": [
+        599,
+        215,
+        829,
+        275
+      ],
+      "printed_phone": [
+        66,
+        412,
+        486,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 57,
+      "time_ms": 5700,
+      "face_source_panel": [
+        91,
+        52,
+        321,
+        322
+      ],
+      "plate": [
+        599,
+        215,
+        829,
+        275
+      ],
+      "printed_phone": [
+        66,
+        412,
+        486,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 58,
+      "time_ms": 5800,
+      "face_source_panel": [
+        91,
+        51,
+        321,
+        321
+      ],
+      "plate": [
+        598,
+        215,
+        828,
+        275
+      ],
+      "printed_phone": [
+        66,
+        412,
+        486,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 59,
+      "time_ms": 5900,
+      "face_source_panel": [
+        90,
+        51,
+        320,
+        321
+      ],
+      "plate": [
+        597,
+        215,
+        827,
+        275
+      ],
+      "printed_phone": [
+        65,
+        412,
+        485,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 60,
+      "time_ms": 6000,
+      "face_source_panel": [
+        90,
+        51,
+        320,
+        321
+      ],
+      "plate": [
+        597,
+        215,
+        827,
+        275
+      ],
+      "printed_phone": [
+        65,
+        412,
+        485,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 61,
+      "time_ms": 6100,
+      "face_source_panel": [
+        90,
+        51,
+        320,
+        321
+      ],
+      "plate": [
+        596,
+        215,
+        826,
+        275
+      ],
+      "printed_phone": [
+        65,
+        412,
+        485,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 62,
+      "time_ms": 6200,
+      "face_source_panel": [
+        89,
+        50,
+        319,
+        320
+      ],
+      "plate": [
+        595,
+        215,
+        825,
+        275
+      ],
+      "printed_phone": [
+        64,
+        412,
+        484,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 63,
+      "time_ms": 6300,
+      "face_source_panel": [
+        89,
+        50,
+        319,
+        320
+      ],
+      "plate": [
+        595,
+        215,
+        825,
+        275
+      ],
+      "printed_phone": [
+        64,
+        412,
+        484,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 64,
+      "time_ms": 6400,
+      "face_source_panel": [
+        89,
+        50,
+        319,
+        320
+      ],
+      "plate": [
+        594,
+        215,
+        824,
+        275
+      ],
+      "printed_phone": [
+        64,
+        412,
+        484,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 65,
+      "time_ms": 6500,
+      "face_source_panel": [
+        88,
+        49,
+        318,
+        319
+      ],
+      "plate": [
+        593,
+        215,
+        823,
+        275
+      ],
+      "printed_phone": [
+        63,
+        412,
+        483,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 66,
+      "time_ms": 6600,
+      "face_source_panel": [
+        88,
+        49,
+        318,
+        319
+      ],
+      "plate": [
+        592,
+        215,
+        822,
+        275
+      ],
+      "printed_phone": [
+        63,
+        412,
+        483,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 67,
+      "time_ms": 6700,
+      "face_source_panel": [
+        87,
+        49,
+        317,
+        319
+      ],
+      "plate": [
+        591,
+        215,
+        821,
+        275
+      ],
+      "printed_phone": [
+        62,
+        412,
+        482,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 68,
+      "time_ms": 6800,
+      "face_source_panel": [
+        87,
+        48,
+        317,
+        318
+      ],
+      "plate": [
+        590,
+        215,
+        820,
+        275
+      ],
+      "printed_phone": [
+        62,
+        412,
+        482,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 69,
+      "time_ms": 6900,
+      "face_source_panel": [
+        86,
+        48,
+        316,
+        318
+      ],
+      "plate": [
+        589,
+        215,
+        819,
+        275
+      ],
+      "printed_phone": [
+        61,
+        412,
+        481,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 70,
+      "time_ms": 7000,
+      "face_source_panel": [
+        86,
+        48,
+        316,
+        318
+      ],
+      "plate": [
+        588,
+        215,
+        818,
+        275
+      ],
+      "printed_phone": [
+        61,
+        412,
+        481,
+        487
+      ],
+      "partial_occlusion": true
+    },
+    {
+      "frame": 71,
+      "time_ms": 7100,
+      "face_source_panel": [
+        85,
+        48,
+        315,
+        318
+      ],
+      "plate": [
+        587,
+        215,
+        817,
+        275
+      ],
+      "printed_phone": [
+        60,
+        412,
+        480,
+        487
+      ],
+      "partial_occlusion": true
+    },
+    {
+      "frame": 72,
+      "time_ms": 7200,
+      "face_source_panel": [
+        85,
+        47,
+        315,
+        317
+      ],
+      "plate": [
+        586,
+        215,
+        816,
+        275
+      ],
+      "printed_phone": [
+        60,
+        412,
+        480,
+        487
+      ],
+      "partial_occlusion": true
+    },
+    {
+      "frame": 73,
+      "time_ms": 7300,
+      "face_source_panel": [
+        84,
+        47,
+        314,
+        317
+      ],
+      "plate": [
+        585,
+        215,
+        815,
+        275
+      ],
+      "printed_phone": [
+        59,
+        412,
+        479,
+        487
+      ],
+      "partial_occlusion": true
+    },
+    {
+      "frame": 74,
+      "time_ms": 7400,
+      "face_source_panel": [
+        84,
+        47,
+        314,
+        317
+      ],
+      "plate": [
+        584,
+        215,
+        814,
+        275
+      ],
+      "printed_phone": [
+        59,
+        412,
+        479,
+        487
+      ],
+      "partial_occlusion": true
+    },
+    {
+      "frame": 75,
+      "time_ms": 7500,
+      "face_source_panel": [
+        83,
+        47,
+        313,
+        317
+      ],
+      "plate": [
+        582,
+        215,
+        812,
+        275
+      ],
+      "printed_phone": [
+        58,
+        412,
+        478,
+        487
+      ],
+      "partial_occlusion": true
+    },
+    {
+      "frame": 76,
+      "time_ms": 7600,
+      "face_source_panel": [
+        82,
+        46,
+        312,
+        316
+      ],
+      "plate": [
+        581,
+        215,
+        811,
+        275
+      ],
+      "printed_phone": [
+        57,
+        412,
+        477,
+        487
+      ],
+      "partial_occlusion": true
+    },
+    {
+      "frame": 77,
+      "time_ms": 7700,
+      "face_source_panel": [
+        82,
+        46,
+        312,
+        316
+      ],
+      "plate": [
+        580,
+        215,
+        810,
+        275
+      ],
+      "printed_phone": [
+        57,
+        412,
+        477,
+        487
+      ],
+      "partial_occlusion": true
+    },
+    {
+      "frame": 78,
+      "time_ms": 7800,
+      "face_source_panel": [
+        81,
+        46,
+        311,
+        316
+      ],
+      "plate": [
+        578,
+        215,
+        808,
+        275
+      ],
+      "printed_phone": [
+        56,
+        412,
+        476,
+        487
+      ],
+      "partial_occlusion": true
+    },
+    {
+      "frame": 79,
+      "time_ms": 7900,
+      "face_source_panel": [
+        81,
+        46,
+        311,
+        316
+      ],
+      "plate": [
+        578,
+        215,
+        808,
+        275
+      ],
+      "printed_phone": [
+        56,
+        412,
+        476,
+        487
+      ],
+      "partial_occlusion": true
+    },
+    {
+      "frame": 80,
+      "time_ms": 8000,
+      "face_source_panel": [
+        80,
+        45,
+        310,
+        315
+      ],
+      "plate": [
+        576,
+        215,
+        806,
+        275
+      ],
+      "printed_phone": [
+        55,
+        412,
+        475,
+        487
+      ],
+      "partial_occlusion": true
+    },
+    {
+      "frame": 81,
+      "time_ms": 8100,
+      "face_source_panel": [
+        79,
+        45,
+        309,
+        315
+      ],
+      "plate": [
+        574,
+        215,
+        804,
+        275
+      ],
+      "printed_phone": [
+        54,
+        412,
+        474,
+        487
+      ],
+      "partial_occlusion": true
+    },
+    {
+      "frame": 82,
+      "time_ms": 8200,
+      "face_source_panel": [
+        79,
+        45,
+        309,
+        315
+      ],
+      "plate": [
+        574,
+        215,
+        804,
+        275
+      ],
+      "printed_phone": [
+        54,
+        412,
+        474,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 83,
+      "time_ms": 8300,
+      "face_source_panel": [
+        78,
+        45,
+        308,
+        315
+      ],
+      "plate": [
+        572,
+        215,
+        802,
+        275
+      ],
+      "printed_phone": [
+        53,
+        412,
+        473,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 84,
+      "time_ms": 8400,
+      "face_source_panel": [
+        78,
+        45,
+        308,
+        315
+      ],
+      "plate": [
+        571,
+        215,
+        801,
+        275
+      ],
+      "printed_phone": [
+        53,
+        412,
+        473,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 85,
+      "time_ms": 8500,
+      "face_source_panel": [
+        77,
+        45,
+        307,
+        315
+      ],
+      "plate": [
+        569,
+        215,
+        799,
+        275
+      ],
+      "printed_phone": [
+        52,
+        412,
+        472,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 86,
+      "time_ms": 8600,
+      "face_source_panel": [
+        76,
+        45,
+        306,
+        315
+      ],
+      "plate": [
+        568,
+        215,
+        798,
+        275
+      ],
+      "printed_phone": [
+        51,
+        412,
+        471,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 87,
+      "time_ms": 8700,
+      "face_source_panel": [
+        76,
+        44,
+        306,
+        314
+      ],
+      "plate": [
+        567,
+        215,
+        797,
+        275
+      ],
+      "printed_phone": [
+        51,
+        412,
+        471,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 88,
+      "time_ms": 8800,
+      "face_source_panel": [
+        75,
+        44,
+        305,
+        314
+      ],
+      "plate": [
+        565,
+        215,
+        795,
+        275
+      ],
+      "printed_phone": [
+        50,
+        412,
+        470,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 89,
+      "time_ms": 8900,
+      "face_source_panel": [
+        74,
+        44,
+        304,
+        314
+      ],
+      "plate": [
+        563,
+        215,
+        793,
+        275
+      ],
+      "printed_phone": [
+        49,
+        412,
+        469,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 90,
+      "time_ms": 9000,
+      "face_source_panel": [
+        74,
+        44,
+        304,
+        314
+      ],
+      "plate": [
+        562,
+        215,
+        792,
+        275
+      ],
+      "printed_phone": [
+        49,
+        412,
+        469,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 91,
+      "time_ms": 9100,
+      "face_source_panel": [
+        73,
+        44,
+        303,
+        314
+      ],
+      "plate": [
+        561,
+        215,
+        791,
+        275
+      ],
+      "printed_phone": [
+        48,
+        412,
+        468,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 92,
+      "time_ms": 9200,
+      "face_source_panel": [
+        72,
+        44,
+        302,
+        314
+      ],
+      "plate": [
+        559,
+        215,
+        789,
+        275
+      ],
+      "printed_phone": [
+        47,
+        412,
+        467,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 93,
+      "time_ms": 9300,
+      "face_source_panel": [
+        72,
+        44,
+        302,
+        314
+      ],
+      "plate": [
+        558,
+        215,
+        788,
+        275
+      ],
+      "printed_phone": [
+        47,
+        412,
+        467,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 94,
+      "time_ms": 9400,
+      "face_source_panel": [
+        71,
+        44,
+        301,
+        314
+      ],
+      "plate": [
+        556,
+        215,
+        786,
+        275
+      ],
+      "printed_phone": [
+        46,
+        412,
+        466,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 95,
+      "time_ms": 9500,
+      "face_source_panel": [
+        71,
+        44,
+        301,
+        314
+      ],
+      "plate": [
+        555,
+        215,
+        785,
+        275
+      ],
+      "printed_phone": [
+        46,
+        412,
+        466,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 96,
+      "time_ms": 9600,
+      "face_source_panel": [
+        70,
+        44,
+        300,
+        314
+      ],
+      "plate": [
+        554,
+        215,
+        784,
+        275
+      ],
+      "printed_phone": [
+        45,
+        412,
+        465,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 97,
+      "time_ms": 9700,
+      "face_source_panel": [
+        69,
+        44,
+        299,
+        314
+      ],
+      "plate": [
+        552,
+        215,
+        782,
+        275
+      ],
+      "printed_phone": [
+        44,
+        412,
+        464,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 98,
+      "time_ms": 9800,
+      "face_source_panel": [
+        69,
+        44,
+        299,
+        314
+      ],
+      "plate": [
+        551,
+        215,
+        781,
+        275
+      ],
+      "printed_phone": [
+        44,
+        412,
+        464,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 99,
+      "time_ms": 9900,
+      "face_source_panel": [
+        68,
+        44,
+        298,
+        314
+      ],
+      "plate": [
+        549,
+        215,
+        779,
+        275
+      ],
+      "printed_phone": [
+        43,
+        412,
+        463,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 100,
+      "time_ms": 10000,
+      "face_source_panel": [
+        67,
+        44,
+        297,
+        314
+      ],
+      "plate": [
+        547,
+        215,
+        777,
+        275
+      ],
+      "printed_phone": [
+        42,
+        412,
+        462,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 101,
+      "time_ms": 10100,
+      "face_source_panel": [
+        67,
+        44,
+        297,
+        314
+      ],
+      "plate": [
+        547,
+        215,
+        777,
+        275
+      ],
+      "printed_phone": [
+        42,
+        412,
+        462,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 102,
+      "time_ms": 10200,
+      "face_source_panel": [
+        66,
+        44,
+        296,
+        314
+      ],
+      "plate": [
+        545,
+        215,
+        775,
+        275
+      ],
+      "printed_phone": [
+        41,
+        412,
+        461,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 103,
+      "time_ms": 10300,
+      "face_source_panel": [
+        66,
+        45,
+        296,
+        315
+      ],
+      "plate": [
+        544,
+        215,
+        774,
+        275
+      ],
+      "printed_phone": [
+        41,
+        412,
+        461,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 104,
+      "time_ms": 10400,
+      "face_source_panel": [
+        65,
+        45,
+        295,
+        315
+      ],
+      "plate": [
+        542,
+        215,
+        772,
+        275
+      ],
+      "printed_phone": [
+        40,
+        412,
+        460,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 105,
+      "time_ms": 10500,
+      "face_source_panel": [
+        65,
+        45,
+        295,
+        315
+      ],
+      "plate": [
+        542,
+        215,
+        772,
+        275
+      ],
+      "printed_phone": [
+        40,
+        412,
+        460,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 106,
+      "time_ms": 10600,
+      "face_source_panel": [
+        64,
+        45,
+        294,
+        315
+      ],
+      "plate": [
+        540,
+        215,
+        770,
+        275
+      ],
+      "printed_phone": [
+        39,
+        412,
+        459,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 107,
+      "time_ms": 10700,
+      "face_source_panel": [
+        64,
+        45,
+        294,
+        315
+      ],
+      "plate": [
+        539,
+        215,
+        769,
+        275
+      ],
+      "printed_phone": [
+        39,
+        412,
+        459,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 108,
+      "time_ms": 10800,
+      "face_source_panel": [
+        63,
+        45,
+        293,
+        315
+      ],
+      "plate": [
+        537,
+        215,
+        767,
+        275
+      ],
+      "printed_phone": [
+        38,
+        412,
+        458,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 109,
+      "time_ms": 10900,
+      "face_source_panel": [
+        63,
+        46,
+        293,
+        316
+      ],
+      "plate": [
+        537,
+        215,
+        767,
+        275
+      ],
+      "printed_phone": [
+        38,
+        412,
+        458,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 110,
+      "time_ms": 11000,
+      "face_source_panel": [
+        62,
+        46,
+        292,
+        316
+      ],
+      "plate": [
+        535,
+        215,
+        765,
+        275
+      ],
+      "printed_phone": [
+        37,
+        412,
+        457,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 111,
+      "time_ms": 11100,
+      "face_source_panel": [
+        62,
+        46,
+        292,
+        316
+      ],
+      "plate": [
+        534,
+        215,
+        764,
+        275
+      ],
+      "printed_phone": [
+        37,
+        412,
+        457,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 112,
+      "time_ms": 11200,
+      "face_source_panel": [
+        61,
+        46,
+        291,
+        316
+      ],
+      "plate": [
+        533,
+        215,
+        763,
+        275
+      ],
+      "printed_phone": [
+        36,
+        412,
+        456,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 113,
+      "time_ms": 11300,
+      "face_source_panel": [
+        61,
+        46,
+        291,
+        316
+      ],
+      "plate": [
+        532,
+        215,
+        762,
+        275
+      ],
+      "printed_phone": [
+        36,
+        412,
+        456,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 114,
+      "time_ms": 11400,
+      "face_source_panel": [
+        61,
+        47,
+        291,
+        317
+      ],
+      "plate": [
+        531,
+        215,
+        761,
+        275
+      ],
+      "printed_phone": [
+        36,
+        412,
+        456,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 115,
+      "time_ms": 11500,
+      "face_source_panel": [
+        60,
+        47,
+        290,
+        317
+      ],
+      "plate": [
+        530,
+        215,
+        760,
+        275
+      ],
+      "printed_phone": [
+        35,
+        412,
+        455,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 116,
+      "time_ms": 11600,
+      "face_source_panel": [
+        60,
+        47,
+        290,
+        317
+      ],
+      "plate": [
+        529,
+        215,
+        759,
+        275
+      ],
+      "printed_phone": [
+        35,
+        412,
+        455,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 117,
+      "time_ms": 11700,
+      "face_source_panel": [
+        60,
+        47,
+        290,
+        317
+      ],
+      "plate": [
+        528,
+        215,
+        758,
+        275
+      ],
+      "printed_phone": [
+        35,
+        412,
+        455,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 118,
+      "time_ms": 11800,
+      "face_source_panel": [
+        59,
+        48,
+        289,
+        318
+      ],
+      "plate": [
+        527,
+        215,
+        757,
+        275
+      ],
+      "printed_phone": [
+        34,
+        412,
+        454,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 119,
+      "time_ms": 11900,
+      "face_source_panel": [
+        59,
+        48,
+        289,
+        318
+      ],
+      "plate": [
+        526,
+        215,
+        756,
+        275
+      ],
+      "printed_phone": [
+        34,
+        412,
+        454,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 120,
+      "time_ms": 12000,
+      "face_source_panel": [
+        59,
+        48,
+        289,
+        318
+      ],
+      "plate": [
+        526,
+        215,
+        756,
+        275
+      ],
+      "printed_phone": [
+        34,
+        412,
+        454,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 121,
+      "time_ms": 12100,
+      "face_source_panel": [
+        58,
+        49,
+        288,
+        319
+      ],
+      "plate": [
+        524,
+        215,
+        754,
+        275
+      ],
+      "printed_phone": [
+        33,
+        412,
+        453,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 122,
+      "time_ms": 12200,
+      "face_source_panel": [
+        58,
+        49,
+        288,
+        319
+      ],
+      "plate": [
+        524,
+        215,
+        754,
+        275
+      ],
+      "printed_phone": [
+        33,
+        412,
+        453,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 123,
+      "time_ms": 12300,
+      "face_source_panel": [
+        58,
+        49,
+        288,
+        319
+      ],
+      "plate": [
+        523,
+        215,
+        753,
+        275
+      ],
+      "printed_phone": [
+        33,
+        412,
+        453,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 124,
+      "time_ms": 12400,
+      "face_source_panel": [
+        58,
+        50,
+        288,
+        320
+      ],
+      "plate": [
+        523,
+        215,
+        753,
+        275
+      ],
+      "printed_phone": [
+        33,
+        412,
+        453,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 125,
+      "time_ms": 12500,
+      "face_source_panel": [
+        58,
+        50,
+        288,
+        320
+      ],
+      "plate": [
+        522,
+        215,
+        752,
+        275
+      ],
+      "printed_phone": [
+        33,
+        412,
+        453,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 126,
+      "time_ms": 12600,
+      "face_source_panel": [
+        57,
+        50,
+        287,
+        320
+      ],
+      "plate": [
+        521,
+        215,
+        751,
+        275
+      ],
+      "printed_phone": [
+        32,
+        412,
+        452,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 127,
+      "time_ms": 12700,
+      "face_source_panel": [
+        57,
+        50,
+        287,
+        320
+      ],
+      "plate": [
+        521,
+        215,
+        751,
+        275
+      ],
+      "printed_phone": [
+        32,
+        412,
+        452,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 128,
+      "time_ms": 12800,
+      "face_source_panel": [
+        57,
+        51,
+        287,
+        321
+      ],
+      "plate": [
+        520,
+        215,
+        750,
+        275
+      ],
+      "printed_phone": [
+        32,
+        412,
+        452,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 129,
+      "time_ms": 12900,
+      "face_source_panel": [
+        57,
+        51,
+        287,
+        321
+      ],
+      "plate": [
+        520,
+        215,
+        750,
+        275
+      ],
+      "printed_phone": [
+        32,
+        412,
+        452,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 130,
+      "time_ms": 13000,
+      "face_source_panel": [
+        57,
+        51,
+        287,
+        321
+      ],
+      "plate": [
+        520,
+        215,
+        750,
+        275
+      ],
+      "printed_phone": [
+        32,
+        412,
+        452,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 131,
+      "time_ms": 13100,
+      "face_source_panel": [
+        57,
+        52,
+        287,
+        322
+      ],
+      "plate": [
+        519,
+        215,
+        749,
+        275
+      ],
+      "printed_phone": [
+        32,
+        412,
+        452,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 132,
+      "time_ms": 13200,
+      "face_source_panel": [
+        57,
+        52,
+        287,
+        322
+      ],
+      "plate": [
+        519,
+        215,
+        749,
+        275
+      ],
+      "printed_phone": [
+        32,
+        412,
+        452,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 133,
+      "time_ms": 13300,
+      "face_source_panel": [
+        57,
+        52,
+        287,
+        322
+      ],
+      "plate": [
+        519,
+        215,
+        749,
+        275
+      ],
+      "printed_phone": [
+        32,
+        412,
+        452,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 134,
+      "time_ms": 13400,
+      "face_source_panel": [
+        57,
+        52,
+        287,
+        322
+      ],
+      "plate": [
+        519,
+        215,
+        749,
+        275
+      ],
+      "printed_phone": [
+        32,
+        412,
+        452,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 135,
+      "time_ms": 13500,
+      "face_source_panel": [
+        57,
+        53,
+        287,
+        323
+      ],
+      "plate": [
+        519,
+        215,
+        749,
+        275
+      ],
+      "printed_phone": [
+        32,
+        412,
+        452,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 136,
+      "time_ms": 13600,
+      "face_source_panel": [
+        57,
+        53,
+        287,
+        323
+      ],
+      "plate": [
+        518,
+        215,
+        748,
+        275
+      ],
+      "printed_phone": [
+        32,
+        412,
+        452,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 137,
+      "time_ms": 13700,
+      "face_source_panel": [
+        57,
+        53,
+        287,
+        323
+      ],
+      "plate": [
+        518,
+        215,
+        748,
+        275
+      ],
+      "printed_phone": [
+        32,
+        412,
+        452,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 138,
+      "time_ms": 13800,
+      "face_source_panel": [
+        57,
+        53,
+        287,
+        323
+      ],
+      "plate": [
+        518,
+        215,
+        748,
+        275
+      ],
+      "printed_phone": [
+        32,
+        412,
+        452,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 139,
+      "time_ms": 13900,
+      "face_source_panel": [
+        58,
+        54,
+        288,
+        324
+      ],
+      "plate": [
+        519,
+        215,
+        749,
+        275
+      ],
+      "printed_phone": [
+        33,
+        412,
+        453,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 140,
+      "time_ms": 14000,
+      "face_source_panel": [
+        58,
+        54,
+        288,
+        324
+      ],
+      "plate": [
+        519,
+        215,
+        749,
+        275
+      ],
+      "printed_phone": [
+        33,
+        412,
+        453,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 141,
+      "time_ms": 14100,
+      "face_source_panel": [
+        58,
+        54,
+        288,
+        324
+      ],
+      "plate": [
+        519,
+        215,
+        749,
+        275
+      ],
+      "printed_phone": [
+        33,
+        412,
+        453,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 142,
+      "time_ms": 14200,
+      "face_source_panel": [
+        58,
+        54,
+        288,
+        324
+      ],
+      "plate": [
+        519,
+        215,
+        749,
+        275
+      ],
+      "printed_phone": [
+        33,
+        412,
+        453,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 143,
+      "time_ms": 14300,
+      "face_source_panel": [
+        58,
+        55,
+        288,
+        325
+      ],
+      "plate": [
+        519,
+        215,
+        749,
+        275
+      ],
+      "printed_phone": [
+        33,
+        412,
+        453,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 144,
+      "time_ms": 14400,
+      "face_source_panel": [
+        59,
+        55,
+        289,
+        325
+      ],
+      "plate": [
+        520,
+        215,
+        750,
+        275
+      ],
+      "printed_phone": [
+        34,
+        412,
+        454,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 145,
+      "time_ms": 14500,
+      "face_source_panel": [
+        59,
+        55,
+        289,
+        325
+      ],
+      "plate": [
+        520,
+        215,
+        750,
+        275
+      ],
+      "printed_phone": [
+        34,
+        412,
+        454,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 146,
+      "time_ms": 14600,
+      "face_source_panel": [
+        59,
+        55,
+        289,
+        325
+      ],
+      "plate": [
+        520,
+        215,
+        750,
+        275
+      ],
+      "printed_phone": [
+        34,
+        412,
+        454,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 147,
+      "time_ms": 14700,
+      "face_source_panel": [
+        60,
+        55,
+        290,
+        325
+      ],
+      "plate": [
+        521,
+        215,
+        751,
+        275
+      ],
+      "printed_phone": [
+        35,
+        412,
+        455,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 148,
+      "time_ms": 14800,
+      "face_source_panel": [
+        60,
+        55,
+        290,
+        325
+      ],
+      "plate": [
+        522,
+        215,
+        752,
+        275
+      ],
+      "printed_phone": [
+        35,
+        412,
+        455,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 149,
+      "time_ms": 14900,
+      "face_source_panel": [
+        60,
+        56,
+        290,
+        326
+      ],
+      "plate": [
+        522,
+        215,
+        752,
+        275
+      ],
+      "printed_phone": [
+        35,
+        412,
+        455,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 150,
+      "time_ms": 15000,
+      "face_source_panel": [
+        61,
+        56,
+        291,
+        326
+      ],
+      "plate": [
+        523,
+        215,
+        753,
+        275
+      ],
+      "printed_phone": [
+        36,
+        412,
+        456,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 151,
+      "time_ms": 15100,
+      "face_source_panel": [
+        61,
+        56,
+        291,
+        326
+      ],
+      "plate": [
+        523,
+        215,
+        753,
+        275
+      ],
+      "printed_phone": [
+        36,
+        412,
+        456,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 152,
+      "time_ms": 15200,
+      "face_source_panel": [
+        61,
+        56,
+        291,
+        326
+      ],
+      "plate": [
+        523,
+        215,
+        753,
+        275
+      ],
+      "printed_phone": [
+        36,
+        412,
+        456,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 153,
+      "time_ms": 15300,
+      "face_source_panel": [
+        62,
+        56,
+        292,
+        326
+      ],
+      "plate": [
+        525,
+        215,
+        755,
+        275
+      ],
+      "printed_phone": [
+        37,
+        412,
+        457,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 154,
+      "time_ms": 15400,
+      "face_source_panel": [
+        62,
+        56,
+        292,
+        326
+      ],
+      "plate": [
+        525,
+        215,
+        755,
+        275
+      ],
+      "printed_phone": [
+        37,
+        412,
+        457,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 155,
+      "time_ms": 15500,
+      "face_source_panel": [
+        63,
+        56,
+        293,
+        326
+      ],
+      "plate": [
+        526,
+        215,
+        756,
+        275
+      ],
+      "printed_phone": [
+        38,
+        412,
+        458,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 156,
+      "time_ms": 15600,
+      "face_source_panel": [
+        63,
+        56,
+        293,
+        326
+      ],
+      "plate": [
+        527,
+        215,
+        757,
+        275
+      ],
+      "printed_phone": [
+        38,
+        412,
+        458,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 157,
+      "time_ms": 15700,
+      "face_source_panel": [
+        64,
+        56,
+        294,
+        326
+      ],
+      "plate": [
+        528,
+        215,
+        758,
+        275
+      ],
+      "printed_phone": [
+        39,
+        412,
+        459,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 158,
+      "time_ms": 15800,
+      "face_source_panel": [
+        64,
+        56,
+        294,
+        326
+      ],
+      "plate": [
+        529,
+        215,
+        759,
+        275
+      ],
+      "printed_phone": [
+        39,
+        412,
+        459,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 159,
+      "time_ms": 15900,
+      "face_source_panel": [
+        65,
+        56,
+        295,
+        326
+      ],
+      "plate": [
+        530,
+        215,
+        760,
+        275
+      ],
+      "printed_phone": [
+        40,
+        412,
+        460,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 160,
+      "time_ms": 16000,
+      "face_source_panel": [
+        65,
+        56,
+        295,
+        326
+      ],
+      "plate": [
+        530,
+        215,
+        760,
+        275
+      ],
+      "printed_phone": [
+        40,
+        412,
+        460,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 161,
+      "time_ms": 16100,
+      "face_source_panel": [
+        66,
+        56,
+        296,
+        326
+      ],
+      "plate": [
+        532,
+        215,
+        762,
+        275
+      ],
+      "printed_phone": [
+        41,
+        412,
+        461,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 162,
+      "time_ms": 16200,
+      "face_source_panel": [
+        66,
+        56,
+        296,
+        326
+      ],
+      "plate": [
+        532,
+        215,
+        762,
+        275
+      ],
+      "printed_phone": [
+        41,
+        412,
+        461,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 163,
+      "time_ms": 16300,
+      "face_source_panel": [
+        67,
+        56,
+        297,
+        326
+      ],
+      "plate": [
+        534,
+        215,
+        764,
+        275
+      ],
+      "printed_phone": [
+        42,
+        412,
+        462,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 164,
+      "time_ms": 16400,
+      "face_source_panel": [
+        68,
+        56,
+        298,
+        326
+      ],
+      "plate": [
+        536,
+        215,
+        766,
+        275
+      ],
+      "printed_phone": [
+        43,
+        412,
+        463,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 165,
+      "time_ms": 16500,
+      "face_source_panel": [
+        68,
+        56,
+        298,
+        326
+      ],
+      "plate": [
+        536,
+        215,
+        766,
+        275
+      ],
+      "printed_phone": [
+        43,
+        412,
+        463,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 166,
+      "time_ms": 16600,
+      "face_source_panel": [
+        69,
+        55,
+        299,
+        325
+      ],
+      "plate": [
+        538,
+        215,
+        768,
+        275
+      ],
+      "printed_phone": [
+        44,
+        412,
+        464,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 167,
+      "time_ms": 16700,
+      "face_source_panel": [
+        69,
+        55,
+        299,
+        325
+      ],
+      "plate": [
+        538,
+        215,
+        768,
+        275
+      ],
+      "printed_phone": [
+        44,
+        412,
+        464,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 168,
+      "time_ms": 16800,
+      "face_source_panel": [
+        70,
+        55,
+        300,
+        325
+      ],
+      "plate": [
+        540,
+        215,
+        770,
+        275
+      ],
+      "printed_phone": [
+        45,
+        412,
+        465,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 169,
+      "time_ms": 16900,
+      "face_source_panel": [
+        71,
+        55,
+        301,
+        325
+      ],
+      "plate": [
+        541,
+        215,
+        771,
+        275
+      ],
+      "printed_phone": [
+        46,
+        412,
+        466,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 170,
+      "time_ms": 17000,
+      "face_source_panel": [
+        71,
+        55,
+        301,
+        325
+      ],
+      "plate": [
+        542,
+        215,
+        772,
+        275
+      ],
+      "printed_phone": [
+        46,
+        412,
+        466,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 171,
+      "time_ms": 17100,
+      "face_source_panel": [
+        72,
+        55,
+        302,
+        325
+      ],
+      "plate": [
+        544,
+        215,
+        774,
+        275
+      ],
+      "printed_phone": [
+        47,
+        412,
+        467,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 172,
+      "time_ms": 17200,
+      "face_source_panel": [
+        72,
+        54,
+        302,
+        324
+      ],
+      "plate": [
+        544,
+        215,
+        774,
+        275
+      ],
+      "printed_phone": [
+        47,
+        412,
+        467,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 173,
+      "time_ms": 17300,
+      "face_source_panel": [
+        73,
+        54,
+        303,
+        324
+      ],
+      "plate": [
+        546,
+        215,
+        776,
+        275
+      ],
+      "printed_phone": [
+        48,
+        412,
+        468,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 174,
+      "time_ms": 17400,
+      "face_source_panel": [
+        74,
+        54,
+        304,
+        324
+      ],
+      "plate": [
+        548,
+        215,
+        778,
+        275
+      ],
+      "printed_phone": [
+        49,
+        412,
+        469,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 175,
+      "time_ms": 17500,
+      "face_source_panel": [
+        74,
+        54,
+        304,
+        324
+      ],
+      "plate": [
+        549,
+        215,
+        779,
+        275
+      ],
+      "printed_phone": [
+        49,
+        412,
+        469,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 176,
+      "time_ms": 17600,
+      "face_source_panel": [
+        75,
+        54,
+        305,
+        324
+      ],
+      "plate": [
+        550,
+        215,
+        780,
+        275
+      ],
+      "printed_phone": [
+        50,
+        412,
+        470,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 177,
+      "time_ms": 17700,
+      "face_source_panel": [
+        76,
+        53,
+        306,
+        323
+      ],
+      "plate": [
+        552,
+        215,
+        782,
+        275
+      ],
+      "printed_phone": [
+        51,
+        412,
+        471,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 178,
+      "time_ms": 17800,
+      "face_source_panel": [
+        76,
+        53,
+        306,
+        323
+      ],
+      "plate": [
+        553,
+        215,
+        783,
+        275
+      ],
+      "printed_phone": [
+        51,
+        412,
+        471,
+        487
+      ],
+      "partial_occlusion": false
+    },
+    {
+      "frame": 179,
+      "time_ms": 17900,
+      "face_source_panel": [
+        77,
+        53,
+        307,
+        323
+      ],
+      "plate": [
+        555,
+        215,
+        785,
+        275
+      ],
+      "printed_phone": [
+        52,
+        412,
+        472,
+        487
+      ],
+      "partial_occlusion": false
+    }
+  ]
+}

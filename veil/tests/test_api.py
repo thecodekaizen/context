@@ -66,3 +66,28 @@ def test_invalid_timeline_leaves_job_uploaded(tmp_path):
     with pytest.raises(ValueError):
         app.state.store.redact(job['id'],Timeline.model_validate(timeline))
     assert app.state.store.get(job['id'])['status']=='uploaded'
+
+
+def test_export_revision_invalidates_audit(tmp_path):
+    """State-machine unit test only; this stub is not inference evidence."""
+    import shutil
+    class StateOnlyPipeline:
+        def verify(self,root,media,revision):
+            return {'revision':revision,'status':'residual_observed','frames':[],
+                    'spoken_phone_intervals':[]}
+        def repair(self,root,media,report):
+            target=root/'repair.partial.mp4'
+            shutil.copyfile(root/'export.mp4',target)
+            return target
+    app=create_app(tmp_path,pipeline=StateOnlyPipeline())
+    store=app.state.store
+    with (FIXTURE/'input.mp4').open('rb') as stream:job=store.create(stream)
+    timeline=Timeline.model_validate_json((FIXTURE/'timeline.json').read_text())
+    store.redact(job['id'],timeline)
+    store.cloud_action(job['id'],'verify')
+    assert store.get(job['id'])['verification']=='residual_observed'
+    with pytest.raises(Conflict):store.cloud_action(job['id'],'verify')
+    store.cloud_action(job['id'],'repair')
+    assert store.get(job['id'])['revision']==1
+    assert store.get(job['id'])['verification']=='not_run'
+    assert (store.directory(job['id'])/'export-revision-0.mp4').exists()

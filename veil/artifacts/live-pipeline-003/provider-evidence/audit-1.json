@@ -1,0 +1,17 @@
+{
+  "coordinate_space": "source_pixels",
+  "frames": [
+    {
+      "time_ms": 2000,
+      "exposures": []
+    },
+    {
+      "time_ms": 7600,
+      "exposures": []
+    },
+    {
+      "time_ms": 16000,
+      "exposures": []
+    }
+  ]
+}

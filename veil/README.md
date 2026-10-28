@@ -1,5 +1,7 @@
 # VEIL
 
+> **Latest core integration:** the API now performs real Meta detection, redaction, sampled export auditing and targeted repair. The historical limitations below describe the earlier rendering-only slice. Read the current [API contract](docs/PIPELINE_API.md) and [live evaluation](docs/LIVE_EVALUATION.md). [Play the latest API-produced MP4](artifacts/live-pipeline-003/final-export.mp4). The latest controlled run used 8 real requests (estimated $0.09069); no exposure was reported in three output samples, and all 180 fixture frames passed visible plate/digit coverage checks with no near-full-frame blackouts. This is one synthetic clip, not a general accuracy or zero-leak claim. Current dev port: 8019.
+
 **Detect. Redact. Verify.**
 
 VEIL is an embeddable video privacy engine. It identifies sensitive visual and spoken information, renders redactions, inspects the exported file and repairs detected residual exposures. Automated checks do not guarantee that a video has no leaks.

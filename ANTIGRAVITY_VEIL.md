@@ -2,6 +2,9 @@
 
 **Product locked.** VEIL — Detect. Redact. Verify.
 
+> **Live core update:** detect, verify and repair endpoints now exist and have been exercised on synthetic footage. `veil/docs/PIPELINE_API.md` supersedes section 5's older missing-endpoint statements. Current development port: **8019**. Latest demonstration assets: `veil/artifacts/live-pipeline-003/`. Read `veil/docs/LIVE_EVALUATION.md` for evidence and limitations. Preserve sampled-audit language and utility warnings; never label an output zero-leak. The SDK also exposes `protect(...)` with explicit transfer/media confirmation. The temporary development server is not an uptime guarantee.
+
+
 Build a striking, clear reference interface for an embeddable video privacy engine. The visual argument is a real exported video with a real missed exposure that is found and repaired. The engine remains the product. This file authorizes reference-interface design work in parallel with core integration; it does not authorize invented backend functionality.
 
 ## 1. Ownership and working rules
