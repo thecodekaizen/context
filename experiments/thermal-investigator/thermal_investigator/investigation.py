@@ -10,7 +10,7 @@ from pathlib import Path
 from contextlib import contextmanager
 import numpy as np
 from .contracts import Schedule, DT, RESET_SECONDS
-from .physical import execute_model
+from .model_registry import execute_candidate
 from .adequacy import assess
 
 
@@ -67,7 +67,7 @@ class Investigation:
                                          'source':'imported initial trials; no live execution claimed'})
     def add_model(self,session,model_id,model,evidence_ids,parent=None):
         # Validate executable specification before storing it; no generated code.
-        execute_model(model,[[0.,0.]])
+        execute_candidate(model,[[0.,0.]])
         if not evidence_ids or len(set(evidence_ids))!=len(evidence_ids):
             raise ValueError('Unique observed evidence IDs required')
         with self.transaction():
@@ -101,7 +101,7 @@ class Investigation:
             session_row=self.db.execute('SELECT * FROM sessions WHERE id=?',(session,)).fetchone()
             if session_row is None or session_row['used']>=session_row['budget']:
                 raise ValueError('Experiment budget exhausted')
-            prediction=execute_model(json.loads(model['body']),schedule.commands()).tolist()
+            prediction=execute_candidate(json.loads(model['body']),schedule.commands()).tolist()
             self.db.execute('UPDATE sessions SET used=used+1 WHERE id=?',(session,))
             self.db.execute('INSERT INTO actions VALUES(?,?,?,?,?,?,?,?)',
                 (session,action_id,model_id,kind,request,encode(prediction),'prepared',None))

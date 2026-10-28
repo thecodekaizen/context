@@ -1,0 +1,269 @@
+{
+  "rows": [
+    {
+      "seed": 941,
+      "world": "coupled",
+      "method": "original_grammar",
+      "schedule": "sustained-high",
+      "rmse_c": 0.005474798212307289,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": false
+      }
+    },
+    {
+      "seed": 941,
+      "world": "coupled",
+      "method": "original_grammar",
+      "schedule": "held-high-release",
+      "rmse_c": 0.004021651615249295,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": false
+      }
+    },
+    {
+      "seed": 941,
+      "world": "coupled",
+      "method": "expanded_grammar",
+      "schedule": "sustained-high",
+      "rmse_c": 0.005474798212307289,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": false
+      }
+    },
+    {
+      "seed": 941,
+      "world": "coupled",
+      "method": "expanded_grammar",
+      "schedule": "held-high-release",
+      "rmse_c": 0.004021651615249295,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": false
+      }
+    },
+    {
+      "seed": 941,
+      "world": "sensor-delay",
+      "method": "original_grammar",
+      "schedule": "sustained-high",
+      "rmse_c": 0.007816688458132059,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      }
+    },
+    {
+      "seed": 941,
+      "world": "sensor-delay",
+      "method": "original_grammar",
+      "schedule": "held-high-release",
+      "rmse_c": 0.007024928274226275,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      }
+    },
+    {
+      "seed": 941,
+      "world": "sensor-delay",
+      "method": "expanded_grammar",
+      "schedule": "sustained-high",
+      "rmse_c": 0.007816688458132059,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      }
+    },
+    {
+      "seed": 941,
+      "world": "sensor-delay",
+      "method": "expanded_grammar",
+      "schedule": "held-high-release",
+      "rmse_c": 0.007024928274226275,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      }
+    },
+    {
+      "seed": 941,
+      "world": "nonlinear-loss-stress",
+      "method": "original_grammar",
+      "schedule": "sustained-high",
+      "rmse_c": 0.251337789591853,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      }
+    },
+    {
+      "seed": 941,
+      "world": "nonlinear-loss-stress",
+      "method": "original_grammar",
+      "schedule": "held-high-release",
+      "rmse_c": 0.1046169616959701,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      }
+    },
+    {
+      "seed": 941,
+      "world": "nonlinear-loss-stress",
+      "method": "expanded_grammar",
+      "schedule": "sustained-high",
+      "rmse_c": 0.0054915383324891185,
+      "selected": {
+        "type": "two_node_quadratic_loss",
+        "sensor_lag": false
+      }
+    },
+    {
+      "seed": 941,
+      "world": "nonlinear-loss-stress",
+      "method": "expanded_grammar",
+      "schedule": "held-high-release",
+      "rmse_c": 0.005448965165328254,
+      "selected": {
+        "type": "two_node_quadratic_loss",
+        "sensor_lag": false
+      }
+    },
+    {
+      "seed": 977,
+      "world": "coupled",
+      "method": "original_grammar",
+      "schedule": "sustained-high",
+      "rmse_c": 0.008773521562844399,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": false
+      }
+    },
+    {
+      "seed": 977,
+      "world": "coupled",
+      "method": "original_grammar",
+      "schedule": "held-high-release",
+      "rmse_c": 0.006672942530852441,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": false
+      }
+    },
+    {
+      "seed": 977,
+      "world": "coupled",
+      "method": "expanded_grammar",
+      "schedule": "sustained-high",
+      "rmse_c": 0.008773521562844399,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": false
+      }
+    },
+    {
+      "seed": 977,
+      "world": "coupled",
+      "method": "expanded_grammar",
+      "schedule": "held-high-release",
+      "rmse_c": 0.006672942530852441,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": false
+      }
+    },
+    {
+      "seed": 977,
+      "world": "sensor-delay",
+      "method": "original_grammar",
+      "schedule": "sustained-high",
+      "rmse_c": 0.010021095937493795,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      }
+    },
+    {
+      "seed": 977,
+      "world": "sensor-delay",
+      "method": "original_grammar",
+      "schedule": "held-high-release",
+      "rmse_c": 0.007493617463601934,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      }
+    },
+    {
+      "seed": 977,
+      "world": "sensor-delay",
+      "method": "expanded_grammar",
+      "schedule": "sustained-high",
+      "rmse_c": 0.010021095937493795,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      }
+    },
+    {
+      "seed": 977,
+      "world": "sensor-delay",
+      "method": "expanded_grammar",
+      "schedule": "held-high-release",
+      "rmse_c": 0.007493617463601934,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      }
+    },
+    {
+      "seed": 977,
+      "world": "nonlinear-loss-stress",
+      "method": "original_grammar",
+      "schedule": "sustained-high",
+      "rmse_c": 0.32454317967313095,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      }
+    },
+    {
+      "seed": 977,
+      "world": "nonlinear-loss-stress",
+      "method": "original_grammar",
+      "schedule": "held-high-release",
+      "rmse_c": 0.10672857052573723,
+      "selected": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      }
+    },
+    {
+      "seed": 977,
+      "world": "nonlinear-loss-stress",
+      "method": "expanded_grammar",
+      "schedule": "sustained-high",
+      "rmse_c": 0.012450829102919996,
+      "selected": {
+        "type": "two_node_quadratic_loss",
+        "sensor_lag": false
+      }
+    },
+    {
+      "seed": 977,
+      "world": "nonlinear-loss-stress",
+      "method": "expanded_grammar",
+      "schedule": "held-high-release",
+      "rmse_c": 0.005544487446270127,
+      "selected": {
+        "type": "two_node_quadratic_loss",
+        "sensor_lag": false
+      }
+    }
+  ],
+  "meta_calls": 0
+}

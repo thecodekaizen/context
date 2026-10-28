@@ -39,4 +39,11 @@ October 28 remains the evidence day. October 29 is persistent loop/API day; Octo
 
 Continue within thermal identification to implement the already-planned mismatch/revision/confirmation loop. The negative Meta pilot remains authoritative evidence of no demonstrated benefit so far. The local adequacy result justifies an explicit mismatch transition; it does not establish autonomous science or a winning entry. No additional paid calls are needed to implement the next milestone.
 
-Latest verified suite: 47 tests, including eight persistent-investigation checks and new protocol-input checks. Deterministic walkthrough confirms restart and cached replay. The equal-budget numerical comparison (step 2) is now complete: batch fitting wins on median error; no final failures occur, limiting sensitivity evaluation. Next is the contribution review and bounded structural-mismatch design before paid calls. Current unrelated frontend changes remain untouched.
+Latest verified suite: 53 tests, including persistent-investigation, protocol-input and nonlinear-model checks. Deterministic walkthrough confirms restart and cached replay. The equal-budget numerical comparison (step 2) is now complete: batch fitting wins on median error; no final failures occur, limiting sensitivity evaluation. Next is the contribution review and bounded structural-mismatch design before paid calls. Current unrelated frontend changes remain untouched.
+
+
+## Structural coverage follow-up
+
+The bounded quadratic-loss candidate and executable registry are implemented and checked on six fresh simulated systems, including sustained high heating. This closes a representation gap, not the contribution gate: conventional whole-trial selection finds the candidate without Meta. The nonlinear stress mechanism is now inside the supplied grammar. A future out-of-family test must use a distinct declared mechanism.
+
+Next integration target is a shared bounded investigation-tool contract over persisted public evidence, model candidates and numerical diagnostics for both direct Meta and investigator policies. Do not schedule a paid comparison until a concrete consequential decision and matched conventional baseline are specified. No more generic calibration benchmark variants are needed before that integration.
