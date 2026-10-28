@@ -27,3 +27,14 @@ media timestamps, and saves interpretation separately from deterministic evidenc
 No live Meta request has been made; MODEL_API_KEY remains unavailable. Mocked
 request/response tests validate our code contract, not provider compatibility.
 The earlier metadata-only adapter has been replaced by this bounded-video path.
+
+## Credentialed smoke test — October 29, 2026
+Loaded MODEL_API_KEY from CONTEXT's ignored .env, copied with user authorization
+from THREAD's environment file. THREAD resolves to the existing VEIL directory;
+no source project files were modified. Credential values were never printed.
+GET /v1/models returned HTTP 200 and listed muse-spark-1.2.
+The real local review endpoint generated source/edit MP4 excerpts and completed
+an authenticated Muse Spark 1.2 request: HTTP 200, five observations, all returned
+citations passed bounds validation. Result saved under ignored data/demo/.
+This establishes live request compatibility, not semantic accuracy on real footage.
+Earlier statements of unavailable credentials describe the prior development state.

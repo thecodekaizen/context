@@ -22,7 +22,8 @@ test('mobile workspace fits viewport',async({page})=>{
  await page.setViewportSize({width:390,height:844});await page.goto('/');
  expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
 });
-test('missing Meta credential is explicit and preserves evidence',async({page})=>{
+test('simulated missing Meta credential preserves evidence',async({page})=>{
+ await page.route('**/api/investigations/*/interpret/*',route=>route.fulfill({status:503,json:{detail:'Meta analysis unavailable: configure MODEL_API_KEY in the server environment.'}}));
  await page.goto('/');await page.getByRole('button',{name:'Try generated case'}).click();
  await expect(page.getByText('Visual source correspondence found')).toBeVisible();
  await page.getByRole('button',{name:'Review with Meta AI'}).click();

@@ -15,7 +15,9 @@ python3 -m venv .venv
 .venv/bin/pip install -r backend/requirements.txt
 npm ci --prefix web
 npm run build --prefix web
-.venv/bin/uvicorn context_core.api:app --app-dir backend --host 127.0.0.1 --port 8000
+# Create .env from .env.example and set MODEL_API_KEY for optional Meta review.
+cp -n .env.example .env
+.venv/bin/uvicorn context_core.api:app --app-dir backend --env-file .env --host 127.0.0.1 --port 8000
 ```
 
 Open http://127.0.0.1:8000. Select both videos and **Trace the edit**, or click
@@ -83,8 +85,9 @@ uncertainty are displayed separately from measured edits. Valid timestamp bounds
 do not verify the truth of a model claim.
 
 Set `MODEL_API_KEY` in the environment **before starting the server** to enable
-live review. No credential is configured in this development session, so real
-Meta authentication and inference remain unverified. Tests use a mock transport;
+live review. A local ignored .env can supply the key via the server command above.
+Meta catalog authentication and Muse Spark 1.2 availability were verified with
+the configured local credential; inference status is recorded in the verification notes. Tests use a mock transport;
 no test output is shown as real model analysis. Missing keys, provider failures
 and invalid model citations leave deterministic evidence available. Interpretation
 reports persist separately under `data/<investigation>/interpretation-<finding>.json`.
