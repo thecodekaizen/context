@@ -18,6 +18,7 @@ class JointInspectionTests(unittest.TestCase):
         self.result = {'assessment': 'matches', 'relations': [{
             'object_ids': self.transition['object_ids'], 'reference_landmark': 'Visible source joint',
             'learner_landmark': 'Visible learner joint', 'assessment': 'matches',
+            'relationship': 'contact', 'reference_visibility': 'visible', 'learner_visibility': 'visible',
             'explanation': 'Comparable attachment surfaces are visible.'}],
             'uncertainties': [], 'view_guidance': ''}
 
@@ -85,3 +86,20 @@ class JointInspectionTests(unittest.TestCase):
                 'learner_image': ('frame.jpg', io.BytesIO(b'jpeg'), 'image/jpeg')})
         self.assertEqual(result.status_code, 422)
         factory.assert_not_called()
+
+    def test_silhouette_alone_cannot_establish_joint_match(self):
+        self.result['relations'][0]['relationship'] = 'overall_arrangement'
+        with self.assertRaisesRegex(ValueError, 'contact or facing'):
+            validate_inspection(self.result, VALID_PROCESS, self.tid)
+
+    def test_occluded_contact_cannot_establish_match(self):
+        self.result['relations'][0]['learner_visibility'] = 'occluded'
+        with self.assertRaisesRegex(ValueError, 'occluded or ambiguous'):
+            validate_inspection(self.result, VALID_PROCESS, self.tid)
+
+    def test_ambiguous_source_cannot_establish_difference(self):
+        self.result['assessment'] = 'possible_difference'
+        self.result['relations'][0]['assessment'] = 'differs'
+        self.result['relations'][0]['reference_visibility'] = 'ambiguous'
+        with self.assertRaisesRegex(ValueError, 'occluded or ambiguous'):
+            validate_inspection(self.result, VALID_PROCESS, self.tid)

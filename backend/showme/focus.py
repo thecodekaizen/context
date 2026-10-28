@@ -5,15 +5,18 @@ import json
 from pathlib import Path
 from typing import Any
 
-PROMPT_VERSION = "showme-joint-inspection-v1"
+PROMPT_VERSION = "showme-joint-inspection-v2"
 
 def inspection_schema() -> dict[str, Any]:
     relation = {"type": "object", "properties": {
         "object_ids": {"type": "array", "items": {"type": "string"}},
         "reference_landmark": {"type": "string"}, "learner_landmark": {"type": "string"},
+        "relationship": {"type": "string", "enum": ["contact", "facing", "overall_arrangement"]},
+        "reference_visibility": {"type": "string", "enum": ["visible", "occluded", "ambiguous"]},
+        "learner_visibility": {"type": "string", "enum": ["visible", "occluded", "ambiguous"]},
         "assessment": {"type": "string", "enum": ["matches", "differs", "unclear"]},
         "explanation": {"type": "string"}},
-        "required": ["object_ids", "reference_landmark", "learner_landmark", "assessment", "explanation"],
+        "required": ["object_ids", "reference_landmark", "learner_landmark", "relationship", "reference_visibility", "learner_visibility", "assessment", "explanation"],
         "additionalProperties": False}
     return {"type": "object", "properties": {
         "assessment": {"type": "string", "enum": ["matches", "possible_difference", "unclear"]},
@@ -38,7 +41,11 @@ def inspection_prompt(process: dict[str, Any], transition_id: str) -> str:
         "size across viewpoints to establish correctness. A missing/occluded contact is unclear, not evidence "
         "of a wrong attachment. Do not assume this attempt contains an error. Only mark differs when both "
         "images expose a comparable relationship and a visible conflict. An overall matches requires every "
-        "reported relation to match and at least one relation; it does not certify the whole assembly. "
+        "reported relation to match and at least one visible contact or facing comparison; it does not certify the whole assembly. "
+        "Classify each relationship as contact, facing or overall_arrangement and report visibility separately "
+        "for source and learner. Similar silhouette or two attached panels is overall_arrangement only and "
+        "cannot establish a joint match. Mark occluded or ambiguous relationships unclear. Read inner/outer "
+        "faces from source landmarks, not assumptions about what the object should look like. "
         "Return possible_difference only with a specific differs relation. Otherwise return unclear and "
         "one useful view adjustment. Do not infer action order, recovery, intent, physical forces or safe "
         "repair steps from these two images. Never claim other unexamined joints are correct.\n"
@@ -54,6 +61,7 @@ def validate_inspection(result: dict[str, Any], process: dict[str, Any], transit
     if not isinstance(relations, list):
         raise ValueError("inspection needs relations")
     statuses = []
+    specific_comparisons = 0
     for relation in relations:
         if not isinstance(relation, dict):
             raise ValueError("invalid relation")
@@ -63,6 +71,16 @@ def validate_inspection(result: dict[str, Any], process: dict[str, Any], transit
         status = relation.get("assessment")
         if status not in {"matches", "differs", "unclear"}:
             raise ValueError("invalid relation assessment")
+        relationship = relation.get("relationship")
+        if relationship not in {"contact", "facing", "overall_arrangement"}:
+            raise ValueError("relation needs an explicit relationship type")
+        visibility = [relation.get("reference_visibility"), relation.get("learner_visibility")]
+        if any(value not in {"visible", "occluded", "ambiguous"} for value in visibility):
+            raise ValueError("relation needs source and learner visibility")
+        if status in {"matches", "differs"} and any(value != "visible" for value in visibility):
+            raise ValueError("occluded or ambiguous relationships cannot establish match or difference")
+        if relationship in {"contact", "facing"} and status in {"matches", "differs"}:
+            specific_comparisons += 1
         for field in ("reference_landmark", "learner_landmark", "explanation"):
             if not isinstance(relation.get(field), str) or not relation[field].strip():
                 raise ValueError("relation needs separate source and learner evidence")
@@ -72,6 +90,8 @@ def validate_inspection(result: dict[str, Any], process: dict[str, Any], transit
         raise ValueError("invalid inspection assessment")
     if overall == "matches" and (not statuses or any(s != "matches" for s in statuses)):
         raise ValueError("matches needs all compared relations to match")
+    if overall in {"matches", "possible_difference"} and not specific_comparisons:
+        raise ValueError("joint verdict needs a visible contact or facing comparison")
     if overall == "possible_difference" and "differs" not in statuses:
         raise ValueError("difference needs a visible conflicting relation")
     if not isinstance(result.get("uncertainties"), list) or any(not isinstance(i, str) for i in result["uncertainties"]):

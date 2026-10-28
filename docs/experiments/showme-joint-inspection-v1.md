@@ -36,3 +36,7 @@ The prompt uses the existing Responses image-content adapter pattern. Multi-imag
 Use `python -m showme inspect-joint PROCESS SOURCE_IMAGE LEARNER_IMAGE --transition ID --output NEW_DIRECTORY`. This is an explicit paid action. Exact prompt, selected input hashes, process and raw output are retained privately even if semantic guards reject the response. Existing run directories are not overwritten; no automatic retry occurs.
 
 Three approved comparisons have now run, all unclear due to hidden joint contact. See `results/showme-joint-images-2026-10-28.md`. Provider multi-image request behavior worked for these calls. No orientation detection claim follows. Combined backend checks: 95 passed before the metadata-only process fingerprint addition.
+
+## v2 additive response fields — October 28
+
+Each relation now also supplies `relationship` (`contact`, `facing`, `overall_arrangement`), `reference_visibility` and `learner_visibility` (`visible`, `occluded`, `ambiguous`). Matches/differences require visible evidence in both inputs; overall joint verdicts require a specific contact/facing comparison. Existing top-level status fields are unchanged. Version is `showme-joint-inspection-v2`. Previously saved v1 reports remain historical artifacts and do not satisfy the new validator automatically. See `results/showme-hands-off-stills-2026-10-28.md` for the live v1 failure that motivated this change.
