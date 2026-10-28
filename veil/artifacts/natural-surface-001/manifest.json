@@ -1,0 +1,9 @@
+{
+  "scope": "One synthetic development clip; known corners supplied. No tracking, SAM or natural-scene validation.",
+  "source_sha256": "0503472254e5bf4b7c9329789eea18c8e868b484a4d6103308c1d465398a87a7",
+  "api_calls": 0,
+  "api_cost_usd": 0,
+  "manual_initializations": "Fixture-author defines the generating trajectory; all per-frame geometry supplied",
+  "replacement_asset_generated_once": true,
+  "human_preference": "not_run"
+}

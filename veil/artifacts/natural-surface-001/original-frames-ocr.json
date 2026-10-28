@@ -1,0 +1,2462 @@
+{
+  "status": "completed",
+  "sample_times_ms": [
+    0,
+    83,
+    167,
+    250,
+    333,
+    417,
+    500,
+    583,
+    667,
+    750,
+    833,
+    917,
+    1000,
+    1083,
+    1167,
+    1250,
+    1333,
+    1417,
+    1500,
+    1583,
+    1667,
+    1750,
+    1833,
+    1917,
+    2000,
+    2083,
+    2167,
+    2250,
+    2333,
+    2417,
+    2500,
+    2583,
+    2667,
+    2750,
+    2833,
+    2917,
+    3000,
+    3083,
+    3167,
+    3250,
+    3333,
+    3417,
+    3500,
+    3583,
+    3667,
+    3750,
+    3833,
+    3917,
+    4000,
+    4083,
+    4167,
+    4250,
+    4333,
+    4417,
+    4500,
+    4583,
+    4667,
+    4750,
+    4833,
+    4917,
+    5000,
+    5083,
+    5167,
+    5250,
+    5333,
+    5417,
+    5500,
+    5583,
+    5667,
+    5750,
+    5833,
+    5917
+  ],
+  "findings": [
+    {
+      "category": "phone_number",
+      "time_ms": 0,
+      "box": [
+        183.99999985205483,
+        225.9999999780822,
+        407.9999998520548,
+        257.9999999780822
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 83,
+      "box": [
+        185.9999997325,
+        225.99999996,
+        411.9999997325,
+        257.99999995999997
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 167,
+      "box": [
+        189.9999997882353,
+        225.99999996862746,
+        413.9999997882353,
+        257.99999996862744
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 250,
+      "box": [
+        191.9999998253968,
+        225.99999997460318,
+        415.9999998253968,
+        257.99999997460316
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 333,
+      "box": [
+        193.99999985205483,
+        225.9999999780822,
+        417.9999998520548,
+        257.9999999780822
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 417,
+      "box": [
+        197.9999998513889,
+        225.99999997916666,
+        419.9999998513889,
+        255.9999999791667
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 500,
+      "box": [
+        199.6281865013907,
+        223.72871153168882,
+        422.31672409904695,
+        257.90681593232364
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 583,
+      "box": [
+        201.60917270429871,
+        223.28849117710098,
+        424.406123998244,
+        257.8546380276869
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 667,
+      "box": [
+        203.7049402626402,
+        223.4415209556799,
+        424.3416284950621,
+        257.0657656456213
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 750,
+      "box": [
+        207.73535917570166,
+        223.1637706778347,
+        426.2715225057798,
+        256.16283226230735
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 833,
+      "box": [
+        209.52213929146245,
+        221.7105096378412,
+        428.47851441353276,
+        256.25313887978456
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 917,
+      "box": [
+        211.60707370975524,
+        221.09203630447837,
+        430.38788120487243,
+        255.24122148514243
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 1000,
+      "box": [
+        211.74820631693308,
+        220.78282482130345,
+        432.2837592954487,
+        254.43593151075655
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 1083,
+      "box": [
+        213.55775339852926,
+        219.60513242519215,
+        432.5676258350527,
+        254.75321134364918
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 1167,
+      "box": [
+        215.68529790773982,
+        219.4748124482361,
+        434.33755010500545,
+        252.7886437775818
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 1250,
+      "box": [
+        217.6119176514635,
+        218.37056272564476,
+        436.37340751962756,
+        252.58305662212916
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 1333,
+      "box": [
+        217.55370730101856,
+        217.3505430940492,
+        436.5345575207451,
+        252.32472903765267
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 1417,
+      "box": [
+        219.60653772114108,
+        216.688797488699,
+        438.37344445942233,
+        250.5921406893826
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 1500,
+      "box": [
+        219.50345324315953,
+        215.60414627430862,
+        438.5676317099564,
+        251.19743469593948
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 1583,
+      "box": [
+        221.60150664445143,
+        215.35494371438367,
+        440.3582662880061,
+        249.25982042336807
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 1667,
+      "box": [
+        221.64315182525962,
+        215.01703654292672,
+        440.36347348053306,
+        248.55229578975292
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 1750,
+      "box": [
+        221.50439470493745,
+        213.09550913831168,
+        440.58955400669527,
+        248.77026042004996
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 1833,
+      "box": [
+        223.57482420380506,
+        212.6883092372473,
+        440.4364117282191,
+        246.5931172816809
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 1917,
+      "box": [
+        223.42447654509573,
+        211.64659365448938,
+        440.56763450408016,
+        246.70878847870813
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 2000,
+      "box": [
+        223.60752689260215,
+        211.3949952667437,
+        442.3529950322506,
+        245.2104669159136
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 2083,
+      "box": [
+        223.63562761159858,
+        210.90721779083674,
+        442.2957686028095,
+        244.23853569244807
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 2167,
+      "box": [
+        221.5587396502192,
+        209.11648305697005,
+        440.57848452326607,
+        244.70878728670635
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 2250,
+      "box": [
+        221.72205311508662,
+        209.27997782658076,
+        440.3277049705554,
+        242.44153025577995
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 2333,
+      "box": [
+        221.4027584795764,
+        207.64659438474328,
+        440.5666531328967,
+        243.73050628049526
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 2417,
+      "box": [
+        219.56575795146966,
+        207.67481731524774,
+        440.4421770188525,
+        241.8889629756481
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 2500,
+      "box": [
+        219.61291620408633,
+        207.10556574233578,
+        440.352341863266,
+        241.22227259048032
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 2583,
+      "box": [
+        217.75820275517174,
+        207.1522147421022,
+        438.2689296838827,
+        240.16119072476823
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 2667,
+      "box": [
+        213.99999985405407,
+        207.99999997837836,
+        437.99999985405407,
+        239.99999997837836
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 2750,
+      "box": [
+        215.5873322418181,
+        205.7585486545989,
+        436.3773255279509,
+        240.57424918560477
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 2833,
+      "box": [
+        211.65598310154252,
+        205.45565021750892,
+        436.33289350193314,
+        241.40134800193277
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 2917,
+      "box": [
+        209.58307512108115,
+        204.71759402977523,
+        434.4169221669796,
+        241.28240573631822
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 3000,
+      "box": [
+        207.61291903260172,
+        204.41960032383943,
+        432.4213754535002,
+        241.2824047366812
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 3083,
+      "box": [
+        205.74060851952908,
+        204.72072485628067,
+        432.25017578027126,
+        240.19917944612442
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 3167,
+      "box": [
+        203.99999985068496,
+        205.9999999780822,
+        429.99999985068496,
+        237.9999999780822
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 3250,
+      "box": [
+        201.99999988645834,
+        205.9999999833333,
+        427.99999988645834,
+        237.99999998333334
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 3333,
+      "box": [
+        199.99999989907406,
+        205.99999998425926,
+        425.99999989907406,
+        239.99999998425926
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 3417,
+      "box": [
+        197.99999990000003,
+        205.99999998411215,
+        423.99999990000003,
+        239.99999998411212
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 3500,
+      "box": [
+        193.99999994400002,
+        205.99999997733335,
+        421.999999944,
+        239.99999997733335
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 3583,
+      "box": [
+        192.00000008965515,
+        205.99999994137931,
+        420.00000008965515,
+        239.99999994137931
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 3667,
+      "box": [
+        190.00000159999996,
+        205.99999971666662,
+        418.00000159999996,
+        239.99999971666668
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 3750,
+      "box": [
+        187.99999990091743,
+        207.9999999853211,
+        415.9999999009175,
+        239.9999999853211
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 3833,
+      "box": [
+        185.9999999009009,
+        207.9999999855856,
+        413.9999999009009,
+        239.9999999855856
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 3917,
+      "box": [
+        183.9999999111111,
+        207.99999998282829,
+        411.9999999111111,
+        241.99999998282829
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 4000,
+      "box": [
+        180.00000005348835,
+        207.99999996046512,
+        410.0000000534884,
+        241.99999996046512
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 4083,
+      "box": [
+        178.00000014062505,
+        207.99999994687496,
+        408.00000014062505,
+        241.99999994687496
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 4167,
+      "box": [
+        176.00000074999997,
+        207.99999971666665,
+        406.00000074999997,
+        241.99999971666665
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 4250,
+      "box": [
+        173.99999994230768,
+        209.99999997820512,
+        403.9999999423077,
+        243.99999997820512
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 4333,
+      "box": [
+        170.00000035000005,
+        209.99999991500002,
+        402.00000035000005,
+        243.99999991500002
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 4417,
+      "box": [
+        167.99999991200002,
+        211.999999983,
+        399.999999912,
+        245.999999983
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 4500,
+      "box": [
+        166.00000005581393,
+        211.99999996046512,
+        398.000000055814,
+        245.99999996046512
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 4583,
+      "box": [
+        153.99999993,
+        213.9999999811111,
+        395.99999992999994,
+        247.9999999811111
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 4667,
+      "box": [
+        154.00000000714283,
+        213.99999996964283,
+        394.00000000714283,
+        247.99999996964283
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 4750,
+      "box": [
+        154.00000033809522,
+        213.99999991904764,
+        392.0000003380952,
+        247.99999991904764
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 4833,
+      "box": [
+        154.0,
+        215.99999997017545,
+        390.0,
+        249.99999997017545
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 4917,
+      "box": [
+        154.000000355,
+        215.999999915,
+        388.000000355,
+        249.999999915
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 5000,
+      "box": [
+        153.69696643467364,
+        216.04934890843992,
+        386.3126280557674,
+        252.7457180795825
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 5083,
+      "box": [
+        153.99999999821426,
+        217.99999996964283,
+        383.99999999821426,
+        251.99999996964283
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 5167,
+      "box": [
+        152.00000159999996,
+        217.99999971666668,
+        384.00000159999996,
+        251.99999971666668
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 5250,
+      "box": [
+        151.99999996515152,
+        219.99999997424243,
+        381.9999999651515,
+        253.99999997424243
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 5333,
+      "box": [
+        150.00000034500005,
+        219.99999991500002,
+        380.00000034500005,
+        253.99999991500002
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 5417,
+      "box": [
+        149.99999990000003,
+        221.99999998468465,
+        379.99999990000003,
+        255.99999998468465
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 5500,
+      "box": [
+        147.99999994155843,
+        221.99999997792207,
+        377.99999994155837,
+        255.99999997792207
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 5583,
+      "box": [
+        148.00000036842107,
+        221.9999999105263,
+        376.00000036842107,
+        255.9999999105263
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 5667,
+      "box": [
+        147.99999990091743,
+        223.9999999853211,
+        375.9999999009175,
+        255.99999998532112
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 5750,
+      "box": [
+        147.9999999421052,
+        223.99999997763157,
+        375.9999999421052,
+        257.99999997763155
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 5833,
+      "box": [
+        147.99999994133333,
+        223.99999997733335,
+        375.99999994133333,
+        257.99999997733335
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    },
+    {
+      "category": "phone_number",
+      "time_ms": 5917,
+      "box": [
+        148.00000064285712,
+        223.99999975714286,
+        374.0000006428571,
+        257.99999975714286
+      ],
+      "text": "2025550146",
+      "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+      "source": "macos-vision-ocr"
+    }
+  ],
+  "limitations": [
+    "phone-like patterns only; false positives possible",
+    "sampled frames only",
+    "macOS-specific local adapter"
+  ],
+  "text_rows": [
+    {
+      "time_ms": 0,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998958333382,
+        0.033333332870370325,
+        0.4312499989583333,
+        0.0888888884259259
+      ]
+    },
+    {
+      "time_ms": 0,
+      "text": "2025550146",
+      "box": [
+        0.28749999976883567,
+        0.627777777716895,
+        0.6374999997688356,
+        0.7166666666057839
+      ]
+    },
+    {
+      "time_ms": 83,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 83,
+      "text": "2025550146",
+      "box": [
+        0.29062499958203125,
+        0.6277777776666666,
+        0.6437499995820313,
+        0.7166666665555554
+      ]
+    },
+    {
+      "time_ms": 167,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 167,
+      "text": "2025550146",
+      "box": [
+        0.2968749996691177,
+        0.6277777776906318,
+        0.6468749996691177,
+        0.7166666665795206
+      ]
+    },
+    {
+      "time_ms": 250,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 250,
+      "text": "2025550146",
+      "box": [
+        0.2999999997271825,
+        0.6277777777072311,
+        0.6499999997271825,
+        0.7166666665961199
+      ]
+    },
+    {
+      "time_ms": 333,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 333,
+      "text": "2025550146",
+      "box": [
+        0.30312499976883567,
+        0.627777777716895,
+        0.6531249997688356,
+        0.7166666666057839
+      ]
+    },
+    {
+      "time_ms": 417,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 417,
+      "text": "2025550146",
+      "box": [
+        0.30937499976779514,
+        0.6277777777199074,
+        0.6562499997677952,
+        0.7111111110532408
+      ]
+    },
+    {
+      "time_ms": 500,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 500,
+      "text": "2025550146",
+      "box": [
+        0.31191904140842297,
+        0.6214686431435801,
+        0.6598698814047609,
+        0.7164078220342324
+      ]
+    },
+    {
+      "time_ms": 583,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 583,
+      "text": "2025550146",
+      "box": [
+        0.3150143323504667,
+        0.6202458088252805,
+        0.6631345687472563,
+        0.7162628834102415
+      ]
+    },
+    {
+      "time_ms": 667,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 667,
+      "text": "2025550146",
+      "box": [
+        0.3182889691603753,
+        0.6206708915435553,
+        0.6630337945235345,
+        0.7140715712378369
+      ]
+    },
+    {
+      "time_ms": 750,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 750,
+      "text": "2025550146",
+      "box": [
+        0.3245864987120338,
+        0.6198993629939853,
+        0.6660492539152809,
+        0.7115634229508537
+      ]
+    },
+    {
+      "time_ms": 833,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 833,
+      "text": "2025550146",
+      "box": [
+        0.3273783426429101,
+        0.6158625267717811,
+        0.669497678771145,
+        0.7118142746660682
+      ]
+    },
+    {
+      "time_ms": 917,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 917,
+      "text": "2025550146",
+      "box": [
+        0.33063605267149254,
+        0.6141445452902177,
+        0.6724810643826131,
+        0.7090033930142845
+      ]
+    },
+    {
+      "time_ms": 1000,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 1000,
+      "text": "2025550146",
+      "box": [
+        0.33085657237020794,
+        0.6132856245036207,
+        0.6754433738991386,
+        0.7067664764187682
+      ]
+    },
+    {
+      "time_ms": 1083,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 1083,
+      "text": "2025550146",
+      "box": [
+        0.33368398968520196,
+        0.6100142567366449,
+        0.6758869153672699,
+        0.7076478092879144
+      ]
+    },
+    {
+      "time_ms": 1167,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 1167,
+      "text": "2025550146",
+      "box": [
+        0.3370082779808435,
+        0.6096522568006558,
+        0.6786524220390711,
+        0.7021906771599494
+      ]
+    },
+    {
+      "time_ms": 1250,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 1250,
+      "text": "2025550146",
+      "box": [
+        0.3400186213304117,
+        0.6065848964601244,
+        0.681833449249418,
+        0.7016196017281365
+      ]
+    },
+    {
+      "time_ms": 1333,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 1333,
+      "text": "2025550146",
+      "box": [
+        0.3399276676578415,
+        0.603751508594581,
+        0.6820852461261643,
+        0.7009020251045908
+      ]
+    },
+    {
+      "time_ms": 1417,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 1417,
+      "text": "2025550146",
+      "box": [
+        0.3431352151892829,
+        0.6019133263574973,
+        0.6849585069678474,
+        0.6960892796927295
+      ]
+    },
+    {
+      "time_ms": 1500,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 1500,
+      "text": "2025550146",
+      "box": [
+        0.3429741456924368,
+        0.598900406317524,
+        0.6852619245468069,
+        0.6977706519331652
+      ]
+    },
+    {
+      "time_ms": 1583,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 1583,
+      "text": "2025550146",
+      "box": [
+        0.3462523541319554,
+        0.5982081769843991,
+        0.6880597910750096,
+        0.6923883900649113
+      ]
+    },
+    {
+      "time_ms": 1667,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 1667,
+      "text": "2025550146",
+      "box": [
+        0.34631742472696814,
+        0.5972695459525742,
+        0.6880679273133329,
+        0.6904230438604247
+      ]
+    },
+    {
+      "time_ms": 1750,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 1750,
+      "text": "2025550146",
+      "box": [
+        0.34610061672646475,
+        0.5919319698286436,
+        0.6884211781354613,
+        0.6910285011668055
+      ]
+    },
+    {
+      "time_ms": 1833,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 1833,
+      "text": "2025550146",
+      "box": [
+        0.3493356628184454,
+        0.5908008589923536,
+        0.6881818933253424,
+        0.6849808813380025
+      ]
+    },
+    {
+      "time_ms": 1917,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 1917,
+      "text": "2025550146",
+      "box": [
+        0.3491007446017121,
+        0.5879072045958038,
+        0.6883869289126252,
+        0.6853021902186337
+      ]
+    },
+    {
+      "time_ms": 2000,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 2000,
+      "text": "2025550146",
+      "box": [
+        0.3493867607696909,
+        0.5872083201853991,
+        0.6911765547378915,
+        0.6811401858775378
+      ]
+    },
+    {
+      "time_ms": 2083,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 2083,
+      "text": "2025550146",
+      "box": [
+        0.3494306681431228,
+        0.5858533827523242,
+        0.6910871384418898,
+        0.6784403769234668
+      ]
+    },
+    {
+      "time_ms": 2167,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 2167,
+      "text": "2025550146",
+      "box": [
+        0.34618553070346747,
+        0.5808791196026946,
+        0.6884038820676033,
+        0.6797466313519621
+      ]
+    },
+    {
+      "time_ms": 2250,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 2250,
+      "text": "2025550146",
+      "box": [
+        0.34644070799232285,
+        0.5813332717405021,
+        0.6880120390164928,
+        0.6734486951549443
+      ]
+    },
+    {
+      "time_ms": 2333,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 2333,
+      "text": "2025550146",
+      "box": [
+        0.3459418101243381,
+        0.5767960955131758,
+        0.6883853955201511,
+        0.6770291841124868
+      ]
+    },
+    {
+      "time_ms": 2417,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 2417,
+      "text": "2025550146",
+      "box": [
+        0.34307149679917137,
+        0.5768744925423548,
+        0.688190901591957,
+        0.671913786043467
+      ]
+    },
+    {
+      "time_ms": 2500,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 2500,
+      "text": "2025550146",
+      "box": [
+        0.3431451815688849,
+        0.5752932381731549,
+        0.6880505341613532,
+        0.6700618683068897
+      ]
+    },
+    {
+      "time_ms": 2583,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 2583,
+      "text": "2025550146",
+      "box": [
+        0.34024719180495583,
+        0.5754228187280617,
+        0.6847952026310666,
+        0.6671144186799117
+      ]
+    },
+    {
+      "time_ms": 2667,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 2667,
+      "text": "2025550146",
+      "box": [
+        0.3343749997719595,
+        0.5777777777177177,
+        0.6843749997719595,
+        0.6666666666066066
+      ]
+    },
+    {
+      "time_ms": 2750,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 2750,
+      "text": "2025550146",
+      "box": [
+        0.3368552066278408,
+        0.5715515240405525,
+        0.6818395711374233,
+        0.6682618032933466
+      ]
+    },
+    {
+      "time_ms": 2833,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 2833,
+      "text": "2025550146",
+      "box": [
+        0.3307124735961602,
+        0.5707101394930804,
+        0.6817701460967706,
+        0.6705593000053688
+      ]
+    },
+    {
+      "time_ms": 2917,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 2917,
+      "text": "2025550146",
+      "box": [
+        0.3274735548766893,
+        0.5686599834160423,
+        0.6787764408859056,
+        0.6702289048231062
+      ]
+    },
+    {
+      "time_ms": 3000,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 3000,
+      "text": "2025550146",
+      "box": [
+        0.3243951859884402,
+        0.5678322231217762,
+        0.675658399146094,
+        0.6702289020463367
+      ]
+    },
+    {
+      "time_ms": 3083,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 3083,
+      "text": "2025550146",
+      "box": [
+        0.3214697008117642,
+        0.5686686801563352,
+        0.6753908996566739,
+        0.6672199429059011
+      ]
+    },
+    {
+      "time_ms": 3167,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 3167,
+      "text": "2025550146",
+      "box": [
+        0.31874999976669527,
+        0.5722222221613394,
+        0.6718749997666953,
+        0.6611111110502284
+      ]
+    },
+    {
+      "time_ms": 3250,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998984375037,
+        0.033333332870370325,
+        0.42812499898437506,
+        0.0888888884259259
+      ]
+    },
+    {
+      "time_ms": 3250,
+      "text": "2025550146",
+      "box": [
+        0.3156249998225912,
+        0.5722222221759259,
+        0.6687499998225912,
+        0.6611111110648148
+      ]
+    },
+    {
+      "time_ms": 3333,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998984375037,
+        0.033333332870370325,
+        0.42812499898437506,
+        0.0888888884259259
+      ]
+    },
+    {
+      "time_ms": 3333,
+      "text": "2025550146",
+      "box": [
+        0.3124999998423032,
+        0.5722222221784979,
+        0.6656249998423032,
+        0.6666666666229424
+      ]
+    },
+    {
+      "time_ms": 3417,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998984375037,
+        0.033333332870370325,
+        0.42812499898437506,
+        0.0888888884259259
+      ]
+    },
+    {
+      "time_ms": 3417,
+      "text": "2025550146",
+      "box": [
+        0.30937499984375005,
+        0.5722222221780893,
+        0.6624999998437501,
+        0.6666666666225337
+      ]
+    },
+    {
+      "time_ms": 3500,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 3500,
+      "text": "2025550146",
+      "box": [
+        0.3031249999125,
+        0.5722222221592593,
+        0.6593749999125,
+        0.6666666666037038
+      ]
+    },
+    {
+      "time_ms": 3583,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 3583,
+      "text": "2025550146",
+      "box": [
+        0.30000000014008615,
+        0.572222222059387,
+        0.6562500001400862,
+        0.6666666665038314
+      ]
+    },
+    {
+      "time_ms": 3667,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 3667,
+      "text": "2025550146",
+      "box": [
+        0.29687500249999993,
+        0.5722222214351851,
+        0.6531250024999999,
+        0.6666666658796296
+      ]
+    },
+    {
+      "time_ms": 3750,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 3750,
+      "text": "2025550146",
+      "box": [
+        0.29374999984518346,
+        0.577777777737003,
+        0.6499999998451835,
+        0.6666666666258919
+      ]
+    },
+    {
+      "time_ms": 3833,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 3833,
+      "text": "2025550146",
+      "box": [
+        0.29062499984515766,
+        0.5777777777377378,
+        0.6468749998451576,
+        0.6666666666266267
+      ]
+    },
+    {
+      "time_ms": 3917,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 3917,
+      "text": "2025550146",
+      "box": [
+        0.2874999998611111,
+        0.5777777777300785,
+        0.6437499998611111,
+        0.672222222174523
+      ]
+    },
+    {
+      "time_ms": 4000,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 4000,
+      "text": "2025550146",
+      "box": [
+        0.28125000008357554,
+        0.5777777776679587,
+        0.6406250000835756,
+        0.6722222221124031
+      ]
+    },
+    {
+      "time_ms": 4083,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 4083,
+      "text": "2025550146",
+      "box": [
+        0.27812500021972664,
+        0.5777777776302082,
+        0.6375000002197266,
+        0.6722222220746527
+      ]
+    },
+    {
+      "time_ms": 4167,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998958333382,
+        0.033333332870370325,
+        0.4312499989583333,
+        0.0888888884259259
+      ]
+    },
+    {
+      "time_ms": 4167,
+      "text": "2025550146",
+      "box": [
+        0.27500000117187495,
+        0.5777777769907407,
+        0.634375001171875,
+        0.6722222214351852
+      ]
+    },
+    {
+      "time_ms": 4250,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998958333382,
+        0.033333332870370325,
+        0.4312499989583333,
+        0.0888888884259259
+      ]
+    },
+    {
+      "time_ms": 4250,
+      "text": "2025550146",
+      "box": [
+        0.27187499990985575,
+        0.583333333272792,
+        0.6312499999098558,
+        0.6777777777172365
+      ]
+    },
+    {
+      "time_ms": 4333,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998958333382,
+        0.033333332870370325,
+        0.4312499989583333,
+        0.0888888884259259
+      ]
+    },
+    {
+      "time_ms": 4333,
+      "text": "2025550146",
+      "box": [
+        0.2656250005468751,
+        0.5833333330972222,
+        0.628125000546875,
+        0.6777777775416667
+      ]
+    },
+    {
+      "time_ms": 4417,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 4417,
+      "text": "2025550146",
+      "box": [
+        0.26249999986250006,
+        0.5888888888416667,
+        0.6249999998625,
+        0.6833333332861111
+      ]
+    },
+    {
+      "time_ms": 4500,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 4500,
+      "text": "2025550146",
+      "box": [
+        0.25937500008720926,
+        0.5888888887790698,
+        0.6218750000872093,
+        0.6833333332235142
+      ]
+    },
+    {
+      "time_ms": 4583,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 4583,
+      "text": "2025550146",
+      "box": [
+        0.240624999890625,
+        0.5944444443919753,
+        0.618749999890625,
+        0.6888888888364197
+      ]
+    },
+    {
+      "time_ms": 4667,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 4667,
+      "text": "2025550146",
+      "box": [
+        0.24062500001116066,
+        0.594444444360119,
+        0.6156250000111607,
+        0.6888888888045634
+      ]
+    },
+    {
+      "time_ms": 4750,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 4750,
+      "text": "2025550146",
+      "box": [
+        0.2406250005282738,
+        0.5944444442195768,
+        0.6125000005282738,
+        0.6888888886640212
+      ]
+    },
+    {
+      "time_ms": 4833,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 4833,
+      "text": "2025550146",
+      "box": [
+        0.240625,
+        0.599999999917154,
+        0.609375,
+        0.6944444443615985
+      ]
+    },
+    {
+      "time_ms": 4917,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 4917,
+      "text": "2025550146",
+      "box": [
+        0.2406250005546875,
+        0.5999999997638888,
+        0.6062500005546875,
+        0.6944444442083333
+      ]
+    },
+    {
+      "time_ms": 5000,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 5000,
+      "text": "2025550146",
+      "box": [
+        0.24015151005417756,
+        0.600137080301222,
+        0.6036134813371365,
+        0.7020714391099514
+      ]
+    },
+    {
+      "time_ms": 5083,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 5083,
+      "text": "2025550146",
+      "box": [
+        0.2406249999972098,
+        0.6055555554712301,
+        0.5999999999972098,
+        0.6999999999156745
+      ]
+    },
+    {
+      "time_ms": 5167,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 5167,
+      "text": "2025550146",
+      "box": [
+        0.23750000249999995,
+        0.6055555547685185,
+        0.6000000025,
+        0.699999999212963
+      ]
+    },
+    {
+      "time_ms": 5250,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 5250,
+      "text": "2025550146",
+      "box": [
+        0.23749999994554924,
+        0.6111111110395623,
+        0.5968749999455493,
+        0.7055555554840067
+      ]
+    },
+    {
+      "time_ms": 5333,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.018749998749999986,
+        0.033333332777777835,
+        0.43124999875,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 5333,
+      "text": "2025550146",
+      "box": [
+        0.23437500053906257,
+        0.611111110875,
+        0.5937500005390626,
+        0.7055555553194445
+      ]
+    },
+    {
+      "time_ms": 5417,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 5417,
+      "text": "2025550146",
+      "box": [
+        0.23437499984375004,
+        0.6166666666241241,
+        0.5937499998437501,
+        0.7111111110685685
+      ]
+    },
+    {
+      "time_ms": 5500,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 5500,
+      "text": "2025550146",
+      "box": [
+        0.23124999990868506,
+        0.6166666666053391,
+        0.590624999908685,
+        0.7111111110497835
+      ]
+    },
+    {
+      "time_ms": 5583,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 5583,
+      "text": "2025550146",
+      "box": [
+        0.23125000057565792,
+        0.6166666664181286,
+        0.5875000005756579,
+        0.7111111108625731
+      ]
+    },
+    {
+      "time_ms": 5667,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 5667,
+      "text": "2025550146",
+      "box": [
+        0.2312499998451835,
+        0.6222222221814475,
+        0.5874999998451835,
+        0.7111111110703364
+      ]
+    },
+    {
+      "time_ms": 5750,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 5750,
+      "text": "2025550146",
+      "box": [
+        0.23124999990953937,
+        0.6222222221600877,
+        0.5874999999095394,
+        0.716666666604532
+      ]
+    },
+    {
+      "time_ms": 5833,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 5833,
+      "text": "2025550146",
+      "box": [
+        0.23124999990833334,
+        0.6222222221592593,
+        0.5874999999083333,
+        0.7166666666037037
+      ]
+    },
+    {
+      "time_ms": 5917,
+      "text": "SYNTHETIC / FIXTURE GEOMETRY",
+      "box": [
+        0.01874999878125001,
+        0.033333332777777835,
+        0.42812499878125,
+        0.0888888883333333
+      ]
+    },
+    {
+      "time_ms": 5917,
+      "text": "2025550146",
+      "box": [
+        0.23125000100446425,
+        0.6222222215476191,
+        0.5843750010044643,
+        0.7166666659920635
+      ]
+    }
+  ]
+}

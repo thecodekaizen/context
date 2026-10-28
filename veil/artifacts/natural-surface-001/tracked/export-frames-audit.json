@@ -1,0 +1,9 @@
+{
+  "export_sha256": "2506ccdb7593fa2d3bbe5e95c2c7587ea8b8588b0deb68757ec5bf052532ce83",
+  "status": "no_original_identifier_observed_in_checked_frames",
+  "frames_checked": 72,
+  "full_identifier_recovered_frames": 0,
+  "residual_findings": [],
+  "needs_manual_review": true,
+  "scope": "Local independent OCR on supplied exported frames, normalized planted values and contiguous four-character fragments. Not proof against all recovery methods."
+}

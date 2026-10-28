@@ -1,0 +1,1043 @@
+{
+  "media": {
+    "original": {
+      "width": 640,
+      "height": 360,
+      "fps": 12.0,
+      "duration_ms": 6000,
+      "has_audio": true,
+      "container_duration_s": 6.0,
+      "decoded_frames": 72,
+      "privacy_verification": "not_run",
+      "near_full_frame_black_frames": [],
+      "utility_status": "review_required",
+      "needs_human_review": true
+    },
+    "opaque": {
+      "width": 640,
+      "height": 360,
+      "fps": 12.0,
+      "duration_ms": 6000,
+      "has_audio": true,
+      "container_duration_s": 6.016,
+      "decoded_frames": 72,
+      "privacy_verification": "not_run",
+      "near_full_frame_black_frames": [],
+      "utility_status": "review_required",
+      "needs_human_review": true
+    },
+    "natural": {
+      "width": 640,
+      "height": 360,
+      "fps": 12.0,
+      "duration_ms": 6000,
+      "has_audio": true,
+      "container_duration_s": 6.016,
+      "decoded_frames": 72,
+      "privacy_verification": "not_run",
+      "near_full_frame_black_frames": [],
+      "utility_status": "review_required",
+      "needs_human_review": true
+    },
+    "fallback": {
+      "width": 640,
+      "height": 360,
+      "fps": 12.0,
+      "duration_ms": 6000,
+      "has_audio": true,
+      "container_duration_s": 6.016,
+      "decoded_frames": 72,
+      "privacy_verification": "not_run",
+      "near_full_frame_black_frames": [],
+      "utility_status": "review_required",
+      "needs_human_review": true
+    }
+  },
+  "privacy": {
+    "original": {
+      "export_sha256": "0503472254e5bf4b7c9329789eea18c8e868b484a4d6103308c1d465398a87a7",
+      "status": "residual_observed",
+      "frames_checked": 72,
+      "full_identifier_recovered_frames": 72,
+      "residual_findings": [
+        {
+          "time_ms": 0,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 83,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 167,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 250,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 333,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 417,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 500,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 583,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 667,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 750,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 833,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 917,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 1000,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 1083,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 1167,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 1250,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 1333,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 1417,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 1500,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 1583,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 1667,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 1750,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 1833,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 1917,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 2000,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 2083,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 2167,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 2250,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 2333,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 2417,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 2500,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 2583,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 2667,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 2750,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 2833,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 2917,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 3000,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 3083,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 3167,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 3250,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 3333,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 3417,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 3500,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 3583,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 3667,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 3750,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 3833,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 3917,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 4000,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 4083,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 4167,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 4250,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 4333,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 4417,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 4500,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 4583,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 4667,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 4750,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 4833,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 4917,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 5000,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 5083,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 5167,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 5250,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 5333,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 5417,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 5500,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 5583,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 5667,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 5750,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 5833,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        },
+        {
+          "time_ms": 5917,
+          "text": "2025550146",
+          "original_four_digit_chunks": [
+            "0146",
+            "0255",
+            "2025",
+            "2555",
+            "5014",
+            "5501",
+            "5550"
+          ]
+        }
+      ],
+      "needs_manual_review": true,
+      "scope": "Every decoded frame, local independent macOS OCR; full planted value and contiguous four-digit fragments only. No proof against all recovery methods."
+    },
+    "natural": {
+      "export_sha256": "f2573f405e3e5c348b48310ae80e4254014253c7e23fe11d8a4e02341e62e827",
+      "status": "no_original_identifier_observed_in_checked_frames",
+      "frames_checked": 72,
+      "full_identifier_recovered_frames": 0,
+      "residual_findings": [],
+      "needs_manual_review": true,
+      "scope": "Every decoded frame, local independent macOS OCR; full planted value and contiguous four-digit fragments only. No proof against all recovery methods."
+    },
+    "fallback": {
+      "export_sha256": "65a283606a8bab6cce0adb46a8862e121409ab3ce85c5ca86d12fedf5153cf1d",
+      "status": "no_original_identifier_observed_in_checked_frames",
+      "frames_checked": 72,
+      "full_identifier_recovered_frames": 0,
+      "residual_findings": [],
+      "needs_manual_review": true,
+      "scope": "Every decoded frame, local independent macOS OCR; full planted value and contiguous four-digit fragments only. No proof against all recovery methods."
+    }
+  },
+  "quality": {
+    "frames_checked": 72,
+    "mean_outside_region_absolute_pixel_difference_0_255": 2.5211659437687866,
+    "maximum_frame_mean_outside_difference": 2.597928686920262,
+    "mean_edited_frame_fraction": 0.09863341531635801,
+    "near_full_frame_blackouts": [],
+    "geometry_stability": "not independently measured: supplied fixture corners",
+    "visual_naturalness": "human review required",
+    "temporal_flicker": "not independently measured",
+    "limitations": [
+      "Codec re-encoding changes pixels outside edit region",
+      "Same synthetic development fixture is not independent validation",
+      "No occlusion, reflective surface or automatic tracking evaluated"
+    ]
+  },
+  "elapsed_s": 10.643509667017497,
+  "api_calls": 0,
+  "api_cost_usd": 0,
+  "acceptance": "pending manual frame/video inspection and independent tracking tests",
+  "six_clip_gate": "not_run",
+  "blinded_preference": "not_run"
+}

@@ -1,0 +1,9 @@
+{
+  "export_sha256": "f2573f405e3e5c348b48310ae80e4254014253c7e23fe11d8a4e02341e62e827",
+  "status": "no_original_identifier_observed_in_checked_frames",
+  "frames_checked": 72,
+  "full_identifier_recovered_frames": 0,
+  "residual_findings": [],
+  "needs_manual_review": true,
+  "scope": "Every decoded frame, local independent macOS OCR; full planted value and contiguous four-digit fragments only. No proof against all recovery methods."
+}

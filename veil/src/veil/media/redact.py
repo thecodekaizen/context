@@ -28,15 +28,19 @@ def apply_redactions(frame,operations,padding=12):
  return frame
 
 
-def render(source:Path,target:Path,timeline:Timeline,padding=12):
+def render(source:Path,target:Path,timeline:Timeline,padding=12,*,natural_replacements=None):
  cap=cv2.VideoCapture(str(source));fps=cap.get(cv2.CAP_PROP_FPS)
  width=int(cap.get(cv2.CAP_PROP_FRAME_WIDTH));height=int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
  if not cap.isOpened() or (width,height)!=(timeline.width,timeline.height) or abs(fps-timeline.fps)>1e-5:raise ValueError('Media geometry does not match timeline')
  frame_count=int(cap.get(cv2.CAP_PROP_FRAME_COUNT));by_frame={}
+ surfaces=None
+ if natural_replacements:
+  from veil.media.surface import SurfaceRenderer
+  surfaces=SurfaceRenderer(natural_replacements,timeline)
  for track in timeline.visual_tracks:
   for region in track.regions:
    if region.frame>=frame_count:raise ValueError('Region outside source video')
-   by_frame.setdefault(region.frame,[]).append((region.box,track.action))
+   by_frame.setdefault(region.frame,[]).append((track.id,region.box,track.action))
  intermediate=target.with_name(target.stem+'-silent.mp4')
  writer=cv2.VideoWriter(str(intermediate),cv2.VideoWriter_fourcc(*'mp4v'),fps,(width,height))
  if not writer.isOpened():raise ValueError('Cannot open video writer')
@@ -45,7 +49,8 @@ def render(source:Path,target:Path,timeline:Timeline,padding=12):
   while True:
    ok,frame=cap.read()
    if not ok:break
-   apply_redactions(frame,by_frame.get(count,[]),padding)
+   replaced=surfaces.apply(frame,count) if surfaces else set()
+   apply_redactions(frame,[(box,action) for ident,box,action in by_frame.get(count,[]) if ident not in replaced],padding)
    writer.write(frame);count+=1
  finally:writer.release();cap.release()
  if count!=frame_count:raise ValueError('Source decoding stopped early')
@@ -54,4 +59,6 @@ def render(source:Path,target:Path,timeline:Timeline,padding=12):
        '-c:v','libx264','-crf','18','-pix_fmt','yuv420p','-c:a','aac','-movflags','+faststart','-map_metadata','-1']
  if filters:args+=['-af',','.join(filters)]
  subprocess.run(args+[str(target)],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
- return {'frames_rendered':count,'frames_with_visual_cover':len(by_frame),'audio_intervals':len(filters)}
+ result={'frames_rendered':count,'frames_with_visual_cover':len(by_frame),'audio_intervals':len(filters)}
+ if surfaces:result['natural_replacement']=surfaces.report()
+ return result

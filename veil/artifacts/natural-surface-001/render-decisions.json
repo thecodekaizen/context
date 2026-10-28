@@ -1,0 +1,754 @@
+{
+  "baseline": {
+    "frames_rendered": 72,
+    "frames_with_visual_cover": 72,
+    "audio_intervals": 0
+  },
+  "natural": {
+    "frames_rendered": 72,
+    "frames_with_visual_cover": 72,
+    "audio_intervals": 0,
+    "natural_replacement": {
+      "assets": {
+        "plate-001": {
+          "path": "/Users/thecodekaizen/Code/Projects/hackathons/veil/veil/artifacts/natural-surface-001/replacement.png",
+          "sha256": "c34609cee1e1f970dd025cfbcb45c2caeeb91cf46600c96c1689940c9295fecc",
+          "geometry_source": "fixture-authored quadrilaterals, no automatic tracking",
+          "category": "license_plate"
+        }
+      },
+      "decisions": [
+        {
+          "track_id": "plate-001",
+          "frame": 0,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 22730,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 1,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 22552,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 2,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 22465,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 3,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 22290,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 4,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 22153,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 5,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 22067,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 6,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21888,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 7,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21710,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 8,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21668,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 9,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21493,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 10,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21451,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 11,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21412,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 12,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21233,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 13,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21233,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 14,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21192,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 15,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21057,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 16,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21015,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 17,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21150,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 18,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21015,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 19,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21015,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 20,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21015,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 21,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21057,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 22,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21015,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 23,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21192,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 24,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21192,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 25,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21233,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 26,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21233,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 27,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21412,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 28,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21493,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 29,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21627,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 30,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21668,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 31,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21844,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 32,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 21931,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 33,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 22067,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 34,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 22109,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 35,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 22333,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 36,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 22509,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 37,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 22730,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 38,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 22730,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 39,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 22910,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 40,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 22997,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 41,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 23176,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 42,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 23357,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 43,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 23399,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 44,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 23624,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 45,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 23804,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 46,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 23804,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 47,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24028,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 48,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24028,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 49,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24070,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 50,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24251,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 51,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24389,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 52,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24251,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 53,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24475,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 54,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24475,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 55,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24475,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 56,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24475,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 57,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24475,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 58,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24475,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 59,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24475,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 60,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24431,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 61,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24431,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 62,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24251,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 63,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24251,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 64,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24207,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 65,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 24028,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 66,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 23985,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 67,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 23985,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 68,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 23624,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 69,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 23624,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 70,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 23444,
+          "illumination_gain": 0.96
+        },
+        {
+          "track_id": "plate-001",
+          "frame": 71,
+          "proposed_strategy": "natural_replacement",
+          "applied_strategy": "natural_replacement",
+          "fallback_reason": null,
+          "privacy_verification": "not_run",
+          "edited_pixels": 23357,
+          "illumination_gain": 0.96
+        }
+      ],
+      "natural_frames": 72,
+      "fallback_frames": 0,
+      "geometry_is_inferred_by_renderer": false,
+      "needs_human_review": true,
+      "limitations": [
+        "Geometry reliability is supplied, not independently established",
+        "Occlusion uses opaque fallback; foreground reconstruction is not implemented",
+        "Scalar lighting adaptation, no learned reflections or physical motion blur",
+        "A rendered replacement is not evidence of privacy or visual quality"
+      ]
+    }
+  }
+}

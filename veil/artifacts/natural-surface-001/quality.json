@@ -1,0 +1,15 @@
+{
+  "frames_checked": 72,
+  "mean_outside_region_absolute_pixel_difference_0_255": 2.5211659437687866,
+  "maximum_frame_mean_outside_difference": 2.597928686920262,
+  "mean_edited_frame_fraction": 0.09863341531635801,
+  "near_full_frame_blackouts": [],
+  "geometry_stability": "not independently measured: supplied fixture corners",
+  "visual_naturalness": "human review required",
+  "temporal_flicker": "not independently measured",
+  "limitations": [
+    "Codec re-encoding changes pixels outside edit region",
+    "Same synthetic development fixture is not independent validation",
+    "No occlusion, reflective surface or automatic tracking evaluated"
+  ]
+}
