@@ -1,0 +1,53 @@
+{
+  "clip-a": {
+    "kind": "persistent",
+    "events": [
+      {
+        "category": "face",
+        "start_ms": 0,
+        "end_ms": 8000
+      },
+      {
+        "category": "license_plate",
+        "start_ms": 0,
+        "end_ms": 8000
+      },
+      {
+        "category": "phone_number",
+        "start_ms": 0,
+        "end_ms": 8000
+      },
+      {
+        "category": "spoken_phone",
+        "start_ms": 1000,
+        "end_ms": 7371
+      }
+    ],
+    "synthetic_only": true,
+    "fps": 12,
+    "frames": 96,
+    "duration_ms": 8000
+  },
+  "clip-b": {
+    "kind": "brief",
+    "events": [
+      {
+        "category": "phone_number",
+        "start_ms": 2000,
+        "end_ms": 2250
+      }
+    ],
+    "synthetic_only": true,
+    "fps": 12,
+    "frames": 96,
+    "duration_ms": 8000
+  },
+  "clip-c": {
+    "kind": "negative",
+    "events": [],
+    "synthetic_only": true,
+    "fps": 12,
+    "frames": 96,
+    "duration_ms": 8000
+  }
+}
