@@ -1,30 +1,27 @@
 # Repository working agreements
 
-## Product boundary
+## Current direction
 
-SHOWME's product definition is locked in [`docs/PRODUCT.md`](docs/PRODUCT.md): exactly three surfaces—Teach, Do, Simulate—over one shared Skill Model. Teach creates it, Do executes against it, and Simulate explores it. Do not reopen product or category exploration; narrow implementation/task details only when evidence requires it.
+The user approved planning and implementing the Experimental Investigator on 28 October 2026, after explicitly abandoning SHOWME. Start with [docs/experimental-investigator/README.md](docs/experimental-investigator/README.md), then PRODUCT.md, PROTOCOL.md and IMPLEMENTATION.md in that folder.
 
-## Hackathon constraints
+The first application is budgeted identification of a two-heater thermal system. Establish prediction quality and comparison evidence before building a product interface. Current implementation is a numerical development baseline only; Meta investigation decisions and a demonstrated advantage remain unimplemented.
 
-- SHOWME is the authoritative product direction. THREAD code, fixtures, and research are legacy material; inspect before reuse and preserve useful infrastructure.
-- Keep controlled proof/evaluation work moving alongside the final Teach → Do → Simulate product implementation. Do not claim a capability until it passes a recorded, repeatable experiment.
-- The hackathon submission demonstrates one safe assembly task with roughly 4–6 pieces and an observable ordering or orientation constraint: learn it, guide a learner through it, catch and ground a mistake, recognize recovery, then simulate an alternative from the same Skill Model.
-- Separate model observations, process hypotheses, human-authored ground truth, deterministic checks, and evaluation results. Never expose evaluation labels to the model.
-- Keep provenance for every observation: source clip, frame/time reference, model/version, and whether the statement is observed or inferred.
-- Use Meta models substantively in the demo path. Muse Spark provides multimodal interpretation; SAM provides object masks/tracks, not process reasoning. Verify API behavior and cost before depending on it.
-- Simulation is a mode of the learned skill, not a separate product. It must use the same Skill Model as Teach and Do, and visually explain alternative state, consequence, violated constraint, and recovery. Do not claim arbitrary physics or arbitrary-task learning.
-- Use prerecorded clips for controlled evaluation and a camera-first active task session for the final experience. No robotics control, arbitrary YouTube ingestion, general skill marketplace, authentication, or production infrastructure.
-- Keep secrets and private media out of Git. Prefer hands-only recordings and remove clips and derived data when no longer needed.
-- Keep model providers behind a narrow adapter. Treat model output as untrusted input and validate it before state changes or guidance.
-- The official demo is three minutes and must clearly identify work built during Oct 27–Nov 4, 2026.
+SHOWME, THREAD, the remnant planner and the scientific-scene editor are historical directions. Their locked-product statements do not override the user's subsequent pivot. Previous agreements are preserved in docs/archive/AGENTS_SHOWME_2026-10-28.md for context.
 
-## Learning while building
+## Engineering and evaluation
 
-- Explain the engineering concept and why it matters before a meaningful implementation task.
-- Give one bounded exercise at a time with observable acceptance criteria. Leave conceptually important implementation to the user; handle repetitive setup and generated boilerplate.
-- Review the user's implementation candidly, explain tradeoffs, and continue with the next exercise. Adapt teaching to the deadline without turning each task into a lecture.
-- The process representation and evaluation labels are central reasoning work. Do not silently author them on the user's behalf.
+- Preserve useful existing code and other agents' uncommitted work. Scope new implementation to experiments/thermal-investigator and docs/experimental-investigator until integration is justified.
+- Keep hidden lab configuration and challenge measurements out of agent context. Commit predictions before revealing challenge outputs.
+- Compare against strong conventional methods and a direct Meta agent with equivalent tools, observations and budgets. Report failures, sample sizes, costs and uncertainty. Do not tune on sealed evaluation cases.
+- Separate simulation, recorded-data replay and actual hardware experiments. No claims of hardware validation or industrial savings from simulation.
+- Use Meta substantively; narrative explanations alone do not establish contribution. Models propose structures and decisions; numerical tools enforce constraints and evaluate predictions.
+- Treat model output as untrusted data. Start with a bounded declarative grammar, not arbitrary generated code execution.
+- Keep secrets and private media out of Git. No BrowserStack code, data, developer QA or employer-adjacent product direction.
 
-## Current entry point
+## Working style
 
-Read docs/PRODUCT.md first for the locked product contract, then docs/SHOWME_PROOF_OF_MAGIC.md for experiment evidence and boundaries. Existing THREAD documentation, mockups, and UI are not SHOWME specifications.
+The user's explicit hackathon exception favors assistant implementation with concise explanations of significant engineering concepts. Do not introduce learning exercises or checkpoints that block authorized work. Explain consequential design choices and evidence as the work progresses.
+
+## Delivery
+
+The supplied hackathon guide requires a public repository by submission, a maximum three-minute demo and clear attribution of work built during the event. The user chose to defer making the repository public until submission; do not change visibility prematurely. Existing authorization to commit and push scoped work remains in effect.

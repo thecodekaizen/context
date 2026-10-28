@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "thermal-investigator"
+version = "0.1.0"
+description = "Local, independently scored thermal identification experiment"
+requires-python = ">=3.12"
+dependencies = ["numpy>=1.26,<3"]
+
+[project.scripts]
+thermal-investigator = "thermal_investigator.run:main"
+
+[tool.setuptools.packages.find]
+include = ["thermal_investigator*"]
