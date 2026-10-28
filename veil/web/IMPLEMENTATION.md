@@ -34,12 +34,13 @@ Reference frontend for VEIL: an API-first multimodal video privacy engine (Detec
 
 - Complete React + TypeScript + Vite frontend in `veil/web/`
 - Film inspection desk visual system matching `#090C10` / `#12171E` / `#69DDF3` specifications
-- Real synthetic media in `public/artifacts/`: `input.mp4`, `redacted.mp4`, `repaired.mp4`, `protected.mp4`, and inspection frames
+- Real synthetic media in `public/artifacts/`: `input.mp4`, `redacted.mp4`, `repaired.mp4`, `protected.mp4`, inspection frames, and latest live-pipeline-003 corrected shots (`final-7600.jpg`, `final-2000.jpg`, `final-16000.jpg`, `final-export.mp4`)
 - Verification hero highlighting the omitted printed phone number at `00:07.500` with the failed 1-digit repair progression
 - Scoped 3-sample disclaimer with no false zero-leak guarantees
 - Machine-readable receipt modal with SHA-256 hashes and cost accounting
 - Python SDK drawer with copyable code snippet
 - Unit test suite protecting honest status labels, null confidence, and upload limits
+- Comprehensive READMEs with embedded corrected scene shots across root `README.md`, `veil/README.md`, and `veil/web/README.md`
 
 ## Verified
 

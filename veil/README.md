@@ -8,9 +8,11 @@ VEIL is an embeddable video privacy engine. It identifies sensitive visual and s
 
 ## Current result: a real 18-second export
 
-[Play the corrected MP4](artifacts/smoke-001/protected.mp4) · [Original synthetic clip](artifacts/smoke-001/input.mp4) · [Results](artifacts/smoke-results.json) · [Receipt](artifacts/smoke-001/receipt.json)
+[Play the latest corrected MP4](artifacts/live-pipeline-003/final-export.mp4) · [Original synthetic clip](artifacts/smoke-001/input.mp4) · [Live run summary](artifacts/live-pipeline-003/run-summary.json) · [Live receipt](artifacts/live-pipeline-003/receipt.json)
 
-![Corrected export at 7.5 seconds](artifacts/smoke-001/protected-7500.jpg)
+| Initial export: omitted printed phone (00:07.500) | Corrected export: whole-field repair verified (00:07.600) |
+|---|---|
+| ![Initial export at 7.5 seconds with missed phone](artifacts/smoke-001/export-check.jpg) | ![Corrected export at 7.6 seconds](artifacts/live-pipeline-003/final-7600.jpg) |
 
 Real Meta requests tracked a fictional face and a fake plate. Voice returned speech timestamps; FFmpeg muted the spoken number. Spark inspected the first export and found an unprotected printed number. The first repair covered one digit and failed its audit. A full-field repair then passed three sampled-frame reviews. Local evaluation checked all 180 frames for the fixture's visible plate and printed-digit cover regions and checked the audio samples.
 
@@ -64,6 +66,17 @@ with VeilClient(base_url="http://127.0.0.1:8018") as client:
 
 Routes: create/read job, POST reviewed timeline to `/v1/jobs/{id}/redact`, read findings/receipt, and download `/v1/jobs/{id}/export`. No `/verify` route is claimed yet. Jobs persist under ignored `artifacts/private/jobs`; processing is synchronous and guarded by per-job filesystem locks. After an interrupted process, inspect the job before manually removing a stale `.lock`. Current input limits: 100 MiB, 60 seconds, 1080p, audio required. Timing support remains constrained to constant-frame-rate clips; the frame-rate metadata check is a rejection heuristic, not an exhaustive VFR validator.
 
-## Build the reference demonstration
+## Reference demonstration interface
 
-Frontend ownership, visual direction, exact current API contracts, recorded/live mode separation and acceptance criteria are in [Antigravity handoff](../ANTIGRAVITY_VEIL.md). The frontend lives in `veil/web/` relative to repository root. GitHub repository: https://github.com/thecodekaizen/veil. Local checkout: `/Users/thecodekaizen/Code/Projects/hackathons/veil`. Historical experiments remain preserved.
+The reference web interface lives in `web/` and provides a precision video inspection desk to review automated detections, inspect time-aligned video/audio redactions, catch residual privacy leaks on exported pixels, and view verifiable cryptographic receipts.
+
+![VEIL Inspection Desk Desktop](web/docs/screenshots/desktop-1440x900.png)
+
+```sh
+cd web
+npm install
+npm test
+npm run dev
+```
+
+Visit `http://localhost:3000` to interact with the recorded demonstration or connect to the local engine API. Full frontend design specifications, mode separation, and acceptance criteria are in [Antigravity handoff](../ANTIGRAVITY_VEIL.md) and [web/DESIGN.md](web/DESIGN.md). Repository: https://github.com/thecodekaizen/veil. Local checkout: `/Users/thecodekaizen/Code/Projects/hackathons/veil`. Historical experiments remain preserved in `apps/` and `docs/archive/`.

@@ -1,4 +1,48 @@
-# SHOWME
+# VEIL — Multimodal Video Privacy Engine
+
+**Detect. Redact. Verify.**
+
+VEIL is an API-first multimodal video privacy engine built for the Meta Global AI Developer Hackathon 2026. It identifies sensitive visual and spoken information (faces, plates, telephone numbers, and speech), renders time-aligned frame-accurate redactions, inspects exported pixels for residual exposures, and repairs detected misses with cryptographic receipts.
+
+- **Core Python Engine, API & SDK**: [`veil/`](veil/)
+- **Reference Video Inspection Desk**: [`veil/web/`](veil/web/)
+- **API Contract & Pipeline Architecture**: [`veil/docs/PIPELINE_API.md`](veil/docs/PIPELINE_API.md)
+- **Live Pipeline Evaluation**: [`veil/docs/LIVE_EVALUATION.md`](veil/docs/LIVE_EVALUATION.md)
+- **Verifier Benchmark Protocol**: [`veil/docs/BENCHMARK_PROTOCOL.md`](veil/docs/BENCHMARK_PROTOCOL.md)
+
+---
+
+## The Hero Moment: Catching an Omitted Placard Number
+
+| Initial Export: Omitted Phone Number (00:07.500) | Corrected Export: Whole-Field Repair (00:07.600) |
+|---|---|
+| ![Initial export with missed phone](veil/artifacts/smoke-001/export-check.jpg) | ![Corrected export whole-field cover](veil/artifacts/live-pipeline-003/final-7600.jpg) |
+
+The initial redaction export covered the driver face and vehicle license plate, but left the printed delivery phone number unredacted. The post-export verifier caught the residual text on exported pixels, rejected a single-digit repair attempt, and produced a verified whole-field export that passed a 3-frame sampled review (`00:02.000`, `00:07.600`, `00:16.000`).
+
+---
+
+## Reference Demonstration Desk
+
+![VEIL Inspection Desk Desktop](veil/web/docs/screenshots/desktop-1440x900.png)
+
+```sh
+cd veil/web
+npm install
+npm test
+npm run dev
+```
+
+Visit `http://localhost:3000` to interact with the recorded demonstration or connect to the local engine API at `http://127.0.0.1:8019`.
+
+---
+
+## Historical Archives (SHOWME & THREAD)
+
+The preceding instructions and prototype surfaces for SHOWME and THREAD remain historical context preserved under `apps/web/` and `docs/archive/`. They do not direct active VEIL development.
+
+<details>
+<summary>Expand Historical SHOWME Prototype Documentation</summary>
 
 ### Build a process model from a demonstration.
 
@@ -34,6 +78,8 @@ These screenshots were captured from the production build on October 27, 2026 at
 |---|---|
 | ![Simulate: reorder the procedure](design/screenshots/03-simulate.jpg) | ![What-if simulation stops at a confirmed missing prerequisite](design/screenshots/04-simulate-what-if.jpg) |
 
+</details>
+
 ## Product design concepts
 
 These are design references, not screenshots of implemented screens or proof that physical-task understanding works. The depicted block assembly is illustrative; the evaluation task will be selected after inspecting the LEGO set.
@@ -44,13 +90,25 @@ See the [full mockup inventory](design/mockups/README.md) for the Do and Simulat
 
 ## What works now
 
-- Teach can capture a short demonstration from the browser camera or accept an uploaded video and narration. An optional PDF reference can define the intended procedure; Muse Spark cites manual page/step evidence separately from timestamped video evidence. Candidate models still require human review.
-- A person reviews the candidate. Model-proposed prerequisites remain hypotheses unless explicitly mapped to a state and confirmed by the reviewer.
-- Do can capture and save a learner clip in-browser or accept an upload, then compare it with the reviewed process model; it can also request a single camera-frame check. These are discrete observations, not continuous tracking.
-- Simulate lets a person reorder actions, use timed Play/Pause/Replay or manual stepping, and inspect the first confirmed blocker. A sequence absent from one demonstration is reported as **unobserved**, not impossible.
-- Skill candidates and human-reviewed constraint mappings persist in browser-local storage. Uploaded clips and camera frames are not stored by the app after the request.
+- **Teach**:
+  - Captures a demonstration from browser camera or video upload with optional narration.
+  - Accepts an optional official instructions PDF; Muse Spark cites manual page/step evidence distinctly from empirical video timestamps.
+  - Interactive clickable evidence timestamp badges seek the demonstration video player directly to cited moments.
+  - In-browser candidate review includes an audited human revision trail: reviewers can correct object labels or action names prior to activation, with full diff and single-click revert capability.
+  - Candidate model prerequisites remain unverified hypotheses unless explicitly confirmed against an observed state.
+- **Do**:
+  - Discrete camera frame checks against the reviewed process model, with an in-flight check indicator and graceful rejected-result recovery that preserves trustworthy history.
+  - Task checkpoint guidance derives unambiguous vs ambiguous next actions, part lists, and observable fact checklists directly from the shared Skill Model.
+  - Analyzes separate learner video recordings and provides an evidence-first recovery panel: identifies affected parts, navigates to the latest divergence, and verifies whether subsequent matching frames occurred.
+- **Simulate**:
+  - Procedural simulation driven by the single shared Skill Model (with task-specific LEGO 30727 vector silhouettes or illustrative fixtures, explicitly disclosing geometry provenance).
+  - Can launch exploration directly from camera frame checkpoints, with a safe "Return to active task" flow that clears transient simulation states while preserving physical history and explaining camera lifecycle teardown.
+  - Deterministic sequence execution with natural language what-if reordering ("Move step A before step B").
+  - Automated recovery resolution: detects blocked prerequisites or unobserved transitions (honestly labeled *"not established by this model"*), checks candidate prerequisite actions against current simulated state, and re-tests the repaired sequence to report remaining blockers.
+- **Persistence & Privacy**:
+  - Skill candidates, human-confirmed constraints, and revisions persist in browser-local storage. Uploaded clips and frames remain private to the user's session.
 
-The current simulation view is procedural rather than a geometry or physics simulator. The matched demonstration / correct attempt / mistake / recovery evaluation is still pending with the selected task.
+The simulation illustrates modeled states and sequence constraints; it is not a physics or spatial collision simulator. The full end-to-end evaluation pipeline uses the LEGO 30727 safe assembly task.
 
 ## Run locally
 

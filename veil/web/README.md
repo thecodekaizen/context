@@ -59,7 +59,10 @@ npm test
 
 ## Screenshots
 
-Automated responsive screenshots are committed in `docs/screenshots/`:
-- `docs/screenshots/desktop-1440x900.png`: Standard desktop inspection desk with paired split view and verification alert.
-- `docs/screenshots/laptop-1280x800.png`: Laptop resolution layout.
-- `docs/screenshots/mobile-390x844.png`: Mobile layout with stacked video, scrubber, and hero cards.
+| Desktop Viewport (1440×900) | Laptop Viewport (1280×800) |
+|---|---|
+| ![Desktop Inspection Desk](docs/screenshots/desktop-1440x900.png) | ![Laptop Inspection Desk](docs/screenshots/laptop-1280x800.png) |
+
+| Mobile Viewport (390×844) | Corrected Export Frame (00:07.600) |
+|---|---|
+| ![Mobile Desk](docs/screenshots/mobile-390x844.png) | ![Corrected Placard Scene](public/artifacts/final-7600.jpg) |
