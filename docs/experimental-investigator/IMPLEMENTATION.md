@@ -146,3 +146,8 @@ Next unresolved gate: a substantive Meta investigation role and improvement rela
 ## Fresh simulated-system validation — October 28
 
 Completed 30 fresh systems and three challenges per system, comparing physical calibration and ARX on identical training data. Evidence: `experiments/thermal-investigator/results/fresh-validation-2026-10-28/REPORT.md`. All 60 supported-family physical predictions stay below 0.3°C RMSE. Nonlinear stress causes eight threshold failures; training validation flags only one. Reliability detection is unresolved. No Meta calls. The suite now has 33 passing tests. Next: prospective model-adequacy checks using new excitation, before any stronger reliability claim.
+
+
+## Prospective adequacy — October 28
+
+Added a separate public-data-only diagnostic decision module and frozen local evaluation. Thirty fresh simulated systems; equal three fitting trials plus one probe per strategy; no refitting after probe. Sustained heating flags all nine systems with challenge failure, with one additional flag on a system passing the three challenges. Disagreement catches six of nine; release catches three. See `experiments/thermal-investigator/results/prospective-adequacy-2026-10-28/REPORT.md` and INTERPRETATION.md. This supports a conventional prospective check, not a Meta contribution or hardware reliability claim. All 180 saved evidence commitments were checked. 37 tests pass; zero API calls. Next: explicit mismatch/revision/confirmation state under a matched experiment budget.

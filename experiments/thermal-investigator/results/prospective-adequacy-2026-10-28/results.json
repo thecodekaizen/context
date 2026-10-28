@@ -1,0 +1,1265 @@
+{
+  "rows": [
+    {
+      "seed": 307,
+      "world": "coupled",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.020022266766546566,
+        0.02709194394700844,
+        0.016890182473623894
+      ],
+      "probe_rmse_c": 0.0802922786717581
+    },
+    {
+      "seed": 307,
+      "world": "coupled",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.020022266766546566,
+        0.02709194394700844,
+        0.016890182473623894
+      ],
+      "probe_rmse_c": 0.082181973541611
+    },
+    {
+      "seed": 307,
+      "world": "coupled",
+      "strategy": "model-disagreement",
+      "probe": "alternate",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.020022266766546566,
+        0.02709194394700844,
+        0.016890182473623894
+      ],
+      "probe_rmse_c": 0.07951086857521159
+    },
+    {
+      "seed": 307,
+      "world": "sensor-delay",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.018599139990375598,
+        0.02703279612467842,
+        0.016892460686413084
+      ],
+      "probe_rmse_c": 0.08125132830512277
+    },
+    {
+      "seed": 307,
+      "world": "sensor-delay",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.018599139990375598,
+        0.02703279612467842,
+        0.016892460686413084
+      ],
+      "probe_rmse_c": 0.08252592066636649
+    },
+    {
+      "seed": 307,
+      "world": "sensor-delay",
+      "strategy": "model-disagreement",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.018599139990375598,
+        0.02703279612467842,
+        0.016892460686413084
+      ],
+      "probe_rmse_c": 0.08125132830512277
+    },
+    {
+      "seed": 307,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.04553794767305441,
+        0.26171717468766775,
+        0.03377804837291054
+      ],
+      "probe_rmse_c": 0.17483410398242
+    },
+    {
+      "seed": 307,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": true,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.04553794767305441,
+        0.26171717468766775,
+        0.03377804837291054
+      ],
+      "probe_rmse_c": 0.4326548696891461
+    },
+    {
+      "seed": 307,
+      "world": "nonlinear-loss-stress",
+      "strategy": "model-disagreement",
+      "probe": "alternate",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.04553794767305441,
+        0.26171717468766775,
+        0.03377804837291054
+      ],
+      "probe_rmse_c": 0.08848173361128397
+    },
+    {
+      "seed": 331,
+      "world": "coupled",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.008887652061473371,
+        0.017311003402738057,
+        0.010006288302113165
+      ],
+      "probe_rmse_c": 0.07546342253326674
+    },
+    {
+      "seed": 331,
+      "world": "coupled",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.008887652061473371,
+        0.017311003402738057,
+        0.010006288302113165
+      ],
+      "probe_rmse_c": 0.07594692321127322
+    },
+    {
+      "seed": 331,
+      "world": "coupled",
+      "strategy": "model-disagreement",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.008887652061473371,
+        0.017311003402738057,
+        0.010006288302113165
+      ],
+      "probe_rmse_c": 0.07594692321127322
+    },
+    {
+      "seed": 331,
+      "world": "sensor-delay",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.007834123046683366,
+        0.015823508520442744,
+        0.009229511793925494
+      ],
+      "probe_rmse_c": 0.0749898268508514
+    },
+    {
+      "seed": 331,
+      "world": "sensor-delay",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.007834123046683366,
+        0.015823508520442744,
+        0.009229511793925494
+      ],
+      "probe_rmse_c": 0.07521383212903432
+    },
+    {
+      "seed": 331,
+      "world": "sensor-delay",
+      "strategy": "model-disagreement",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.007834123046683366,
+        0.015823508520442744,
+        0.009229511793925494
+      ],
+      "probe_rmse_c": 0.0749898268508514
+    },
+    {
+      "seed": 331,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.14006784834388109,
+        0.592211317201593,
+        0.08935521111230216
+      ],
+      "probe_rmse_c": 0.4001809795170227
+    },
+    {
+      "seed": 331,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.14006784834388109,
+        0.592211317201593,
+        0.08935521111230216
+      ],
+      "probe_rmse_c": 0.9374666250239075
+    },
+    {
+      "seed": 331,
+      "world": "nonlinear-loss-stress",
+      "strategy": "model-disagreement",
+      "probe": "sustained-both",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.14006784834388109,
+        0.592211317201593,
+        0.08935521111230216
+      ],
+      "probe_rmse_c": 0.9374666250239075
+    },
+    {
+      "seed": 353,
+      "world": "coupled",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.011450169293288548,
+        0.01854918663057873,
+        0.01083884001151647
+      ],
+      "probe_rmse_c": 0.08539857925048032
+    },
+    {
+      "seed": 353,
+      "world": "coupled",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.011450169293288548,
+        0.01854918663057873,
+        0.01083884001151647
+      ],
+      "probe_rmse_c": 0.08580561956283322
+    },
+    {
+      "seed": 353,
+      "world": "coupled",
+      "strategy": "model-disagreement",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.011450169293288548,
+        0.01854918663057873,
+        0.01083884001151647
+      ],
+      "probe_rmse_c": 0.08580561956283322
+    },
+    {
+      "seed": 353,
+      "world": "sensor-delay",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.011067561344827616,
+        0.01790219661043903,
+        0.010535701305249574
+      ],
+      "probe_rmse_c": 0.08551745933969374
+    },
+    {
+      "seed": 353,
+      "world": "sensor-delay",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.011067561344827616,
+        0.01790219661043903,
+        0.010535701305249574
+      ],
+      "probe_rmse_c": 0.08576350369489154
+    },
+    {
+      "seed": 353,
+      "world": "sensor-delay",
+      "strategy": "model-disagreement",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.011067561344827616,
+        0.01790219661043903,
+        0.010535701305249574
+      ],
+      "probe_rmse_c": 0.08551745933969374
+    },
+    {
+      "seed": 353,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.08406384400971365,
+        0.3216621188315081,
+        0.0483032373130924
+      ],
+      "probe_rmse_c": 0.22787985333095467
+    },
+    {
+      "seed": 353,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.08406384400971365,
+        0.3216621188315081,
+        0.0483032373130924
+      ],
+      "probe_rmse_c": 0.5319990551005569
+    },
+    {
+      "seed": 353,
+      "world": "nonlinear-loss-stress",
+      "strategy": "model-disagreement",
+      "probe": "right-pulse",
+      "flagged": false,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.08406384400971365,
+        0.3216621188315081,
+        0.0483032373130924
+      ],
+      "probe_rmse_c": 0.08982175969517558
+    },
+    {
+      "seed": 379,
+      "world": "coupled",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.012158444559282335,
+        0.0192417261647434,
+        0.011406670636194296
+      ],
+      "probe_rmse_c": 0.07970140859811586
+    },
+    {
+      "seed": 379,
+      "world": "coupled",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.012158444559282335,
+        0.0192417261647434,
+        0.011406670636194296
+      ],
+      "probe_rmse_c": 0.08155375252513587
+    },
+    {
+      "seed": 379,
+      "world": "coupled",
+      "strategy": "model-disagreement",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.012158444559282335,
+        0.0192417261647434,
+        0.011406670636194296
+      ],
+      "probe_rmse_c": 0.07970140859811586
+    },
+    {
+      "seed": 379,
+      "world": "sensor-delay",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.013290168510563107,
+        0.020733622522051735,
+        0.012598490795279426
+      ],
+      "probe_rmse_c": 0.07966600150043934
+    },
+    {
+      "seed": 379,
+      "world": "sensor-delay",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.013290168510563107,
+        0.020733622522051735,
+        0.012598490795279426
+      ],
+      "probe_rmse_c": 0.08186559880357062
+    },
+    {
+      "seed": 379,
+      "world": "sensor-delay",
+      "strategy": "model-disagreement",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.013290168510563107,
+        0.020733622522051735,
+        0.012598490795279426
+      ],
+      "probe_rmse_c": 0.07966600150043934
+    },
+    {
+      "seed": 379,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.050515278557073336,
+        0.3115737427968365,
+        0.04264600214787562
+      ],
+      "probe_rmse_c": 0.1930052505344367
+    },
+    {
+      "seed": 379,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.050515278557073336,
+        0.3115737427968365,
+        0.04264600214787562
+      ],
+      "probe_rmse_c": 0.49123227091204835
+    },
+    {
+      "seed": 379,
+      "world": "nonlinear-loss-stress",
+      "strategy": "model-disagreement",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.050515278557073336,
+        0.3115737427968365,
+        0.04264600214787562
+      ],
+      "probe_rmse_c": 0.1930052505344367
+    },
+    {
+      "seed": 401,
+      "world": "coupled",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.003750853416407814,
+        0.004817206291908113,
+        0.003038201016652741
+      ],
+      "probe_rmse_c": 0.07982011442034202
+    },
+    {
+      "seed": 401,
+      "world": "coupled",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.003750853416407814,
+        0.004817206291908113,
+        0.003038201016652741
+      ],
+      "probe_rmse_c": 0.07961835233937067
+    },
+    {
+      "seed": 401,
+      "world": "coupled",
+      "strategy": "model-disagreement",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.003750853416407814,
+        0.004817206291908113,
+        0.003038201016652741
+      ],
+      "probe_rmse_c": 0.07982011442034202
+    },
+    {
+      "seed": 401,
+      "world": "sensor-delay",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.003377164553721832,
+        0.004718494654727612,
+        0.0028810174088898448
+      ],
+      "probe_rmse_c": 0.07977255763092936
+    },
+    {
+      "seed": 401,
+      "world": "sensor-delay",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.003377164553721832,
+        0.004718494654727612,
+        0.0028810174088898448
+      ],
+      "probe_rmse_c": 0.07959903085646883
+    },
+    {
+      "seed": 401,
+      "world": "sensor-delay",
+      "strategy": "model-disagreement",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.003377164553721832,
+        0.004718494654727612,
+        0.0028810174088898448
+      ],
+      "probe_rmse_c": 0.07977255763092936
+    },
+    {
+      "seed": 401,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.10225893300229166,
+        0.46209176769461247,
+        0.065954568380647
+      ],
+      "probe_rmse_c": 0.3084458337615339
+    },
+    {
+      "seed": 401,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.10225893300229166,
+        0.46209176769461247,
+        0.065954568380647
+      ],
+      "probe_rmse_c": 0.7334544115576584
+    },
+    {
+      "seed": 401,
+      "world": "nonlinear-loss-stress",
+      "strategy": "model-disagreement",
+      "probe": "sustained-both",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.10225893300229166,
+        0.46209176769461247,
+        0.065954568380647
+      ],
+      "probe_rmse_c": 0.7334544115576584
+    },
+    {
+      "seed": 431,
+      "world": "coupled",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.003912944342058589,
+        0.008888200077872664,
+        0.005033030797239486
+      ],
+      "probe_rmse_c": 0.06889975444309593
+    },
+    {
+      "seed": 431,
+      "world": "coupled",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.003912944342058589,
+        0.008888200077872664,
+        0.005033030797239486
+      ],
+      "probe_rmse_c": 0.06907744983875296
+    },
+    {
+      "seed": 431,
+      "world": "coupled",
+      "strategy": "model-disagreement",
+      "probe": "staggered",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.003912944342058589,
+        0.008888200077872664,
+        0.005033030797239486
+      ],
+      "probe_rmse_c": 0.06894761114731993
+    },
+    {
+      "seed": 431,
+      "world": "sensor-delay",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.0061932050417378166,
+        0.010805712679642338,
+        0.006854222875240625
+      ],
+      "probe_rmse_c": 0.06973572537931866
+    },
+    {
+      "seed": 431,
+      "world": "sensor-delay",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.0061932050417378166,
+        0.010805712679642338,
+        0.006854222875240625
+      ],
+      "probe_rmse_c": 0.06980629703361305
+    },
+    {
+      "seed": 431,
+      "world": "sensor-delay",
+      "strategy": "model-disagreement",
+      "probe": "alternate",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.0061932050417378166,
+        0.010805712679642338,
+        0.006854222875240625
+      ],
+      "probe_rmse_c": 0.06899974529167185
+    },
+    {
+      "seed": 431,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.061474490618299946,
+        0.4884734368036731,
+        0.07292947660636667
+      ],
+      "probe_rmse_c": 0.2844381069728373
+    },
+    {
+      "seed": 431,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.061474490618299946,
+        0.4884734368036731,
+        0.07292947660636667
+      ],
+      "probe_rmse_c": 0.7325328983680713
+    },
+    {
+      "seed": 431,
+      "world": "nonlinear-loss-stress",
+      "strategy": "model-disagreement",
+      "probe": "staggered",
+      "flagged": false,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.061474490618299946,
+        0.4884734368036731,
+        0.07292947660636667
+      ],
+      "probe_rmse_c": 0.2094256724659807
+    },
+    {
+      "seed": 457,
+      "world": "coupled",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.01196225089868153,
+        0.015577998994241796,
+        0.009889964287334397
+      ],
+      "probe_rmse_c": 0.08198980500208164
+    },
+    {
+      "seed": 457,
+      "world": "coupled",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.01196225089868153,
+        0.015577998994241796,
+        0.009889964287334397
+      ],
+      "probe_rmse_c": 0.08249595071077429
+    },
+    {
+      "seed": 457,
+      "world": "coupled",
+      "strategy": "model-disagreement",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.01196225089868153,
+        0.015577998994241796,
+        0.009889964287334397
+      ],
+      "probe_rmse_c": 0.08198980500208164
+    },
+    {
+      "seed": 457,
+      "world": "sensor-delay",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.011562993919332012,
+        0.01489148998290208,
+        0.009277111544527046
+      ],
+      "probe_rmse_c": 0.08202298114840395
+    },
+    {
+      "seed": 457,
+      "world": "sensor-delay",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.011562993919332012,
+        0.01489148998290208,
+        0.009277111544527046
+      ],
+      "probe_rmse_c": 0.08234795342022072
+    },
+    {
+      "seed": 457,
+      "world": "sensor-delay",
+      "strategy": "model-disagreement",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.011562993919332012,
+        0.01489148998290208,
+        0.009277111544527046
+      ],
+      "probe_rmse_c": 0.08202298114840395
+    },
+    {
+      "seed": 457,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.06916733177926462,
+        0.48207975856224167,
+        0.06468430194615808
+      ],
+      "probe_rmse_c": 0.2922586371544516
+    },
+    {
+      "seed": 457,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.06916733177926462,
+        0.48207975856224167,
+        0.06468430194615808
+      ],
+      "probe_rmse_c": 0.7327052365008478
+    },
+    {
+      "seed": 457,
+      "world": "nonlinear-loss-stress",
+      "strategy": "model-disagreement",
+      "probe": "sustained-both",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.06916733177926462,
+        0.48207975856224167,
+        0.06468430194615808
+      ],
+      "probe_rmse_c": 0.7327052365008478
+    },
+    {
+      "seed": 479,
+      "world": "coupled",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.006044371387694765,
+        0.005639503492119072,
+        0.0033259220098356876
+      ],
+      "probe_rmse_c": 0.0741690672213893
+    },
+    {
+      "seed": 479,
+      "world": "coupled",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.006044371387694765,
+        0.005639503492119072,
+        0.0033259220098356876
+      ],
+      "probe_rmse_c": 0.07265275500773007
+    },
+    {
+      "seed": 479,
+      "world": "coupled",
+      "strategy": "model-disagreement",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.006044371387694765,
+        0.005639503492119072,
+        0.0033259220098356876
+      ],
+      "probe_rmse_c": 0.07265275500773007
+    },
+    {
+      "seed": 479,
+      "world": "sensor-delay",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.006793892097722912,
+        0.005742960924587166,
+        0.0034915708161384383
+      ],
+      "probe_rmse_c": 0.07388291947082262
+    },
+    {
+      "seed": 479,
+      "world": "sensor-delay",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.006793892097722912,
+        0.005742960924587166,
+        0.0034915708161384383
+      ],
+      "probe_rmse_c": 0.07238936979935875
+    },
+    {
+      "seed": 479,
+      "world": "sensor-delay",
+      "strategy": "model-disagreement",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.006793892097722912,
+        0.005742960924587166,
+        0.0034915708161384383
+      ],
+      "probe_rmse_c": 0.07388291947082262
+    },
+    {
+      "seed": 479,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.06198562954104864,
+        0.4282076212808326,
+        0.058224072576403316
+      ],
+      "probe_rmse_c": 0.27497680621634474
+    },
+    {
+      "seed": 479,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.06198562954104864,
+        0.4282076212808326,
+        0.058224072576403316
+      ],
+      "probe_rmse_c": 0.6661298423874348
+    },
+    {
+      "seed": 479,
+      "world": "nonlinear-loss-stress",
+      "strategy": "model-disagreement",
+      "probe": "sustained-both",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.06198562954104864,
+        0.4282076212808326,
+        0.058224072576403316
+      ],
+      "probe_rmse_c": 0.6661298423874348
+    },
+    {
+      "seed": 503,
+      "world": "coupled",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.008736761180460394,
+        0.020918883200146905,
+        0.012110132234711619
+      ],
+      "probe_rmse_c": 0.08119092995689023
+    },
+    {
+      "seed": 503,
+      "world": "coupled",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.008736761180460394,
+        0.020918883200146905,
+        0.012110132234711619
+      ],
+      "probe_rmse_c": 0.08294487918643281
+    },
+    {
+      "seed": 503,
+      "world": "coupled",
+      "strategy": "model-disagreement",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.008736761180460394,
+        0.020918883200146905,
+        0.012110132234711619
+      ],
+      "probe_rmse_c": 0.08294487918643281
+    },
+    {
+      "seed": 503,
+      "world": "sensor-delay",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.007923683862500083,
+        0.019600372032231948,
+        0.011356442093175196
+      ],
+      "probe_rmse_c": 0.08125575744744284
+    },
+    {
+      "seed": 503,
+      "world": "sensor-delay",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.007923683862500083,
+        0.019600372032231948,
+        0.011356442093175196
+      ],
+      "probe_rmse_c": 0.08247960752382646
+    },
+    {
+      "seed": 503,
+      "world": "sensor-delay",
+      "strategy": "model-disagreement",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.007923683862500083,
+        0.019600372032231948,
+        0.011356442093175196
+      ],
+      "probe_rmse_c": 0.08125575744744284
+    },
+    {
+      "seed": 503,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.11386344333879056,
+        0.4421071001757478,
+        0.06303668609209735
+      ],
+      "probe_rmse_c": 0.3065901359849701
+    },
+    {
+      "seed": 503,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.11386344333879056,
+        0.4421071001757478,
+        0.06303668609209735
+      ],
+      "probe_rmse_c": 0.738274655376151
+    },
+    {
+      "seed": 503,
+      "world": "nonlinear-loss-stress",
+      "strategy": "model-disagreement",
+      "probe": "sustained-both",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.11386344333879056,
+        0.4421071001757478,
+        0.06303668609209735
+      ],
+      "probe_rmse_c": 0.738274655376151
+    },
+    {
+      "seed": 541,
+      "world": "coupled",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.011742152041788337,
+        0.019480828494822498,
+        0.011107560995155514
+      ],
+      "probe_rmse_c": 0.07586492962453442
+    },
+    {
+      "seed": 541,
+      "world": "coupled",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.011742152041788337,
+        0.019480828494822498,
+        0.011107560995155514
+      ],
+      "probe_rmse_c": 0.07888414623968412
+    },
+    {
+      "seed": 541,
+      "world": "coupled",
+      "strategy": "model-disagreement",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.011742152041788337,
+        0.019480828494822498,
+        0.011107560995155514
+      ],
+      "probe_rmse_c": 0.07888414623968412
+    },
+    {
+      "seed": 541,
+      "world": "sensor-delay",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.011193814357965228,
+        0.017885404509204346,
+        0.010222644801228168
+      ],
+      "probe_rmse_c": 0.0755099718181888
+    },
+    {
+      "seed": 541,
+      "world": "sensor-delay",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.011193814357965228,
+        0.017885404509204346,
+        0.010222644801228168
+      ],
+      "probe_rmse_c": 0.07779441645331987
+    },
+    {
+      "seed": 541,
+      "world": "sensor-delay",
+      "strategy": "model-disagreement",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": false,
+      "challenge_rmse_c": [
+        0.011193814357965228,
+        0.017885404509204346,
+        0.010222644801228168
+      ],
+      "probe_rmse_c": 0.0755099718181888
+    },
+    {
+      "seed": 541,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-release",
+      "probe": "both-release",
+      "flagged": false,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.0849799957068772,
+        0.3626891279096822,
+        0.05557307312638354
+      ],
+      "probe_rmse_c": 0.25367583970784424
+    },
+    {
+      "seed": 541,
+      "world": "nonlinear-loss-stress",
+      "strategy": "fixed-sustained",
+      "probe": "sustained-both",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.0849799957068772,
+        0.3626891279096822,
+        0.05557307312638354
+      ],
+      "probe_rmse_c": 0.5918773084096356
+    },
+    {
+      "seed": 541,
+      "world": "nonlinear-loss-stress",
+      "strategy": "model-disagreement",
+      "probe": "sustained-both",
+      "flagged": true,
+      "any_challenge_failure": true,
+      "challenge_rmse_c": [
+        0.0849799957068772,
+        0.3626891279096822,
+        0.05557307312638354
+      ],
+      "probe_rmse_c": 0.5918773084096356
+    }
+  ],
+  "meta_calls": 0
+}
