@@ -1,0 +1,153 @@
+{
+  "version": "fresh-validation-v1",
+  "seeds": [
+    101,
+    113,
+    127,
+    139,
+    151,
+    163,
+    179,
+    191,
+    211,
+    227
+  ],
+  "worlds": [
+    "coupled",
+    "sensor-delay",
+    "nonlinear-loss-stress"
+  ],
+  "meta_calls": 0,
+  "training": [
+    "initial-common",
+    "left-pulse",
+    "right-pulse"
+  ],
+  "challenges": [
+    {
+      "id": "held-alternate",
+      "segments": [
+        {
+          "seconds": 30.0,
+          "q1_percent": 10,
+          "q2_percent": 50
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 50,
+          "q2_percent": 20
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 20,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 0,
+          "q2_percent": 15
+        }
+      ]
+    },
+    {
+      "id": "held-sustained",
+      "segments": [
+        {
+          "seconds": 120.0,
+          "q1_percent": 55,
+          "q2_percent": 45
+        }
+      ]
+    },
+    {
+      "id": "held-fast-switch",
+      "segments": [
+        {
+          "seconds": 10.0,
+          "q1_percent": 60,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 10.0,
+          "q1_percent": 0,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 10.0,
+          "q1_percent": 60,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 10.0,
+          "q1_percent": 0,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 10.0,
+          "q1_percent": 60,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 10.0,
+          "q1_percent": 0,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 10.0,
+          "q1_percent": 60,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 10.0,
+          "q1_percent": 0,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 10.0,
+          "q1_percent": 60,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 10.0,
+          "q1_percent": 0,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 10.0,
+          "q1_percent": 60,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 10.0,
+          "q1_percent": 0,
+          "q2_percent": 60
+        }
+      ]
+    }
+  ],
+  "diagnostic_threshold_c": 0.3,
+  "source_sha256": {
+    "predictor.py": "023c29087a99485a8332dae4b4c8f4ef470a6370788c90abce2390af2f75c6da",
+    "pilot.py": "66a15427959414babdaf96fa6c39cb4a009f1bd258c357cccf3487be940f2c45",
+    "run.py": "ab958836540e2785e962c4527f2e1269e47b3ac9b09bcc1b4e9e066f16d46f97",
+    "decisions.py": "de70ad3ccc2b6d3dd96ee1ef6caf8c793e7777ca506f1286bbfa9c3406007d87",
+    "design.py": "fc2e6964d7ae939af82282a46cef1169d9e3b1eb8ae012d641cf1edfba8f9607",
+    "__init__.py": "a718642bf14f3582ef1386a22c4ba0edabaaefc7f3903e237cbc948b7a9ed429",
+    "review.py": "43b89864013ab04c0c27620ae1fa15b6e8a5cae10cdd983802b78b4e3cbc2b09",
+    "contracts.py": "e32c44ce72cb0b4d818c31b901ea0fae83d8de956a982e8761377e0c4dbc4c9b",
+    "physical.py": "bd7ba38b300c54e44694093f2e81593486c0ba115ffe5e9cc653cb3a474cb1e1",
+    "physical_check.py": "3b7f5cd9a46346ba5396132ba0cf7e032177dfd6ef3d93ae67c56d1ed3c5c8b6",
+    "lab.py": "7d4855f0fbd2226922ea08dec11d243f1a9b60a6f220b0e4f3138c183457980f",
+    "meta.py": "a94d91862e28d45df02a48dfc29743e64b8056c370c825d4ff02d609f7efac1b",
+    "validation.py": "40af64b949211e212b75a02ebba83482dc2cc5d2c7fe22c3bd70b1c5c20e5e38"
+  },
+  "selection": "whole-trial validation before challenge outputs",
+  "stress": "same nonlinear heat loss in training and challenge; unsupported supplied family",
+  "limitations": [
+    "simulation only",
+    "shared-process evaluator",
+    "supplied model structures",
+    "no Meta contribution",
+    "diagnostic threshold is not a safety certification"
+  ]
+}

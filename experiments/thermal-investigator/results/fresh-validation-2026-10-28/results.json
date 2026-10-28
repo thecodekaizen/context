@@ -1,0 +1,1805 @@
+{
+  "rows": [
+    {
+      "seed": 101,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.011044380999201651,
+      "validation_rmse_c": 0.08034408030725337,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 101,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.035729966409555614,
+      "validation_rmse_c": 0.09750282399923427,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 101,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.012384169340934318,
+      "validation_rmse_c": 0.08034408030725337,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 101,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.06012478318995795,
+      "validation_rmse_c": 0.09750282399923427,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 101,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.007687137612641297,
+      "validation_rmse_c": 0.08034408030725337,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 101,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.03635247365193761,
+      "validation_rmse_c": 0.09750282399923427,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 101,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.011180582159023428,
+      "validation_rmse_c": 0.08034406269133004,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 101,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.20454554124118252,
+      "validation_rmse_c": 0.28028248241909276,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 101,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.012647348127138365,
+      "validation_rmse_c": 0.08034406269133004,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 101,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.17482080907318037,
+      "validation_rmse_c": 0.28028248241909276,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 101,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.008129077299623306,
+      "validation_rmse_c": 0.08034406269133004,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 101,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.19127144534233903,
+      "validation_rmse_c": 0.28028248241909276,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 101,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.07229221117447444,
+      "validation_rmse_c": 0.1792908366006054,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 101,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.06870240226788438,
+      "validation_rmse_c": 0.17321311854863494,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 101,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.34638779468582687,
+      "validation_rmse_c": 0.1792908366006054,
+      "validation_flag": false,
+      "challenge_above_threshold": true
+    },
+    {
+      "seed": 101,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.2897508269283052,
+      "validation_rmse_c": 0.17321311854863494,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 101,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.04286878456920788,
+      "validation_rmse_c": 0.1792908366006054,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 101,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.06332316064086246,
+      "validation_rmse_c": 0.17321311854863494,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 113,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.013031157912801936,
+      "validation_rmse_c": 0.07812370619160774,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 113,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.02899781959275521,
+      "validation_rmse_c": 0.09241470215802745,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 113,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.016646702287073118,
+      "validation_rmse_c": 0.07812370619160774,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 113,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.026970990199666575,
+      "validation_rmse_c": 0.09241470215802745,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 113,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.01024052900353305,
+      "validation_rmse_c": 0.07812370619160774,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 113,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.03334315751448814,
+      "validation_rmse_c": 0.09241470215802745,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 113,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.012304628128750182,
+      "validation_rmse_c": 0.07833316078316058,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 113,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.21332849729058367,
+      "validation_rmse_c": 0.37766287087933187,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 113,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.017551635111341845,
+      "validation_rmse_c": 0.07833316078316058,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 113,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.20645485743675318,
+      "validation_rmse_c": 0.37766287087933187,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 113,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.010691039744384692,
+      "validation_rmse_c": 0.07833316078316058,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 113,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.24622652130589973,
+      "validation_rmse_c": 0.37766287087933187,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 113,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.16301822024062804,
+      "validation_rmse_c": 0.33979622337733034,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 113,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.13448877854789187,
+      "validation_rmse_c": 0.30861187067113743,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 113,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.8261977712594113,
+      "validation_rmse_c": 0.33979622337733034,
+      "validation_flag": true,
+      "challenge_above_threshold": true
+    },
+    {
+      "seed": 113,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.7465745937809913,
+      "validation_rmse_c": 0.30861187067113743,
+      "validation_flag": true,
+      "challenge_above_threshold": true
+    },
+    {
+      "seed": 113,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.1236761352505066,
+      "validation_rmse_c": 0.33979622337733034,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 113,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.1294187129588139,
+      "validation_rmse_c": 0.30861187067113743,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 127,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.014646725731993231,
+      "validation_rmse_c": 0.08130129485868874,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 127,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.021676556118872092,
+      "validation_rmse_c": 0.09433053050879688,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 127,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.02662444499478326,
+      "validation_rmse_c": 0.08130129485868874,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 127,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.03456765677645887,
+      "validation_rmse_c": 0.09433053050879688,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 127,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.01582701080338564,
+      "validation_rmse_c": 0.08130129485868874,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 127,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.038729658558538084,
+      "validation_rmse_c": 0.09433053050879688,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 127,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.015534906865119191,
+      "validation_rmse_c": 0.0810466005227508,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 127,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.29797531404522803,
+      "validation_rmse_c": 0.45831985803975056,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 127,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.027580105858324357,
+      "validation_rmse_c": 0.0810466005227508,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 127,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.3269619455870891,
+      "validation_rmse_c": 0.45831985803975056,
+      "validation_flag": true,
+      "challenge_above_threshold": true
+    },
+    {
+      "seed": 127,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.016440155751652214,
+      "validation_rmse_c": 0.0810466005227508,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 127,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.28192540412046574,
+      "validation_rmse_c": 0.45831985803975056,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 127,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.14519491943538182,
+      "validation_rmse_c": 0.28934774264991325,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 127,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.11939319829340964,
+      "validation_rmse_c": 0.26638047729160763,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 127,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.6994145224728847,
+      "validation_rmse_c": 0.28934774264991325,
+      "validation_flag": false,
+      "challenge_above_threshold": true
+    },
+    {
+      "seed": 127,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.6245286853127558,
+      "validation_rmse_c": 0.26638047729160763,
+      "validation_flag": false,
+      "challenge_above_threshold": true
+    },
+    {
+      "seed": 127,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.09882094092812714,
+      "validation_rmse_c": 0.28934774264991325,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 127,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.10224631558557128,
+      "validation_rmse_c": 0.26638047729160763,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 139,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.01197875905750978,
+      "validation_rmse_c": 0.07741691172737075,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 139,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.03157020687772631,
+      "validation_rmse_c": 0.0905737399834748,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 139,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.015002822837185834,
+      "validation_rmse_c": 0.07741691172737075,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 139,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.056370973776190804,
+      "validation_rmse_c": 0.0905737399834748,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 139,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.008982364936129509,
+      "validation_rmse_c": 0.07741691172737075,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 139,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.03561400339018053,
+      "validation_rmse_c": 0.0905737399834748,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 139,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.013651278428130305,
+      "validation_rmse_c": 0.07796087580542857,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 139,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.16697965820046473,
+      "validation_rmse_c": 0.2998175408630469,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 139,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.014409698496409586,
+      "validation_rmse_c": 0.07796087580542857,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 139,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.14100298525083194,
+      "validation_rmse_c": 0.2998175408630469,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 139,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.008760082525015239,
+      "validation_rmse_c": 0.07796087580542857,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 139,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.16706369757662148,
+      "validation_rmse_c": 0.2998175408630469,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 139,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.12658111893136176,
+      "validation_rmse_c": 0.16605017586652857,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 139,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.10689493188821804,
+      "validation_rmse_c": 0.15216554839929539,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 139,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.49312162064894105,
+      "validation_rmse_c": 0.16605017586652857,
+      "validation_flag": false,
+      "challenge_above_threshold": true
+    },
+    {
+      "seed": 139,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.4250582941611758,
+      "validation_rmse_c": 0.15216554839929539,
+      "validation_flag": false,
+      "challenge_above_threshold": true
+    },
+    {
+      "seed": 139,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.07877563235834334,
+      "validation_rmse_c": 0.16605017586652857,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 139,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.07361392910990751,
+      "validation_rmse_c": 0.15216554839929539,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 151,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.00603990161793782,
+      "validation_rmse_c": 0.08352700899979364,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 151,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.02610790364299448,
+      "validation_rmse_c": 0.10527435663681328,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 151,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.009346276004940481,
+      "validation_rmse_c": 0.08352700899979364,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 151,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.02133050097658791,
+      "validation_rmse_c": 0.10527435663681328,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 151,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.005550994487131498,
+      "validation_rmse_c": 0.08352700899979364,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 151,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.026218791816737665,
+      "validation_rmse_c": 0.10527435663681328,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 151,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.0054136527643123015,
+      "validation_rmse_c": 0.08415404686799234,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 151,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.24138697016963248,
+      "validation_rmse_c": 0.37726437058552437,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 151,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.01117701787541583,
+      "validation_rmse_c": 0.08415404686799234,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 151,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.2327261765213949,
+      "validation_rmse_c": 0.37726437058552437,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 151,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.006788744540475226,
+      "validation_rmse_c": 0.08415404686799234,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 151,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.19642491464242512,
+      "validation_rmse_c": 0.37726437058552437,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 151,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.06429042988770617,
+      "validation_rmse_c": 0.157115746747237,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 151,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.042046047117026655,
+      "validation_rmse_c": 0.1601768745869865,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 151,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.3476414472402703,
+      "validation_rmse_c": 0.157115746747237,
+      "validation_flag": false,
+      "challenge_above_threshold": true
+    },
+    {
+      "seed": 151,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.3086177185260531,
+      "validation_rmse_c": 0.1601768745869865,
+      "validation_flag": false,
+      "challenge_above_threshold": true
+    },
+    {
+      "seed": 151,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.046026905783994515,
+      "validation_rmse_c": 0.157115746747237,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 151,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.05137005562293489,
+      "validation_rmse_c": 0.1601768745869865,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 163,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.006616576432192101,
+      "validation_rmse_c": 0.08438759498732877,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 163,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.0254052886343996,
+      "validation_rmse_c": 0.11003086522595801,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 163,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.007435835382552333,
+      "validation_rmse_c": 0.08438759498732877,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 163,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.02874561341970311,
+      "validation_rmse_c": 0.11003086522595801,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 163,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.004935504485037659,
+      "validation_rmse_c": 0.08438759498732877,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 163,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.02333556599273029,
+      "validation_rmse_c": 0.11003086522595801,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 163,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.006571279090729048,
+      "validation_rmse_c": 0.08469403799485965,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 163,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.1672935886284418,
+      "validation_rmse_c": 0.23264605243053352,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 163,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.007247814292841294,
+      "validation_rmse_c": 0.08469403799485965,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 163,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.1780522301533222,
+      "validation_rmse_c": 0.23264605243053352,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 163,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.004772711428213127,
+      "validation_rmse_c": 0.08469403799485965,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 163,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.18789157628673397,
+      "validation_rmse_c": 0.23264605243053352,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 163,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.07519541747037896,
+      "validation_rmse_c": 0.1818917626792151,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 163,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.0748385615823808,
+      "validation_rmse_c": 0.17457335815773586,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 163,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.3673164270457484,
+      "validation_rmse_c": 0.1818917626792151,
+      "validation_flag": false,
+      "challenge_above_threshold": true
+    },
+    {
+      "seed": 163,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.35483581252919316,
+      "validation_rmse_c": 0.17457335815773586,
+      "validation_flag": false,
+      "challenge_above_threshold": true
+    },
+    {
+      "seed": 163,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.04351319585179399,
+      "validation_rmse_c": 0.1818917626792151,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 163,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.05530648624752443,
+      "validation_rmse_c": 0.17457335815773586,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.008334217966892155,
+      "validation_rmse_c": 0.08316809078957565,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.04293248037224401,
+      "validation_rmse_c": 0.09801220154612116,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.0060176776338133975,
+      "validation_rmse_c": 0.08316809078957565,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.060744094003517275,
+      "validation_rmse_c": 0.09801220154612116,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.0037154116944882374,
+      "validation_rmse_c": 0.08316809078957565,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.048850689641540365,
+      "validation_rmse_c": 0.09801220154612116,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.006658501490599966,
+      "validation_rmse_c": 0.08398293433675662,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.18614138539586497,
+      "validation_rmse_c": 0.2691140551925869,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.004919526539146163,
+      "validation_rmse_c": 0.08398293433675662,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.16013831074462842,
+      "validation_rmse_c": 0.2691140551925869,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.002974512090966565,
+      "validation_rmse_c": 0.08398293433675662,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.14662350115096806,
+      "validation_rmse_c": 0.2691140551925869,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.037975511344481,
+      "validation_rmse_c": 0.10611681064174493,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.05126593346635516,
+      "validation_rmse_c": 0.1129040744653818,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.19328800625056713,
+      "validation_rmse_c": 0.10611681064174493,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.15701339392374797,
+      "validation_rmse_c": 0.1129040744653818,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.023679454935453953,
+      "validation_rmse_c": 0.10611681064174493,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 179,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.044842571526767794,
+      "validation_rmse_c": 0.1129040744653818,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.01355368424853731,
+      "validation_rmse_c": 0.0837435527317445,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.03571332102865898,
+      "validation_rmse_c": 0.10462223437658356,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.018823631795926547,
+      "validation_rmse_c": 0.0837435527317445,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.046166687994818885,
+      "validation_rmse_c": 0.10462223437658356,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.01123941041325422,
+      "validation_rmse_c": 0.0837435527317445,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.04540385611065458,
+      "validation_rmse_c": 0.10462223437658356,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.013534209401832881,
+      "validation_rmse_c": 0.08325720795775081,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.2081132351612238,
+      "validation_rmse_c": 0.32918586062996663,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.01857373575868275,
+      "validation_rmse_c": 0.08325720795775081,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.2148008427115396,
+      "validation_rmse_c": 0.32918586062996663,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.011271278147871846,
+      "validation_rmse_c": 0.08325720795775081,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.18439729285526862,
+      "validation_rmse_c": 0.32918586062996663,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.04135841445313773,
+      "validation_rmse_c": 0.12106488573702849,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.04407745320758162,
+      "validation_rmse_c": 0.11642868737647726,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.28239771091433946,
+      "validation_rmse_c": 0.12106488573702849,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.2730869176292138,
+      "validation_rmse_c": 0.11642868737647726,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.03480251947933619,
+      "validation_rmse_c": 0.12106488573702849,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 191,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.05298601267988354,
+      "validation_rmse_c": 0.11642868737647726,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 211,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.016607246845835415,
+      "validation_rmse_c": 0.08614384453415791,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 211,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.024502424165555575,
+      "validation_rmse_c": 0.11078883316314499,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 211,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.024430588652408238,
+      "validation_rmse_c": 0.08614384453415791,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 211,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.02662222893388359,
+      "validation_rmse_c": 0.11078883316314499,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 211,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.014688290750747703,
+      "validation_rmse_c": 0.08614384453415791,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 211,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.041363958522384135,
+      "validation_rmse_c": 0.11078883316314499,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 211,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.015467236128981193,
+      "validation_rmse_c": 0.08676295780777542,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 211,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.27408393282007526,
+      "validation_rmse_c": 0.4098131670744037,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 211,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.021583873110479542,
+      "validation_rmse_c": 0.08676295780777542,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 211,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.26272549715921717,
+      "validation_rmse_c": 0.4098131670744037,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 211,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.01301936262731666,
+      "validation_rmse_c": 0.08676295780777542,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 211,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.24772895064569814,
+      "validation_rmse_c": 0.4098131670744037,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 211,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.09996687217916203,
+      "validation_rmse_c": 0.2555792124122143,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 211,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.07935357937611076,
+      "validation_rmse_c": 0.2246621316029729,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 211,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.5595177877647217,
+      "validation_rmse_c": 0.2555792124122143,
+      "validation_flag": false,
+      "challenge_above_threshold": true
+    },
+    {
+      "seed": 211,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.49460888126801517,
+      "validation_rmse_c": 0.2246621316029729,
+      "validation_flag": false,
+      "challenge_above_threshold": true
+    },
+    {
+      "seed": 211,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.07640975999814842,
+      "validation_rmse_c": 0.2555792124122143,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 211,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.08169585724533628,
+      "validation_rmse_c": 0.2246621316029729,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 227,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.017894808364903037,
+      "validation_rmse_c": 0.08512282157648388,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 227,
+      "world": "coupled",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.03168188760998621,
+      "validation_rmse_c": 0.09521815856267891,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 227,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.024115979318412226,
+      "validation_rmse_c": 0.08512282157648388,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 227,
+      "world": "coupled",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.0491698279922418,
+      "validation_rmse_c": 0.09521815856267891,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 227,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.015184418989811103,
+      "validation_rmse_c": 0.08512282157648388,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 227,
+      "world": "coupled",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.034245793673928375,
+      "validation_rmse_c": 0.09521815856267891,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 227,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.01691570608512987,
+      "validation_rmse_c": 0.08577904675279813,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 227,
+      "world": "sensor-delay",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.23571890620403452,
+      "validation_rmse_c": 0.4177261644421746,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 227,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.02347746589129778,
+      "validation_rmse_c": 0.08577904675279813,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 227,
+      "world": "sensor-delay",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.2173782535775971,
+      "validation_rmse_c": 0.4177261644421746,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 227,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.014842174903253087,
+      "validation_rmse_c": 0.08577904675279813,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 227,
+      "world": "sensor-delay",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.17489585332078547,
+      "validation_rmse_c": 0.4177261644421746,
+      "validation_flag": true,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 227,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "physical",
+      "rmse_c": 0.07209570935701515,
+      "validation_rmse_c": 0.1514115899362552,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 227,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-alternate",
+      "method": "arx",
+      "rmse_c": 0.07012548701941645,
+      "validation_rmse_c": 0.14812907708124837,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 227,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "physical",
+      "rmse_c": 0.3927712863303885,
+      "validation_rmse_c": 0.1514115899362552,
+      "validation_flag": false,
+      "challenge_above_threshold": true
+    },
+    {
+      "seed": 227,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-sustained",
+      "method": "arx",
+      "rmse_c": 0.3571115656508985,
+      "validation_rmse_c": 0.14812907708124837,
+      "validation_flag": false,
+      "challenge_above_threshold": true
+    },
+    {
+      "seed": 227,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "physical",
+      "rmse_c": 0.05516299070080339,
+      "validation_rmse_c": 0.1514115899362552,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    },
+    {
+      "seed": 227,
+      "world": "nonlinear-loss-stress",
+      "challenge": "held-fast-switch",
+      "method": "arx",
+      "rmse_c": 0.060980425610625354,
+      "validation_rmse_c": 0.14812907708124837,
+      "validation_flag": false,
+      "challenge_above_threshold": false
+    }
+  ],
+  "meta_calls": 0
+}

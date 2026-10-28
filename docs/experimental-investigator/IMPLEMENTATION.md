@@ -141,3 +141,8 @@ Added bounded executable thermal models: two heat-flow nodes with positive effec
 Two known development cases use the same three fixed experiments. The selected families match the simulated configurations, with 0.01240°C and 0.01234°C prediction RMSE. This gain is from a supplied physical family and numerical fitting. Meta has not generated a new mechanism or demonstrated a contribution to these results. Thirty tests pass including the optional scientific suite.
 
 Next unresolved gate: a substantive Meta investigation role and improvement relative to a strong physical-model baseline, evaluated on fresh cases. Keep the paid pilot exhausted, preserve its original outputs, and do not continue spending credits by rephrasing the same experiment-selection prompt.
+
+
+## Fresh simulated-system validation — October 28
+
+Completed 30 fresh systems and three challenges per system, comparing physical calibration and ARX on identical training data. Evidence: `experiments/thermal-investigator/results/fresh-validation-2026-10-28/REPORT.md`. All 60 supported-family physical predictions stay below 0.3°C RMSE. Nonlinear stress causes eight threshold failures; training validation flags only one. Reliability detection is unresolved. No Meta calls. The suite now has 33 passing tests. Next: prospective model-adequacy checks using new excitation, before any stronger reliability claim.
