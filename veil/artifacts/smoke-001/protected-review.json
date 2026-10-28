@@ -1,0 +1,16 @@
+{
+  "frames": [
+    {
+      "exposures": [],
+      "time_ms": 2000
+    },
+    {
+      "exposures": [],
+      "time_ms": 7500
+    },
+    {
+      "exposures": [],
+      "time_ms": 16000
+    }
+  ]
+}

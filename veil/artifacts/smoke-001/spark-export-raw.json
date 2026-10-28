@@ -1,0 +1,136 @@
+{
+  "id": "resp_6ae1d5535e6583fe70ac4c70",
+  "access_programs": null,
+  "created_at": 1793185107.0,
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "metadata": null,
+  "model": "muse-spark-1.3",
+  "object": "response",
+  "output": [
+    {
+      "id": "rs_6ae1d5535e6583fe70ac4c70:rs_aa46ca84-45e1-44b6-984a-ed1b7fda9447",
+      "summary": [],
+      "type": "reasoning",
+      "content": null,
+      "encrypted_content": null,
+      "status": "completed"
+    },
+    {
+      "id": "msg_270b8818-1aa8-42ee-aa27-eb4319ace284",
+      "content": [
+        {
+          "annotations": [],
+          "text": "{\"residual_exposures\": [{\"box\": [60, 430, 475, 510], \"category\": \"phone_number\", \"reason\": \"Full phone number digits are clearly readable in demo contact box\", \"visible_text\": \"202-555-0146\"}]}",
+          "type": "output_text",
+          "logprobs": []
+        }
+      ],
+      "role": "assistant",
+      "status": "completed",
+      "type": "message",
+      "phase": null
+    }
+  ],
+  "parallel_tool_calls": true,
+  "temperature": 1.0,
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1.0,
+  "background": false,
+  "completed_at": 1793185107.0,
+  "conversation": null,
+  "max_output_tokens": 1500,
+  "max_tool_calls": null,
+  "moderation": null,
+  "previous_response_id": null,
+  "prompt": null,
+  "prompt_cache_diagnostics": null,
+  "prompt_cache_key": null,
+  "prompt_cache_options": null,
+  "prompt_cache_retention": null,
+  "reasoning": {
+    "context": null,
+    "effort": "minimal",
+    "generate_summary": null,
+    "mode": null,
+    "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "auto",
+  "status": "completed",
+  "text": {
+    "format": {
+      "name": "export_exposures",
+      "schema_": {
+        "type": "object",
+        "properties": {
+          "residual_exposures": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "box": {
+                  "items": {
+                    "type": "number"
+                  },
+                  "type": "array"
+                },
+                "category": {
+                  "enum": [
+                    "face",
+                    "license_plate",
+                    "phone_number",
+                    "other"
+                  ],
+                  "type": "string"
+                },
+                "reason": {
+                  "type": "string"
+                },
+                "visible_text": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "category",
+                "visible_text",
+                "box",
+                "reason"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "residual_exposures"
+        ]
+      },
+      "type": "json_schema",
+      "description": null,
+      "strict": true
+    },
+    "verbosity": null
+  },
+  "top_logprobs": 0,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 731,
+    "input_tokens_details": {
+      "cache_write_tokens": null,
+      "cached_tokens": 0
+    },
+    "output_tokens": 231,
+    "output_tokens_details": {
+      "reasoning_tokens": 164
+    },
+    "total_tokens": 962
+  },
+  "user": null,
+  "store": true
+}

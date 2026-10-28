@@ -1,0 +1,19 @@
+{
+  "sessionId": "voyager/transcribe/034BF3F902C543F7B21AD598A199B3BB",
+  "transcript": "The demonstration phone number is 55460146",
+  "audioDurationMs": 18000,
+  "turns": [
+    {
+      "turnId": 0,
+      "startMs": 2540,
+      "endMs": 8060,
+      "transcript": "The demonstration phone number is"
+    },
+    {
+      "turnId": 1,
+      "startMs": 8300,
+      "endMs": 8940,
+      "transcript": "55460146"
+    }
+  ]
+}

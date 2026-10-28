@@ -1,0 +1,9 @@
+{
+  "frames_rendered": 180,
+  "frames_with_visual_cover": 180,
+  "audio_intervals": 1,
+  "input_sha256": "9595a49a30a5bf9b779c54da2f0ecb32854759511e32a80257b76550ade2e878",
+  "output_sha256": "f1fc54803d616cf5c47124291cb2928fb14acb8eb38e493ea4398d2f8c23cb62",
+  "scope": "Face and plate covers plus conservative speech muting; printed phone not yet protected",
+  "safety_claim": "No guarantee of zero residual exposures"
+}

@@ -1,0 +1,136 @@
+{
+  "id": "resp_6ae1d4205e821d531a794c49",
+  "access_programs": null,
+  "created_at": 1793184800.0,
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "metadata": null,
+  "model": "muse-spark-1.3",
+  "object": "response",
+  "output": [
+    {
+      "id": "rs_6ae1d4205e821d531a794c49:rs_23e40bd9-cf4f-4073-aef0-39f76f7e259b",
+      "summary": [],
+      "type": "reasoning",
+      "content": null,
+      "encrypted_content": null,
+      "status": "completed"
+    },
+    {
+      "id": "msg_47e3d1ea-ca9e-4360-a797-692502fac106",
+      "content": [
+        {
+          "annotations": [],
+          "text": "{\"findings\": [{\"box\": [143, 99, 256, 276], \"category\": \"face\", \"reason\": \"human face visible in portrait photo on left\", \"text\": null}, {\"box\": [583, 240, 809, 300], \"category\": \"license_plate\", \"reason\": \"vehicle license plate on synthetic car\", \"text\": \"TEST 0146\"}, {\"box\": [71, 466, 334, 498], \"category\": \"phone_number\", \"reason\": \"phone number displayed in demo contact box\", \"text\": \"202-555-0146\"}]}",
+          "type": "output_text",
+          "logprobs": []
+        }
+      ],
+      "role": "assistant",
+      "status": "completed",
+      "type": "message",
+      "phase": null
+    }
+  ],
+  "parallel_tool_calls": true,
+  "temperature": 1.0,
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1.0,
+  "background": false,
+  "completed_at": 1793184800.0,
+  "conversation": null,
+  "max_output_tokens": 1500,
+  "max_tool_calls": null,
+  "moderation": null,
+  "previous_response_id": null,
+  "prompt": null,
+  "prompt_cache_diagnostics": null,
+  "prompt_cache_key": null,
+  "prompt_cache_options": null,
+  "prompt_cache_retention": null,
+  "reasoning": {
+    "context": null,
+    "effort": "minimal",
+    "generate_summary": null,
+    "mode": null,
+    "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "auto",
+  "status": "completed",
+  "text": {
+    "format": {
+      "name": "privacy_findings",
+      "schema_": {
+        "additionalProperties": false,
+        "required": [
+          "findings"
+        ],
+        "properties": {
+          "findings": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "box": {
+                  "items": {
+                    "type": "number"
+                  },
+                  "type": "array"
+                },
+                "category": {
+                  "enum": [
+                    "face",
+                    "license_plate",
+                    "phone_number",
+                    "other"
+                  ],
+                  "type": "string"
+                },
+                "reason": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "category",
+                "text",
+                "box",
+                "reason"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "type": "json_schema",
+      "description": null,
+      "strict": true
+    },
+    "verbosity": null
+  },
+  "top_logprobs": 0,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 725,
+    "input_tokens_details": {
+      "cache_write_tokens": null,
+      "cached_tokens": 0
+    },
+    "output_tokens": 388,
+    "output_tokens_details": {
+      "reasoning_tokens": 248
+    },
+    "total_tokens": 1113
+  },
+  "user": null,
+  "store": true
+}

@@ -1,0 +1,9 @@
+{
+  "residual_exposures": [
+    {
+      "category": "phone_number",
+      "reason": "Majority of phone digits remain legible in frame; only a single digit is covered by opaque box",
+      "visible_text": "202-555- 146"
+    }
+  ]
+}

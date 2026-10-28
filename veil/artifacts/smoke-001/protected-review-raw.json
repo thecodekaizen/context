@@ -1,0 +1,139 @@
+{
+  "id": "resp_6ae1d66ab9c5a7ee4df54454",
+  "access_programs": null,
+  "created_at": 1793185386.0,
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "metadata": null,
+  "model": "muse-spark-1.3",
+  "object": "response",
+  "output": [
+    {
+      "id": "rs_6ae1d66ab9c5a7ee4df54454:rs_059d112f-63b7-4204-ba27-d1883a302a04",
+      "summary": [],
+      "type": "reasoning",
+      "content": null,
+      "encrypted_content": null,
+      "status": "completed"
+    },
+    {
+      "id": "msg_613a788b-51ac-41e0-b8d7-2fb5947f3d61",
+      "content": [
+        {
+          "annotations": [],
+          "text": "{\"frames\": [{\"exposures\": [], \"time_ms\": 2000}, {\"exposures\": [], \"time_ms\": 7500}, {\"exposures\": [], \"time_ms\": 16000}]}",
+          "type": "output_text",
+          "logprobs": []
+        }
+      ],
+      "role": "assistant",
+      "status": "completed",
+      "type": "message",
+      "phase": null
+    }
+  ],
+  "parallel_tool_calls": true,
+  "temperature": 1.0,
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1.0,
+  "background": false,
+  "completed_at": 1793185386.0,
+  "conversation": null,
+  "max_output_tokens": 1500,
+  "max_tool_calls": null,
+  "moderation": null,
+  "previous_response_id": null,
+  "prompt": null,
+  "prompt_cache_diagnostics": null,
+  "prompt_cache_key": null,
+  "prompt_cache_options": null,
+  "prompt_cache_retention": null,
+  "reasoning": {
+    "context": null,
+    "effort": "minimal",
+    "generate_summary": null,
+    "mode": null,
+    "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "auto",
+  "status": "completed",
+  "text": {
+    "format": {
+      "name": "protected_frames_review",
+      "schema_": {
+        "required": [
+          "frames"
+        ],
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "frames": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "exposures": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "category": {
+                        "type": "string"
+                      },
+                      "reason": {
+                        "type": "string"
+                      },
+                      "visible_text": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "category",
+                      "visible_text",
+                      "reason"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "time_ms": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "time_ms",
+                "exposures"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        }
+      },
+      "type": "json_schema",
+      "description": null,
+      "strict": true
+    },
+    "verbosity": null
+  },
+  "top_logprobs": 0,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 2043,
+    "input_tokens_details": {
+      "cache_write_tokens": null,
+      "cached_tokens": 0
+    },
+    "output_tokens": 207,
+    "output_tokens_details": {
+      "reasoning_tokens": 153
+    },
+    "total_tokens": 2250
+  },
+  "user": null,
+  "store": true
+}

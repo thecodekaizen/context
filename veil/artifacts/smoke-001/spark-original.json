@@ -1,0 +1,37 @@
+{
+  "findings": [
+    {
+      "box": [
+        143,
+        99,
+        256,
+        276
+      ],
+      "category": "face",
+      "reason": "human face visible in portrait photo on left",
+      "text": null
+    },
+    {
+      "box": [
+        583,
+        240,
+        809,
+        300
+      ],
+      "category": "license_plate",
+      "reason": "vehicle license plate on synthetic car",
+      "text": "TEST 0146"
+    },
+    {
+      "box": [
+        71,
+        466,
+        334,
+        498
+      ],
+      "category": "phone_number",
+      "reason": "phone number displayed in demo contact box",
+      "text": "202-555-0146"
+    }
+  ]
+}

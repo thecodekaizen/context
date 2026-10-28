@@ -1,0 +1,31 @@
+{
+  "decoded_video_frames": 180,
+  "expected_video_frames": 180,
+  "plate_cover_fraction_min": 0.5347826086956522,
+  "plate_cover_fraction_mean": 0.9689855072463769,
+  "plate_first_frame_cover_fraction": 1.0,
+  "plate_last_frame_cover_fraction": 1.0,
+  "plate_frames_below_99pct_cover": [
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81
+  ],
+  "muted_speech_rms": 0.0,
+  "muted_speech_max_absolute_sample": 0.0,
+  "evaluation_only": true,
+  "limitations": [
+    "one composited clip",
+    "plate rectangular ground truth only",
+    "face source-panel bounds are not pixel-accurate facial truth",
+    "does not prove absence of other leaks"
+  ]
+}

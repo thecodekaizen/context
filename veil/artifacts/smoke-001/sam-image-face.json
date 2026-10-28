@@ -1,0 +1,19 @@
+{
+  "concept": "human face",
+  "video": false,
+  "regions": [
+    {
+      "frame": 0,
+      "track_id": "0",
+      "box": [
+        146,
+        104,
+        258,
+        261
+      ],
+      "confidence": null
+    }
+  ],
+  "masks_decoded": 1,
+  "diagnostics": []
+}

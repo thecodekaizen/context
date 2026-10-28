@@ -1,0 +1,16 @@
+{
+  "source": "independent actual-export review",
+  "finding": {
+    "box": [
+      60,
+      430,
+      475,
+      510
+    ],
+    "category": "phone_number",
+    "reason": "Full phone number digits are clearly readable in demo contact box",
+    "visible_text": "202-555-0146"
+  },
+  "prompt": "<20f>9<|point;x=268;y=470;w=960;h=540|>",
+  "ground_truth_used": false
+}

@@ -1,0 +1,9 @@
+{
+  "frames_rendered": 180,
+  "frames_with_visual_cover": 180,
+  "audio_intervals": 0,
+  "tracking_uncertain_frames": [],
+  "rule": "Cover complete observed field, with frame-specific optical-flow geometry; full-frame fail-closed cover on tracking loss",
+  "source": "independent review of actual exported video",
+  "ground_truth_used": false
+}
