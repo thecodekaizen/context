@@ -32,3 +32,8 @@ Seven added local checks cover hidden-field exclusion, restarted fit caching, im
 ## Next controller milestone
 
 Wire decision → validated tool result → refreshed context into a bounded loop. Honor stop requests, preserve pending outcomes and limit decision/tool steps independently of provider calls. Freeze a direct/investigator/conventional comparison before a paid batch. Keep the matched model library and experimental budget; numerical model selection remains the strongest demonstrated baseline.
+
+
+## Live-schema findings
+
+The subsequent two-call live run exposed invalid combinations allowed by the original flat provider schema, even though the local validator rejected them. The wire schema now nests operation-specific branches, nulls unused fields, and offers confirmation only for registered revisions. Two regression checks were added. No successful live tool execution has been observed yet; the final branch fix is locally verified only. See the live run report for both raw responses and token costs.

@@ -1,0 +1,147 @@
+{
+  "top_logprobs": 0,
+  "temperature": 1.0,
+  "top_p": 1.0,
+  "service_tier": "auto",
+  "model": "muse-spark-1.3",
+  "reasoning": {
+    "effort": "minimal"
+  },
+  "background": false,
+  "text": {
+    "format": {
+      "type": "json_schema",
+      "name": "thermal_investigation_decision",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "candidate_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "context_id": {
+            "enum": [
+              "c74fd4bbeb18a3fc4caf26910327fe6e2491aeea1a44c69ce178dd696607100d"
+            ],
+            "type": "string"
+          },
+          "evidence_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "family": {
+            "enum": [
+              "linear",
+              "sensor_lag",
+              "quadratic_loss",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "kind": {
+            "enum": [
+              "diagnostic",
+              "confirmation",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "model_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "operation": {
+            "enum": [
+              "fit_candidate",
+              "register_revision",
+              "propose_experiment",
+              "stop"
+            ],
+            "type": "string"
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "schedule_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "context_id",
+          "operation",
+          "family",
+          "candidate_id",
+          "model_id",
+          "schedule_id",
+          "kind",
+          "evidence_ids",
+          "rationale"
+        ]
+      },
+      "strict": true
+    }
+  },
+  "tools": [],
+  "tool_choice": "auto",
+  "truncation": "disabled",
+  "id": "resp_6ae1affc09453bae019f4c63",
+  "object": "response",
+  "status": "completed",
+  "created_at": 1793175548.0,
+  "completed_at": 1793175548.0,
+  "error": null,
+  "incomplete_details": null,
+  "output": [
+    {
+      "type": "reasoning",
+      "id": "rs_6ae1affc09453bae019f4c63:rs_6fa29b8f-0102-4624-a1e6-5c5bae3cfd55",
+      "summary": [],
+      "status": "completed"
+    },
+    {
+      "type": "message",
+      "id": "msg_a4279565-45be-4147-bf8c-ad71357b138e",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "{\"candidate_id\": null, \"context_id\": \"c74fd4bbeb18a3fc4caf26910327fe6e2491aeea1a44c69ce178dd696607100d\", \"evidence_ids\": [\"probe\"], \"family\": \"quadratic_loss\", \"kind\": \"diagnostic\", \"model_id\": \"v1\", \"operation\": \"propose_experiment\", \"rationale\": \"v1 fitted on initial-0, initial-1, initial-2 shows probe mismatch RMSE 0.409C >0.3C on sustained high-power heating to ~34C; stair schedule varies power to test temperature-dependent loss scaling independent of training fit.\", \"schedule_id\": \"left-stair\"}",
+          "annotations": [],
+          "logprobs": []
+        }
+      ],
+      "status": "completed"
+    }
+  ],
+  "instructions": null,
+  "usage": {
+    "input_tokens": 7078,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 702,
+    "output_tokens_details": {
+      "reasoning_tokens": 541
+    },
+    "total_tokens": 7780
+  },
+  "parallel_tool_calls": true,
+  "store": true,
+  "max_output_tokens": 2048
+}

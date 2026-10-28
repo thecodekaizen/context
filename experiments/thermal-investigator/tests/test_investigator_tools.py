@@ -58,7 +58,7 @@ class InvestigatorToolTests(unittest.TestCase):
         def transport(payload):
             calls.append(json.loads(payload))
             return {'status':'completed','usage':{'input_tokens':100,'output_tokens':30},
-                    'output':[{'type':'message','content':[{'type':'output_text','text':json.dumps(decision)}]}]}
+                    'output':[{'type':'message','content':[{'type':'output_text','text':json.dumps({'decision':decision})}]}]}
         provider=MetaDecider('fake-secret',self.root/'provider',max_calls=1,transport=transport)
         first,usage=decide_with_tools(provider,self.tools,'meta_direct')
         second,cached=decide_with_tools(provider,self.tools,'meta_direct')
@@ -67,3 +67,18 @@ class InvestigatorToolTests(unittest.TestCase):
     def test_fit_cap_enforced(self):
         self.tools.fit('linear',['initial-0']);self.tools.fit('sensor_lag',['initial-0'])
         with self.assertRaises(ValueError):self.tools.fit('quadratic_loss',['initial-0'])
+    def test_wire_branches_forbid_invalid_field_combinations(self):
+        from thermal_investigator.investigator_tools import tool_wire_schema
+        branches=tool_wire_schema(self.tools.context())['properties']['decision']['anyOf']
+        proposal=next(b for b in branches if b['properties']['operation']['enum']==['propose_experiment'])
+        self.assertEqual(proposal['properties']['family'],{'type':'null'})
+        self.assertEqual(proposal['properties']['candidate_id'],{'type':'null'})
+        with self.assertRaises(ValueError):validate_tool_decision(self.decision('propose_experiment',family='quadratic_loss',model_id='v1',schedule_id='left-stair',kind='diagnostic'),self.tools.context())
+
+    def test_wire_cannot_confirm_unrevised_model(self):
+        from thermal_investigator.investigator_tools import tool_wire_schema
+        branches=tool_wire_schema(self.tools.context())['properties']['decision']['anyOf']
+        proposals=[b for b in branches if b['properties']['operation']['enum']==['propose_experiment']]
+        self.assertEqual(len(proposals),1)
+        self.assertEqual(proposals[0]['properties']['kind']['enum'],['diagnostic'])
+        with self.assertRaises(ValueError):validate_tool_decision(self.decision('propose_experiment',model_id='v1',schedule_id='both-release',kind='confirmation'),self.tools.context())

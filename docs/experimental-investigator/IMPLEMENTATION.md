@@ -175,3 +175,8 @@ Implemented a supplied quadratic-loss thermal family, positive bounded effective
 ## Shared investigation tools and Meta contract — October 28
 
 Added persisted public-evidence context, bounded/cached numerical fitting, mismatch-linked revision registration, experiment proposals and stop requests. Both Meta policies share this schema/context through the guarded provider transport; legacy ARX requests retain their contract. Context fingerprints reject stale decisions; observation allowlists exclude evaluator fields. Seven new local checks bring the suite to 60 passing tests. No live request was made; provider integration is mocked. See TOOL_CONTRACT.md for transaction boundaries and limits. Next is the bounded controller loop and frozen contribution comparison; this is not a completed Meta contribution gate.
+
+
+## Actual Meta tool calls — October 28
+
+User explicitly requested real API calls. Two live Spark 1.3 calls completed at estimated total $0.022909 (14,169 input, 1,223 output tokens). Both responses were rejected by local semantic validation before any tool or experiment executed. First mixed proposal fields; second requested confirmation for unrevised v1. Provider schema now uses nested operation branches and restricts confirmation to revised models. This last fix is locally checked, not yet live verified. Raw failures are retained in `experiments/thermal-investigator/results/live-tools-2026-10-28/`. No third request or automatic retry. 62 tests pass. Connectivity is established; successful live tool use and contribution remain unresolved.

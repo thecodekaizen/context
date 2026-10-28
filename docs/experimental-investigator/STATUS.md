@@ -39,7 +39,7 @@ October 28 remains the evidence day. October 29 is persistent loop/API day; Octo
 
 Continue within thermal identification to implement the already-planned mismatch/revision/confirmation loop. The negative Meta pilot remains authoritative evidence of no demonstrated benefit so far. The local adequacy result justifies an explicit mismatch transition; it does not establish autonomous science or a winning entry. No additional paid calls are needed to implement the next milestone.
 
-Latest verified suite: 60 tests, including shared tools and mocked Meta contract checks. Deterministic walkthrough confirms restart and cached replay. The equal-budget numerical comparison (step 2) is now complete: batch fitting wins on median error; no final failures occur, limiting sensitivity evaluation. Next is the contribution review and bounded structural-mismatch design before paid calls. Current unrelated frontend changes remain untouched.
+Latest verified suite: 62 tests, including shared tools and live-failure schema regression checks. Deterministic walkthrough confirms restart and cached replay. The equal-budget numerical comparison (step 2) is now complete: batch fitting wins on median error; no final failures occur, limiting sensitivity evaluation. Next is the contribution review and bounded structural-mismatch design before paid calls. Current unrelated frontend changes remain untouched.
 
 
 ## Structural coverage follow-up
@@ -47,3 +47,8 @@ Latest verified suite: 60 tests, including shared tools and mocked Meta contract
 The bounded quadratic-loss candidate and executable registry are implemented and checked on six fresh simulated systems, including sustained high heating. This closes a representation gap, not the contribution gate: conventional whole-trial selection finds the candidate without Meta. The nonlinear stress mechanism is now inside the supplied grammar. A future out-of-family test must use a distinct declared mechanism.
 
 Shared bounded investigation tools are now implemented over persisted public evidence, model candidates and numerical diagnostics for both direct Meta and investigator policies. Provider transport is checked with a mock, not a live call. Next integration target is the bounded controller loop; see TOOL_CONTRACT.md. Do not schedule a paid comparison until a concrete consequential decision and matched conventional baseline are specified. No more generic calibration benchmark variants are needed before that integration.
+
+
+## Live tool integration result
+
+Two real Spark calls completed; both were rejected for invalid operation semantics before dispatch. Estimated total cost $0.022909. The first schema amendment removed incompatible field combinations; the second local fix restricts confirmation branches to revised models. No third request. API connectivity is proven; successful live tool use remains open. Preserve these failures alongside the earlier six-call smoke results. See `results/live-tools-2026-10-28/REPORT.md` under the experiment directory.

@@ -155,6 +155,41 @@ def validate_tool_decision(value,context):
     return value
 
 
+def tool_wire_schema(context):
+    """Nested operation branches encode field relationships in the provider schema."""
+    branches=[]
+    for operation in ('fit_candidate','register_revision','propose_experiment','stop'):
+        if operation=='fit_candidate' and context['fit_calls_remaining']<=0:continue
+        if operation=='register_revision' and not context['candidate_fits']:continue
+        if operation=='propose_experiment' and (context['actions_remaining']<=0 or context['unresolved_actions']):continue
+        schema=json.loads(json.dumps(tool_schema(context)))
+        properties=schema['properties'];properties['operation']={'type':'string','enum':[operation]}
+        used={'fit_candidate':{'family'},'register_revision':{'candidate_id','model_id'},
+              'propose_experiment':{'model_id','schedule_id','kind'},'stop':set()}[operation]
+        for field in ('family','candidate_id','model_id','schedule_id','kind'):
+            if field not in used:properties[field]={'type':'null'}
+        if 'family' in used:properties['family']={'type':'string','enum':list(FAMILIES)}
+        if 'candidate_id' in used:properties['candidate_id']={'type':'string','enum':[c['candidate_id'] for c in context['candidate_fits']]}
+        if 'model_id' in used:properties['model_id']={'type':'string','enum':[m['model_id'] for m in context['registered_models']]}
+        if 'schedule_id' in used:properties['schedule_id']={'type':'string','enum':[p['id'] for p in context['legal_schedules']]}
+        if 'kind' in used:properties['kind']={'type':'string','enum':['diagnostic','confirmation']}
+        properties['evidence_ids']['items']['enum']=[o['observation_id'] for o in context['observations']]
+        if operation=='propose_experiment':
+            # Confirmation is legal only for registered revisions. Encode the
+            # relationship in separate nested branches, not just in prose.
+            diagnostic=json.loads(json.dumps(schema))
+            diagnostic['properties']['kind']={'type':'string','enum':['diagnostic']}
+            branches.append(diagnostic)
+            revised=[m['model_id'] for m in context['registered_models'] if m['parent_id'] is not None]
+            if revised:
+                confirmation=json.loads(json.dumps(schema))
+                confirmation['properties']['kind']={'type':'string','enum':['confirmation']}
+                confirmation['properties']['model_id']={'type':'string','enum':revised}
+                branches.append(confirmation)
+        else:branches.append(schema)
+    return {'type':'object','properties':{'decision':{'anyOf':branches}},'required':['decision'],'additionalProperties':False}
+
+
 def decide_with_tools(provider,tools,policy):
     if policy not in ('meta_direct','meta_investigator'):raise ValueError('Unknown comparison policy')
     context=tools.context()
@@ -163,4 +198,11 @@ def decide_with_tools(provider,tools,policy):
                  'Use null for fields irrelevant to the operation. Never infer hidden system labels or future measurements.')
     if policy=='meta_investigator':
         instruction+=' Preserve the working hypothesis until measured mismatch supports revision; seek independent confirmation and stop when evidence is insufficient.'
-    return provider.decide_contract(context,instruction,tool_schema(context),lambda value:validate_tool_decision(value,context))
+    instruction+=' Return an object with a decision field matching exactly one operation branch.'
+    def validate_wire(value):
+        if not isinstance(value,dict) or set(value)!={'decision'}:raise ValueError('Expected operation envelope')
+        return validate_tool_decision(value['decision'],context)
+    # Provider cache stores the validated flat decision; accept it only on cache replay.
+    def validate_response(value):
+        return validate_wire(value) if isinstance(value,dict) and 'decision' in value else validate_tool_decision(value,context)
+    return provider.decide_contract(context,instruction,tool_wire_schema(context),validate_response)

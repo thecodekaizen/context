@@ -1,0 +1,6 @@
+{
+  "status": "failed_no_retry",
+  "error_type": "ValueError",
+  "message": "Meta attempt failed (ValueError); saved without retry",
+  "decisions": []
+}

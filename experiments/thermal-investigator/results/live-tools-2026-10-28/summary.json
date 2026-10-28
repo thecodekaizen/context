@@ -1,0 +1,10 @@
+{
+  "status": "two_live_calls_semantically_rejected",
+  "attempts": 2,
+  "estimated_usd": 0.022909,
+  "input_tokens": 14169,
+  "output_tokens": 1223,
+  "tool_executions": 0,
+  "physical_experiment_dispatches": 0,
+  "schema_patch_after_run": "confirmation branches restricted to revised models; not live checked"
+}
