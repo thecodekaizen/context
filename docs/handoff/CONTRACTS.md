@@ -46,3 +46,7 @@ The backend now exposes explicit `POST /api/skills/inspect-joint` for a source i
 ## Same-joint recovery comparison — October 28
 
 Explicit paid multipart `POST /api/skills/compare-recovery` compares reference/before/after images for one transition. It derives reported recovery only from a prior visible difference and later matching same-joint evidence. Unchanged views do not demonstrate correction. Exact fields and integration limits: `../experiments/showme-joint-recovery-v1.md`. No real provider accuracy result exists yet for this path.
+
+## Source-linked intervention guidance — October 28
+
+Local JSON `POST /api/skills/guidance` accepts a reviewed backend process and current provenance-linked joint inspection/recovery report. It returns source/evidence-linked review or view-request actions, not invented physical repair instructions. See `../experiments/showme-source-guidance.md`. Joint inspection fingerprints now use the same canonical process hash as sessions/recovery.

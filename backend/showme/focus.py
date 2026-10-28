@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 from typing import Any
+from .session import process_fingerprint
 
 PROMPT_VERSION = "showme-joint-inspection-v2"
 
@@ -106,10 +107,9 @@ def inspect_joint(client: Any, reference: Path, learner: Path, process: dict[str
     result = client.analyze_images([reference, learner], prompt=prompt, schema=inspection_schema(),
                                    schema_name="showme_joint_inspection")
     validate_inspection(result, process, transition_id)
-    claims = {k: v for k, v in process.items() if not k.startswith("_")}
     result.setdefault("_run", {}).update({"prompt_version": PROMPT_VERSION,
         "transition_id": transition_id,
-        "process_sha256": hashlib.sha256(json.dumps(claims, sort_keys=True, ensure_ascii=False).encode()).hexdigest(),
+        "process_sha256": process_fingerprint(process),
         "evidence_images": [{"role": role, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
                             for role, path in [("reference", reference), ("learner", learner)]],
         "scope": "selected joint only; no temporal or recovery claim"})

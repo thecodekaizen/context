@@ -13,6 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .focus import inspect_joint
 from .joint_recovery import compare_recovery
+from .guidance import build_guidance
 from .media import inspect_video, make_model_video
 from .meta import MuseSparkClient
 from .observe import observe_snapshot, observe_video, validate_observation, validate_snapshot
@@ -337,6 +338,18 @@ def compare_joint_recovery(
     finally:
         for upload in [reference_image, before_image, after_image]:
             upload.file.close()
+
+
+@app.post("/api/skills/guidance")
+def source_linked_guidance(payload: dict) -> dict:
+    """Local deterministic intervention guidance; no provider call."""
+    try:
+        process = payload.get("process")
+        if not isinstance(process, dict):
+            raise ValueError("provide a reviewed process object")
+        return {"guidance": build_guidance(process, payload.get("report"), payload.get("report_kind"))}
+    except (ValueError, TypeError, KeyError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
 
 
 def _copy_bounded(
