@@ -21,7 +21,12 @@ Result: viable constrained smoke slice, **not full P0**. SAM concept plate detec
 - [ ] Add complete output sampling/OCR and an independent detector; distinguish seeded misses from natural misses.
 - [ ] Evaluate additional synthetic clips, exposures, occlusions and negative controls; precision/recall and residual rate with sample sizes.
 - [ ] Add atomic job/call bookkeeping, timeout/error handling, general audio/video validation and timestamp preservation beyond this fixed-FPS fixture.
-- [ ] Expose one working create/process/download HTTP path, then remaining routes and thin Python SDK.
+- [x] Expose real create/reviewed-timeline-render/download HTTP path and thin Python SDK; tested against live loopback server.
+- [ ] Wire automatic detection, privacy verification and targeted repair into those job routes.
 - [ ] Only then build reference interface and submission demo.
 
 Invariant: verifier reads exported media; it must never accept protector metadata or evaluation labels as evidence that content is safe. Same-family model review can share failure modes. Record uncertain intervals and require human review.
+
+## API slice evidence
+
+Eight tests pass. `artifacts/api-roundtrip.json` records the real SDK → HTTP → engine → downloaded 180-frame MP4 roundtrip. This replay uses saved real-inference geometry, not fresh model inference. Receipts explicitly say automatic detection and privacy verification were not run. No additional model charges. Atomic manifests and per-job lock files prevent simultaneous mutation; interrupted-process recovery remains manual.
