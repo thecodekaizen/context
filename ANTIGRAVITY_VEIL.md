@@ -233,3 +233,7 @@ New evidence: `veil/docs/PUBLIC_CAMERA_RESULTS.md`. Footage is a licensed real-c
 Assets under `veil/artifacts/public-footage-001/`: `challenge.mp4` (input), `run/initial-export.mp4`, `run/legacy-repair.mp4`, `run/final-export.mp4`, `normal-run/final-export.mp4`, actual audits/receipts, and before/after frames. The paired legacy repair leaks the brief second number and blacks out 14 frames; new repair covers 42/42 sensitive phone frames with zero full-frame blackouts. The normal-path clip is a separate follow-up without a deliberate omission. These are per-case measurements, not general accuracy. Synthetic answer keys stay evaluation-only.
 
 The core now emits separate presence-bounded phone tracks with gaps; overlays must honor their actual frame regions rather than extending a box for the entire video. No new frontend processing logic is needed.
+
+## Priority update — natural-editing experiment split (28 October)
+
+Read `ANTIGRAVITY_NATURAL_EXPERIMENTS.md` before continuing. The user now assigns Antigravity dataset screening and independent visual-quality experimentation, not just frontend work. Follow its exclusive ownership boundaries and deliver exact proposed clips before running a new benchmark. Codex continues core tracking, fallback and exported-file privacy evaluation. The six-case natural-editing gate has NOT passed; today's objective is an evidence-based submission decision.
