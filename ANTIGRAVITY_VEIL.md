@@ -224,3 +224,12 @@ The default verifier now uses three Spark samples plus bounded local OCR at 250 
 Core now supports **optional face blur** while keeping opaque covers mandatory for plates/phone numbers and as the default for faces. Detect payload may include `face_action: "blur"`; reviewed face tracks may use `action: "blur"`. Text tracks reject blur. Read `veil/docs/REDACTION_STYLES.md` for the contract and limitations.
 
 Fresh variant: `veil/artifacts/face-blur-001/export.mp4`, `frame-2000.jpg`, `frame-7600.jpg`, `frame-16000.jpg`, and `receipt.json`. It has a fresh audit; do not reuse the opaque variant's receipt. You may add a clearly labeled optional face-blur choice/recorded comparison. Never label blur anonymous or leak-proof. Conservative padding remains unchanged; no polygon/contour rendering is claimed. Keep the opaque default and old evidence available. Frontend only requests the style; Python bakes the pixels.
+
+
+## Real-camera hybrid demonstration and lifetime repair
+
+New evidence: `veil/docs/PUBLIC_CAMERA_RESULTS.md`. Footage is a licensed real-camera Pexels office background with **synthetic privacy targets**, explicitly labeled in-frame. Do not call it naturally occurring personal-data or real-person validation. Credit Kampus Production/Pexels and link the source/license from the report.
+
+Assets under `veil/artifacts/public-footage-001/`: `challenge.mp4` (input), `run/initial-export.mp4`, `run/legacy-repair.mp4`, `run/final-export.mp4`, `normal-run/final-export.mp4`, actual audits/receipts, and before/after frames. The paired legacy repair leaks the brief second number and blacks out 14 frames; new repair covers 42/42 sensitive phone frames with zero full-frame blackouts. The normal-path clip is a separate follow-up without a deliberate omission. These are per-case measurements, not general accuracy. Synthetic answer keys stay evaluation-only.
+
+The core now emits separate presence-bounded phone tracks with gaps; overlays must honor their actual frame regions rather than extending a box for the entire video. No new frontend processing logic is needed.

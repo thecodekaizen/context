@@ -17,6 +17,7 @@ from veil.media.inspect import decode_export
 from veil.verification.ocr import inspect_text
 from veil.verification.fusion import merge_ocr
 from veil.media.sampling import periodic_frames
+from veil.media.lifetimes import phone_tracklets
 
 
 def speech_intervals(result, duration_ms):
@@ -105,18 +106,29 @@ class MetaPipeline:
                 except Exception:
                     save(root/'cloud-cleanup.json',{'deleted':False,'expiry_requested_seconds':3600,'needs_attention':True})
         phones=[(f,e) for f in observed.frames for e in f.exposures if e.category=='phone_number']
-        if phones and not seed_omit_phone:
-            f,e=phones[0]
-            regions,uncertain=track_field(source,round(f.time_ms*media['fps']/1000),e.box)
-            tracks.append(VisualTrack(id='phone-field',category='phone_number',source='spark/opencv-field-tracking',regions=regions))
-            save(root/'field-tracking.json',{'uncertain_frames':uncertain,'fallback':'full frame cover on tracking loss'})
+        if not seed_omit_phone:
+            try:
+                phone_frames=periodic_frames(source,root,'source-phone-ocr',media)
+                phone_ocr=inspect_text(phone_frames,media['width'],media['height'],
+                                      Path(os.getenv('VEIL_OCR_CACHE','artifacts/private/ocr-cache')))
+            except Exception as exc:
+                phone_ocr={'status':'failed','error_type':type(exc).__name__,'findings':[]}
+            save(root/'source-phone-ocr.json',phone_ocr)
+            phone_tracks,diagnostics=phone_tracklets(phone_ocr['findings'],media)
+            tracks.extend(phone_tracks)
+            save(root/'phone-lifetimes.json',diagnostics)
+            if not phone_tracks and phones:
+                f,e=phones[0]
+                regions,uncertain=track_field(source,round(f.time_ms*media['fps']/1000),e.box)
+                tracks.append(VisualTrack(id='phone-field',category='phone_number',source='spark/opencv-field-fallback',regions=regions))
+                save(root/'field-tracking.json',{'uncertain_frames':uncertain,'fallback':'full frame cover on tracking loss'})
         extract_audio(source,root/'source-audio.wav')
         voice=transcribe(c,ledger,root,'source-transcription',root/'source-audio.wav')
         timeline=Timeline(**{k:media[k] for k in ('duration_ms','fps','width','height')},visual_tracks=tracks,
                           audio_intervals=speech_intervals(voice,media['duration_ms']))
         save(root/'timeline.json',timeline.model_dump(mode='json'))
         save(root/'detection-scope.json',{'seeded_phone_omission':seed_omit_phone,
-             'limitations':['3 source samples','one plate and one phone field tracked','no full-scene recall guarantee','no exact spoken-number guarantee']})
+             'limitations':['3 source samples','one plate; up to 64 presence-bounded phone tracklets','no full-scene recall guarantee','no exact spoken-number guarantee']})
         return timeline
 
     def verify(self, root, media, revision, *, sparse_ocr=False):
@@ -151,12 +163,18 @@ class MetaPipeline:
 
     def repair(self, root, media, report):
         tracks=[]
-        # Bound work to one field per category, sourced exclusively from actual export review.
+        phone_observations=[{**e,'time_ms':frame['time_ms']} for frame in report['frames']
+                            for e in frame['exposures'] if e['category']=='phone_number']
+        phone_tracks,diagnostics=phone_tracklets(phone_observations,media)
+        tracks.extend(phone_tracks)
+        save(root/'repair-phone-lifetimes.json',diagnostics)
+        unidentified=any(len(re.sub(r'\D','',o.get('text') or ''))<7 for o in phone_observations)
         for category, timestamp, box, fragments in repair_seeds(report):
+            if category=='phone_number' and phone_tracks and not unidentified:continue
             regions,uncertain=track_field(root/'export.mp4',round(timestamp*media['fps']/1000),box)
             tracks.append(VisualTrack(id=f'repair-{category}',category=category,source='export-audit/opencv-whole-field-envelope',regions=regions))
             save(root/f'repair-{category}-tracking.json',{'uncertain_frames':uncertain,'observed_fragments':fragments,
-                 'seed_box':box,'limitation':'single tracked envelope per category; separate moving objects require stronger association'})
+                 'seed_box':box,'limitation':'non-phone fields or unidentified phones retain conservative full-clip fallback'})
         intervals=[AudioInterval.model_validate(i) for i in report['spoken_phone_intervals']]
         if not tracks and not intervals:raise ValueError('No observed residual exposure to repair')
         timeline=Timeline(**{k:media[k] for k in ('duration_ms','fps','width','height')},visual_tracks=tracks,audio_intervals=intervals)

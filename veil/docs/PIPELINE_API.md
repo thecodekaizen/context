@@ -80,3 +80,10 @@ See VERIFIER_BENCHMARK.md: fixed three-clip comparison found 4/5 category-events
 ## Explicit face style
 
 `POST /detect` now accepts optional `face_action: "cover" | "blur"`; opaque cover remains default. The option changes face tracks only. `VisualTrack.action` permits blur only for category `face`; plate and phone tracks reject it. SDK `protect` and `cloud_action(..., "detect")` expose the same option. Audit/repair requests reject non-default detection-only options. Repair of a residual remains conservative opaque covering. See REDACTION_STYLES.md and the separately audited `artifacts/face-blur-001/export.mp4`.
+
+
+## Presence-bounded phone fields
+
+Source detection now uses local OCR observations to form up to 64 phone tracklets. Repair forms the same kind of tracklets from actual exported-file observations. Numeric identity, spatial gating, time-gap splitting and median pixel velocity determine bounded lifetimes; geometry is frame-aligned. This replaces full-clip propagation for identified phone fields. Non-phone residuals and unidentified phone strings retain the conservative optical-flow fallback. See PUBLIC_CAMERA_RESULTS.md for the paired test and limitations.
+
+`VEIL_MAX_MODEL_CALLS` optionally lowers a job's inference cap from the default 12 (valid range 1–12). No automatic retries are introduced. Recorded metadata and utility flags remain review requirements, not publication assurances.

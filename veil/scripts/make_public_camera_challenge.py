@@ -1,5 +1,5 @@
 """Real public camera background plus declared synthetic privacy overlays."""
-import json,math,subprocess,hashlib
+import json,math,subprocess,hashlib,argparse
 from pathlib import Path
 import cv2,numpy as np
 from PIL import Image,ImageDraw,ImageFont
@@ -8,6 +8,8 @@ ROOT=Path('artifacts/public-footage-001')
 FONT='/System/Library/Fonts/Menlo.ttc'
 
 def main():
+ global ROOT
+ parser=argparse.ArgumentParser();parser.add_argument('--root',type=Path,default=ROOT);ROOT=parser.parse_args().root
  target=ROOT/'challenge.mp4'
  if target.exists():raise SystemExit('Refusing to overwrite frozen challenge')
  cap=cv2.VideoCapture(str(ROOT/'background.mp4'))

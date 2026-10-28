@@ -19,7 +19,7 @@ class CloudRequest(StrictModel):
 
 def create_app(root: Path | None = None, pipeline=None):
     app = FastAPI(title='VEIL', version='0.3.0', description='Bounded Meta detection, redaction, sampled exported-media audit and repair. No zero-leak guarantee.')
-    store = JobStore(root or Path(os.getenv('VEIL_JOBS_DIR', 'artifacts/private/jobs')), pipeline or MetaPipeline(os.getenv('VEIL_ENV_FILE', '.env')))
+    store = JobStore(root or Path(os.getenv('VEIL_JOBS_DIR', 'artifacts/private/jobs')), pipeline or MetaPipeline(os.getenv('VEIL_ENV_FILE', '.env'),max_calls=int(os.getenv('VEIL_MAX_MODEL_CALLS','12'))))
     app.state.store = store
 
     @app.exception_handler(FileNotFoundError)

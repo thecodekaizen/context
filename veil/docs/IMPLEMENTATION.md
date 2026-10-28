@@ -61,3 +61,15 @@ See VERIFIER_BENCHMARK.md for counts, cost, latency, reproduction and limitation
 - [x] Full 180-frame fixture-region/audio checks remain intact; 29 local tests pass in build environment.
 
 See REDACTION_STYLES.md. Geometry remains padded boxes; no contour-mask or anonymity guarantee is claimed.
+
+
+## Public-camera hybrid and presence-bounded fields
+
+- [x] Fetch and attribute real Pexels empty-office footage; inspect derived frames locally and use synthetic privacy targets only.
+- [x] Freeze hybrid/protocol before live calls (`e13f52f`); exclude answer keys from inference.
+- [x] Replace unbounded phone propagation with observation association, temporal gap splitting, median image-plane velocity and bounded per-frame envelopes.
+- [x] Pair legacy/new repair on identical initial audit evidence: legacy misses 3/42 phone frames and blacks out 14/96 frames; new covers 42/42 with zero full-frame blackouts.
+- [x] Normal-path follow-up without omission also covers 42/42 phone frames, with silence and zero blackouts.
+- [x] Twelve actual requests total; estimated $0.05581825. Thirty-three local tests pass.
+
+See PUBLIC_CAMERA_RESULTS.md for attribution, measurements and limits. This is a targeted hybrid test, not naturally occurring personal-data or plate validation. Rapid unsampled motion, long benign identifiers, OCR errors and general multi-object association remain open.
