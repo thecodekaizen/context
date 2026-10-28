@@ -1,110 +1,159 @@
 # CONTEXT
+
 ### See the whole story.
 
-A local video evidence workstation for the Meta Global AI Developer Hackathon 2026.
-Compare a published edit with its original recording, reconstruct the source
-sequence, and click an omission to watch the missing footage.
+A local video evidence workstation for the Meta Global AI Developer Hackathon
+2026. Trace a published edit to a provided source, reconstruct the sequence,
+reveal missing footage, and inspect timestamped Meta AI interpretation.
+
+![Actual film investigation](docs/film-workstation.png)
 
 ## Run
 
 Prerequisites: Python 3.12+ with compatible NumPy wheels, Node 20.19+ or 22.12+,
-FFmpeg and FFprobe on PATH. This checkout was tested with Python 3.15 and Node 24.
+FFmpeg and FFprobe on PATH. Verified with Python 3.15 and Node 24.
 
 ```sh
 python3 -m venv .venv
 .venv/bin/pip install -r backend/requirements.txt
 npm ci --prefix web
 npm run build --prefix web
-# Create .env from .env.example and set MODEL_API_KEY for optional Meta review.
 cp -n .env.example .env
+# Set MODEL_API_KEY in .env for optional Meta review.
 .venv/bin/uvicorn context_core.api:app --app-dir backend --env-file .env --host 127.0.0.1 --port 8000
 ```
 
-Open http://127.0.0.1:8000. Select both videos and **Trace the edit**, or click
-**Try generated case**. The demo creates real FFmpeg footage and independently
-cuts seconds 4–8 out of its source; the inference receives only the video files.
-Click **Reveal missing context** to hear/watch the original interval. Linked
-playback follows matches and jumps across cuts; reveal switches to independent
-source playback and stops at the interval boundary. The original is muted during
-linked playback to avoid overlapping audio; unmute it when inspecting context.
+Open http://127.0.0.1:8000.
 
-For frontend development, run `npm run dev --prefix web` alongside the API.
-The Vite server proxies `/api` to port 8000. Rebuild for production changes.
+- **Known pair:** upload an original and published edit, then **Trace the edit**.
+- **Source discovery:** add original recordings to the local collection, then
+  upload a published clip and **Search collection**. Supported matches open the
+  evidence explorer; close candidates remain ambiguous. Up to 20 indexed sources.
+- **Generated example:** **Try generated case** produces moving FFmpeg footage
+  and independently removes seconds 4–8. Inference receives only the files.
+- **Production example:** install the optional licensed evaluation below, then
+  **Explore licensed film case** to inspect a measured six-second omission.
+
+Click an omission to play the missing original interval. Linked playback follows
+matches and jumps across cuts; reveal switches to independent source playback
+and stops at the interval boundary. The original is muted during linked playback
+to avoid overlapping audio. Incompatible containers/codecs receive H.264/AAC playback previews while original
+evidence bytes and hashes remain unchanged. Saved investigations and valid interpretations survive
+reload; the URL identifies a local case. Reports retain media hashes and methods.
+
+Frontend development: `npm run dev --prefix web` alongside the API. Vite proxies
+`/api` to port 8000; rebuild to update the production page.
 
 ## Verify
 
 ```sh
 .venv/bin/pytest -q
 npm run build --prefix web
+npm --prefix web run format:check
 cd web
 npx playwright install chromium
-npx playwright test
+npm run test:e2e
 ```
 
-24 backend tests cover copy, trim, omission, reordering, repetition,
-rescaling/recompression, unknown and ambiguous static sources, invalid media,
-real multipart uploads, persisted evidence, and HTTP range playback.
-Four Chromium tests exercise the real generated analysis, source reveal,
-evidence download, browser errors, mobile overflow, missing credentials and model-citation seeking (using an explicitly mocked test response). The API must be running.
+51 backend tests pass with optional production footage installed; 11 of them skip
+without it. Eight browser tests cover generated evidence, reveal, download,
+mobile layout, explicit provider error, citation seeking, indexed source discovery,
+ambiguity, reload recovery and production attribution. The API must be running.
+Provider-shape tests and UI response fixtures are explicitly mocked. A separate
+credentialed walkthrough has completed live Meta inference and reload recovery.
+
+Formatting/lint tools: install `backend/requirements-dev.txt`, then use
+`.venv/bin/ruff check backend scripts` and `.venv/bin/ruff format --check backend scripts`.
+React formatting: `npm --prefix web run format`.
+
+## Production-footage evaluation
+
+```sh
+PYTHONPATH=backend .venv/bin/python scripts/evaluate.py --download
+```
+
+Downloads an approximately 65 MB licensed Blender source into ignored
+`data/evaluation`, generates controlled edits and writes a measured report.
+The production example becomes available after refreshing the app.
+
+The six supported copy/edit/compression cases correctly identify expected edit
+types, with all accepted sampled correspondences within 0.5 seconds of ground
+truth on this excerpt. Unsupported brightness/crop cases remain insufficient;
+tested speed changes are rejected. This is a small regression set, not a claim
+of general accuracy. See [measurements and defects fixed](docs/evaluation.md).
 
 ## Evidence engine
 
-`backend/context_core/media.py` probes duration, codec, resolution and audio;
-FFmpeg decodes timestamped 4 Hz RGB samples reduced to 24×16 spatial features.
-`alignment.py` compares sampled frames, rejects poor or temporally ambiguous
-matches, groups continuous correspondences, and detects uncovered source
-intervals, backward chronology, and repeated source spans. Source and edit
-SHA-256 hashes anchor each saved report. JSON includes sampling method,
-threshold, confidence (a similarity score, **not** a calibrated probability),
-segments, findings and limitations. Boundary tolerance is ±0.5 seconds.
+- `media.py`: media probing and timestamped 4 Hz RGB samples at 24×16 pixels.
+- `alignment.py`: conservative sequence matching, ambiguity rejection, supported
+  cuts, omissions, reordering and repetition. Sustained speed changes invalidate
+  1× mappings. Unresolved material never becomes a confirmed omission by itself.
+- `library.py`: persistent source indexing, exact-content deduplication, cached
+  fingerprints and margin-based source selection. Each edit is decoded once
+  per collection search. Near-duplicate recordings remain unresolved.
+- `context_pack.py`: bounded source/edit video excerpts with retained audio.
+- `meta.py`: optional multimodal interpretation and timestamp validation.
+- `api.py`: uploads, local search, byte-range playback, saved cases and reviews.
 
-The CLI can compare an edit against one or several provided local sources:
+JSON includes SHA-256 hashes, method, similarity score, segments, findings,
+diagnostics and limitations. Scores are not calibrated probabilities. Boundary
+tolerance is ±0.5 seconds. The command-line pair/multi-source tool remains available:
 
 ```sh
 PYTHONPATH=backend .venv/bin/python -m context_core data/demo/edited.mp4 data/demo/original.mp4 --output /tmp/context-evidence.json
 ```
 
-Multiple sources produce candidates ranked by coverage; this is a local source
-collection comparison, not internet-wide discovery. Each candidate is decoded
-again; caching and collection indexing remain future work.
+The CLI performs direct comparisons and decodes each supplied source. Persistent
+cached retrieval is exposed through the collection API and UI.
 
-## Meta status
+## Meta integration
 
-Official API docs were verified on October 29, 2026; see
-[verification notes](docs/meta-verification.md). **Review with Meta AI** creates
-a source excerpt around a finding and a published excerpt around the corresponding
-edit boundary, then sends those clips (including available audio) to Meta. This
-external transfer occurs only when you click the review button. Source excerpts
-are capped at 30 seconds and 8 MB each; long findings require manual inspection.
+Official docs and credentialed compatibility were verified; see
+[Meta verification](docs/meta-verification.md). **Review with Meta AI** sends two
+short video excerpts with available embedded audio to Meta. This transfer occurs
+on an explicit review action. Source clips are capped at 30 seconds and 8 MB each;
+long findings require manual inspection. No entire source library is sent.
 
-The adapter uses Muse Spark 1.2 because Meta's current guide cautions about audio
-quality on 1.3. Model observations must cite supplied clip IDs and valid clip-local
-time ranges. The server translates those citations to original media timestamps;
-clicking a citation seeks the appropriate player. Possible interpretation and
-uncertainty are displayed separately from measured edits. Valid timestamp bounds
-do not verify the truth of a model claim.
+Muse Spark 1.2 is selected because Meta's current video/audio guide cautions about
+1.3 audio quality. Model observations require valid supplied clip IDs and bounded
+local timestamps. The server translates citations to media times; clicking one
+seeks the corresponding player. Reviewed excerpt ranges and audio availability
+are visible, as are possible interpretation and uncertainty. Checked timestamps
+are not independent verification of model claims.
 
-Set `MODEL_API_KEY` in the environment **before starting the server** to enable
-live review. A local ignored .env can supply the key via the server command above.
-Meta catalog authentication and Muse Spark 1.2 availability were verified with
-the configured local credential; inference status is recorded in the verification notes. Tests use a mock transport;
-no test output is shown as real model analysis. Missing keys, provider failures
-and invalid model citations leave deterministic evidence available. Interpretation
-reports persist separately under `data/<investigation>/interpretation-<finding>.json`.
+Valid reviews are cached against media hashes, finding, analysis method, model
+and prompt version. Cache reuse is labeled. Stale reviews are withheld. Missing
+credentials, provider errors or invalid citations leave measured evidence intact.
 
-## Scope and limitations
+## Walkthrough and submission assets
 
-- Local trusted workstation, no authentication; bind to loopback only.
-- Up to 10 minutes and 200 MB per upload; one analysis at a time per process.
-- Visual sequence evidence only. No transcription, factual verdict, speaker
-  intent inference, or deepfake detection. Omission alone is not deception.
-- Static/repeated-looking scenes are rejected conservatively. Heavy cropping,
-  overlays, speed changes, color shifts, and unrelated lookalike footage need
-  stronger feature matching and broader real-world evaluation.
-- Tests use synthetic moving video; results are not real-world accuracy claims.
-- Uploads and evidence persist under ignored `data/`; remove them manually when
-  no longer needed. Videos are served with byte ranges. JSON is downloadable.
-- FFmpeg invocations use argument lists, timeouts and duration limits. This MVP
-  does not isolate malicious media decoders; do not expose it as a public service.
+```sh
+node scripts/record-walkthrough.mjs
+# Or reuse a previously saved case without another inference:
+node scripts/record-walkthrough.mjs CASE_ID
+```
+
+Requires the server, licensed film example, Playwright Chromium and a configured
+Meta key for an uncached review. Creates a silent browser QA recording under
+ignored `data/walkthrough`. It uses the actual app and provider, no mocked findings.
+The raw recording is not the final narrated submission video.
+
+[Three-minute script](docs/demo-script.md) · [Submission draft](docs/submission.md)
+
+## Scope
+
+Local trusted workstation; bind to loopback. Up to 10 minutes and 200 MB per
+upload, one analysis at a time per server process. Videos and reports persist
+under ignored `data/`. No internet-wide retrieval, factual verdict, intent
+inference or deepfake detection. Static/repeated scenes, heavy crops, overlays,
+large color changes and speed changes need broader evaluation or stronger models.
+FFmpeg has timeouts and duration limits but no isolated decoder environment;
+public hosting and accounts are outside the current local MVP.
+
+## Attribution
+
+Film excerpts and application captures: *Big Buck Bunny* (2008), (c) copyright
+2008, Blender Foundation / www.bigbuckbunny.org. CC BY 3.0. Footage trimmed,
+transcoded and edited for controlled evaluation. [Source and license](https://peach.blender.org/about/).
 
 Deadline: November 4, 2026, 9 PM ET (November 5, 7:30 AM IST).

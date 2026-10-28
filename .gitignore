@@ -9,3 +9,5 @@ data/
 test-results/
 playwright-report/
 *.tsbuildinfo
+.env.*
+!.env.example

@@ -38,3 +38,14 @@ an authenticated Muse Spark 1.2 request: HTTP 200, five observations, all return
 citations passed bounds validation. Result saved under ignored data/demo/.
 This establishes live request compatibility, not semantic accuracy on real footage.
 Earlier statements of unavailable credentials describe the prior development state.
+
+## Production-film workflow verification
+A real Muse Spark 1.2 review completed for the licensed Big Buck Bunny omission
+case: five timestamp-cited observations passed schema and range validation.
+The browser displayed the provider response, restored it after reload, sought
+a citation, and recorded the actual interaction with no browser errors. Source
+and published excerpts had different audio availability, shown in the manifest.
+Saved interpretations are now keyed to evidence identity; prior stale results
+are excluded. A silent QA recording and actual screenshots accompany the local
+submission assets. This is still not an independent correctness evaluation of
+semantic claims or human-speech interpretation.
