@@ -86,3 +86,8 @@ Implemented a bounded physical representation with effective heat-loss rates, bi
 SciPy 1.18.1 was installed only in the isolated local experiment virtual environment. The source declares a science optional dependency; base numerical checks still need only NumPy. Sources checked: https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.least_squares.html and https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.expm.html .
 
 Model parameters are effective ratios, not individually identified thermal masses or conductances. Numerical sensitivity rank is a local diagnostic, not a formal identifiability certificate. The physical development check has no Meta decisions and does not meet the substantive-Meta contribution gate.
+
+
+## D12 — Reconcile delivery against evidence rather than activity
+
+The October 28 implementation audit is recorded in STATUS.md. Local calibration and prospective checks complete numerical prerequisites only. The next bounded milestone is persistent mismatch/revision/confirmation; additional numerical benchmark variants must not displace the substantive Meta contribution review. Historical SHOWME frontend work does not count toward the current product. The final paired protocol and useful physical error target remain open; the 0.3°C local diagnostic threshold is not a hardware tolerance.

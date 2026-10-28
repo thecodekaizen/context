@@ -6,6 +6,7 @@ The user approved planning an ambitious experimental investigator after withdraw
 
 ## Read in this order
 
+0. STATUS.md — current evidence, open gates and immediate delivery order.
 1. PRODUCT.md — user, problem, concrete outcome and interface.
 2. PROTOCOL.md — experiments, fair baselines, evaluation and decision gates.
 3. ARCHITECTURE.md — actual engineering, model responsibilities and boundaries.
@@ -25,6 +26,6 @@ A reproducible command-line experiment with a hidden simulator, a numerical fitt
 
 ## Scope status
 
-SHOWME, the remnant planner and the scene editor are paused directions. Their historical documents do not specify this experiment. Existing SHOWME code and uncommitted frontend work remain preserved. This plan is stored outside that checkout while the initial experiment is scoped; integration will require an explicit update to its stale entry-point documents.
+SHOWME, the remnant planner and the scene editor are paused directions. Their historical documents do not specify this experiment. Existing SHOWME code and uncommitted frontend work remain preserved. The current implementation is isolated under `experiments/thermal-investigator` in this checkout. Root AGENTS.md specifies the pivot. Historical frontend work remains preserved; it does not count as the investigator interface.
 
-No implementation, evaluation, Meta call, commit or push was performed by writing this planning bundle.
+Implementation and recorded evaluations now exist. Read STATUS.md for current results; the initial planning text is not a completion report.

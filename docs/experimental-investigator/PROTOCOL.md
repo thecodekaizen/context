@@ -1,6 +1,6 @@
 # Experiment and evaluation protocol
 
-Status: proposed protocol. Freeze exact scenario generation, metrics, budgets and thresholds before the first comparative Meta run. Development results may motivate amendments, but every amendment creates a new version and invalidates use of earlier cases as held-out evidence.
+Status: umbrella protocol; individual recorded runs have frozen versioned configurations. The initial smoke used six calls as recorded in its protocol, superseding the earlier illustrative twelve-call allowance below. Local development checks are not the final comparative Meta evaluation. Freeze exact scenario generation, metrics, budgets and thresholds before each comparative run. Development results may motivate amendments, but every amendment creates a new version and invalidates use of earlier cases as held-out evidence.
 
 ## 1. Public problem interface
 

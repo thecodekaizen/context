@@ -4,6 +4,8 @@ Planning date: 28 October 2026, Asia/Kolkata. Seven development days: 28 October
 
 Status legend: [ ] not done; [x] complete. A task is complete only with its stated artifact/evidence.
 
+Current audit: see STATUS.md (28 October). Numerical and prospective-check milestones are complete. The substantive Meta contribution gate is OPEN; this project is not yet submission-ready. Historical milestone paragraphs below describe the state when recorded.
+
 ## Planning completed
 
 - [x] Concrete first application selected: two-heater thermal model calibration.
@@ -16,7 +18,7 @@ Status legend: [ ] not done; [x] complete. A task is complete only with its stat
 ## Day 1 — 28 October: establish the evidence
 
 Morning / first 2 hours:
-- [ ] Inspect existing numerical dependencies, Meta adapter and project instruction boundaries.
+- [x] Inspect existing numerical dependencies, Meta adapter and project instruction boundaries; implemented isolated scientific runtime and bounded adapter.
 - [ ] Record exact upstream revision/license for simulator/reference code.
 - [x] Implement the public experiment contract and a separate hidden thermal simulator (separate process; no OS sandbox).
 - [x] Implement numerical fitting, unseen-schedule prediction and error scoring (ARX baseline; not the planned mechanistic grammar).
@@ -25,14 +27,14 @@ Morning / first 2 hours:
 
 Next 2 hours:
 - [x] Implement a regularized D-optimal ARX design baseline across the supported candidate library; its information criterion remains an approximation under output noise.
-- [ ] Check underdetermined and unsupported cases. Independent prediction errors must expose failures.
-- [ ] Freeze initial protocol and development/test seed separation before Meta comparison calls.
+- [x] Check underdetermined and unsupported cases; fresh-validation and prospective-adequacy reports expose nonlinear mismatch and missed warnings.
+- [x] Freeze the versioned six-call smoke protocol before execution; later local validation protocols use separate seeds. Final paired comparison protocol remains open.
 
 Next 2–4 hours:
-- [x] Implement a bounded Meta Responses decision adapter using the existing endpoint/credential convention; local mocked-transport checks pass. Live behavior remains untested.
+- [x] Implement a bounded Meta Responses decision adapter using the existing endpoint/credential convention; mocked transport and the completed six-call live integration are recorded.
 - [x] Run the bounded integration smoke pilot: six Meta calls, estimated $0.0463. Both policies reproduced D-optimal choices; no benefit from the investigation prompt was observed.
 - [ ] Run the paired comparison pilot if the smoke pilot is valid.
-- [ ] Publish a continuation decision with all methods and failures. If speed/cost prevents the comparison, report that as unresolved instead of marking the day successful.
+- [x] Publish the negative smoke result and local continuation decision in STATUS.md. Contribution gate remains open; do not mark scientific success.
 
 Acceptance: a saved run contains an experiment, model fit, prediction committed before held-out observations, independent score and comparison. A screenshot or persuasive explanation is insufficient. Day 1 earns the claim or exposes its weakness.
 
