@@ -66,3 +66,12 @@ The independent text signal uses macOS Vision through the included, fixed Swift 
 ## Current limits
 
 One synthetic clip has exercised the full pipeline; this is not a recall benchmark. Three-frame sampling misses short exposures. Voice may misread or omit digits. The service currently handles one plate and one printed-number field, plus SAM face tracks; no general scene coverage claim. Media acceptance is limited to short, small, constant-frame-rate MP4s with audio. VFR detection is currently a metadata heuristic. Model-family errors may be correlated. Never claim zero leaks.
+
+
+## Dense independent audit update
+
+The default verifier now retains three Spark samples while sampling local OCR every 250 ms plus endpoints (bounded to 512 frames, native batches of 32). `coverage` records model frame count, local OCR frame count and maximum OCR gap. `frames` can contain OCR-only observations outside Spark's timestamps; their `source` remains `macos-vision-ocr`. No continuous exposure interval is inferred from one frame. `sample_times_ms` remains Spark's sample list; `independent_ocr.sample_times_ms` gives OCR's separate scope.
+
+If OCR fails or is unavailable and no known residual exists, status is `review_incomplete`, not a passing result. `check_status` and `checks_complete` expose the difference. Known residuals remain `residual_observed` even if OCR fails. Receipt `verification_scope` includes coverage/check statuses bound to the export hash/revision and is invalidated after repair. The SDK returns incomplete reviews for human handling; it does not certify them.
+
+See VERIFIER_BENCHMARK.md: fixed three-clip comparison found 4/5 category-events with the sparse baseline and 5/5 after local augmentation, with zero alarms on one clean clip. Six real requests, estimated $0.0142505; no additional cloud calls for the dense comparison. This is an anticipated sampling test, not general recall or end-to-end repair validation on those new scenes.

@@ -1,0 +1,19 @@
+{
+  "maximum_model_requests": 6,
+  "cases": [
+    {
+      "id": "clip-a",
+      "sha256": "f2de51a5fb045b2123bd57cf2787593f4ac6690f4f80e1c9f94e75c0dc857c25"
+    },
+    {
+      "id": "clip-b",
+      "sha256": "312296f65564a75c7d23da5de1a748808b2614bd38cbc091db2f7afae1068664"
+    },
+    {
+      "id": "clip-c",
+      "sha256": "2923cd79e1dfd1014eb2cba67b83416cf413782260b824d3495246750177ded3"
+    }
+  ],
+  "truth_loaded": false,
+  "model_retries": 0
+}

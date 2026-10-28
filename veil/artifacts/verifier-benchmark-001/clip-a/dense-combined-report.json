@@ -1,0 +1,1182 @@
+{
+  "revision": 0,
+  "frames": [
+    {
+      "time_ms": 0,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            425.999999887234,
+            481.9999999840426,
+            689.999999887234,
+            511.9999999840426
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 250,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            427.9999998746988,
+            481.9999999819277,
+            691.9999998746988,
+            511.9999999819277
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 500,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            429.999999887234,
+            481.9999999840426,
+            693.999999887234,
+            511.9999999840426
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 750,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            431.9999998659574,
+            481.99999998191487,
+            695.9999998659574,
+            515.9999999819149
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 917,
+      "exposures": [
+        {
+          "category": "face",
+          "box": [
+            754.56,
+            123.66,
+            863.04,
+            249.48
+          ],
+          "reason": "clearly visible human face in upper right",
+          "text": null
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            207.36,
+            339.66,
+            457.92,
+            397.98
+          ],
+          "reason": "visible plate identifier TEST 0287 on vehicle",
+          "text": "TEST 0287"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            425.28,
+            461.7,
+            790.08,
+            529.2
+          ],
+          "reason": "visible phone number 202-555-0189 at bottom",
+          "text": "202-555-0189"
+        }
+      ]
+    },
+    {
+      "time_ms": 1000,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            433.99999987380954,
+            481.99999998214287,
+            697.9999998738095,
+            511.99999998214287
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 1250,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            435.99999987380954,
+            481.99999998214287,
+            699.9999998738095,
+            511.99999998214287
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 1500,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            437.999999887234,
+            481.9999999840426,
+            701.999999887234,
+            511.9999999840426
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 1750,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            437.99999987380954,
+            481.99999998214287,
+            701.9999998738095,
+            511.99999998214287
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 2000,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            439.7702792944243,
+            480.0170765433722,
+            704.1979221166899,
+            514.131948522132
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 2250,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            439.78692712650593,
+            480.03346596662743,
+            704.214447878459,
+            514.1318126768325
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 2500,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            439.74259965223405,
+            479.62063579117205,
+            704.2553865174684,
+            514.1793821290627
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 2750,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            439.9999999086208,
+            481.999999987069,
+            703.9999999086208,
+            511.999999987069
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 3000,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            439.8050356030053,
+            480.0495798023948,
+            704.2128419994897,
+            514.1306001576195
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 3250,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            439.7702792944243,
+            480.0170765433722,
+            704.1979221166899,
+            514.131948522132
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 3333,
+      "exposures": [
+        {
+          "category": "face",
+          "box": [
+            754.56,
+            123.66,
+            863.04,
+            249.48
+          ],
+          "reason": "clearly visible human face in upper right",
+          "text": null
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            207.36,
+            339.66,
+            457.92,
+            397.98
+          ],
+          "reason": "visible plate identifier TEST 0287 on vehicle",
+          "text": "TEST 0287"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            425.28,
+            461.7,
+            790.08,
+            529.2
+          ],
+          "reason": "visible phone number 202-555-0189 at bottom",
+          "text": "202-555-0189"
+        }
+      ]
+    },
+    {
+      "time_ms": 3500,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            437.80345598173335,
+            480.0334662618766,
+            702.2145887942334,
+            514.148204726232
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 3750,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            435.9999998882979,
+            481.9999999840426,
+            701.9999998882979,
+            511.9999999840426
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 4000,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            435.9999999086208,
+            481.999999987069,
+            699.9999999086208,
+            511.999999987069
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 4250,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            433.99999987380954,
+            481.9999999809524,
+            697.9999998738095,
+            513.9999999809525
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 4500,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            433.9999998670213,
+            481.99999998297875,
+            695.9999998670213,
+            513.9999999829788
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 4750,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            431.99999986526313,
+            481.9999999831579,
+            695.9999998652631,
+            513.999999983158
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 5000,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            429.999999887234,
+            481.9999999840426,
+            693.999999887234,
+            511.9999999840426
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 5250,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            427.99999987380954,
+            481.99999998214287,
+            691.9999998738095,
+            511.99999998214287
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 5500,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            425.999999887234,
+            481.9999999840426,
+            689.999999887234,
+            511.9999999840426
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 5750,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            423.99999987380954,
+            481.99999998214287,
+            687.9999998738095,
+            511.99999998214287
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 6000,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            421.99999988602156,
+            481.9999999827957,
+            685.9999998860216,
+            513.9999999827958
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 6250,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            419.9999998722892,
+            481.9999999819277,
+            683.9999998722892,
+            511.9999999819277
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 6500,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            411.39705695528846,
+            476.48300451526893,
+            680.6397327365385,
+            521.3562573839213
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 6750,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            415.9999998659574,
+            481.99999998297875,
+            679.9999998659574,
+            513.9999999829788
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 7000,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            413.99999987380954,
+            481.99999998214287,
+            677.9999998738095,
+            511.99999998214287
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 7083,
+      "exposures": [
+        {
+          "category": "face",
+          "box": [
+            754.56,
+            123.66,
+            863.04,
+            249.48
+          ],
+          "reason": "clearly visible human face in upper right",
+          "text": null
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            207.36,
+            339.66,
+            457.92,
+            397.98
+          ],
+          "reason": "visible plate identifier TEST 0287 on vehicle",
+          "text": "TEST 0287"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            425.28,
+            461.7,
+            790.08,
+            529.2
+          ],
+          "reason": "visible phone number 202-555-0189 at bottom",
+          "text": "202-555-0189"
+        }
+      ]
+    },
+    {
+      "time_ms": 7250,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            407.9999998030303,
+            483.99999997272727,
+            675.9999998030303,
+            519.9999999727272
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 7500,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            407.9999998030303,
+            483.99999997272727,
+            675.9999998030303,
+            519.9999999727272
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 7750,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            411.9999998659574,
+            481.99999998297875,
+            675.9999998659574,
+            513.9999999829788
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    },
+    {
+      "time_ms": 7917,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            411.9999998659574,
+            481.99999998297875,
+            675.9999998659574,
+            513.9999999829788
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        }
+      ]
+    }
+  ],
+  "spoken_phone_intervals": [
+    {
+      "start_ms": 40,
+      "end_ms": 7440,
+      "category": "spoken_phone",
+      "source": "muse-voice-transcribe-1.0"
+    }
+  ],
+  "transcript": "The demonstration phone number is 2145550146",
+  "status": "residual_observed",
+  "sample_times_ms": [
+    917,
+    3333,
+    7083
+  ],
+  "needs_human_review": true,
+  "limitations": [
+    "3 sampled output frames; short exposures can be missed",
+    "same model family may share perception errors",
+    "speech recognition may miss or misread numbers",
+    "not a zero-leak guarantee"
+  ],
+  "independent_ocr": {
+    "status": "completed",
+    "sample_times_ms": [
+      0,
+      250,
+      500,
+      750,
+      1000,
+      1250,
+      1500,
+      1750,
+      2000,
+      2250,
+      2500,
+      2750,
+      3000,
+      3250,
+      3500,
+      3750,
+      4000,
+      4250,
+      4500,
+      4750,
+      5000,
+      5250,
+      5500,
+      5750,
+      6000,
+      6250,
+      6500,
+      6750,
+      7000,
+      7250,
+      7500,
+      7750,
+      7917
+    ],
+    "findings": [
+      {
+        "category": "phone_number",
+        "time_ms": 0,
+        "box": [
+          425.999999887234,
+          481.9999999840426,
+          689.999999887234,
+          511.9999999840426
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 250,
+        "box": [
+          427.9999998746988,
+          481.9999999819277,
+          691.9999998746988,
+          511.9999999819277
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 500,
+        "box": [
+          429.999999887234,
+          481.9999999840426,
+          693.999999887234,
+          511.9999999840426
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 750,
+        "box": [
+          431.9999998659574,
+          481.99999998191487,
+          695.9999998659574,
+          515.9999999819149
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 1000,
+        "box": [
+          433.99999987380954,
+          481.99999998214287,
+          697.9999998738095,
+          511.99999998214287
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 1250,
+        "box": [
+          435.99999987380954,
+          481.99999998214287,
+          699.9999998738095,
+          511.99999998214287
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 1500,
+        "box": [
+          437.999999887234,
+          481.9999999840426,
+          701.999999887234,
+          511.9999999840426
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 1750,
+        "box": [
+          437.99999987380954,
+          481.99999998214287,
+          701.9999998738095,
+          511.99999998214287
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 2000,
+        "box": [
+          439.7702792944243,
+          480.0170765433722,
+          704.1979221166899,
+          514.131948522132
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 2250,
+        "box": [
+          439.78692712650593,
+          480.03346596662743,
+          704.214447878459,
+          514.1318126768325
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 2500,
+        "box": [
+          439.74259965223405,
+          479.62063579117205,
+          704.2553865174684,
+          514.1793821290627
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 2750,
+        "box": [
+          439.9999999086208,
+          481.999999987069,
+          703.9999999086208,
+          511.999999987069
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 3000,
+        "box": [
+          439.8050356030053,
+          480.0495798023948,
+          704.2128419994897,
+          514.1306001576195
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 3250,
+        "box": [
+          439.7702792944243,
+          480.0170765433722,
+          704.1979221166899,
+          514.131948522132
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 3500,
+        "box": [
+          437.80345598173335,
+          480.0334662618766,
+          702.2145887942334,
+          514.148204726232
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 3750,
+        "box": [
+          435.9999998882979,
+          481.9999999840426,
+          701.9999998882979,
+          511.9999999840426
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 4000,
+        "box": [
+          435.9999999086208,
+          481.999999987069,
+          699.9999999086208,
+          511.999999987069
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 4250,
+        "box": [
+          433.99999987380954,
+          481.9999999809524,
+          697.9999998738095,
+          513.9999999809525
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 4500,
+        "box": [
+          433.9999998670213,
+          481.99999998297875,
+          695.9999998670213,
+          513.9999999829788
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 4750,
+        "box": [
+          431.99999986526313,
+          481.9999999831579,
+          695.9999998652631,
+          513.999999983158
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 5000,
+        "box": [
+          429.999999887234,
+          481.9999999840426,
+          693.999999887234,
+          511.9999999840426
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 5250,
+        "box": [
+          427.99999987380954,
+          481.99999998214287,
+          691.9999998738095,
+          511.99999998214287
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 5500,
+        "box": [
+          425.999999887234,
+          481.9999999840426,
+          689.999999887234,
+          511.9999999840426
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 5750,
+        "box": [
+          423.99999987380954,
+          481.99999998214287,
+          687.9999998738095,
+          511.99999998214287
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 6000,
+        "box": [
+          421.99999988602156,
+          481.9999999827957,
+          685.9999998860216,
+          513.9999999827958
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 6250,
+        "box": [
+          419.9999998722892,
+          481.9999999819277,
+          683.9999998722892,
+          511.9999999819277
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 6500,
+        "box": [
+          411.39705695528846,
+          476.48300451526893,
+          680.6397327365385,
+          521.3562573839213
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 6750,
+        "box": [
+          415.9999998659574,
+          481.99999998297875,
+          679.9999998659574,
+          513.9999999829788
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 7000,
+        "box": [
+          413.99999987380954,
+          481.99999998214287,
+          677.9999998738095,
+          511.99999998214287
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 7250,
+        "box": [
+          407.9999998030303,
+          483.99999997272727,
+          675.9999998030303,
+          519.9999999727272
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 7500,
+        "box": [
+          407.9999998030303,
+          483.99999997272727,
+          675.9999998030303,
+          519.9999999727272
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 7750,
+        "box": [
+          411.9999998659574,
+          481.99999998297875,
+          675.9999998659574,
+          513.9999999829788
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 7917,
+        "box": [
+          411.9999998659574,
+          481.99999998297875,
+          675.9999998659574,
+          513.9999999829788
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      }
+    ],
+    "limitations": [
+      "phone-like patterns only; false positives possible",
+      "sampled frames only",
+      "macOS-specific local adapter"
+    ]
+  },
+  "check_status": {
+    "spark": "completed",
+    "voice": "completed",
+    "independent_ocr": "completed"
+  },
+  "checks_complete": true
+}

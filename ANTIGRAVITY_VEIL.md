@@ -212,3 +212,8 @@ Start with footage. Reserve architecture detail for a compact final drawer: SAM 
 Report: commit hash; files changed; screenshot paths; checks run and results; which actions are live vs recorded; required backend contract additions. Include blockers explicitly. Do not ask the user to implement handlers or manually wire the UI. Build the reference experience while Codex continues core detection/verification integration.
 
 The standard: a judge should instantly see **what leaked, when it leaked, how VEIL found it in the export, and what changed after repair**. Every visual decision should make those facts easier to see.
+
+
+## Core contract addendum: denser independent OCR
+
+The default verifier now uses three Spark samples plus bounded local OCR at 250 ms cadence. `frames` may include OCR-only timestamps; preserve the `source` label. `coverage` and `independent_ocr.sample_times_ms` state the actual local scope, separate from Spark `sample_times_ms`. Status `review_incomplete` means an independent check failed or was unavailable; it is not a passing audit. Show `check_status`, `checks_complete` and excessive-masking warnings. Historical recorded results keep their historical three-frame scope. New three-clip verifier evidence is in `veil/docs/VERIFIER_BENCHMARK.md`; do not present it as general accuracy or end-to-end repair on new scenes.

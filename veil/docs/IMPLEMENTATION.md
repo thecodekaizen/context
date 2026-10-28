@@ -39,3 +39,15 @@ Real Meta pipeline now runs through the HTTP API and SDK. Seventeen tests pass, 
 Latest output: 180 decoded frames; visible plate/digit region coverage 1.0 throughout the controlled fixture; known speech interval silent; no near-full-frame blackouts; three-frame model/OCR audit found no exposure. Eight real requests, estimated $0.09069. Earlier coordinate errors and degraded masking are preserved, not counted as successes.
 
 Next: additional synthetic scenes and short-exposure/negative controls, configurable policies, denser independent inspection and stronger multiple-object association. No general recall/precision benchmark or real-camera validation yet.
+
+
+## Additional-scene verification tests
+
+- [x] Commit fixed three-scene protocol and fixtures before live inference (`67edcb3`).
+- [x] Six bounded real Meta requests, with answer keys excluded and input hashes verified.
+- [x] Preserve sparse baseline's missed 250 ms phone exposure.
+- [x] Denser local OCR detects that exposure without new model calls; one clean control remains unflagged.
+- [x] Integrate bounded 250 ms OCR, multi-signal fusion, incomplete-review status and revision-bound receipt coverage.
+- [x] 25 tests pass in the build environment, including actual short-exposure and negative-control OCR checks.
+
+See VERIFIER_BENCHMARK.md for counts, cost, latency, reproduction and limitations. These are verifier-only comparisons on three composited clips; shorter/misaligned exposures, long benign identifiers, multiple moving objects and presence-aware short-lived-object repair remain open.

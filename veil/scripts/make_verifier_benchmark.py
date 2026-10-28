@@ -1,5 +1,5 @@
 """Create synthetic candidate exports; answer keys never enter inference directories."""
-import json,math,subprocess
+import json,math,subprocess,argparse
 from pathlib import Path
 import cv2,numpy as np
 from PIL import Image,ImageDraw,ImageFont
@@ -12,6 +12,9 @@ def command(args):subprocess.run(args,check=True,stdout=subprocess.DEVNULL,stder
 def font(size):return ImageFont.truetype(FONT,size)
 
 def main():
+ global ROOT
+ parser=argparse.ArgumentParser();parser.add_argument('--output',type=Path,default=ROOT)
+ ROOT=parser.parse_args().output
  if ROOT.exists():raise SystemExit('Fixture root exists; refusing to replace frozen cases')
  ROOT.mkdir(parents=True)
  portrait=Image.open('artifacts/smoke-001/fictional-face.png').convert('RGB').resize((180,210))

@@ -149,7 +149,8 @@ class JobStore:
                     job.update(status='detected', detection='completed', seeded_phone_omission=seed_omit_phone)
                 elif action == 'verify':
                     report = self.pipeline.verify(root, job['media'], job['revision'])
-                    job.update(status='rendered', verification=report['status'])
+                    job.update(status='rendered', verification=report['status'],
+                               verification_checks_complete=report.get('checks_complete',False))
                     report.update(export_sha256=digest(root/'export.mp4'))
                     self.write(root / 'verification.json', report)
                 else:
@@ -161,7 +162,7 @@ class JobStore:
                     revision = job['revision']
                     shutil.copyfile(root / 'export.mp4', root / f'export-revision-{revision}.mp4')
                     os.replace(repaired, root / 'export.mp4')
-                    job.update(status='rendered', revision=revision+1, verification='not_run')
+                    job.update(status='rendered', revision=revision+1, verification='not_run',verification_checks_complete=False)
                 self.write(root / 'job.json', job)
                 if (root / 'receipt.json').exists():
                     receipt = json.loads((root / 'receipt.json').read_text())
@@ -171,6 +172,16 @@ class JobStore:
                     calls = json.loads((root/'calls.json').read_text()) if (root/'calls.json').exists() else []
                     receipt.update(cloud_calls=calls, estimated_api_cost_usd=sum(c.get('estimated_usd',0) for c in calls),
                                    billing_reconciled=False)
+                    if action=='verify':
+                        receipt['verification_scope']={
+                            'revision':job['revision'],'export_sha256':report['export_sha256'],
+                            'model_sample_times_ms':report.get('sample_times_ms',[]),
+                            'coverage':report.get('coverage'),
+                            'check_status':report.get('check_status'),
+                            'checks_complete':report.get('checks_complete',False),
+                        }
+                    elif action=='repair':
+                        receipt['verification_scope']={'revision':job['revision'],'status':'not_run'}
                     self.write(root/'receipt.json',receipt)
                 return job
             except Exception as exc:

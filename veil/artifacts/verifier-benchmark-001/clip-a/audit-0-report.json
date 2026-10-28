@@ -1,0 +1,231 @@
+{
+  "revision": 0,
+  "frames": [
+    {
+      "time_ms": 917,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            433.99999986631576,
+            481.9999999831579,
+            695.9999998663158,
+            513.999999983158
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        },
+        {
+          "category": "face",
+          "box": [
+            754.56,
+            123.66,
+            863.04,
+            249.48
+          ],
+          "reason": "clearly visible human face in upper right",
+          "text": null
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            207.36,
+            339.66,
+            457.92,
+            397.98
+          ],
+          "reason": "visible plate identifier TEST 0287 on vehicle",
+          "text": "TEST 0287"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            425.28,
+            461.7,
+            790.08,
+            529.2
+          ],
+          "reason": "visible phone number 202-555-0189 at bottom",
+          "text": "202-555-0189"
+        }
+      ]
+    },
+    {
+      "time_ms": 3333,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            439.7702792944243,
+            480.0170765433722,
+            704.1979221166899,
+            514.131948522132
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        },
+        {
+          "category": "face",
+          "box": [
+            754.56,
+            123.66,
+            863.04,
+            249.48
+          ],
+          "reason": "clearly visible human face in upper right",
+          "text": null
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            207.36,
+            339.66,
+            457.92,
+            397.98
+          ],
+          "reason": "visible plate identifier TEST 0287 on vehicle",
+          "text": "TEST 0287"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            425.28,
+            461.7,
+            790.08,
+            529.2
+          ],
+          "reason": "visible phone number 202-555-0189 at bottom",
+          "text": "202-555-0189"
+        }
+      ]
+    },
+    {
+      "time_ms": 7083,
+      "exposures": [
+        {
+          "category": "phone_number",
+          "box": [
+            413.999999887234,
+            481.9999999840426,
+            677.999999887234,
+            511.9999999840426
+          ],
+          "text": "202-555-0189",
+          "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+          "source": "macos-vision-ocr"
+        },
+        {
+          "category": "face",
+          "box": [
+            754.56,
+            123.66,
+            863.04,
+            249.48
+          ],
+          "reason": "clearly visible human face in upper right",
+          "text": null
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            207.36,
+            339.66,
+            457.92,
+            397.98
+          ],
+          "reason": "visible plate identifier TEST 0287 on vehicle",
+          "text": "TEST 0287"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            425.28,
+            461.7,
+            790.08,
+            529.2
+          ],
+          "reason": "visible phone number 202-555-0189 at bottom",
+          "text": "202-555-0189"
+        }
+      ]
+    }
+  ],
+  "spoken_phone_intervals": [
+    {
+      "start_ms": 40,
+      "end_ms": 7440,
+      "category": "spoken_phone",
+      "source": "muse-voice-transcribe-1.0"
+    }
+  ],
+  "transcript": "The demonstration phone number is 2145550146",
+  "status": "residual_observed",
+  "sample_times_ms": [
+    917,
+    3333,
+    7083
+  ],
+  "needs_human_review": true,
+  "limitations": [
+    "3 sampled output frames; short exposures can be missed",
+    "same model family may share perception errors",
+    "speech recognition may miss or misread numbers",
+    "not a zero-leak guarantee"
+  ],
+  "independent_ocr": {
+    "status": "completed",
+    "sample_times_ms": [
+      917,
+      3333,
+      7083
+    ],
+    "findings": [
+      {
+        "category": "phone_number",
+        "time_ms": 917,
+        "box": [
+          433.99999986631576,
+          481.9999999831579,
+          695.9999998663158,
+          513.999999983158
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 3333,
+        "box": [
+          439.7702792944243,
+          480.0170765433722,
+          704.1979221166899,
+          514.131948522132
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      },
+      {
+        "category": "phone_number",
+        "time_ms": 7083,
+        "box": [
+          413.999999887234,
+          481.9999999840426,
+          677.999999887234,
+          511.9999999840426
+        ],
+        "text": "202-555-0189",
+        "reason": "Local OCR found a phone-like digit sequence in actual exported pixels",
+        "source": "macos-vision-ocr"
+      }
+    ],
+    "limitations": [
+      "phone-like patterns only; false positives possible",
+      "sampled frames only",
+      "macOS-specific local adapter"
+    ]
+  }
+}

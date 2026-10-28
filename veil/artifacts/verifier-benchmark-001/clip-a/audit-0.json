@@ -1,0 +1,119 @@
+{
+  "coordinate_space": "source_pixels",
+  "frames": [
+    {
+      "time_ms": 917,
+      "exposures": [
+        {
+          "category": "face",
+          "box": [
+            754.56,
+            123.66,
+            863.04,
+            249.48
+          ],
+          "reason": "clearly visible human face in upper right",
+          "text": null
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            207.36,
+            339.66,
+            457.92,
+            397.98
+          ],
+          "reason": "visible plate identifier TEST 0287 on vehicle",
+          "text": "TEST 0287"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            425.28,
+            461.7,
+            790.08,
+            529.2
+          ],
+          "reason": "visible phone number 202-555-0189 at bottom",
+          "text": "202-555-0189"
+        }
+      ]
+    },
+    {
+      "time_ms": 3333,
+      "exposures": [
+        {
+          "category": "face",
+          "box": [
+            754.56,
+            123.66,
+            863.04,
+            249.48
+          ],
+          "reason": "clearly visible human face in upper right",
+          "text": null
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            207.36,
+            339.66,
+            457.92,
+            397.98
+          ],
+          "reason": "visible plate identifier TEST 0287 on vehicle",
+          "text": "TEST 0287"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            425.28,
+            461.7,
+            790.08,
+            529.2
+          ],
+          "reason": "visible phone number 202-555-0189 at bottom",
+          "text": "202-555-0189"
+        }
+      ]
+    },
+    {
+      "time_ms": 7083,
+      "exposures": [
+        {
+          "category": "face",
+          "box": [
+            754.56,
+            123.66,
+            863.04,
+            249.48
+          ],
+          "reason": "clearly visible human face in upper right",
+          "text": null
+        },
+        {
+          "category": "license_plate",
+          "box": [
+            207.36,
+            339.66,
+            457.92,
+            397.98
+          ],
+          "reason": "visible plate identifier TEST 0287 on vehicle",
+          "text": "TEST 0287"
+        },
+        {
+          "category": "phone_number",
+          "box": [
+            425.28,
+            461.7,
+            790.08,
+            529.2
+          ],
+          "reason": "visible phone number 202-555-0189 at bottom",
+          "text": "202-555-0189"
+        }
+      ]
+    }
+  ]
+}

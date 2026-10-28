@@ -1,0 +1,14 @@
+{
+  "status": "completed",
+  "sample_times_ms": [
+    917,
+    3333,
+    7083
+  ],
+  "findings": [],
+  "limitations": [
+    "phone-like patterns only; false positives possible",
+    "sampled frames only",
+    "macOS-specific local adapter"
+  ]
+}

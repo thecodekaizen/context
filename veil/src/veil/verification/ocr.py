@@ -15,7 +15,11 @@ def inspect_text(frames, width, height, cache):
     source=Path(__file__).with_name('ocr.swift')
     if not binary.exists() or binary.stat().st_mtime < source.stat().st_mtime:
         subprocess.run(['swiftc',str(source),'-o',str(binary)],check=True,timeout=90,capture_output=True)
-    result=json.loads(subprocess.check_output([str(binary),*[str(p) for _,p in frames]],timeout=90))
+    result=[]
+    # Bound native Vision memory and execution time to a small batch.
+    for start in range(0,len(frames),32):
+        batch=frames[start:start+32]
+        result.extend(json.loads(subprocess.check_output([str(binary),*[str(p) for _,p in batch]],timeout=90)))
     times={path.name:time for time,path in frames}
     findings=[]
     for frame in result:

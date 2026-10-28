@@ -1,0 +1,81 @@
+{
+  "positive_events": 5,
+  "negative_clips": 1,
+  "baseline_hits": 4,
+  "dense_ocr_augmented_hits": 5,
+  "baseline_negative_false_alarms": 0,
+  "dense_negative_false_alarms": 0,
+  "model_requests": 6,
+  "estimated_usd": 0.0142505,
+  "comparison_additional_model_calls": 0,
+  "cases": [
+    {
+      "case": "clip-a",
+      "kind": "persistent",
+      "baseline": {
+        "positive_category_events": 4,
+        "detected_category_events": 4,
+        "missed_categories": [],
+        "unexpected_observation_count": 0,
+        "negative_clip_false_alarm": false
+      },
+      "dense_ocr_augmented": {
+        "positive_category_events": 4,
+        "detected_category_events": 4,
+        "missed_categories": [],
+        "unexpected_observation_count": 0,
+        "negative_clip_false_alarm": false
+      },
+      "ocr_status": "completed"
+    },
+    {
+      "case": "clip-b",
+      "kind": "brief",
+      "baseline": {
+        "positive_category_events": 1,
+        "detected_category_events": 0,
+        "missed_categories": [
+          "phone_number"
+        ],
+        "unexpected_observation_count": 0,
+        "negative_clip_false_alarm": false
+      },
+      "dense_ocr_augmented": {
+        "positive_category_events": 1,
+        "detected_category_events": 1,
+        "missed_categories": [],
+        "unexpected_observation_count": 0,
+        "negative_clip_false_alarm": false
+      },
+      "ocr_status": "completed"
+    },
+    {
+      "case": "clip-c",
+      "kind": "negative",
+      "baseline": {
+        "positive_category_events": 0,
+        "detected_category_events": 0,
+        "missed_categories": [],
+        "unexpected_observation_count": 0,
+        "negative_clip_false_alarm": false
+      },
+      "dense_ocr_augmented": {
+        "positive_category_events": 0,
+        "detected_category_events": 0,
+        "missed_categories": [],
+        "unexpected_observation_count": 0,
+        "negative_clip_false_alarm": false
+      },
+      "ocr_status": "completed"
+    }
+  ],
+  "input_hashes_verified": true,
+  "limitations": [
+    "three synthetic clips, five category-events, one negative clip",
+    "same fictional portrait and voice assets as original smoke",
+    "anticipated sampling blind spot, not held-out model validation",
+    "category/time matching, not localization or pixel accuracy",
+    "250ms OCR cadence can miss shorter exposures; text pattern false positives possible",
+    "not a general recall estimate or zero-leak guarantee"
+  ]
+}

@@ -4,8 +4,8 @@ import argparse,json,hashlib,time
 from veil.core.pipeline import MetaPipeline
 from veil.media.inspect import inspect_media
 
-p=argparse.ArgumentParser();p.add_argument('--env-file',required=True);a=p.parse_args()
-root=Path('artifacts/verifier-benchmark-001')
+p=argparse.ArgumentParser();p.add_argument('--env-file',required=True);p.add_argument('--root',type=Path,default=Path('artifacts/verifier-benchmark-001'));a=p.parse_args()
+root=a.root
 if (root/'baseline-started.json').exists():raise SystemExit('Baseline already attempted; no automatic rerun')
 manifest={'maximum_model_requests':6,'cases':[],'truth_loaded':False,'model_retries':0}
 for name in ('clip-a','clip-b','clip-c'):
@@ -19,7 +19,7 @@ for item in manifest['cases']:
  folder=root/item['id'];started=time.monotonic()
  try:
   media=inspect_media(folder/'export.mp4')
-  report=pipeline.verify(folder,media,0)
+  report=pipeline.verify(folder,media,0,sparse_ocr=True)
   record={'id':item['id'],'status':'completed','audit_status':report['status'],'latency_s':time.monotonic()-started}
  except Exception as exc:
   record={'id':item['id'],'status':'failed','error_type':type(exc).__name__,'latency_s':time.monotonic()-started}

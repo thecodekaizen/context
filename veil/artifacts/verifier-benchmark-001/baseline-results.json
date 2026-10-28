@@ -1,0 +1,26 @@
+[
+  {
+    "id": "clip-a",
+    "status": "completed",
+    "audit_status": "residual_observed",
+    "latency_s": 9.833628041029442,
+    "model_requests": 2,
+    "estimated_usd": 0.006572000000000001
+  },
+  {
+    "id": "clip-b",
+    "status": "completed",
+    "audit_status": "no_exposure_observed_in_samples",
+    "latency_s": 6.020298333023675,
+    "model_requests": 2,
+    "estimated_usd": 0.0038392499999999998
+  },
+  {
+    "id": "clip-c",
+    "status": "completed",
+    "audit_status": "no_exposure_observed_in_samples",
+    "latency_s": 5.97653091698885,
+    "model_requests": 2,
+    "estimated_usd": 0.0038392499999999998
+  }
+]

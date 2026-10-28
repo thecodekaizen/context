@@ -1,0 +1,26 @@
+[
+  {
+    "id": "clip-a",
+    "status": "completed",
+    "frames_sampled": 33,
+    "local_latency_s": 1.8434551670216024,
+    "cloud_calls": 0,
+    "findings": 33
+  },
+  {
+    "id": "clip-b",
+    "status": "completed",
+    "frames_sampled": 33,
+    "local_latency_s": 1.7757680420181714,
+    "cloud_calls": 0,
+    "findings": 1
+  },
+  {
+    "id": "clip-c",
+    "status": "completed",
+    "frames_sampled": 33,
+    "local_latency_s": 1.646706165978685,
+    "cloud_calls": 0,
+    "findings": 0
+  }
+]

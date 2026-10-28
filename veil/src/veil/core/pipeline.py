@@ -1,6 +1,8 @@
 """Bounded real inference pipeline. No fixture labels or expected answers are read."""
 from collections import defaultdict
 import math
+import os
+from pathlib import Path
 import re
 import subprocess
 import cv2
@@ -13,6 +15,8 @@ from veil.media.track import track_field
 from veil.media.redact import render
 from veil.media.inspect import decode_export
 from veil.verification.ocr import inspect_text
+from veil.verification.fusion import merge_ocr
+from veil.media.sampling import periodic_frames
 
 
 def speech_intervals(result, duration_ms):
@@ -113,7 +117,7 @@ class MetaPipeline:
              'limitations':['3 source samples','one plate and one phone field tracked','no full-scene recall guarantee','no exact spoken-number guarantee']})
         return timeline
 
-    def verify(self, root, media, revision):
+    def verify(self, root, media, revision, *, sparse_ocr=False):
         c,ledger=self.context(root)
         source=root/'export.mp4'
         prefix=f'audit-{revision}'
@@ -123,7 +127,9 @@ class MetaPipeline:
         audio=root/f'{prefix}.wav';extract_audio(source,audio)
         voice=transcribe(c,ledger,root,f'{prefix}-voice',audio)
         try:
-            ocr=inspect_text(frames,media['width'],media['height'],root.parent.parent/'ocr-cache')
+            ocr_frames=frames if sparse_ocr else periodic_frames(source,root,f'{prefix}-ocr',media)
+            ocr=inspect_text(ocr_frames,media['width'],media['height'],
+                             Path(os.getenv('VEIL_OCR_CACHE','artifacts/private/ocr-cache')))
         except Exception as exc:
             ocr={'status':'failed','error_type':type(exc).__name__,'findings':[]}
         save(root/f'{prefix}-ocr.json',ocr)
@@ -132,11 +138,12 @@ class MetaPipeline:
                 'transcript':voice['transcript'],'status':'residual_observed' if any(f.exposures for f in observations.frames) or speech_intervals(voice,media['duration_ms']) else 'no_exposure_observed_in_samples',
                 'sample_times_ms':[t for t,_ in frames],'needs_human_review':True,
                 'limitations':['3 sampled output frames; short exposures can be missed','same model family may share perception errors','speech recognition may miss or misread numbers','not a zero-leak guarantee']}
-        report['independent_ocr']=ocr
-        for finding in ocr['findings']:
-            frame=next(f for f in report['frames'] if f['time_ms']==finding['time_ms'])
-            frame['exposures'].insert(0,{k:v for k,v in finding.items() if k!='time_ms'})
-        if ocr['findings']:report['status']='residual_observed'
+        report=merge_ocr(report,ocr)
+        report['auditor_version']='sparse-spark_sparse-ocr-baseline' if sparse_ocr else 'sparse-spark_dense-ocr-v1'
+        times=ocr.get('sample_times_ms',[])
+        report['coverage']={'model_frames':len(frames),'local_ocr_frames':len(times),
+             'max_local_ocr_gap_ms':max((b-a for a,b in zip(times,times[1:])),default=None),
+             'requested_local_interval_ms':None if sparse_ocr else 250,'coverage_is_sampled':True}
         save(root/f'{prefix}-report.json',report)
         return report
 
