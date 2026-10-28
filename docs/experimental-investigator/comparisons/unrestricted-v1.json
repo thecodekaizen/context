@@ -1,0 +1,53 @@
+{
+  "version": "unrestricted-paired-v1",
+  "seeds": [
+    1103,
+    1129,
+    1153,
+    1181,
+    1213
+  ],
+  "worlds": [
+    "coupled",
+    "sensor-delay"
+  ],
+  "methods": [
+    "fixed_bic",
+    "disagreement_bic",
+    "meta_direct",
+    "meta_investigator"
+  ],
+  "primary": "system-mean sealed RMSE C at equal seven-action budget ceiling",
+  "practical_gate": "investigator median error at least 20% below both conventional baselines; report paired differences and failures",
+  "initial_trials": 3,
+  "maximum_total_experiment_actions": 7,
+  "reset_seconds_per_trial": 300,
+  "maximum_fits": 9,
+  "shared_initial_fits": 3,
+  "max_calls_per_Meta_case": 8,
+  "max_Meta_calls_total": 160,
+  "bootstrap": "paired median difference, 10000 resamples, seed 148, descriptive 95% interval",
+  "guard_per_Meta_case_usd": 0.5,
+  "aggregate_local_guard_usd": 10,
+  "no_automatic_retries": true,
+  "initial_selection": "BIC across all three supplied families; same fitted candidates for each method",
+  "fixed_schedule": [
+    "sustained-both",
+    "left-stair",
+    "staggered",
+    "right-stair"
+  ],
+  "active_baseline": "maximum supplied-family prediction variance; refit all families after two and four new trials",
+  "numerical_model_selection": "BIC on all available observations; tools equally accessible",
+  "Meta_submission": "latest independently supported revision, otherwise unrestricted initial model; no post-hoc best-model oracle",
+  "failures": "report execution error and score last supported model when possible; failures never omitted",
+  "early_stop": "charged actual actions plus common ceiling; no experiment-saving claim from accuracy alone",
+  "challenge": "same pre-existing lab schedule; fresh instances only, not fresh challenge family",
+  "limitations": [
+    "simulation only",
+    "bounded supplied grammar",
+    "ten cases feasibility not broad proof",
+    "direct and investigator differ only in instruction policy; same persistence and tools",
+    "no hardware or industrial savings claim"
+  ]
+}

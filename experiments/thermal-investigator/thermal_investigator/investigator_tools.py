@@ -4,6 +4,7 @@ Fitting is capped and cached. Proposals do not dispatch physical experiments.
 The numerical baseline and both Meta policies can use this same interface.
 """
 import hashlib
+import math
 import json
 import numpy as np
 from .adequacy import probe_library
@@ -79,7 +80,9 @@ class InvestigationTools:
         try:
             model=fit_quadratic(observations,max_nfev=180) if family=='quadratic_loss' else fit_physical(observations,ThermalSpec(family=='sensor_lag'),max_nfev=180)
             result={'family':family,'evidence_ids':sorted(evidence_ids),'model':model.executable_model(),
-                    'training_rmse_c':model.training_rmse_c,'validation_status':'not_independently_confirmed',
+                    'training_rmse_c':model.training_rmse_c,
+                    'bic':sum((len(o['temperature_c'])-1)*2 for o in observations)*math.log(max(model.training_rmse_c**2,1e-15))+len(model.executable_model()['estimated_parameters'])*math.log(sum((len(o['temperature_c'])-1)*2 for o in observations)),
+                    'validation_status':'not_independently_confirmed',
                     'optimizer_evaluations':model.optimizer_evaluations}
             with self.store.transaction():
                 self.store.db.execute("UPDATE candidate_fits SET status='completed',result=? WHERE session=? AND id=?",(encode(result),self.session,candidate_id))
