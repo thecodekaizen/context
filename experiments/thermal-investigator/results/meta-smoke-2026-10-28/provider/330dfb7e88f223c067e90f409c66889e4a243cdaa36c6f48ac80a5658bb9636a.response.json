@@ -1,0 +1,113 @@
+{
+  "top_logprobs": 0,
+  "temperature": 1.0,
+  "top_p": 1.0,
+  "service_tier": "auto",
+  "model": "muse-spark-1.3",
+  "reasoning": {
+    "effort": "minimal"
+  },
+  "background": false,
+  "text": {
+    "format": {
+      "type": "json_schema",
+      "name": "thermal_investigation_decision",
+      "schema": {
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "evidence_ids": {
+            "items": {
+              "enum": [
+                "8c700086-5592-4b04-be0e-668ac32672d5",
+                "fd0dad93-865a-4311-b010-04a2b945d4e5",
+                "abd2d3f5-38f5-4dcb-80a0-6f1639b0bf78"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "model_order": {
+            "enum": [
+              1,
+              2
+            ],
+            "type": "integer"
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "schedule_id": {
+            "enum": [
+              "submit"
+            ],
+            "type": "string"
+          },
+          "uncertainty": {
+            "enum": [
+              "provisional",
+              "validated_within_observed_range",
+              "insufficient_evidence"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "schedule_id",
+          "model_order",
+          "rationale",
+          "evidence_ids",
+          "uncertainty"
+        ]
+      },
+      "strict": true
+    }
+  },
+  "tools": [],
+  "tool_choice": "auto",
+  "truncation": "disabled",
+  "id": "resp_6ae198002373c407207446a0",
+  "object": "response",
+  "status": "completed",
+  "created_at": 1793169408.0,
+  "completed_at": 1793169408.0,
+  "error": null,
+  "incomplete_details": null,
+  "output": [
+    {
+      "type": "reasoning",
+      "id": "rs_6ae198002373c407207446a0:rs_26cd8420-cba6-4efc-81ca-db157598ae6a",
+      "summary": [],
+      "status": "completed"
+    },
+    {
+      "type": "message",
+      "id": "msg_df348c40-1978-4ecf-95b6-3a79cb71c0a2",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "{\"evidence_ids\": [\"8c700086-5592-4b04-be0e-668ac32672d5\", \"fd0dad93-865a-4311-b010-04a2b945d4e5\", \"abd2d3f5-38f5-4dcb-80a0-6f1639b0bf78\"], \"model_order\": 2, \"rationale\": \"Prior working family was AR1 as provisional predictor. With staggered fd0dad93 and left-pulse abd2d3f5 added for improved excitation and channel separation, AR2 now shows better fit (0.121 vs 0.127C) and better whole-trial LOO validation (0.946 vs 0.992C), supporting revision to AR2 as predictive structure only, not mechanistic cause. Budget exhausted so submit; remaining ambiguity in cross-trial generalization would have needed further excitation.\", \"schedule_id\": \"submit\", \"uncertainty\": \"provisional\"}",
+          "annotations": [],
+          "logprobs": []
+        }
+      ],
+      "status": "completed"
+    }
+  ],
+  "instructions": null,
+  "usage": {
+    "input_tokens": 5619,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 527,
+    "output_tokens_details": {
+      "reasoning_tokens": 309
+    },
+    "total_tokens": 6146
+  },
+  "parallel_tool_calls": true,
+  "store": true,
+  "max_output_tokens": 2048
+}

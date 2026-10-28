@@ -1,0 +1,26 @@
+{
+  "status": "completed",
+  "context_sha256": "923aa9567d60627bcf210dcd21e0d3133de97532a8a2154aebf20a1c1b0a5f0f",
+  "decision": {
+    "evidence_ids": [
+      "d5aa91b0-44e5-415b-b648-96ada31060c0",
+      "516c733e-0368-4448-8af6-c86c81e25669",
+      "d54e4a48-d21b-4675-b4d3-5db97a244cf4"
+    ],
+    "model_order": 2,
+    "rationale": "Budget exhausted with symmetric, staggered, and left-pulse coverage: d5aa91b0-44e5-415b-b648-96ada31060c0, 516c733e-0368-4448-8af6-c86c81e25669, d54e4a48-d21b-4675-b4d3-5db97a244cf4. Order 2 minimizes whole-trial LOO error 0.9456 vs 0.9925 for order 1 with stable spectral radius, best for future two-sensor prediction. ARX order is predictor choice only, not physical mechanism.",
+    "schedule_id": "submit",
+    "uncertainty": "validated_within_observed_range"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 5497,
+    "output_tokens": 459,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.008822,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T06:36:39.388364+00:00"
+}

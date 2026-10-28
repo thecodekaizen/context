@@ -1,0 +1,44 @@
+{
+  "protocol": "meta-smoke-development-v0.1",
+  "development_only": true,
+  "seed": 11,
+  "delayed": true,
+  "additional_experiments": 2,
+  "strategies": [
+    "fixed",
+    "random",
+    "disagreement",
+    "d_optimal",
+    "meta_direct",
+    "meta_investigator"
+  ],
+  "primary_endpoint": "mean per-sensor held-out RMSE in degrees Celsius at matched action/time budget",
+  "forecast_target_c": 0.3,
+  "target_note": "Development feasibility target, 3.75x the declared observation noise standard deviation; not a hardware requirement.",
+  "future_comparison_improvement_target_fraction": 0.2,
+  "max_meta_calls": 6,
+  "meta_budget_usd": 1.0,
+  "live_execution_status": "not_run_offline_milestone",
+  "maximum_output_tokens_per_call": 2048,
+  "price_source": "https://dev.meta.ai/docs/pricing-rate-limits",
+  "limitations": [
+    "one already-used development instance",
+    "one fixed challenge input schedule",
+    "same supplied ARX families; no discovery of new physical equations",
+    "Meta policies differ in instructions; tools, raw evidence and numerical scores are equivalent",
+    "a smoke check cannot establish superiority, user value or a publishable result"
+  ],
+  "utc_frozen": "2026-10-28T06:36:26.679582+00:00",
+  "source_sha256": {
+    "__init__.py": "a718642bf14f3582ef1386a22c4ba0edabaaefc7f3903e237cbc948b7a9ed429",
+    "contracts.py": "e32c44ce72cb0b4d818c31b901ea0fae83d8de956a982e8761377e0c4dbc4c9b",
+    "decisions.py": "de70ad3ccc2b6d3dd96ee1ef6caf8c793e7777ca506f1286bbfa9c3406007d87",
+    "design.py": "fc2e6964d7ae939af82282a46cef1169d9e3b1eb8ae012d641cf1edfba8f9607",
+    "lab.py": "7d4855f0fbd2226922ea08dec11d243f1a9b60a6f220b0e4f3138c183457980f",
+    "meta.py": "a94d91862e28d45df02a48dfc29743e64b8056c370c825d4ff02d609f7efac1b",
+    "pilot.py": "66a15427959414babdaf96fa6c39cb4a009f1bd258c357cccf3487be940f2c45",
+    "predictor.py": "023c29087a99485a8332dae4b4c8f4ef470a6370788c90abce2390af2f75c6da",
+    "review.py": "43b89864013ab04c0c27620ae1fa15b6e8a5cae10cdd983802b78b4e3cbc2b09",
+    "run.py": "ab958836540e2785e962c4527f2e1269e47b3ac9b09bcc1b4e9e066f16d46f97"
+  }
+}

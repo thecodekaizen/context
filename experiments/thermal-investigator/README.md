@@ -1,6 +1,6 @@
 # Thermal Investigator — numerical experiment
 
-This is the first implementation of the experimental-investigator plan. It learns temperature-response predictors from bounded experiments and independently scores a future input schedule. **Current status: numerical baselines plus a locally tested Meta decision adapter. No live Meta decisions have been run.**
+This is the first implementation of the experimental-investigator plan. It learns temperature-response predictors from bounded experiments and independently scores a future input schedule. **Current status: numerical baselines, one completed bounded Meta smoke check, and physical-model calibration development checks. No demonstrated Meta advantage or hardware validation.**
 
 ## Run
 
@@ -64,8 +64,27 @@ python -m thermal_investigator.pilot --output .runs/unused-dry-run
 
 The first command recomputes scores and checks commitments, ledger order and budgets from saved files. It makes no lab/model calls and verifies internal consistency, not the authenticity of the observations. The second command only displays the frozen development pilot. It does not read an API key or create a run directory.
 
-The `--live` pilot path is explicit and bounded to six decision calls and a $1 local guard. It has not been executed. Credit preservation is a current priority; no paid experiment or automatic retry is started by normal local runs. Prices were verified against https://dev.meta.ai/docs/pricing-rate-limits on 28 October 2026. Guards reserve estimated cost before a request and retain uncertain attempts. Provider billing remains authoritative.
+The `--live` pilot path is explicit and bounded to six decision calls and a $1 local guard. Its first completed development check used six calls at an estimated $0.0463. Credit preservation is a current priority; no paid experiment or automatic retry is started by normal local runs. Prices were verified against https://dev.meta.ai/docs/pricing-rate-limits on 28 October 2026. Guards reserve estimated cost before a request and retain uncertain attempts. Provider billing remains authoritative.
 
 Both Meta policies receive the same measured traces, numerical candidates and experiment scores. They choose among supplied ARX families and legal schedules; this is not generation of new physical equations. Explanations must cite available observations and unsupported choices fail validation. A single development instance is a smoke check only.
 
 The latest numerical run has 24 completed cases, across four methods and the same three development seeds. D-optimal design improves median coupled-system error from 0.0188°C to 0.0162°C, but has worse delayed-sensor error than the fixed method (0.2438°C versus 0.1755°C). This approximation assumes regressor information without whitening input-output measurement noise; it is not guaranteed optimal physical experimental design. No overall advantage has been established.
+
+
+## Physical-model calibration
+
+Install the optional scientific dependency before running the physical-model check:
+
+```sh
+python -m pip install -e '.[science]'
+python -m thermal_investigator.physical_check --output .runs/my-physical-development-check
+python -m unittest discover -s tests -v
+```
+
+`physical.py` compiles a bounded two-node heat-flow model, optionally with sensor response lag. Positive effective loss/coupling rates and heater gains are fitted with constrained numerical least squares. Exact discrete transitions use SciPy's matrix exponential. Specifications and estimated coefficients can be exported and executed without model calls or arbitrary generated code.
+
+The two supplied model families are compared using whole-trial validation. Effective rates do not individually identify thermal capacities, heat-transfer conductances or heater wattage. The numerical sensitivity-rank diagnostic is local and does not prove physical identifiability.
+
+On two development instances with the fixed initial/left/right experiments, the matching supplied family was selected and the mean sensor prediction errors were 0.01240°C and 0.01234°C. These are simulation development results, not broad validation. All 30 checks pass with the science extra installed; the physical-specific suite is skipped if SciPy is absent.
+
+The earlier Meta smoke check selected exactly the D-optimal schedules in both policies and achieved the same 0.3692°C error. Fixed ARX experiments were better (0.1946°C). Those results have not been replaced with the later physical-model result: model families and methods differ, and the Meta improvement gate remains unmet.

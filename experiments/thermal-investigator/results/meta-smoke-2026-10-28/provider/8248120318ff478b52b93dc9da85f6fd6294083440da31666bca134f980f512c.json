@@ -1,0 +1,24 @@
+{
+  "status": "completed",
+  "context_sha256": "8248120318ff478b52b93dc9da85f6fd6294083440da31666bca134f980f512c",
+  "decision": {
+    "evidence_ids": [
+      "d5aa91b0-44e5-415b-b648-96ada31060c0"
+    ],
+    "model_order": 1,
+    "rationale": "Single symmetric heating trial cannot separate sensor coupling; staggered gives highest D-optimal gain for parameter information and asymmetric excitation to improve future two-sensor prediction. Order 1 provisional because training RMSE gain of order 2 is small vs noise and validation is not available; ARX order is not a physical mechanism claim.",
+    "schedule_id": "staggered",
+    "uncertainty": "provisional"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 3118,
+    "output_tokens": 513,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.00607775,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T06:36:31.437579+00:00"
+}

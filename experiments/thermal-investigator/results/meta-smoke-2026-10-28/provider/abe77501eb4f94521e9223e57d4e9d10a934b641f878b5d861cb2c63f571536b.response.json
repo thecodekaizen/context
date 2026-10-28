@@ -1,0 +1,118 @@
+{
+  "top_logprobs": 0,
+  "temperature": 1.0,
+  "top_p": 1.0,
+  "service_tier": "auto",
+  "model": "muse-spark-1.3",
+  "reasoning": {
+    "effort": "minimal"
+  },
+  "background": false,
+  "text": {
+    "format": {
+      "type": "json_schema",
+      "name": "thermal_investigation_decision",
+      "schema": {
+        "additionalProperties": false,
+        "required": [
+          "schedule_id",
+          "model_order",
+          "rationale",
+          "evidence_ids",
+          "uncertainty"
+        ],
+        "type": "object",
+        "properties": {
+          "evidence_ids": {
+            "items": {
+              "enum": [
+                "8c700086-5592-4b04-be0e-668ac32672d5"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "model_order": {
+            "enum": [
+              1,
+              2
+            ],
+            "type": "integer"
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "schedule_id": {
+            "enum": [
+              "left-pulse",
+              "right-pulse",
+              "alternate",
+              "opposed-levels",
+              "left-stair",
+              "right-stair",
+              "both-release",
+              "staggered"
+            ],
+            "type": "string"
+          },
+          "uncertainty": {
+            "enum": [
+              "provisional",
+              "validated_within_observed_range",
+              "insufficient_evidence"
+            ],
+            "type": "string"
+          }
+        }
+      },
+      "strict": true
+    }
+  },
+  "tools": [],
+  "tool_choice": "auto",
+  "truncation": "disabled",
+  "id": "resp_6ae197fa9d450b8c81e44e7a",
+  "object": "response",
+  "status": "completed",
+  "created_at": 1793169402.0,
+  "completed_at": 1793169402.0,
+  "error": null,
+  "incomplete_details": null,
+  "output": [
+    {
+      "type": "reasoning",
+      "id": "rs_6ae197fa9d450b8c81e44e7a:rs_25212900-ccb5-49fb-8672-d79c0e544ba9",
+      "summary": [],
+      "status": "completed"
+    },
+    {
+      "type": "message",
+      "id": "msg_4c2a886c-b940-428f-ba88-819b932064ce",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "{\"evidence_ids\": [\"8c700086-5592-4b04-be0e-668ac32672d5\"], \"model_order\": 1, \"rationale\": \"Single trial 8c700086 used symmetric both-on then both-off excitation, so cross-channel and independent dynamics are poorly separated. AR1 vs AR2 training RMSE (0.117 vs 0.111C) is close with no whole-trial validation, so order is unresolved and AR families remain predictive only, not mechanistic. Staggered gives highest D-optimal gain per parameter for improved excitation and separates q1-only, both-on, q2-only phases to address the unresolved AR1 vs AR2 predictive ambiguity next.\", \"schedule_id\": \"staggered\", \"uncertainty\": \"provisional\"}",
+          "annotations": [],
+          "logprobs": []
+        }
+      ],
+      "status": "completed"
+    }
+  ],
+  "instructions": null,
+  "usage": {
+    "input_tokens": 3177,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 446,
+    "output_tokens_details": {
+      "reasoning_tokens": 276
+    },
+    "total_tokens": 3623
+  },
+  "parallel_tool_calls": true,
+  "store": true,
+  "max_output_tokens": 2048
+}

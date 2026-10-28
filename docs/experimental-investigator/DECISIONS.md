@@ -75,3 +75,14 @@ User requested preservation of hackathon credits, then cancelled the Muse config
 Meta Standard pricing verified from https://dev.meta.ai/docs/pricing-rate-limits on 28 October 2026: input $1.25/M, output $4.25/M, cached input $0.15/M. These rates support local estimates; account balance is still unknown.
 
 The new conventional method is D-optimal regressor-information selection averaged per parameter across supplied ARX families, with fixed scaling and regularization. Treat it as an approximation because regressors contain noisy outputs; do not call it globally optimal.
+
+
+## D11 — Record the negative Meta result and strengthen the actual model representation
+
+Both Meta policies in the first integration smoke pilot chose the conventional D-optimal action sequence and model. Their identical 0.3692°C error was worse than fixed experiments on the same development instance. No investigation benefit was observed. Estimated usage cost: $0.04629175; six calls with no retries. Preserve the result, including raw synthetic-context responses, and do not treat a successful API integration as scientific success.
+
+Implemented a bounded physical representation with effective heat-loss rates, bidirectional coupling, heater gains and optional sensor lag. The supplied model grammar is engineering prior knowledge; selecting/fitting it does not discover arbitrary physics. The independent predictor uses exact matrix-exponential transitions and is checked against the environment's RK4 integration.
+
+SciPy 1.18.1 was installed only in the isolated local experiment virtual environment. The source declares a science optional dependency; base numerical checks still need only NumPy. Sources checked: https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.least_squares.html and https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.expm.html .
+
+Model parameters are effective ratios, not individually identified thermal masses or conductances. Numerical sensitivity rank is a local diagnostic, not a formal identifiability certificate. The physical development check has no Meta decisions and does not meet the substantive-Meta contribution gate.

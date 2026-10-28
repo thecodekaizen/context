@@ -30,7 +30,7 @@ Next 2 hours:
 
 Next 2–4 hours:
 - [x] Implement a bounded Meta Responses decision adapter using the existing endpoint/credential convention; local mocked-transport checks pass. Live behavior remains untested.
-- [ ] Run a bounded smoke pilot and inspect meaningful decisions, usage and failures.
+- [x] Run the bounded integration smoke pilot: six Meta calls, estimated $0.0463. Both policies reproduced D-optimal choices; no benefit from the investigation prompt was observed.
 - [ ] Run the paired comparison pilot if the smoke pilot is valid.
 - [ ] Publish a continuation decision with all methods and failures. If speed/cost prevents the comparison, report that as unresolved instead of marking the day successful.
 
@@ -130,3 +130,14 @@ Implemented regularized D-optimal regressor design, explicit evidence-citing dec
 All 24 development runs complete and 23 tests pass. No live Meta request was made, including after the user's credit-preservation instruction. A dry run of the proposed pilot displays its protocol without loading credentials or creating output.
 
 D-optimal median RMSE: coupled 0.0162°C, sensor delay 0.2438°C. Fixed remains stronger on the delay cases. Meta's scientific contribution, structural generation and held-out advantage remain unproven. The next evidence step is the bounded integration pilot and then a fresh paired comparison; it must not be confused with a completed contribution gate.
+
+
+## Milestone 3 — live integration result and executable physical models
+
+The six-call pilot completed on the frozen development case. Mean per-sensor prediction errors: fixed 0.1946°C; random 0.4135°C; disagreement 0.8469°C; D-optimal 0.3692°C; direct Meta 0.3692°C; investigation Meta 0.3692°C. Both Meta policies chose staggered then left-pulse, and submitted ARX order two. This integration works, but no advantage was demonstrated. The six calls used 26,830 input tokens and 3,001 output tokens; the local rate-based estimate is $0.04629175. This is not a confirmed billing balance. No additional model calls were made in this milestone.
+
+Added bounded executable thermal models: two heat-flow nodes with positive effective loss, coupling and input coefficients; optional shared sensor lag; constrained numerical fitting; exact discrete prediction; whole-trial model validation; and export/re-execution with strict specification parsing. No generated Python is executed.
+
+Two known development cases use the same three fixed experiments. The selected families match the simulated configurations, with 0.01240°C and 0.01234°C prediction RMSE. This gain is from a supplied physical family and numerical fitting. Meta has not generated a new mechanism or demonstrated a contribution to these results. Thirty tests pass including the optional scientific suite.
+
+Next unresolved gate: a substantive Meta investigation role and improvement relative to a strong physical-model baseline, evaluated on fresh cases. Keep the paid pilot exhausted, preserve its original outputs, and do not continue spending credits by rephrasing the same experiment-selection prompt.

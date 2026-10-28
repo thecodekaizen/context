@@ -1,0 +1,113 @@
+{
+  "top_logprobs": 0,
+  "temperature": 1.0,
+  "top_p": 1.0,
+  "service_tier": "auto",
+  "model": "muse-spark-1.3",
+  "reasoning": {
+    "effort": "minimal"
+  },
+  "background": false,
+  "text": {
+    "format": {
+      "type": "json_schema",
+      "name": "thermal_investigation_decision",
+      "schema": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_ids": {
+            "items": {
+              "enum": [
+                "d5aa91b0-44e5-415b-b648-96ada31060c0",
+                "516c733e-0368-4448-8af6-c86c81e25669",
+                "d54e4a48-d21b-4675-b4d3-5db97a244cf4"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "model_order": {
+            "enum": [
+              1,
+              2
+            ],
+            "type": "integer"
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "schedule_id": {
+            "enum": [
+              "submit"
+            ],
+            "type": "string"
+          },
+          "uncertainty": {
+            "enum": [
+              "provisional",
+              "validated_within_observed_range",
+              "insufficient_evidence"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "schedule_id",
+          "model_order",
+          "rationale",
+          "evidence_ids",
+          "uncertainty"
+        ]
+      },
+      "strict": true
+    }
+  },
+  "tools": [],
+  "tool_choice": "auto",
+  "truncation": "disabled",
+  "id": "resp_6ae197f74605b270e98f4cf8",
+  "object": "response",
+  "status": "completed",
+  "created_at": 1793169399.0,
+  "completed_at": 1793169399.0,
+  "error": null,
+  "incomplete_details": null,
+  "output": [
+    {
+      "type": "reasoning",
+      "id": "rs_6ae197f74605b270e98f4cf8:rs_93b2051f-0d7a-4f50-bc0b-e87257c086e2",
+      "summary": [],
+      "status": "completed"
+    },
+    {
+      "type": "message",
+      "id": "msg_5c997d71-c192-4fcb-86a9-c557c3712f83",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "{\"evidence_ids\": [\"d5aa91b0-44e5-415b-b648-96ada31060c0\", \"516c733e-0368-4448-8af6-c86c81e25669\", \"d54e4a48-d21b-4675-b4d3-5db97a244cf4\"], \"model_order\": 2, \"rationale\": \"Budget exhausted with symmetric, staggered, and left-pulse coverage: d5aa91b0-44e5-415b-b648-96ada31060c0, 516c733e-0368-4448-8af6-c86c81e25669, d54e4a48-d21b-4675-b4d3-5db97a244cf4. Order 2 minimizes whole-trial LOO error 0.9456 vs 0.9925 for order 1 with stable spectral radius, best for future two-sensor prediction. ARX order is predictor choice only, not physical mechanism.\", \"schedule_id\": \"submit\", \"uncertainty\": \"validated_within_observed_range\"}",
+          "annotations": [],
+          "logprobs": []
+        }
+      ],
+      "status": "completed"
+    }
+  ],
+  "instructions": null,
+  "usage": {
+    "input_tokens": 5497,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 459,
+    "output_tokens_details": {
+      "reasoning_tokens": 209
+    },
+    "total_tokens": 5956
+  },
+  "parallel_tool_calls": true,
+  "store": true,
+  "max_output_tokens": 2048
+}

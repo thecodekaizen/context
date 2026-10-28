@@ -9,6 +9,9 @@ description = "Local, independently scored thermal identification experiment"
 requires-python = ">=3.12"
 dependencies = ["numpy>=1.26,<3"]
 
+[project.optional-dependencies]
+science = ["scipy>=1.15,<2"]
+
 [project.scripts]
 thermal-investigator = "thermal_investigator.run:main"
 
