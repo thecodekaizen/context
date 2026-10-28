@@ -1,0 +1,60 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "5a809daff51a7151a634a057646c392e0f8a548d54c39514a7f9584508fd37af",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Use numerical fitting before scarce physical experiment (1 remaining). sensor_lag provisional fit training RMSE 0.079C BIC -3601 on action-2, action-4, action-6, initial-0, initial-1, initial-2 vs linear 0.29C BIC -856 and quadratic_loss 0.29C BIC -844 on initial-0,1,2 only; action-2 RMSE 0.079C, action-4 RMSE 0.073C, action-6 RMSE 0.078C show no_mismatch_observed for initial model on those inputs only, not global. Stage provisional linear fit on all six observations to bound comparison; fitting does not establish mechanism or future accuracy.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 14442,
+    "output_tokens": 807,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.02148225,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-fc416617b5daa08ffdc56534",
+    "family": "linear",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_thermal",
+        "sensor_lag": false
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.0010000316052446,
+        "loss_rate_2_per_s": 0.001485356478643993,
+        "coupling_rate_12_per_s": 0.003678344997028321,
+        "coupling_rate_21_per_s": 0.003174586942129075,
+        "heater_gain_1_c_per_s": 0.1931512276520585,
+        "heater_gain_2_c_per_s": 0.17418619386011716
+      }
+    },
+    "training_rmse_c": 0.36333572487481425,
+    "bic": -1418.4208274511627,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 31
+  }
+}

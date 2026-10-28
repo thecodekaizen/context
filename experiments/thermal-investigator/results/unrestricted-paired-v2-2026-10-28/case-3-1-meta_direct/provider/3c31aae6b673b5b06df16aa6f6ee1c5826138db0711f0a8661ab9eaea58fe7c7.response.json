@@ -1,0 +1,277 @@
+{
+  "top_logprobs": 0,
+  "temperature": 1.0,
+  "top_p": 1.0,
+  "service_tier": "auto",
+  "model": "muse-spark-1.3",
+  "reasoning": {
+    "effort": "minimal"
+  },
+  "background": false,
+  "text": {
+    "format": {
+      "type": "json_schema",
+      "name": "thermal_investigation_decision",
+      "schema": {
+        "type": "object",
+        "required": [
+          "decision"
+        ],
+        "properties": {
+          "decision": {
+            "anyOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "candidate_id": {
+                    "type": "null"
+                  },
+                  "context_id": {
+                    "enum": [
+                      "18705559dcbe935b05e1c91b5802651fbd91518801f7dc7cffaa4a6f86d5c644"
+                    ],
+                    "type": "string"
+                  },
+                  "evidence_ids": {
+                    "items": {
+                      "enum": [
+                        "action-2",
+                        "initial-0",
+                        "initial-1",
+                        "initial-2"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "family": {
+                    "enum": [
+                      "linear",
+                      "sensor_lag",
+                      "quadratic_loss"
+                    ],
+                    "type": "string"
+                  },
+                  "kind": {
+                    "type": "null"
+                  },
+                  "model_id": {
+                    "type": "null"
+                  },
+                  "operation": {
+                    "enum": [
+                      "fit_candidate"
+                    ],
+                    "type": "string"
+                  },
+                  "rationale": {
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "context_id",
+                  "operation",
+                  "family",
+                  "candidate_id",
+                  "model_id",
+                  "schedule_id",
+                  "kind",
+                  "evidence_ids",
+                  "rationale"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "candidate_id": {
+                    "type": "null"
+                  },
+                  "context_id": {
+                    "enum": [
+                      "18705559dcbe935b05e1c91b5802651fbd91518801f7dc7cffaa4a6f86d5c644"
+                    ],
+                    "type": "string"
+                  },
+                  "evidence_ids": {
+                    "items": {
+                      "enum": [
+                        "action-2",
+                        "initial-0",
+                        "initial-1",
+                        "initial-2"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "family": {
+                    "type": "null"
+                  },
+                  "kind": {
+                    "enum": [
+                      "diagnostic"
+                    ],
+                    "type": "string"
+                  },
+                  "model_id": {
+                    "enum": [
+                      "initial"
+                    ],
+                    "type": "string"
+                  },
+                  "operation": {
+                    "enum": [
+                      "propose_experiment"
+                    ],
+                    "type": "string"
+                  },
+                  "rationale": {
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "enum": [
+                      "left-pulse",
+                      "right-pulse",
+                      "alternate",
+                      "opposed-levels",
+                      "left-stair",
+                      "right-stair",
+                      "both-release",
+                      "staggered",
+                      "sustained-both"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "context_id",
+                  "operation",
+                  "family",
+                  "candidate_id",
+                  "model_id",
+                  "schedule_id",
+                  "kind",
+                  "evidence_ids",
+                  "rationale"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "candidate_id": {
+                    "type": "null"
+                  },
+                  "context_id": {
+                    "enum": [
+                      "18705559dcbe935b05e1c91b5802651fbd91518801f7dc7cffaa4a6f86d5c644"
+                    ],
+                    "type": "string"
+                  },
+                  "evidence_ids": {
+                    "items": {
+                      "enum": [
+                        "action-2",
+                        "initial-0",
+                        "initial-1",
+                        "initial-2"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "family": {
+                    "type": "null"
+                  },
+                  "kind": {
+                    "type": "null"
+                  },
+                  "model_id": {
+                    "type": "null"
+                  },
+                  "operation": {
+                    "enum": [
+                      "stop"
+                    ],
+                    "type": "string"
+                  },
+                  "rationale": {
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "context_id",
+                  "operation",
+                  "family",
+                  "candidate_id",
+                  "model_id",
+                  "schedule_id",
+                  "kind",
+                  "evidence_ids",
+                  "rationale"
+                ],
+                "type": "object"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "strict": true
+    }
+  },
+  "tools": [],
+  "tool_choice": "auto",
+  "truncation": "disabled",
+  "id": "resp_6ae1bd43550b1c36eae34245",
+  "object": "response",
+  "status": "completed",
+  "created_at": 1793178947.0,
+  "completed_at": 1793178947.0,
+  "error": null,
+  "incomplete_details": null,
+  "output": [
+    {
+      "type": "reasoning",
+      "id": "rs_6ae1bd43550b1c36eae34245:rs_173cb0f1-0e4b-49a3-b07b-00ba7df74d6e",
+      "summary": [],
+      "status": "completed"
+    },
+    {
+      "type": "message",
+      "id": "msg_0732d450-9080-41ee-afe0-19b7f7a8b79a",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "{\"decision\": {\"candidate_id\": null, \"context_id\": \"18705559dcbe935b05e1c91b5802651fbd91518801f7dc7cffaa4a6f86d5c644\", \"evidence_ids\": [\"action-2\", \"initial-0\", \"initial-1\", \"initial-2\"], \"family\": null, \"kind\": \"diagnostic\", \"model_id\": \"initial\", \"operation\": \"propose_experiment\", \"rationale\": \"action-2 staggered probe returned no_mismatch_observed with probe_rmse 0.085C but scope is this probe only; candidate training RMSE sensor_lag ~0.07C vs linear/quadratic ~0.32C on initial-0, initial-1, initial-2 is not independent confirmation, so propose independent diagnostic test of initial on unseen alternate schedule within budget.\", \"schedule_id\": \"alternate\"}}",
+          "annotations": [],
+          "logprobs": []
+        }
+      ],
+      "status": "completed"
+    }
+  ],
+  "instructions": null,
+  "usage": {
+    "input_tokens": 9227,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 627,
+    "output_tokens_details": {
+      "reasoning_tokens": 426
+    },
+    "total_tokens": 9854
+  },
+  "parallel_tool_calls": true,
+  "store": true,
+  "max_output_tokens": 2048
+}

@@ -1,0 +1,56 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "ddd9f46da3a1d2d7ee2fb87ee0b1fd4318b503a08cf1417b97ef5c544f1000c2",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Compare bounded predictive candidates numerically before spending scarce experiments; re-fit linear on initial-0, initial-1, initial-2 plus action-2 sustained-both which showed no_mismatch_observed (probe_rmse 0.0768). Fitting is not causal confirmation.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 8512,
+    "output_tokens": 1021,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01497925,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-0db957858996670f87ae5806",
+    "family": "linear",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_thermal",
+        "sensor_lag": false
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.010080375871206365,
+        "loss_rate_2_per_s": 0.0059025286835183875,
+        "coupling_rate_12_per_s": 0.00701150313238458,
+        "coupling_rate_21_per_s": 0.005495270497031777,
+        "heater_gain_1_c_per_s": 0.37814170286738763,
+        "heater_gain_2_c_per_s": 0.22011280493717422
+      }
+    },
+    "training_rmse_c": 0.07656784714814382,
+    "bic": -2429.752202140932,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 14
+  }
+}

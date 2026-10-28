@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "6c42fbc46bf7162cb8b6adad6a502b2dbf487b7b38306f0c90f85aee6f3c4d39",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "0f46a69b3c0543e56e3cb455a6c3b2328ce978fe223b6b145bccb3f0358bb1fa",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Stage provisional linear candidate using all observed evidence initial-0, initial-1, initial-2; training fit does not establish mechanism and requires independent confirmation.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6723,
+    "output_tokens": 664,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01122575,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:06:36.838765+00:00"
+}

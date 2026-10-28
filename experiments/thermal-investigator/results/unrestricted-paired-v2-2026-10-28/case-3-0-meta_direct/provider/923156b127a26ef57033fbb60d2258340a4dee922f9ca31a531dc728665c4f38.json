@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "context_sha256": "923156b127a26ef57033fbb60d2258340a4dee922f9ca31a531dc728665c4f38",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "9005d6e619195289c3e9a5e76a93f5d98429eb925319fea90ea3ed2d86530816",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Compare bounded candidates on full observed evidence initial-0, initial-1, initial-2 plus action-2 sustained-both RMSE 0.082C and action-4 both-release RMSE 0.081C both no_mismatch_observed; sensor_lag provisional fit exists on same evidence but linear not yet compared on full set; stage linear provisional fit before consuming remaining 2 experiments; fitting is not confirmation, mechanism, or future accuracy.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 11769,
+    "output_tokens": 603,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.017274,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:14:53.258687+00:00"
+}

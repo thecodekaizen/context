@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "df95a80bd42c6916a5f7bb2353d7519d9c19f966d8ee116dfea329910b628ead",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "edc1a60263bf7576263c45440c683cb8ae6aa712c2b56e18fe057a53b124d163",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Initial observations initial-0, initial-1, initial-2 cover symmetric and single-sided heating; candidate training fits favor linear by BIC but training fit does not establish mechanism or future accuracy, so propose independent diagnostic staggered test of initial model before consuming further budget.",
+    "schedule_id": "staggered"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6745,
+    "output_tokens": 900,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01225625,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:13:51.085444+00:00"
+}

@@ -1,0 +1,58 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "6f53a5a0dd1d1565833621627999728fc8aeaf9bb1cb7a3ba36df17963c6330e",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "quadratic_loss",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Stage provisional quadratic_loss fit on initial-0, initial-1, initial-2 plus action-2; training fit cannot establish mechanism or future accuracy. action-2 sustained 0.6/0.6 shows no_mismatch_observed (probe_rmse 0.086) but does not confirm mechanism; compare numerical fits before consuming scarce experiments.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 8527,
+    "output_tokens": 651,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0134255,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-ae39111ee970092658bd1557",
+    "family": "quadratic_loss",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_quadratic_loss",
+        "sensor_lag": false
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.01356368902525413,
+        "loss_rate_2_per_s": 0.005541305742882299,
+        "coupling_rate_12_per_s": 0.009644049249917307,
+        "coupling_rate_21_per_s": 0.0047963786394349195,
+        "heater_gain_1_c_per_s": 0.5122002428619711,
+        "heater_gain_2_c_per_s": 0.23090257087002686,
+        "quadratic_loss_1_per_c_s": 4.033360404068398e-06,
+        "quadratic_loss_2_per_c_s": 5.209199483612973e-06
+      }
+    },
+    "training_rmse_c": 0.08392387088040261,
+    "bic": -2329.341093682961,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 27
+  }
+}

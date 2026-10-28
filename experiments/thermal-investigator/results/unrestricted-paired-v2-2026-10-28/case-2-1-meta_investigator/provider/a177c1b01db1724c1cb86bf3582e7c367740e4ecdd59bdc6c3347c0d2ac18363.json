@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "a177c1b01db1724c1cb86bf3582e7c367740e4ecdd59bdc6c3347c0d2ac18363",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "c9f4c085c7c2c9ca7a860a5c840332c65b9fc3572660da37d000e786d060f662",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "No recorded mismatch; action-2 probe of initial model shows RMSE 0.081 below 0.3 threshold (no_mismatch_observed). Prior training comparison on initial-0, initial-1, initial-2 favored sensor_lag RMSE 0.077 BIC -1807 vs linear 0.299/-835 and quadratic_loss 0.299/-823. Re-fit sensor_lag on all four observations numerically before spending remaining experiments; fit is provisional only, not mechanism or accuracy claim.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 8665,
+    "output_tokens": 805,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0142525,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:13:11.259648+00:00"
+}

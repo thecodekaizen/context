@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "ce5477e2ef37d0636db18549a832b1371db33346e0794886576a1035959dd266",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "615c5b771a597f44e465930ac93a6934ee7719b0bef0d1f677bdb244f529ff27",
+    "evidence_ids": [
+      "action-1",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "action-1 sustained-both of initial model showed no_mismatch_observed with probe_rmse 0.0768c, which does not certify other schedules; initial-0, initial-1, initial-2 training fits remain unconfirmed so a different diagnostic both-release heating-then-cooling test is needed to seek bounded mismatch before staging any revision.",
+    "schedule_id": "both-release"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 8201,
+    "output_tokens": 753,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0134515,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:12:07.721146+00:00"
+}

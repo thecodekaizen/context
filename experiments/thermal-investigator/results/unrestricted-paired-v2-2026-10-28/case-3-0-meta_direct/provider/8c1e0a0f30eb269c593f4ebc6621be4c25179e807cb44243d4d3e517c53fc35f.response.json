@@ -1,0 +1,280 @@
+{
+  "top_logprobs": 0,
+  "temperature": 1.0,
+  "top_p": 1.0,
+  "service_tier": "auto",
+  "model": "muse-spark-1.3",
+  "reasoning": {
+    "effort": "minimal"
+  },
+  "background": false,
+  "text": {
+    "format": {
+      "type": "json_schema",
+      "name": "thermal_investigation_decision",
+      "schema": {
+        "properties": {
+          "decision": {
+            "anyOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "candidate_id": {
+                    "type": "null"
+                  },
+                  "context_id": {
+                    "enum": [
+                      "986409d8e39b1bd22f4e80cc1e38d757544389c44b740db8aebd403a118956db"
+                    ],
+                    "type": "string"
+                  },
+                  "evidence_ids": {
+                    "items": {
+                      "enum": [
+                        "action-2",
+                        "action-4",
+                        "initial-0",
+                        "initial-1",
+                        "initial-2"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "family": {
+                    "enum": [
+                      "linear",
+                      "sensor_lag",
+                      "quadratic_loss"
+                    ],
+                    "type": "string"
+                  },
+                  "kind": {
+                    "type": "null"
+                  },
+                  "model_id": {
+                    "type": "null"
+                  },
+                  "operation": {
+                    "enum": [
+                      "fit_candidate"
+                    ],
+                    "type": "string"
+                  },
+                  "rationale": {
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "context_id",
+                  "operation",
+                  "family",
+                  "candidate_id",
+                  "model_id",
+                  "schedule_id",
+                  "kind",
+                  "evidence_ids",
+                  "rationale"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "candidate_id": {
+                    "type": "null"
+                  },
+                  "context_id": {
+                    "enum": [
+                      "986409d8e39b1bd22f4e80cc1e38d757544389c44b740db8aebd403a118956db"
+                    ],
+                    "type": "string"
+                  },
+                  "evidence_ids": {
+                    "items": {
+                      "enum": [
+                        "action-2",
+                        "action-4",
+                        "initial-0",
+                        "initial-1",
+                        "initial-2"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "family": {
+                    "type": "null"
+                  },
+                  "kind": {
+                    "enum": [
+                      "diagnostic"
+                    ],
+                    "type": "string"
+                  },
+                  "model_id": {
+                    "enum": [
+                      "initial"
+                    ],
+                    "type": "string"
+                  },
+                  "operation": {
+                    "enum": [
+                      "propose_experiment"
+                    ],
+                    "type": "string"
+                  },
+                  "rationale": {
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "enum": [
+                      "left-pulse",
+                      "right-pulse",
+                      "alternate",
+                      "opposed-levels",
+                      "left-stair",
+                      "right-stair",
+                      "both-release",
+                      "staggered",
+                      "sustained-both"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "context_id",
+                  "operation",
+                  "family",
+                  "candidate_id",
+                  "model_id",
+                  "schedule_id",
+                  "kind",
+                  "evidence_ids",
+                  "rationale"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "candidate_id": {
+                    "type": "null"
+                  },
+                  "context_id": {
+                    "enum": [
+                      "986409d8e39b1bd22f4e80cc1e38d757544389c44b740db8aebd403a118956db"
+                    ],
+                    "type": "string"
+                  },
+                  "evidence_ids": {
+                    "items": {
+                      "enum": [
+                        "action-2",
+                        "action-4",
+                        "initial-0",
+                        "initial-1",
+                        "initial-2"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "family": {
+                    "type": "null"
+                  },
+                  "kind": {
+                    "type": "null"
+                  },
+                  "model_id": {
+                    "type": "null"
+                  },
+                  "operation": {
+                    "enum": [
+                      "stop"
+                    ],
+                    "type": "string"
+                  },
+                  "rationale": {
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "context_id",
+                  "operation",
+                  "family",
+                  "candidate_id",
+                  "model_id",
+                  "schedule_id",
+                  "kind",
+                  "evidence_ids",
+                  "rationale"
+                ],
+                "type": "object"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "decision"
+        ],
+        "additionalProperties": false
+      },
+      "strict": true
+    }
+  },
+  "tools": [],
+  "tool_choice": "auto",
+  "truncation": "disabled",
+  "id": "resp_6ae1bd08e69389589c794072",
+  "object": "response",
+  "status": "completed",
+  "created_at": 1793178888.0,
+  "completed_at": 1793178888.0,
+  "error": null,
+  "incomplete_details": null,
+  "output": [
+    {
+      "type": "reasoning",
+      "id": "rs_6ae1bd08e69389589c794072:rs_d823b5f3-3ee1-44bd-b915-165e7500f545",
+      "summary": [],
+      "status": "completed"
+    },
+    {
+      "type": "message",
+      "id": "msg_0e025e48-71c1-48cb-9148-95a2cda29485",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "{\"decision\": {\"candidate_id\": null, \"context_id\": \"986409d8e39b1bd22f4e80cc1e38d757544389c44b740db8aebd403a118956db\", \"evidence_ids\": [\"action-2\", \"action-4\", \"initial-0\", \"initial-1\", \"initial-2\"], \"family\": \"sensor_lag\", \"kind\": null, \"model_id\": null, \"operation\": \"fit_candidate\", \"rationale\": \"Both action-2 sustained-both probe RMSE 0.082C and action-4 both-release probe RMSE 0.081C show no_mismatch_observed, but passing does not certify mechanism; prior fits only compared linear BIC -1854.6 vs quadratic -1842.9 vs sensor_lag -1815.3 on initial-0, initial-1, initial-2 and quadratic BIC -2446.07 on action-2+initials. Fit sensor_lag on full observed evidence before consuming remaining 2 experiments; fitting is provisional only, not causation or future accuracy.\", \"schedule_id\": null}}",
+          "annotations": [],
+          "logprobs": []
+        }
+      ],
+      "status": "completed"
+    }
+  ],
+  "instructions": null,
+  "usage": {
+    "input_tokens": 11080,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 733,
+    "output_tokens_details": {
+      "reasoning_tokens": 485
+    },
+    "total_tokens": 11813
+  },
+  "parallel_tool_calls": true,
+  "store": true,
+  "max_output_tokens": 2048
+}

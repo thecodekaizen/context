@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "a3e824af3292329d48c2415bdec9bd6e960c170f800376e7b8cb96487437bd6c",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "dfec927393a39f2ae2c7208c9d269590c5de96b8aae5a393db783970d880b94d",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Training fits on initial-0, initial-1, initial-2 show similar RMSE near noise floor and BIC differences alone cannot establish mechanism or future accuracy; a diagnostic sustained-both high-temperature test of the initial model is needed to seek measured mismatch before staging any revision.",
+    "schedule_id": "sustained-both"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6406,
+    "output_tokens": 786,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.011348,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:12:02.250156+00:00"
+}

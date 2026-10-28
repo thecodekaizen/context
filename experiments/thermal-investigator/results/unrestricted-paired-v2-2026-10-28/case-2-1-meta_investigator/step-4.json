@@ -1,0 +1,76 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "2bcfa599fec256a5e58f60e4106ceca5a499e3a349b75cec791942fe26f0627a",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "action-2 alternate probe of initial shows no_mismatch_observed RMSE 0.081 below 0.3 threshold; passing does not certify unseen inputs. Prior numerical comparison on initial-0, initial-1, initial-2 favored sensor_lag RMSE 0.077 BIC -1807 vs linear 0.299 and quadratic_loss 0.299, but training fit cannot establish mechanism or future accuracy and proposals do not run experiments. Propose independent diagnostic staggered schedule to boundedly seek mismatch for initial before accepting any provisional candidate.",
+    "schedule_id": "staggered"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 9320,
+    "output_tokens": 882,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0153985,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "proposal_only",
+    "model_id": "initial",
+    "schedule": {
+      "id": "staggered",
+      "segments": [
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 0,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 0,
+          "q2_percent": 0
+        }
+      ]
+    },
+    "kind": "diagnostic",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "note": "Explicit preparation and dispatch through Investigation are required",
+    "execution": {
+      "action_id": "action-4",
+      "assessment": {
+        "probe_rmse_c": 0.08135821392451412,
+        "threshold_c": 0.3,
+        "status": "no_mismatch_observed",
+        "scope": "This probe only; passing does not certify unseen schedules."
+      },
+      "verdict": "no_mismatch_observed",
+      "scope": "Evidence for this experiment only; no global reliability claim"
+    }
+  }
+}

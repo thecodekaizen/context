@@ -1,0 +1,80 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "d230d34d40900a5dcbcdfd37cc4688d5ff80161866a85a428e789a2520ba50ac",
+    "evidence_ids": [
+      "action-1",
+      "action-2",
+      "action-3",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "action-1 probe_rmse 0.0768C, action-2 0.0898C, action-3 0.0769C all no_mismatch_observed but scope is this-probe-only and does not certify unseen schedules; no recorded mismatch exists so no revision is warranted, and with one experiment remaining a different diagnostic staggered test of initial model seeks bounded mismatch before any fit.",
+    "schedule_id": "staggered"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 11951,
+    "output_tokens": 684,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01784575,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "proposal_only",
+    "model_id": "initial",
+    "schedule": {
+      "id": "staggered",
+      "segments": [
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 0,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 0,
+          "q2_percent": 0
+        }
+      ]
+    },
+    "kind": "diagnostic",
+    "evidence_ids": [
+      "action-1",
+      "action-2",
+      "action-3",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "note": "Explicit preparation and dispatch through Investigation are required",
+    "execution": {
+      "action_id": "action-4",
+      "assessment": {
+        "probe_rmse_c": 0.08205002536535455,
+        "threshold_c": 0.3,
+        "status": "no_mismatch_observed",
+        "scope": "This probe only; passing does not certify unseen schedules."
+      },
+      "verdict": "no_mismatch_observed",
+      "scope": "Evidence for this experiment only; no global reliability claim"
+    }
+  }
+}

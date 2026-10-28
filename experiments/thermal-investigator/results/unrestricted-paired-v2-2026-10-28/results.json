@@ -1,0 +1,764 @@
+{
+  "rows": [
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.008834261336580142,
+      "prediction_sha256": "bc99e44c6e17510ec4e6816cce1e16f5f798111dcc66a9cb4a90990c097bacf5",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 2.0406112920027226,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "0-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.0045293537536745376,
+      "prediction_sha256": "128309a30a4a299f2b2ccc30dccd29d479ead1b050e6cf24b0d28c9c9e457fd7",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.86766670900397,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "0-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_direct",
+      "steps_completed": 8,
+      "source": "simulation",
+      "mean_rmse_c": 0.0038237867516754706,
+      "prediction_sha256": "9701b6c93fbd940ed94ba7579ee772620c1eac4278cde5a0d978f67bf94817a7",
+      "experiment_actions_used": 5,
+      "fits_used": 5,
+      "wall_seconds": 38.91975987498881,
+      "usage": {
+        "attempts": 8,
+        "charged_or_reserved_usd": 0.10538399999999999,
+        "input_tokens": 67399,
+        "output_tokens": 4973
+      },
+      "pair_id": "0-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_investigator",
+      "steps_completed": 8,
+      "source": "simulation",
+      "mean_rmse_c": 0.0038237867516754706,
+      "prediction_sha256": "9701b6c93fbd940ed94ba7579ee772620c1eac4278cde5a0d978f67bf94817a7",
+      "experiment_actions_used": 6,
+      "fits_used": 5,
+      "wall_seconds": 31.973148332966957,
+      "usage": {
+        "attempts": 8,
+        "charged_or_reserved_usd": 0.11146900000000001,
+        "input_tokens": 75123,
+        "output_tokens": 4133
+      },
+      "pair_id": "0-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.008699171424149395,
+      "prediction_sha256": "ab33cb65be89797141878a366afd8e297b68a25c65dc11741a732810a5fe7b15",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.63877025002148,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "0-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.007585990454199026,
+      "prediction_sha256": "40b94dab51ae7de31793db9b50a2a66e2908d6a8d802f00ea289650db12af40e",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.414053042011801,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "0-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_direct",
+      "steps_completed": 8,
+      "source": "simulation",
+      "mean_rmse_c": 0.004927731082723605,
+      "prediction_sha256": "89b94aa11961f33f820563b2a29fcfcca035976a63cb3018ddcc0d41a25c2607",
+      "experiment_actions_used": 5,
+      "fits_used": 8,
+      "wall_seconds": 35.33055366599001,
+      "usage": {
+        "attempts": 8,
+        "charged_or_reserved_usd": 0.11645325000000002,
+        "input_tokens": 76948,
+        "output_tokens": 4769
+      },
+      "pair_id": "0-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_investigator",
+      "steps_completed": 7,
+      "source": "simulation",
+      "mean_rmse_c": 0.004927731082723605,
+      "prediction_sha256": "89b94aa11961f33f820563b2a29fcfcca035976a63cb3018ddcc0d41a25c2607",
+      "experiment_actions_used": 7,
+      "fits_used": 4,
+      "wall_seconds": 35.37596679199487,
+      "usage": {
+        "attempts": 7,
+        "charged_or_reserved_usd": 0.11037775000000002,
+        "input_tokens": 71598,
+        "output_tokens": 4913
+      },
+      "pair_id": "0-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.003971449656991893,
+      "prediction_sha256": "4a070b36f82d15822535682ca5cf7faa0b6dc3e73419ae62e4fcafe5f40f337c",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.872211707988754,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "1-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_direct",
+      "steps_completed": 8,
+      "source": "simulation",
+      "mean_rmse_c": 0.006588046127628658,
+      "prediction_sha256": "fefdefe36ca868037cff1d2449e98ec3449feb526bf8dbffd77c2933f40cbe89",
+      "experiment_actions_used": 5,
+      "fits_used": 8,
+      "wall_seconds": 39.414503291016445,
+      "usage": {
+        "attempts": 8,
+        "charged_or_reserved_usd": 0.11880975000000002,
+        "input_tokens": 76273,
+        "output_tokens": 5522
+      },
+      "pair_id": "1-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_investigator",
+      "steps_completed": 8,
+      "source": "simulation",
+      "mean_rmse_c": 0.006588046127628658,
+      "prediction_sha256": "fefdefe36ca868037cff1d2449e98ec3449feb526bf8dbffd77c2933f40cbe89",
+      "experiment_actions_used": 7,
+      "fits_used": 3,
+      "wall_seconds": 31.88307724997867,
+      "usage": {
+        "attempts": 8,
+        "charged_or_reserved_usd": 0.11245975,
+        "input_tokens": 75970,
+        "output_tokens": 4117
+      },
+      "pair_id": "1-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.00528398492570689,
+      "prediction_sha256": "653a534be3826d1001a441f262e59fdfd801e8bbef04a11df2dd5e115bda9956",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.9312299999874085,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "1-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.0065304148462621515,
+      "prediction_sha256": "d360df954d016ebabb2c133c33c8da5345b0e60b4cf34a3669297f4f8658e505",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.2607702090172097,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "1-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_direct",
+      "steps_completed": 8,
+      "source": "simulation",
+      "mean_rmse_c": 0.00589818536587043,
+      "prediction_sha256": "d96acaf974d0ba3135b5f3e5bc4175a65fd66e0978234b4c9767e1e2cca407bc",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 37.62334849999752,
+      "usage": {
+        "attempts": 8,
+        "charged_or_reserved_usd": 0.12990100000000002,
+        "input_tokens": 85690,
+        "output_tokens": 5362
+      },
+      "pair_id": "1-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_investigator",
+      "steps_completed": 8,
+      "source": "simulation",
+      "mean_rmse_c": 0.00589818536587043,
+      "prediction_sha256": "d96acaf974d0ba3135b5f3e5bc4175a65fd66e0978234b4c9767e1e2cca407bc",
+      "experiment_actions_used": 6,
+      "fits_used": 6,
+      "wall_seconds": 37.028565332992,
+      "usage": {
+        "attempts": 8,
+        "charged_or_reserved_usd": 0.11764775,
+        "input_tokens": 76802,
+        "output_tokens": 5093
+      },
+      "pair_id": "1-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.004693668484269078,
+      "prediction_sha256": "3918702d99ef748443352750a3db7e1958c2fabc5423da168264b9809d6e4093",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.4876390419667587,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "1-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_direct",
+      "steps_completed": 6,
+      "source": "simulation",
+      "mean_rmse_c": 0.005691988137735478,
+      "prediction_sha256": "06a149e7a6822b7c21f2b816b786e2a246c1b041317b05808ec560dcebb30743",
+      "experiment_actions_used": 4,
+      "fits_used": 6,
+      "wall_seconds": 27.566845207998995,
+      "usage": {
+        "attempts": 6,
+        "charged_or_reserved_usd": 0.08033775000000001,
+        "input_tokens": 50932,
+        "output_tokens": 3923
+      },
+      "pair_id": "2-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_investigator",
+      "steps_completed": 5,
+      "source": "simulation",
+      "mean_rmse_c": 0.005691988137735478,
+      "prediction_sha256": "06a149e7a6822b7c21f2b816b786e2a246c1b041317b05808ec560dcebb30743",
+      "experiment_actions_used": 7,
+      "fits_used": 3,
+      "wall_seconds": 22.883391208015382,
+      "usage": {
+        "attempts": 5,
+        "charged_or_reserved_usd": 0.07647100000000001,
+        "input_tokens": 50477,
+        "output_tokens": 3147
+      },
+      "pair_id": "2-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.006149843448148493,
+      "prediction_sha256": "e9d6f2f688bbd0036c9a6220e5b7b7844746fe502ee8813b5c9bd4b0f61e0084",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.8071341670001857,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "2-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.007275703975208146,
+      "prediction_sha256": "f4ed08b37cbe6d581f9b6da77f81860412c11cd1af1b00f9cb8819e08d01850d",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.8657800420187414,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "2-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_direct",
+      "steps_completed": 8,
+      "source": "simulation",
+      "mean_rmse_c": 0.006776424799985801,
+      "prediction_sha256": "5c568daf63780bfcd8463b75a36f79c976ae822af635f0aee8dbcc2c7b4bd4bf",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 33.79068591602845,
+      "usage": {
+        "attempts": 8,
+        "charged_or_reserved_usd": 0.121334,
+        "input_tokens": 81706,
+        "output_tokens": 4518
+      },
+      "pair_id": "2-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_investigator",
+      "steps_completed": 8,
+      "source": "simulation",
+      "mean_rmse_c": 0.006776424799985801,
+      "prediction_sha256": "5c568daf63780bfcd8463b75a36f79c976ae822af635f0aee8dbcc2c7b4bd4bf",
+      "experiment_actions_used": 7,
+      "fits_used": 5,
+      "wall_seconds": 38.34503179200692,
+      "usage": {
+        "attempts": 8,
+        "charged_or_reserved_usd": 0.127656,
+        "input_tokens": 83775,
+        "output_tokens": 5397
+      },
+      "pair_id": "2-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.005871787391069316,
+      "prediction_sha256": "351d191799f71ec2cb768d2721217b93296d89e3d2148de3da9158ca5613b9a8",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.5962211670121178,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "2-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.008538146776462474,
+      "prediction_sha256": "a7c6c2e55f423a32801e6cd7c2a358a18626c57677788553e855a658ddd6b412",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.365212959004566,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "2-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_investigator",
+      "steps_completed": 8,
+      "source": "simulation",
+      "mean_rmse_c": 0.011772775638873032,
+      "prediction_sha256": "529bb4d1c855989118bc69a2b49360d1d22e8b64b002e3d87b7a0de7e4f590ac",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 36.91287166700931,
+      "usage": {
+        "attempts": 8,
+        "charged_or_reserved_usd": 0.12335825,
+        "input_tokens": 81690,
+        "output_tokens": 4999
+      },
+      "pair_id": "3-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.004278569981276563,
+      "prediction_sha256": "5ed628d87fe0cc11535cbc24ab3e3aa6ffe8508cc16a10c2c6b9ce10c54f7b81",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 2.010425625019707,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "3-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.009668651685352848,
+      "prediction_sha256": "869987b67936591720651f86bf4a2e54a7fbffa55997b0c8252050f280364717",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.9711170000373386,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "3-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_direct",
+      "steps_completed": 8,
+      "source": "simulation",
+      "mean_rmse_c": 0.011772775638873032,
+      "prediction_sha256": "529bb4d1c855989118bc69a2b49360d1d22e8b64b002e3d87b7a0de7e4f590ac",
+      "experiment_actions_used": 6,
+      "fits_used": 7,
+      "wall_seconds": 39.18884295801399,
+      "usage": {
+        "attempts": 8,
+        "charged_or_reserved_usd": 0.12085699999999999,
+        "input_tokens": 79281,
+        "output_tokens": 5119
+      },
+      "pair_id": "3-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_investigator",
+      "steps_completed": 6,
+      "source": "simulation",
+      "mean_rmse_c": 0.010943053587752048,
+      "prediction_sha256": "965a2eaf8fd77272b865be013df11b6240a8799a7ae799e1aef4f3966e173031",
+      "experiment_actions_used": 5,
+      "fits_used": 4,
+      "wall_seconds": 25.158709208015352,
+      "usage": {
+        "attempts": 6,
+        "charged_or_reserved_usd": 0.07776500000000001,
+        "input_tokens": 50448,
+        "output_tokens": 3460
+      },
+      "pair_id": "3-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.005103324610265157,
+      "prediction_sha256": "6bfa85e0cc3047af30e811841cdd69d315341e6ecf18bbe29040cf27c4f8b897",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.69055754103465,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "3-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.009838315381970978,
+      "prediction_sha256": "393074ca6ace0e06260d47dd977040a127e87dcb23ae06c0c628d59eecb21663",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.436839375004638,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "3-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_direct",
+      "steps_completed": 8,
+      "source": "simulation",
+      "mean_rmse_c": 0.010943053587752048,
+      "prediction_sha256": "965a2eaf8fd77272b865be013df11b6240a8799a7ae799e1aef4f3966e173031",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 38.76572658296209,
+      "usage": {
+        "attempts": 8,
+        "charged_or_reserved_usd": 0.125672,
+        "input_tokens": 81790,
+        "output_tokens": 5514
+      },
+      "pair_id": "3-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.0031016024820053056,
+      "prediction_sha256": "beb177848d347704f90ca84b595ca3d771c61ff8f2df96871195ff4c1627cbf8",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.7411484999465756,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "4-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.004046057245697029,
+      "prediction_sha256": "54f8ce7a747e71914645eb7bdf4c368b1f481692c5bed997e7f08b1f55578a50",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.6853471659705974,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "4-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_direct",
+      "steps_completed": 8,
+      "source": "simulation",
+      "mean_rmse_c": 0.010221425145424935,
+      "prediction_sha256": "44a7e8f4d39e57f65ec1e6e021c15c0a4956470d606d399d180cc9b047951e5a",
+      "experiment_actions_used": 5,
+      "fits_used": 6,
+      "wall_seconds": 35.84560737502761,
+      "usage": {
+        "attempts": 8,
+        "charged_or_reserved_usd": 0.10546075,
+        "input_tokens": 68477,
+        "output_tokens": 4674
+      },
+      "pair_id": "4-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_investigator",
+      "steps_completed": 7,
+      "source": "simulation",
+      "mean_rmse_c": 0.010221425145424935,
+      "prediction_sha256": "44a7e8f4d39e57f65ec1e6e021c15c0a4956470d606d399d180cc9b047951e5a",
+      "experiment_actions_used": 7,
+      "fits_used": 4,
+      "wall_seconds": 30.924167291959748,
+      "usage": {
+        "attempts": 7,
+        "charged_or_reserved_usd": 0.107682,
+        "input_tokens": 72583,
+        "output_tokens": 3989
+      },
+      "pair_id": "4-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.0026547731919398113,
+      "prediction_sha256": "403d672185ae8565d4efa447d56807c6803a08d5a47a56017d23ef1355c2dde8",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.8266520840115845,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "4-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.0034382027497462213,
+      "prediction_sha256": "d1d5df412f8c0b51a7a47c2c86c1c7811d1c56ce30fcb763e4eeb7e0688532f2",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.8424755829619244,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "4-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_direct",
+      "steps_completed": 8,
+      "source": "simulation",
+      "mean_rmse_c": 0.009199145252524387,
+      "prediction_sha256": "9a3fc93fae96214f99bfd6d71452c98e56566e50760337c3a6b12295852acd6d",
+      "experiment_actions_used": 6,
+      "fits_used": 7,
+      "wall_seconds": 38.292510957980994,
+      "usage": {
+        "attempts": 8,
+        "charged_or_reserved_usd": 0.12563825,
+        "input_tokens": 82324,
+        "output_tokens": 5349
+      },
+      "pair_id": "4-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "meta_investigator",
+      "steps_completed": 3,
+      "source": "simulation",
+      "mean_rmse_c": 0.009199145252524387,
+      "prediction_sha256": "9a3fc93fae96214f99bfd6d71452c98e56566e50760337c3a6b12295852acd6d",
+      "experiment_actions_used": 4,
+      "fits_used": 3,
+      "wall_seconds": 17.084849792008754,
+      "usage": {
+        "attempts": 3,
+        "charged_or_reserved_usd": 0.037302249999999995,
+        "input_tokens": 21862,
+        "output_tokens": 2347
+      },
+      "pair_id": "4-1",
+      "world": "sensor-delay"
+    }
+  ]
+}

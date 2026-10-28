@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "c0e90fe3847eaf92c5322b4888883b153ad89fef0eec034487b8bd4a08412942",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "bb4a20bf090060fa4f430d5055b70f9c9aaeb253b7c900dbeb8b3d23aaae64e0",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Training fits show sensor_lag RMSE 0.083 vs linear/quadratic ~0.29 on initial-0, initial-1, initial-2; stage sensor_lag as provisional candidate for independent test, not acceptance.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6424,
+    "output_tokens": 500,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.010155,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:18:07.918893+00:00"
+}

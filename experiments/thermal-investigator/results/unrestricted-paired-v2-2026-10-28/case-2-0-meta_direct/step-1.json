@@ -1,0 +1,54 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "dfec927393a39f2ae2c7208c9d269590c5de96b8aae5a393db783970d880b94d",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Compare bounded predictive candidates numerically before spending physical experiments; initial-0, initial-1, initial-2 cover joint heating and single-sided heating. Fitting is not causal confirmation.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6378,
+    "output_tokens": 435,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.00982125,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-1c8a90f00fa4798e531fdcd9",
+    "bic": -1812.3460093217557,
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "model": {
+      "estimated_parameters": {
+        "coupling_rate_12_per_s": 0.006987912910771135,
+        "coupling_rate_21_per_s": 0.005483674173829805,
+        "heater_gain_1_c_per_s": 0.3777778607016736,
+        "heater_gain_2_c_per_s": 0.21975756489687062,
+        "loss_rate_1_per_s": 0.010092745190326992,
+        "loss_rate_2_per_s": 0.005889471562469699
+      },
+      "specification": {
+        "sensor_lag": false,
+        "type": "two_node_thermal"
+      }
+    },
+    "optimizer_evaluations": 14,
+    "training_rmse_c": 0.07682707959390953,
+    "validation_status": "not_independently_confirmed"
+  }
+}

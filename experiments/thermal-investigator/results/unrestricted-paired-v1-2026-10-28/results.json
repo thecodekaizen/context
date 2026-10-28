@@ -1,0 +1,824 @@
+{
+  "rows": [
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.005018567259047988,
+      "prediction_sha256": "118ffcc2a82802609ce432640e55720d664c030848d10e32b6fa1a3415846298",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.9739167910302058,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "0-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.003274365383121588,
+      "prediction_sha256": "970d3553ae02c0a87b4d19b0caca2bdc4d4ff5d3367a4733b3b2d4152b06da15",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.787948041979689,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "0-0",
+      "world": "coupled"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_direct",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.007854086909968904,
+      "prediction_sha256": "86f7f4cb43596a26d0a37e4a9bc839c64faca25a2a23d3518f00322e20818026",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 6.401129000005312,
+      "usage": {
+        "attempts": 1,
+        "charged_or_reserved_usd": 0.01107975,
+        "input_tokens": 6375,
+        "output_tokens": 732
+      },
+      "pair_id": "0-0",
+      "world": "coupled"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_investigator",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.007854086909968904,
+      "prediction_sha256": "86f7f4cb43596a26d0a37e4a9bc839c64faca25a2a23d3518f00322e20818026",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 4.90030450001359,
+      "usage": {
+        "attempts": 1,
+        "charged_or_reserved_usd": 0.01075775,
+        "input_tokens": 6403,
+        "output_tokens": 648
+      },
+      "pair_id": "0-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.006085763892978865,
+      "prediction_sha256": "3453177eb4434dd70adb90d782852e382d75524bb957031fe1b496cbc33e3343",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.526053583016619,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "0-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.005443737755400882,
+      "prediction_sha256": "d4900b53b62c3851391acddb42bac9f600f405aa052d0d2dc7f2f0a7b97985c7",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.2607763340347447,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "0-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_direct",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.008671420974320996,
+      "prediction_sha256": "6f3b329f3f160e56d7a99d3ffdd30dcbcca42746d65ebe1083a5b56ed0fc5e3f",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 3.3956625839928165,
+      "usage": {
+        "attempts": 1,
+        "charged_or_reserved_usd": 0.009326500000000001,
+        "input_tokens": 6380,
+        "output_tokens": 318
+      },
+      "pair_id": "0-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_investigator",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.008671420974320996,
+      "prediction_sha256": "6f3b329f3f160e56d7a99d3ffdd30dcbcca42746d65ebe1083a5b56ed0fc5e3f",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 3.0704905000166036,
+      "usage": {
+        "attempts": 1,
+        "charged_or_reserved_usd": 0.009565499999999998,
+        "input_tokens": 6408,
+        "output_tokens": 366
+      },
+      "pair_id": "0-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.003188628278699767,
+      "prediction_sha256": "c0ba9b14e14a38e47fe8022c5be35ddda3af31488c55bf108ce62b9a73bed4fe",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.8050844999961555,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "1-0",
+      "world": "coupled"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_direct",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.010643251347830982,
+      "prediction_sha256": "eb00ebadd66a6067374d652656dd9d6315698093bd66b7c4cbe25f7fe71db90b",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 4.869675374997314,
+      "usage": {
+        "attempts": 1,
+        "charged_or_reserved_usd": 0.010931,
+        "input_tokens": 6375,
+        "output_tokens": 697
+      },
+      "pair_id": "1-0",
+      "world": "coupled"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_investigator",
+      "steps_completed": 1,
+      "source": "simulation",
+      "mean_rmse_c": 0.010643251347830982,
+      "prediction_sha256": "eb00ebadd66a6067374d652656dd9d6315698093bd66b7c4cbe25f7fe71db90b",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 7.532710583996959,
+      "usage": {
+        "attempts": 2,
+        "charged_or_reserved_usd": 0.020708499999999998,
+        "input_tokens": 13143,
+        "output_tokens": 1007
+      },
+      "pair_id": "1-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.004374624177592492,
+      "prediction_sha256": "0708ca7063aa8cde712f0e20fee3d0b528e06caed9b8d63f9d32581be496e03e",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 2.0552825829945505,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "1-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.002273401573612332,
+      "prediction_sha256": "b6dbc6300437d84c6858cc904705197737e09b91a05a2cb548d280f203fa9926",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.4396366660366766,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "1-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_direct",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.010108160094960553,
+      "prediction_sha256": "c756c84bcb30d734c6e0639e349a5e40941aa2e11b37298bc42d4024d7470139",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 3.630092541978229,
+      "usage": {
+        "attempts": 1,
+        "charged_or_reserved_usd": 0.009721500000000001,
+        "input_tokens": 6390,
+        "output_tokens": 408
+      },
+      "pair_id": "1-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_investigator",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.010108160094960553,
+      "prediction_sha256": "c756c84bcb30d734c6e0639e349a5e40941aa2e11b37298bc42d4024d7470139",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 2.8845237499917857,
+      "usage": {
+        "attempts": 1,
+        "charged_or_reserved_usd": 0.009875500000000002,
+        "input_tokens": 6418,
+        "output_tokens": 436
+      },
+      "pair_id": "1-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.0044144504820505795,
+      "prediction_sha256": "16fd98b4a7b8f60965d22f4cd70a2429bcc54672cae5230802b7fb5e77c51b6d",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.72044599999208,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "1-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_direct",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.0038457154512340397,
+      "prediction_sha256": "5415cd205e8ae5fe1029aa6704f5c998443a994d9b4d4ecec29cbf4334701a8a",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 5.544247666024603,
+      "usage": {
+        "attempts": 1,
+        "charged_or_reserved_usd": 0.011155249999999999,
+        "input_tokens": 6381,
+        "output_tokens": 748
+      },
+      "pair_id": "2-0",
+      "world": "coupled"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_investigator",
+      "steps_completed": 1,
+      "source": "simulation",
+      "mean_rmse_c": 0.0038457154512340397,
+      "prediction_sha256": "5415cd205e8ae5fe1029aa6704f5c998443a994d9b4d4ecec29cbf4334701a8a",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 8.457704792032018,
+      "usage": {
+        "attempts": 2,
+        "charged_or_reserved_usd": 0.021283000000000003,
+        "input_tokens": 13164,
+        "output_tokens": 1136
+      },
+      "pair_id": "2-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.003759796814734064,
+      "prediction_sha256": "a70c7dedcac4d98ace3f7f71be6a8dbe4845edab4948531b3498fab1751f169f",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.864351166994311,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "2-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.0018976887726588163,
+      "prediction_sha256": "eed2173d632297716de52920eb5c7a6c1a7a0bd62bef06d340a59d1d4d6c34b0",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.643019708979409,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "2-0",
+      "world": "coupled"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_direct",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.0024817351909371785,
+      "prediction_sha256": "869ce7039a5b2d8c763165f9f5ae746d38d23c40d326c1118bfe86a9bd38d64f",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 3.5525046669645235,
+      "usage": {
+        "attempts": 1,
+        "charged_or_reserved_usd": 0.010123,
+        "input_tokens": 6395,
+        "output_tokens": 501
+      },
+      "pair_id": "2-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_investigator",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.0024817351909371785,
+      "prediction_sha256": "869ce7039a5b2d8c763165f9f5ae746d38d23c40d326c1118bfe86a9bd38d64f",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 2.7064588330104016,
+      "usage": {
+        "attempts": 1,
+        "charged_or_reserved_usd": 0.009584250000000002,
+        "input_tokens": 6423,
+        "output_tokens": 366
+      },
+      "pair_id": "2-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.004286097028679871,
+      "prediction_sha256": "c8be027ef9bd5aab42ab62f50d521a4ca2e0166768b88e1b8637c6439cc1cc73",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.4949735419941135,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "2-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.001950242180359667,
+      "prediction_sha256": "97035c1a13030b80109e73c5e390a63440691bcbddfd0c3ff10e387fc1e0c9fa",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.187203415960539,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "2-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_investigator",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.009067550286689176,
+      "prediction_sha256": "248c70bfe66dfbd73294e09ca2db071e7fcc94dba2867f6f3e5671dc0ee58c2d",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 3.7243108749971725,
+      "usage": {
+        "attempts": 1,
+        "charged_or_reserved_usd": 0.00980025,
+        "input_tokens": 6402,
+        "output_tokens": 423
+      },
+      "pair_id": "3-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.005324167460601058,
+      "prediction_sha256": "52e146e4deb33023d1077ebe8136b2ea06f43f060e6bf06cd305d1db0e091fe8",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.8765201669884846,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "3-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.002114320189727875,
+      "prediction_sha256": "eb9d80938c2384692f0e3e176a2c19641cb5b33ffc49c0adbd15d170a1763ba8",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.870809707965236,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "3-0",
+      "world": "coupled"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_direct",
+      "steps_completed": 1,
+      "source": "simulation",
+      "mean_rmse_c": 0.009067550286689176,
+      "prediction_sha256": "248c70bfe66dfbd73294e09ca2db071e7fcc94dba2867f6f3e5671dc0ee58c2d",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 7.109681291971356,
+      "usage": {
+        "attempts": 2,
+        "charged_or_reserved_usd": 0.020096999999999997,
+        "input_tokens": 13089,
+        "output_tokens": 879
+      },
+      "pair_id": "3-0",
+      "world": "coupled"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_investigator",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.010919166450885327,
+      "prediction_sha256": "04afa47cf9cc58db8f2acb76fbc00cbfda550237c3596edc8faa917c8b21d516",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 3.3223397500114515,
+      "usage": {
+        "attempts": 1,
+        "charged_or_reserved_usd": 0.009167250000000002,
+        "input_tokens": 6409,
+        "output_tokens": 272
+      },
+      "pair_id": "3-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.007359328982709275,
+      "prediction_sha256": "62faa9a2a50785e65139488b5af935fd4378e4ae12f7db57cd7c6e8453f793ba",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.7648613330093212,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "3-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.002874448879986123,
+      "prediction_sha256": "0ed1c020c2d629c003c03e9f64e3f95fce1c29a4781400781e92e565311ee2ac",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.5677069170051254,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "3-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_direct",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.010919166450885327,
+      "prediction_sha256": "04afa47cf9cc58db8f2acb76fbc00cbfda550237c3596edc8faa917c8b21d516",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 3.0232966669718735,
+      "usage": {
+        "attempts": 1,
+        "charged_or_reserved_usd": 0.009383000000000002,
+        "input_tokens": 6381,
+        "output_tokens": 331
+      },
+      "pair_id": "3-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.004072495015783813,
+      "prediction_sha256": "2d0b399597d7bf66738063d161669179967e2520f94e55174b7af909d92bbd4a",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.9804090419784188,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "4-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.0069998029357836045,
+      "prediction_sha256": "663aeab3709f7865312978dccbceb1244911a4fde719bad9a2ab10e5749d51d9",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.8825736670405604,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "4-0",
+      "world": "coupled"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_direct",
+      "steps_completed": 1,
+      "source": "simulation",
+      "mean_rmse_c": 0.004509509749734949,
+      "prediction_sha256": "93b24b7c04b67d31fb6d2f6d2f91aa47f4d5b356d901bcf430c695e2abda52e6",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 8.659616415970959,
+      "usage": {
+        "attempts": 2,
+        "charged_or_reserved_usd": 0.020949,
+        "input_tokens": 13111,
+        "output_tokens": 1073
+      },
+      "pair_id": "4-0",
+      "world": "coupled"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_investigator",
+      "steps_completed": 3,
+      "source": "simulation",
+      "mean_rmse_c": 0.004509509749734949,
+      "prediction_sha256": "93b24b7c04b67d31fb6d2f6d2f91aa47f4d5b356d901bcf430c695e2abda52e6",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 13.580284584022593,
+      "usage": {
+        "attempts": 4,
+        "charged_or_reserved_usd": 0.04242950000000001,
+        "input_tokens": 27742,
+        "output_tokens": 1824
+      },
+      "pair_id": "4-0",
+      "world": "coupled"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "fixed_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.005342222712292554,
+      "prediction_sha256": "e09b013c4faab3361fb246e64043402e7b86bfb2d7fb8077255b3b0876d9037e",
+      "experiment_actions_used": 7,
+      "fits_used": 6,
+      "wall_seconds": 1.779415541968774,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "4-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "completed",
+      "failure": null,
+      "method": "disagreement_bic",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.006202629624415444,
+      "prediction_sha256": "bc3592ac28e9e117ff6095963bda4d5ce1b569acad67f6d29fa072b9674b523f",
+      "experiment_actions_used": 7,
+      "fits_used": 9,
+      "wall_seconds": 2.587845499976538,
+      "usage": {
+        "attempts": 0,
+        "charged_or_reserved_usd": 0.0
+      },
+      "pair_id": "4-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_direct",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.007549639924925942,
+      "prediction_sha256": "ca97130fd1eb189aef8eec2ff69b5e7e7a642c228a921249548e4eea2dcf4aaa",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 3.420273916970473,
+      "usage": {
+        "attempts": 1,
+        "charged_or_reserved_usd": 0.009503999999999999,
+        "input_tokens": 6386,
+        "output_tokens": 358
+      },
+      "pair_id": "4-1",
+      "world": "sensor-delay"
+    },
+    {
+      "status": "failed_no_retry",
+      "failure": {
+        "type": "ValueError",
+        "message": "Meta attempt failed (ValueError); saved without retry"
+      },
+      "method": "meta_investigator",
+      "steps_completed": 0,
+      "source": "simulation",
+      "mean_rmse_c": 0.007549639924925942,
+      "prediction_sha256": "ca97130fd1eb189aef8eec2ff69b5e7e7a642c228a921249548e4eea2dcf4aaa",
+      "experiment_actions_used": 3,
+      "fits_used": 3,
+      "wall_seconds": 3.3389433329575695,
+      "usage": {
+        "attempts": 1,
+        "charged_or_reserved_usd": 0.009794,
+        "input_tokens": 6414,
+        "output_tokens": 418
+      },
+      "pair_id": "4-1",
+      "world": "sensor-delay"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "status": "completed",
+  "context_sha256": "3538b4f5838772147d99b413fbbaf3f62a33bab0cc78f28a8440a3f1127766a8",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "5419b7c5e5cc87221c665292434d866ee34710838fd2d5492436afe2624ac442",
+    "evidence_ids": [
+      "action-4",
+      "action-5",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Training fits on initial-0, initial-1, initial-2 do not establish mechanism; action-4 RMSE 0.08, action-5 RMSE 0.087, action-6 RMSE 0.08 show no_mismatch_observed only for those probes and do not certify unseen schedules, so propose alternate diagnostic of initial model to seek bounded independent mismatch evidence.",
+    "schedule_id": "alternate"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 12988,
+    "output_tokens": 509,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01839825,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:10:04.328396+00:00"
+}

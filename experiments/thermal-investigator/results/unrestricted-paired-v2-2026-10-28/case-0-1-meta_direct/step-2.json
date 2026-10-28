@@ -1,0 +1,74 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "f8bde1da1c4a146b2989e1e2b68b82909db5ecccae91f86ba7e0afb5dbfb6b24",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Numerical fits on initial-0, initial-1, initial-2 show sensor_lag training RMSE 0.0789C vs 0.422C for linear/quadratic, but training fit is not confirmation or mechanism. Propose alternate to obtain independent bounded evidence with alternating heating to test lag prediction without inferring future measurements.",
+    "schedule_id": "alternate"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6780,
+    "output_tokens": 653,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01125025,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "proposal_only",
+    "model_id": "initial",
+    "schedule": {
+      "id": "alternate",
+      "segments": [
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 0,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 0,
+          "q2_percent": 60
+        }
+      ]
+    },
+    "kind": "diagnostic",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "note": "Explicit preparation and dispatch through Investigation are required",
+    "execution": {
+      "action_id": "action-2",
+      "assessment": {
+        "probe_rmse_c": 0.08189767527694672,
+        "threshold_c": 0.3,
+        "status": "no_mismatch_observed",
+        "scope": "This probe only; passing does not certify unseen schedules."
+      },
+      "verdict": "no_mismatch_observed",
+      "scope": "Evidence for this experiment only; no global reliability claim"
+    }
+  }
+}

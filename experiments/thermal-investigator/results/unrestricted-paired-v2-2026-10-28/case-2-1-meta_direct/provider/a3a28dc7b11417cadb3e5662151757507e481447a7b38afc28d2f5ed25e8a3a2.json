@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "a3a28dc7b11417cadb3e5662151757507e481447a7b38afc28d2f5ed25e8a3a2",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "077881387076f1baae080599900f1e9326e514dbca076535205e28368da8be6b",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "action-2 staggered probe showed no_mismatch_observed probe RMSE 0.081C, but passing does not certify unseen schedules and training fits are not confirmation; propose opposed-levels diagnostic to independently probe initial model dynamics within remaining budget.",
+    "schedule_id": "opposed-levels"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 9240,
+    "output_tokens": 741,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01469925,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:12:41.926121+00:00"
+}

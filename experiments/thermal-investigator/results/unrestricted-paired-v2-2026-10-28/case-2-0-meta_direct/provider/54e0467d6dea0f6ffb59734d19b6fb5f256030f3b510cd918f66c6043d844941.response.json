@@ -1,0 +1,277 @@
+{
+  "top_logprobs": 0,
+  "temperature": 1.0,
+  "top_p": 1.0,
+  "service_tier": "auto",
+  "model": "muse-spark-1.3",
+  "reasoning": {
+    "effort": "minimal"
+  },
+  "background": false,
+  "text": {
+    "format": {
+      "type": "json_schema",
+      "name": "thermal_investigation_decision",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "decision": {
+            "anyOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "candidate_id": {
+                    "type": "null"
+                  },
+                  "context_id": {
+                    "enum": [
+                      "c58fd47b7371c6c4fe9fd843abeb300ad5742471917aa29eafc4f3558c7f48dc"
+                    ],
+                    "type": "string"
+                  },
+                  "evidence_ids": {
+                    "items": {
+                      "enum": [
+                        "action-2",
+                        "initial-0",
+                        "initial-1",
+                        "initial-2"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "family": {
+                    "enum": [
+                      "linear",
+                      "sensor_lag",
+                      "quadratic_loss"
+                    ],
+                    "type": "string"
+                  },
+                  "kind": {
+                    "type": "null"
+                  },
+                  "model_id": {
+                    "type": "null"
+                  },
+                  "operation": {
+                    "enum": [
+                      "fit_candidate"
+                    ],
+                    "type": "string"
+                  },
+                  "rationale": {
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "context_id",
+                  "operation",
+                  "family",
+                  "candidate_id",
+                  "model_id",
+                  "schedule_id",
+                  "kind",
+                  "evidence_ids",
+                  "rationale"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "candidate_id": {
+                    "type": "null"
+                  },
+                  "context_id": {
+                    "enum": [
+                      "c58fd47b7371c6c4fe9fd843abeb300ad5742471917aa29eafc4f3558c7f48dc"
+                    ],
+                    "type": "string"
+                  },
+                  "evidence_ids": {
+                    "items": {
+                      "enum": [
+                        "action-2",
+                        "initial-0",
+                        "initial-1",
+                        "initial-2"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "family": {
+                    "type": "null"
+                  },
+                  "kind": {
+                    "enum": [
+                      "diagnostic"
+                    ],
+                    "type": "string"
+                  },
+                  "model_id": {
+                    "enum": [
+                      "initial"
+                    ],
+                    "type": "string"
+                  },
+                  "operation": {
+                    "enum": [
+                      "propose_experiment"
+                    ],
+                    "type": "string"
+                  },
+                  "rationale": {
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "enum": [
+                      "left-pulse",
+                      "right-pulse",
+                      "alternate",
+                      "opposed-levels",
+                      "left-stair",
+                      "right-stair",
+                      "both-release",
+                      "staggered",
+                      "sustained-both"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "context_id",
+                  "operation",
+                  "family",
+                  "candidate_id",
+                  "model_id",
+                  "schedule_id",
+                  "kind",
+                  "evidence_ids",
+                  "rationale"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "candidate_id": {
+                    "type": "null"
+                  },
+                  "context_id": {
+                    "enum": [
+                      "c58fd47b7371c6c4fe9fd843abeb300ad5742471917aa29eafc4f3558c7f48dc"
+                    ],
+                    "type": "string"
+                  },
+                  "evidence_ids": {
+                    "items": {
+                      "enum": [
+                        "action-2",
+                        "initial-0",
+                        "initial-1",
+                        "initial-2"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "family": {
+                    "type": "null"
+                  },
+                  "kind": {
+                    "type": "null"
+                  },
+                  "model_id": {
+                    "type": "null"
+                  },
+                  "operation": {
+                    "enum": [
+                      "stop"
+                    ],
+                    "type": "string"
+                  },
+                  "rationale": {
+                    "type": "string"
+                  },
+                  "schedule_id": {
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "context_id",
+                  "operation",
+                  "family",
+                  "candidate_id",
+                  "model_id",
+                  "schedule_id",
+                  "kind",
+                  "evidence_ids",
+                  "rationale"
+                ],
+                "type": "object"
+              }
+            ]
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "strict": true
+    }
+  },
+  "tools": [],
+  "tool_choice": "auto",
+  "truncation": "disabled",
+  "id": "resp_6ae1bc5663e21c024b7c4e81",
+  "object": "response",
+  "status": "completed",
+  "created_at": 1793178710.0,
+  "completed_at": 1793178710.0,
+  "error": null,
+  "incomplete_details": null,
+  "output": [
+    {
+      "type": "reasoning",
+      "id": "rs_6ae1bc5663e21c024b7c4e81:rs_dfbb2ad0-2da2-49a2-b41a-3eb322077d0b",
+      "summary": [],
+      "status": "completed"
+    },
+    {
+      "type": "message",
+      "id": "msg_20ea3aae-b4d7-40ae-8219-2f6a8d0bcd4b",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "{\"decision\": {\"candidate_id\": null, \"context_id\": \"c58fd47b7371c6c4fe9fd843abeb300ad5742471917aa29eafc4f3558c7f48dc\", \"evidence_ids\": [\"action-2\", \"initial-0\", \"initial-1\", \"initial-2\"], \"family\": \"sensor_lag\", \"kind\": null, \"model_id\": null, \"operation\": \"fit_candidate\", \"rationale\": \"Linear fit on action-2+initial-0,1,2 has best BIC (-2429.7) and probe RMSE 0.0768 with no_mismatch_observed on action-2, quadratic_loss on same evidence is worse (-2417.4) with near-zero quadratic terms, but sensor_lag has only been fit on initial-0,1,2. Compare sensor_lag numerically on same full evidence before spending scarce experiments. Fitting is not confirmation.\", \"schedule_id\": null}}",
+          "annotations": [],
+          "logprobs": []
+        }
+      ],
+      "status": "completed"
+    }
+  ],
+  "instructions": null,
+  "usage": {
+    "input_tokens": 9792,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 377,
+    "output_tokens_details": {
+      "reasoning_tokens": 158
+    },
+    "total_tokens": 10169
+  },
+  "parallel_tool_calls": true,
+  "store": true,
+  "max_output_tokens": 2048
+}

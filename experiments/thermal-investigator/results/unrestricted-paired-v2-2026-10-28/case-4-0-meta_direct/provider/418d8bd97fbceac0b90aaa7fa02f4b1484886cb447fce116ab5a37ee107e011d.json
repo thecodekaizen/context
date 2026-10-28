@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "418d8bd97fbceac0b90aaa7fa02f4b1484886cb447fce116ab5a37ee107e011d",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "350dea07b414c14a8924fa187410582f63b7784b693c22d53e8409dca4d0377b",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Compare provisional sensor_lag fit on initial-0, initial-1, initial-2 before consuming physical experiments; training fit cannot establish mechanism or future accuracy.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 7099,
+    "output_tokens": 388,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01052275,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:16:24.662570+00:00"
+}

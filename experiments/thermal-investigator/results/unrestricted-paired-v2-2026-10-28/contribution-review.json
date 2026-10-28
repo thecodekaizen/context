@@ -1,0 +1,35 @@
+{
+  "contribution_gate": "FAIL on current test",
+  "paired_instances": 10,
+  "shared_parameter_seed_clusters": 5,
+  "corrected_batch_live_calls": 146,
+  "corrected_batch_estimated_usd": 2.1520365,
+  "initial_failed_batch_live_calls": 27,
+  "initial_failed_batch_estimated_usd": 0.2752355,
+  "identical_direct_vs_investigator_forecasts": 10,
+  "Meta_final_models_equal_shared_initial_model": 20,
+  "Meta_decision_cap_reached_without_stop": 12,
+  "Meta_explicit_stops": 8,
+  "cluster_bootstrap_sensitivity": {
+    "fixed_bic": {
+      "low_c": -0.0037714403414257896,
+      "high_c": 0.006544372060584576,
+      "clusters": 5,
+      "note": "Exploratory clustered sensitivity check; not the preregistered bootstrap"
+    },
+    "disagreement_bic": {
+      "low_c": -0.001583715837472668,
+      "high_c": 0.005760942502778166,
+      "clusters": 5,
+      "note": "Exploratory clustered sensitivity check; not the preregistered bootstrap"
+    },
+    "meta_direct": {
+      "low_c": 0.0,
+      "high_c": 0.0,
+      "clusters": 5,
+      "note": "Exploratory clustered sensitivity check; not the preregistered bootstrap"
+    }
+  },
+  "claim": "No incremental prediction advantage established for this bounded known-family calibration task",
+  "scope": "Simulation-only feasibility; not proof of impossibility or hardware performance"
+}

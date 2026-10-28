@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "6462393211cbc4baa34a095dfacfe2f134a6c800d8743b57f5dba31bba28fba2",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "d8d8029e7a20ff676c0f8646063bec1cf5088f3d9c89b3583a5cd9d54c7ece61",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "quadratic_loss",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Linear fit on initial-0, initial-1, initial-2 plus action-2 sustained-both has best BIC so far, and action-2 showed no_mismatch_observed (probe_rmse 0.0768c), but fitting is not independent confirmation nor mechanism. Sensor_lag and quadratic_loss have only been fit on initial-0,1,2; compare quadratic_loss numerically on the same full evidence including high-temperature sustained action-2 before spending scarce experiments (3 actions left, 5 fits left).",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 9086,
+    "output_tokens": 719,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01441325,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:11:47.295743+00:00"
+}

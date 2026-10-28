@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "53bfc1151483db3b15b0af233e171f2e66c1abdcf0094bed9571182a28552f8e",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "19b9ab9ad88fb820be797f096b2389e74f1d7f0f438bc8b002ddfdb2582930fd",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Compare bounded predictive candidates numerically before spending experiment budget; initial-0 both-heated, initial-1 left-only, initial-2 right-only provide symmetric training evidence at 0.08C noise.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6403,
+    "output_tokens": 483,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0100565,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:01:37.966708+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "545c049458c367c59720c59a84ad32efaea412f607f9fd2c1ca2fe3593c6b5cb",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "5d3b7ae77e6864e5f4a5a48708a0d42c042b0b578c5b4853080d3db5acfd2518",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Fits show sensor_lag training RMSE 0.083C vs 0.374C for linear/quadratic on initial-0,1,2, but fitting is not confirmation; propose staggered diagnostic to test initial sensor_lag model on new switching input before staging any revision.",
+    "schedule_id": "staggered"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6776,
+    "output_tokens": 550,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0108075,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:10:20.379658+00:00"
+}

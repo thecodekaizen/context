@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "54b5aceadcb5242653b24d83a01df3b49954d2eaa6962746f2baf07858597bc8",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "9402576892c1c874081b2d0e23a2b5e50bd98096d27b70d64c0cd28329e0e6af",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "No mismatch recorded yet on initial-0, initial-1, initial-2. Use bounded numerical fit to stage provisional linear candidate before spending physical budget; fitting is not confirmation or causation.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6401,
+    "output_tokens": 488,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01007525,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:16:54.221973+00:00"
+}

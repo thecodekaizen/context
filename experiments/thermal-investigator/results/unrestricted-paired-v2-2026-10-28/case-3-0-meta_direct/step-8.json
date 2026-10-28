@@ -1,0 +1,78 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "10a06556f62563b43325b55a284f98ec464114520496e949dd7a27c5c7db6948",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Training fits on full evidence favor linear BIC -3063.97 over quadratic_loss -3051.34 and sensor_lag -2943.88 but fitting is not confirmation; action-2 sustained-both RMSE 0.082C and action-4 both-release RMSE 0.081C both no_mismatch_observed on those inputs only; propose opposed-levels diagnostic to seek measured mismatch within 2 remaining experiments.",
+    "schedule_id": "opposed-levels"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 13115,
+    "output_tokens": 420,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01817875,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "proposal_only",
+    "model_id": "initial",
+    "schedule": {
+      "id": "opposed-levels",
+      "segments": [
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 15
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 15,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 15
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 15,
+          "q2_percent": 60
+        }
+      ]
+    },
+    "kind": "diagnostic",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "note": "Explicit preparation and dispatch through Investigation are required",
+    "execution": {
+      "action_id": "action-8",
+      "assessment": {
+        "probe_rmse_c": 0.0892318382324084,
+        "threshold_c": 0.3,
+        "status": "no_mismatch_observed",
+        "scope": "This probe only; passing does not certify unseen schedules."
+      },
+      "verdict": "no_mismatch_observed",
+      "scope": "Evidence for this experiment only; no global reliability claim"
+    }
+  }
+}

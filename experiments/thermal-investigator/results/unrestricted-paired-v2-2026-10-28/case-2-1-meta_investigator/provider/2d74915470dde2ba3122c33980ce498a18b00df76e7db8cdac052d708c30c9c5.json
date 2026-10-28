@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "context_sha256": "2d74915470dde2ba3122c33980ce498a18b00df76e7db8cdac052d708c30c9c5",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "9f453bf85379e1fbd778efddeb2a7af140a9a1e7f84611969bb45f5578826231",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "action-2 alternate RMSE 0.081 and action-4 staggered RMSE 0.081 both below 0.3 threshold with no_mismatch_observed; passing does not certify unseen schedules. Prior numerical comparison favored sensor_lag but training fit cannot establish mechanism. Propose independent diagnostic opposed-levels probe of initial within 2 remaining budget to boundly seek mismatch before any acceptance.",
+    "schedule_id": "opposed-levels"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 11906,
+    "output_tokens": 438,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.016744,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:13:25.542825+00:00"
+}

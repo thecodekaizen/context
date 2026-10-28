@@ -1,0 +1,59 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "f22e8baccd70c7c627e449746f8d4645afdd1dbbe62f7ccd77bcd3fa49ea079a",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "No recorded mismatch; action-2 RMSE 0.081 and action-4 RMSE 0.081 both below 0.3 threshold on alternate and staggered probes. Prior numerical comparison on initial-0,initial-1,initial-2 favored sensor_lag RMSE 0.077 BIC -1807 vs linear 0.299/-835 and quadratic_loss 0.299/-823. Re-fit sensor_lag numerically including new action-4 before spending remaining 2 experiments; fit is provisional only, not mechanism or accuracy claim.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 11230,
+    "output_tokens": 637,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01674475,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-a9b4a00355793b32749f5b88",
+    "family": "sensor_lag",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.00996162764976136,
+        "loss_rate_2_per_s": 0.005730988925007991,
+        "coupling_rate_12_per_s": 0.0069114434040817765,
+        "coupling_rate_21_per_s": 0.005515458191520163,
+        "heater_gain_1_c_per_s": 0.3742899136960189,
+        "heater_gain_2_c_per_s": 0.21886916144323898,
+        "shared_sensor_time_constant_s": 10.992436787743783
+      }
+    },
+    "training_rmse_c": 0.07846348684574907,
+    "bic": -3009.3677701645574,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 17
+  }
+}

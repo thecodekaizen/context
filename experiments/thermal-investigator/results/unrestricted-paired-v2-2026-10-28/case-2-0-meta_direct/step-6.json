@@ -1,0 +1,33 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "05bc38cea90c3f47789145c4dfb61ed6a070579b54b57f69dc47acaaa5f97583",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": null,
+    "model_id": null,
+    "operation": "stop",
+    "rationale": "All families compared numerically on same full evidence action-2+initial-0,1,2: linear BIC -2429.7 best, quadratic_loss BIC -2417.4 with near-zero quadratic terms, sensor_lag BIC -2371.2 worse. action-2 sustained-both showed no_mismatch_observed probe_rmse 0.0768. No recorded mismatches. Fitting is not mechanism confirmation nor future accuracy; stopping within budget without claiming global reliability.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 10444,
+    "output_tokens": 768,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.016319,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "stop_requested",
+    "reason": "All families compared numerically on same full evidence action-2+initial-0,1,2: linear BIC -2429.7 best, quadratic_loss BIC -2417.4 with near-zero quadratic terms, sensor_lag BIC -2371.2 worse. action-2 sustained-both showed no_mismatch_observed probe_rmse 0.0768. No recorded mismatches. Fitting is not mechanism confirmation nor future accuracy; stopping within budget without claiming global reliability.",
+    "note": "Controller must honor this request; no execution is dispatched by these tools"
+  }
+}

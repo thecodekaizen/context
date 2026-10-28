@@ -1,0 +1,16 @@
+{
+  "status": "completed",
+  "failure": null,
+  "method": "disagreement_bic",
+  "steps_completed": 0,
+  "source": "simulation",
+  "mean_rmse_c": 0.004046057245697029,
+  "prediction_sha256": "54f8ce7a747e71914645eb7bdf4c368b1f481692c5bed997e7f08b1f55578a50",
+  "experiment_actions_used": 7,
+  "fits_used": 9,
+  "wall_seconds": 2.6853471659705974,
+  "usage": {
+    "attempts": 0,
+    "charged_or_reserved_usd": 0.0
+  }
+}

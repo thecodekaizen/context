@@ -1,0 +1,78 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "99624684eee61a9880ab7f5c8da30aeeb25822a2a90e9c756664e7d9581838c7",
+    "evidence_ids": [
+      "action-4",
+      "action-5",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "No measured mismatch on initial-0, initial-1, initial-2, action-4 sustained-both (probe RMSE 0.086) and action-5 alternate (probe RMSE 0.082); training fits cannot establish mechanism. Propose diagnostic opposed-levels to probe asymmetric coupling within budget; proposal does not run experiment.",
+    "schedule_id": "opposed-levels"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 11193,
+    "output_tokens": 449,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0158995,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "proposal_only",
+    "model_id": "initial",
+    "schedule": {
+      "id": "opposed-levels",
+      "segments": [
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 15
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 15,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 15
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 15,
+          "q2_percent": 60
+        }
+      ]
+    },
+    "kind": "diagnostic",
+    "evidence_ids": [
+      "action-4",
+      "action-5",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "note": "Explicit preparation and dispatch through Investigation are required",
+    "execution": {
+      "action_id": "action-6",
+      "assessment": {
+        "probe_rmse_c": 0.09265916013298081,
+        "threshold_c": 0.3,
+        "status": "no_mismatch_observed",
+        "scope": "This probe only; passing does not certify unseen schedules."
+      },
+      "verdict": "no_mismatch_observed",
+      "scope": "Evidence for this experiment only; no global reliability claim"
+    }
+  }
+}

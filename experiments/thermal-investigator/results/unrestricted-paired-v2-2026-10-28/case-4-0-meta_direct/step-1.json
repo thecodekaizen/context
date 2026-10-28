@@ -1,0 +1,54 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "9402576892c1c874081b2d0e23a2b5e50bd98096d27b70d64c0cd28329e0e6af",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Stage provisional linear fit on initial-0, initial-1, initial-2 before any physical experiment; lowest BIC -1756 vs -1745 and -1733 and training RMSE 0.083C does not establish mechanism or future accuracy.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6373,
+    "output_tokens": 411,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.009713,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-4fc3e2c99c9846685294f54e",
+    "bic": -1756.0564915943476,
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "model": {
+      "estimated_parameters": {
+        "coupling_rate_12_per_s": 0.00522603892361377,
+        "coupling_rate_21_per_s": 0.004518420847145372,
+        "heater_gain_1_c_per_s": 0.2944417271383447,
+        "heater_gain_2_c_per_s": 0.26618287019579895,
+        "loss_rate_1_per_s": 0.008651755055398792,
+        "loss_rate_2_per_s": 0.009501810595280106
+      },
+      "specification": {
+        "sensor_lag": false,
+        "type": "two_node_thermal"
+      }
+    },
+    "optimizer_evaluations": 13,
+    "training_rmse_c": 0.0830744391107408,
+    "validation_status": "not_independently_confirmed"
+  }
+}

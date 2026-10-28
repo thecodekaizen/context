@@ -1,0 +1,59 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "235af786ecf4c27b48a3c2636ddde5f0cf3a9edd79420e40babbc75b083b5dae",
+    "evidence_ids": [
+      "action-2",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Use numerical fitting before spending 2 remaining physical experiments: prior combined action-2+initial-0,1,2 fits show sensor_lag training RMSE 0.0796C BIC -2385 vs linear 0.4648C BIC -698 and quadratic_loss 0.4648C BIC -686, but fitting is provisional only not mechanism or confirmation. action-6 staggered probe RMSE 0.0748C and action-2 alternate RMSE 0.0819C are no-mismatch on those inputs only. Refit sensor_lag on expanded action-2, action-6 plus initial-0,1,2 evidence.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 12420,
+    "output_tokens": 748,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.018704,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-27ed49b4b2b3346314428ea5",
+    "family": "sensor_lag",
+    "evidence_ids": [
+      "action-2",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.010341025080819159,
+        "loss_rate_2_per_s": 0.00404587799505288,
+        "coupling_rate_12_per_s": 0.0072421952392392585,
+        "coupling_rate_21_per_s": 0.0032256740876095797,
+        "heater_gain_1_c_per_s": 0.5422993507721966,
+        "heater_gain_2_c_per_s": 0.21774881911935534,
+        "shared_sensor_time_constant_s": 12.216948422869935
+      }
+    },
+    "training_rmse_c": 0.07857809929472685,
+    "bic": -3007.6161963735335,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 19
+  }
+}

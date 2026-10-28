@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "3b9c9463ef1a01155a05008c05e2163026f8e3e2536b0d114574423a423acb72",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "57317f5d72dd477f7e74c314a07267b39d86037f5e681461f5da5ad18f56c842",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Compare sensor_lag numerically against quadratic_loss BIC -2329 on action-2 plus initial-0, initial-1, initial-2 before consuming scarce experiments; training fit cannot establish mechanism or future accuracy, and action-2 probe RMSE 0.086 is no_mismatch_observed only for that input.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 9200,
+    "output_tokens": 708,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.014509,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:09:16.047922+00:00"
+}

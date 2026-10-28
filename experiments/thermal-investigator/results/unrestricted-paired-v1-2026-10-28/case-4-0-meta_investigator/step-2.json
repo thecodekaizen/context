@@ -1,0 +1,56 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "34e094e4c5de6327193e89a74a88f2c181d886ddbf0f2f91565c6816dd18bd9f",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "quadratic_loss",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Compare bounded predictive candidates numerically before spending experiments; initial-0 both-heat then release, initial-1 left-only heat, initial-2 right-only heat are training evidence only, not mechanism or future accuracy.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6735,
+    "output_tokens": 450,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01033125,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-3704f2a21b995140edbfb424",
+    "bic": -1787.1626846495994,
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "quadratic_loss",
+    "model": {
+      "estimated_parameters": {
+        "coupling_rate_12_per_s": 0.008033918280015907,
+        "coupling_rate_21_per_s": 0.008914095938405192,
+        "heater_gain_1_c_per_s": 0.28938176438024366,
+        "heater_gain_2_c_per_s": 0.3001434792811363,
+        "loss_rate_1_per_s": 0.009927903778152305,
+        "loss_rate_2_per_s": 0.011020908841991636,
+        "quadratic_loss_1_per_c_s": 2.4217697183817113e-14,
+        "quadratic_loss_2_per_c_s": 0.000143424650839026
+      },
+      "specification": {
+        "sensor_lag": false,
+        "type": "two_node_quadratic_loss"
+      }
+    },
+    "optimizer_evaluations": 25,
+    "training_rmse_c": 0.07827151374968494,
+    "validation_status": "not_independently_confirmed"
+  }
+}

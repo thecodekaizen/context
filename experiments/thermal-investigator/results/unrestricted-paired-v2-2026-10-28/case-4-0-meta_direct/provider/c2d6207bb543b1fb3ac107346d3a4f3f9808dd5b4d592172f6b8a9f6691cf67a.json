@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "c2d6207bb543b1fb3ac107346d3a4f3f9808dd5b4d592172f6b8a9f6691cf67a",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "765f8937da8c79e0e4f756387c808acee45f2ab620039c2a84540e54bf611307",
+    "evidence_ids": [
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Refit provisional linear on initial-0, initial-1, initial-2 plus action-4 sustained-both (probe RMSE 0.081C, no_mismatch_observed); prior fits linear BIC -1756 RMSE 0.083C vs quadratic -1745 vs lag -1733; training fit cannot establish mechanism or future accuracy.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 9254,
+    "output_tokens": 975,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01571125,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:16:35.785676+00:00"
+}

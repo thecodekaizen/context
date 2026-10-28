@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "e251c0f1b1162b73ea83e1a61786acd7627609167dc2b7f24d4e856bd3592096",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "2282a8b3d7aff88f1c004e9faf31940068feb8c70d5c4faf3cc6757d11755736",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "quadratic_loss",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Numerical comparison before spending 3 remaining physical experiments: sensor_lag training RMSE 0.0796C BIC -2385 vs linear 0.4648C BIC -698 on same action-2 plus initial-0,1,2 evidence; quadratic_loss not yet compared on combined evidence. Fitting is provisional only, not mechanism or confirmation.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 9831,
+    "output_tokens": 374,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01387825,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:08:04.239288+00:00"
+}

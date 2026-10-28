@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "29cd72011aa5ce8d805f806d8363dea8c8a9b2f62c615b393eff34526ae5c5d8",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "496ca2ab5847a98e82852cfb5f678386297c93ff6793599e00bd8b632df9e3db",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Training fits on initial-0, initial-1, initial-2 favor sensor_lag (RMSE 0.083, BIC -1749) over linear/quadratic (RMSE 0.374), but fitting is not confirmation; propose diagnostic alternate schedule to independently test initial model before accepting any revision.",
+    "schedule_id": "alternate"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 7163,
+    "output_tokens": 596,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01148675,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:11:03.478394+00:00"
+}

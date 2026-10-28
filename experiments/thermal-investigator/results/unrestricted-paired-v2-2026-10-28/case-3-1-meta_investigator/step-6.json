@@ -1,0 +1,34 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "5b99e77b09621af904e869c927081bc1dec69b7d5f006c647a040f13db40e3f5",
+    "evidence_ids": [
+      "action-3",
+      "action-5",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": null,
+    "model_id": null,
+    "operation": "stop",
+    "rationale": "No measured mismatch: action-3 RMSE 0.085C and action-5 RMSE 0.082C both no_mismatch_observed vs 0.3C threshold; training fits favor sensor_lag but fitting is not confirmation and no mismatch requires revision. Stop within budget preserving 2 actions.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 11467,
+    "output_tokens": 449,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.016242,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "stop_requested",
+    "reason": "No measured mismatch: action-3 RMSE 0.085C and action-5 RMSE 0.082C both no_mismatch_observed vs 0.3C threshold; training fits favor sensor_lag but fitting is not confirmation and no mismatch requires revision. Stop within budget preserving 2 actions.",
+    "note": "Controller must honor this request; no execution is dispatched by these tools"
+  }
+}

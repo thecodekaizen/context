@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "88a318940f101a01755e41e3541b44e985ba1c18c95ea3b59d3b89a4bf858486",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "8957a6ece6f6009e4fcc93f479cf569369d9a2bb8fc1f74a22b74af93f6cd57f",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Compare bounded candidates numerically on same combined initial-0, initial-1, initial-2 plus action-2 evidence before spending 3 remaining physical experiments; prior sensor_lag training RMSE 0.0796C BIC -2385 is provisional only, not mechanism or confirmation.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 9252,
+    "output_tokens": 705,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01456125,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:08:01.000512+00:00"
+}

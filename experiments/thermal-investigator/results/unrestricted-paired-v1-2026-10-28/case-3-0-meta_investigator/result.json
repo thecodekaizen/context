@@ -1,0 +1,21 @@
+{
+  "status": "failed_no_retry",
+  "failure": {
+    "type": "ValueError",
+    "message": "Meta attempt failed (ValueError); saved without retry"
+  },
+  "method": "meta_investigator",
+  "steps_completed": 0,
+  "source": "simulation",
+  "mean_rmse_c": 0.009067550286689176,
+  "prediction_sha256": "248c70bfe66dfbd73294e09ca2db071e7fcc94dba2867f6f3e5671dc0ee58c2d",
+  "experiment_actions_used": 3,
+  "fits_used": 3,
+  "wall_seconds": 3.7243108749971725,
+  "usage": {
+    "attempts": 1,
+    "charged_or_reserved_usd": 0.00980025,
+    "input_tokens": 6402,
+    "output_tokens": 423
+  }
+}

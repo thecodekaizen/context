@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "context_sha256": "434e17c066422f3f14b8fa5c23fa6c088f196c76dbf0c1227ae51ae8aeb6cd35",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "235af786ecf4c27b48a3c2636ddde5f0cf3a9edd79420e40babbc75b083b5dae",
+    "evidence_ids": [
+      "action-2",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Use numerical fitting before spending 2 remaining physical experiments: prior combined action-2+initial-0,1,2 fits show sensor_lag training RMSE 0.0796C BIC -2385 vs linear 0.4648C BIC -698 and quadratic_loss 0.4648C BIC -686, but fitting is provisional only not mechanism or confirmation. action-6 staggered probe RMSE 0.0748C and action-2 alternate RMSE 0.0819C are no-mismatch on those inputs only. Refit sensor_lag on expanded action-2, action-6 plus initial-0,1,2 evidence.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 12420,
+    "output_tokens": 748,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.018704,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:08:14.146536+00:00"
+}

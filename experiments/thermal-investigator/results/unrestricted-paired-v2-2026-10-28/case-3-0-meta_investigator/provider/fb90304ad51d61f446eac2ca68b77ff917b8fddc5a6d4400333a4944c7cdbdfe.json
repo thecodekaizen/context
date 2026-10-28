@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "context_sha256": "fb90304ad51d61f446eac2ca68b77ff917b8fddc5a6d4400333a4944c7cdbdfe",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "18db773d5a38454c75f053e5431ee8d8e698815b21d61e97f2f1b316327a625e",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "No mismatch yet: action-2 staggered probe RMSE 0.0858C and action-4 sustained-both probe RMSE 0.0823C both pass, but passing does not certify unseen schedules. Existing fits compare families only on initial-0, initial-1, initial-2 except quadratic_loss on action-2. Use fitting tool to compare linear explanation on expanded evidence initial-0, initial-1, initial-2 plus action-2, action-4 before spending remaining 2 experiments; training fit does not establish mechanism.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 11074,
+    "output_tokens": 662,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.016656,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:14:05.516465+00:00"
+}

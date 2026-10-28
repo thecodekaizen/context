@@ -1,0 +1,76 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "58993588d7149d7e91bdc666fb02a5ab43ae7f3270aa767533f5fc931137fb2a",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "action-2 staggered probe shows no_mismatch_observed RMSE 0.08C <0.3C, but passing does not certify unseen schedules; training fits (sensor_lag RMSE 0.083C vs linear/quadratic 0.374C on initial-0,1,2) are not independent confirmation, so propose alternate diagnostic to test initial model on new switching input within budget.",
+    "schedule_id": "alternate"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 8621,
+    "output_tokens": 870,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01447375,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "proposal_only",
+    "model_id": "initial",
+    "schedule": {
+      "id": "alternate",
+      "segments": [
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 0,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 0,
+          "q2_percent": 60
+        }
+      ]
+    },
+    "kind": "diagnostic",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "note": "Explicit preparation and dispatch through Investigation are required",
+    "execution": {
+      "action_id": "action-3",
+      "assessment": {
+        "probe_rmse_c": 0.07151694412016454,
+        "threshold_c": 0.3,
+        "status": "no_mismatch_observed",
+        "scope": "This probe only; passing does not certify unseen schedules."
+      },
+      "verdict": "no_mismatch_observed",
+      "scope": "Evidence for this experiment only; no global reliability claim"
+    }
+  }
+}

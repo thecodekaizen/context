@@ -1,0 +1,60 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "c63cb890f26fd33b9c84dd47344034deab8e3d9cffaf6888ce2b040aefb45fb4",
+    "evidence_ids": [
+      "action-2",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "quadratic_loss",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Compare quadratic_loss numerically on full evidence action-2, action-6, initial-0, initial-1, initial-2 before consuming scarce experiments; linear BIC -2964 on same set vs prior quadratic -2329 and sensor_lag -2279 on subset, action-2 RMSE 0.086 and action-6 RMSE 0.074 are no_mismatch_observed only for those inputs; training fit cannot establish mechanism or future accuracy.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 12925,
+    "output_tokens": 517,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0183535,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-0c7b0e7110e6644c3eed159c",
+    "family": "quadratic_loss",
+    "evidence_ids": [
+      "action-2",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_quadratic_loss",
+        "sensor_lag": false
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.013629806839798184,
+        "loss_rate_2_per_s": 0.005550943279641503,
+        "coupling_rate_12_per_s": 0.009643350256548626,
+        "coupling_rate_21_per_s": 0.00478953998764092,
+        "heater_gain_1_c_per_s": 0.5132685119100033,
+        "heater_gain_2_c_per_s": 0.2308120942809646,
+        "quadratic_loss_1_per_c_s": 3.632679600771941e-06,
+        "quadratic_loss_2_per_c_s": 3.7826252986829683e-06
+      }
+    },
+    "training_rmse_c": 0.08185200686162535,
+    "bic": -2952.2355107885483,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 27
+  }
+}

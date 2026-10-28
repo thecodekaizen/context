@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "4a2dd77fe0db01c4ff4edd8c49025ddfc286efcc3613d6afd346af36b52410c5",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "249757010b32d015e11c7fa9759d88b472ef8875f35584963de2f1ca8bbbc4d9",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Training fits on initial-0, initial-1, initial-2 compare candidates numerically but do not establish mechanism or future accuracy; propose opposed-levels diagnostic of initial model to seek bounded independent mismatch evidence.",
+    "schedule_id": "opposed-levels"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 7465,
+    "output_tokens": 622,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01197475,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:09:51.825638+00:00"
+}

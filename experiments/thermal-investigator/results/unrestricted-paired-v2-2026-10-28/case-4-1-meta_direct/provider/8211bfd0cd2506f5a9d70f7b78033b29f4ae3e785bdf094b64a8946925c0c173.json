@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "context_sha256": "8211bfd0cd2506f5a9d70f7b78033b29f4ae3e785bdf094b64a8946925c0c173",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "7cd231a361e9025bbc80665d95f94c022eba8ba5ef685d6e7882613241296216",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Numerical fits favor sensor_lag training RMSE 0.08C BIC -2985 on action-2, action-4, initial-0, initial-1, initial-2 vs linear/quadratic 0.29C, but fitting is provisional not causal or independent confirmation. action-2 alternate probe RMSE 0.079C and action-4 both-release probe RMSE 0.073C show no_mismatch_observed for initial model on those inputs only, not global. Propose diagnostic staggered schedule to independently probe initial model on unseen input within scarce budget.",
+    "schedule_id": "staggered"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 11849,
+    "output_tokens": 807,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.018241,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:17:54.033491+00:00"
+}

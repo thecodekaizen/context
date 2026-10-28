@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "context_sha256": "7be134aaac2c39da9ba20f6d2d38c8bf98b632d8fd63a337f8ad57299d907d65",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "c63cb890f26fd33b9c84dd47344034deab8e3d9cffaf6888ce2b040aefb45fb4",
+    "evidence_ids": [
+      "action-2",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "quadratic_loss",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Compare quadratic_loss numerically on full evidence action-2, action-6, initial-0, initial-1, initial-2 before consuming scarce experiments; linear BIC -2964 on same set vs prior quadratic -2329 and sensor_lag -2279 on subset, action-2 RMSE 0.086 and action-6 RMSE 0.074 are no_mismatch_observed only for those inputs; training fit cannot establish mechanism or future accuracy.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 12925,
+    "output_tokens": 517,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0183535,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:09:35.741128+00:00"
+}

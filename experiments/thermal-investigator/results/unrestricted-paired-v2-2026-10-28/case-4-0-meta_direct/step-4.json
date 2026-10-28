@@ -1,0 +1,59 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "da13cedc70d08b1ff3c4cc1d3bdf10d261bc40342dc102cfc42bc68ec553cdf2",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Provisional fits on initial-0, initial-1, initial-2 (linear BIC -1756 RMSE 0.083C, quadratic -1745, lag -1733) cannot establish mechanism; propose sustained-both diagnostic to independently test initial model at high sustained temperature where alternatives diverge.",
+    "schedule_id": "sustained-both"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 7452,
+    "output_tokens": 668,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.012154,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "proposal_only",
+    "model_id": "initial",
+    "schedule": {
+      "id": "sustained-both",
+      "segments": [
+        {
+          "seconds": 120.0,
+          "q1_percent": 60,
+          "q2_percent": 60
+        }
+      ]
+    },
+    "kind": "diagnostic",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "note": "Explicit preparation and dispatch through Investigation are required",
+    "execution": {
+      "action_id": "action-4",
+      "assessment": {
+        "probe_rmse_c": 0.08096595673651608,
+        "threshold_c": 0.3,
+        "status": "no_mismatch_observed",
+        "scope": "This probe only; passing does not certify unseen schedules."
+      },
+      "verdict": "no_mismatch_observed",
+      "scope": "Evidence for this experiment only; no global reliability claim"
+    }
+  }
+}

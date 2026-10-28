@@ -1,0 +1,59 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "841cd7afad1a0bad1762dac17a9f592544b79ff2622ffd06956e036a15adbd10",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Provisional fits on initial-0, initial-1, initial-2 show BIC linear -1755 vs quadratic -1743 vs sensor_lag -1706, but training fit cannot establish mechanism or future accuracy; propose sustained-both diagnostic to independently test initial model at higher sustained temperatures.",
+    "schedule_id": "sustained-both"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6724,
+    "output_tokens": 1019,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01273575,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "proposal_only",
+    "model_id": "initial",
+    "schedule": {
+      "id": "sustained-both",
+      "segments": [
+        {
+          "seconds": 120.0,
+          "q1_percent": 60,
+          "q2_percent": 60
+        }
+      ]
+    },
+    "kind": "diagnostic",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "note": "Explicit preparation and dispatch through Investigation are required",
+    "execution": {
+      "action_id": "action-2",
+      "assessment": {
+        "probe_rmse_c": 0.08654913476224499,
+        "threshold_c": 0.3,
+        "status": "no_mismatch_observed",
+        "scope": "This probe only; passing does not certify unseen schedules."
+      },
+      "verdict": "no_mismatch_observed",
+      "scope": "Evidence for this experiment only; no global reliability claim"
+    }
+  }
+}

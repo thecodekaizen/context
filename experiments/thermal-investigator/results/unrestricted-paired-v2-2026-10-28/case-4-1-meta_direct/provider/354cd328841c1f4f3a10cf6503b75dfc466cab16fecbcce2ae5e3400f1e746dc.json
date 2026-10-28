@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "354cd328841c1f4f3a10cf6503b75dfc466cab16fecbcce2ae5e3400f1e746dc",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "d6e7ae8965f783922fef1e686201aead77853e83ec47a08646ac59af48768310",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "action-2 alternate probe shows no_mismatch_observed probe_rmse 0.079C threshold 0.3C for initial model, scope limited to that input only and does not certify unseen schedules. Numerical fits favor sensor_lag training RMSE 0.082C BIC -2359 vs linear/quadratic ~0.29C but fitting is not independent confirmation or causation. Propose diagnostic both-release to independently probe initial model under scarce budget before acceptance.",
+    "schedule_id": "both-release"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 9276,
+    "output_tokens": 653,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01437025,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:17:43.848647+00:00"
+}

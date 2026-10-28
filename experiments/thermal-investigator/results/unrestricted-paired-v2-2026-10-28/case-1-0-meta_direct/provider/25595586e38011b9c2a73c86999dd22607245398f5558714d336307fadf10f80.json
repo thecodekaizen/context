@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "25595586e38011b9c2a73c86999dd22607245398f5558714d336307fadf10f80",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "5eff5bd3d35dcfc68bb55448eec08acf0e5b6668660cb65721a76c560c67d4fe",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Numerical fits on action-2 plus initial-0, initial-1, initial-2 give BIC linear -2341 vs quadratic_loss -2329 vs sensor_lag -2279; training fit cannot establish mechanism or future accuracy. action-2 sustained 0.6/0.6 shows no_mismatch_observed probe RMSE 0.086 only for that input. Propose both-release diagnostic to independently test initial model on heating then release transient not yet covered.",
+    "schedule_id": "both-release"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 10409,
+    "output_tokens": 855,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.016645,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:09:26.633019+00:00"
+}

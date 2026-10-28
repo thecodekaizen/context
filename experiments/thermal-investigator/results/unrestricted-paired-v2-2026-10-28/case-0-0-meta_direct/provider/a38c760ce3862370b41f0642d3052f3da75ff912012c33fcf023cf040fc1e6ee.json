@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "a38c760ce3862370b41f0642d3052f3da75ff912012c33fcf023cf040fc1e6ee",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "0b8c23ec66e0d6b57fff0741f30cd97531460c8e95ed44b06fcb59670872093e",
+    "evidence_ids": [
+      "action-5",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "quadratic_loss",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Stage provisional quadratic_loss fit using all observed evidence initial-0, initial-1, initial-2 and action-5 sustained 0.6/0.6 high-temperature probe with no_mismatch_observed; training fit does not establish mechanism and requires independent confirmation.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 9600,
+    "output_tokens": 948,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.016029,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:06:57.100626+00:00"
+}

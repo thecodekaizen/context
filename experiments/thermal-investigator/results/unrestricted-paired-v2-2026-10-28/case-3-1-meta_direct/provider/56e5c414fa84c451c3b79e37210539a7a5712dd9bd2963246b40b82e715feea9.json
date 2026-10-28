@@ -1,0 +1,33 @@
+{
+  "status": "completed",
+  "context_sha256": "56e5c414fa84c451c3b79e37210539a7a5712dd9bd2963246b40b82e715feea9",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "936de8bbe07f17ee2738f0b60e260ee5003fdc204ddd4f234cd58f07fd93f410",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "initial sensor_lag shows no_mismatch on action-2 probe_rmse 0.085C, action-4 0.082C, action-6 0.087C probe-only scope; candidate_fits training RMSE sensor_lag ~0.07C vs linear ~0.32-0.38C and quadratic_loss ~0.32C on initial-0,initial-1,initial-2 is not independent confirmation; propose unseen sustained-both diagnostic for initial within 1-action budget.",
+    "schedule_id": "sustained-both"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 14307,
+    "output_tokens": 701,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.020863,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:16:09.353051+00:00"
+}

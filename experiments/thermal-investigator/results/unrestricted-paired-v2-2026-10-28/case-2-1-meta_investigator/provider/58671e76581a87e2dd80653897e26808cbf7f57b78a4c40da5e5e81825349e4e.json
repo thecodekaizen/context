@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "58671e76581a87e2dd80653897e26808cbf7f57b78a4c40da5e5e81825349e4e",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "c7d17cccf766ddc0f80d0b7e31468c2535ac022483513ab717298913e80e0a8b",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Numerical comparison shows sensor_lag training RMSE 0.077 vs linear 0.299 and quadratic_loss 0.299 on initial-0, initial-1, initial-2, but training fit cannot establish mechanism or future accuracy. Propose independent diagnostic alternate schedule to test initial model and generate bounded mismatch evidence before accepting any provisional candidate.",
+    "schedule_id": "alternate"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6805,
+    "output_tokens": 640,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01122625,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:13:05.463710+00:00"
+}

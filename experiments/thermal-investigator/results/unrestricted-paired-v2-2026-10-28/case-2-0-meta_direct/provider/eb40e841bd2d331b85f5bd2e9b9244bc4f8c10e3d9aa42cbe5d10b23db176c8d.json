@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "eb40e841bd2d331b85f5bd2e9b9244bc4f8c10e3d9aa42cbe5d10b23db176c8d",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "2c00a8df4b540173bb0791bc6c9dd15966d4f85118a19a0a9d23dd83611f8604",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Training fits on initial-0, initial-1, initial-2 favor linear by BIC but fitting is not independent confirmation; propose diagnostic sustained-both to independently test initial model at higher sustained temperature where quadratic loss would diverge.",
+    "schedule_id": "sustained-both"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6720,
+    "output_tokens": 603,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01096275,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:11:36.188903+00:00"
+}

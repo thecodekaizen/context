@@ -1,0 +1,18 @@
+{
+  "status": "completed",
+  "failure": null,
+  "method": "meta_investigator",
+  "steps_completed": 5,
+  "source": "simulation",
+  "mean_rmse_c": 0.005691988137735478,
+  "prediction_sha256": "06a149e7a6822b7c21f2b816b786e2a246c1b041317b05808ec560dcebb30743",
+  "experiment_actions_used": 7,
+  "fits_used": 3,
+  "wall_seconds": 22.883391208015382,
+  "usage": {
+    "attempts": 5,
+    "charged_or_reserved_usd": 0.07647100000000001,
+    "input_tokens": 50477,
+    "output_tokens": 3147
+  }
+}

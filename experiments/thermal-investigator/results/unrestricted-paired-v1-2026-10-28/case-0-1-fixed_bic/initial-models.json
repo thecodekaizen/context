@@ -1,0 +1,94 @@
+{
+  "candidates": [
+    {
+      "candidate_id": "fit-d07a3e7396ff90582cf52fef",
+      "family": "linear",
+      "evidence_ids": [
+        "initial-0",
+        "initial-1",
+        "initial-2"
+      ],
+      "model": {
+        "specification": {
+          "type": "two_node_thermal",
+          "sensor_lag": false
+        },
+        "estimated_parameters": {
+          "loss_rate_1_per_s": 0.003049106525504259,
+          "loss_rate_2_per_s": 0.0010000000000018618,
+          "coupling_rate_12_per_s": 0.008322337325638546,
+          "coupling_rate_21_per_s": 0.0053613854798611965,
+          "heater_gain_1_c_per_s": 0.2634489901499595,
+          "heater_gain_2_c_per_s": 0.13534328140110527
+        }
+      },
+      "training_rmse_c": 0.3067140136339264,
+      "bic": -815.6078282240129,
+      "validation_status": "not_independently_confirmed",
+      "optimizer_evaluations": 18
+    },
+    {
+      "candidate_id": "fit-d3e59f2df7411a8c38fd9841",
+      "family": "sensor_lag",
+      "evidence_ids": [
+        "initial-0",
+        "initial-1",
+        "initial-2"
+      ],
+      "model": {
+        "specification": {
+          "type": "two_node_thermal",
+          "sensor_lag": true
+        },
+        "estimated_parameters": {
+          "loss_rate_1_per_s": 0.012345815283978708,
+          "loss_rate_2_per_s": 0.005088177087653615,
+          "coupling_rate_12_per_s": 0.012299147693766966,
+          "coupling_rate_21_per_s": 0.006764203808875309,
+          "heater_gain_1_c_per_s": 0.4192271581061668,
+          "heater_gain_2_c_per_s": 0.17866258223254228,
+          "shared_sensor_time_constant_s": 12.763562487945737
+        }
+      },
+      "training_rmse_c": 0.07669522577752858,
+      "bic": -1807.696660703886,
+      "validation_status": "not_independently_confirmed",
+      "optimizer_evaluations": 17
+    },
+    {
+      "candidate_id": "fit-189716b2e5363ab83fb3c456",
+      "family": "quadratic_loss",
+      "evidence_ids": [
+        "initial-0",
+        "initial-1",
+        "initial-2"
+      ],
+      "model": {
+        "specification": {
+          "type": "two_node_quadratic_loss",
+          "sensor_lag": false
+        },
+        "estimated_parameters": {
+          "loss_rate_1_per_s": 0.003049106592806149,
+          "loss_rate_2_per_s": 0.0010000000000002312,
+          "coupling_rate_12_per_s": 0.008322337266274541,
+          "coupling_rate_21_per_s": 0.005361385527717428,
+          "heater_gain_1_c_per_s": 0.26344898929363125,
+          "heater_gain_2_c_per_s": 0.1353432826803507,
+          "quadratic_loss_1_per_c_s": 9.955209175607165e-18,
+          "quadratic_loss_2_per_c_s": 4.585565292954888e-18
+        }
+      },
+      "training_rmse_c": 0.30671401363161027,
+      "bic": -803.8356201665495,
+      "validation_status": "not_independently_confirmed",
+      "optimizer_evaluations": 20
+    }
+  ],
+  "bic_scores": {
+    "linear": -815.6078282240127,
+    "sensor_lag": -1807.6966607038862,
+    "quadratic_loss": -803.8356201665495
+  },
+  "selected": "sensor_lag"
+}

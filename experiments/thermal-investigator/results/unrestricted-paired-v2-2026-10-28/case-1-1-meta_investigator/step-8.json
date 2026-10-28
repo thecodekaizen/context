@@ -1,0 +1,61 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "12ce2929e712e587b444de9be4a6c85458badd7b113f9edb0224216fc4a0733b",
+    "evidence_ids": [
+      "action-3",
+      "action-5",
+      "action-7",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "No mismatch recorded: action-3 RMSE 0.072, action-5 RMSE 0.080, action-7 RMSE 0.081 all <0.3 threshold, passing does not certify mechanism. Prior bounded fits favor sensor_lag training RMSE 0.08 BIC -2985 over linear/quadratic RMSE 0.374 BIC -672/-660, but fitting is not confirmation or causation. Fit sensor_lag on all six observations including action-7 before consuming last physical experiment; staging only.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 14057,
+    "output_tokens": 658,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.02036775,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-29ccd37ea0a4835057e69fcd",
+    "family": "sensor_lag",
+    "evidence_ids": [
+      "action-3",
+      "action-5",
+      "action-7",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.013452432363009137,
+        "loss_rate_2_per_s": 0.005495793089805378,
+        "coupling_rate_12_per_s": 0.009584121277023676,
+        "coupling_rate_21_per_s": 0.00477976734362824,
+        "heater_gain_1_c_per_s": 0.5084535981750982,
+        "heater_gain_2_c_per_s": 0.23004473128542868,
+        "shared_sensor_time_constant_s": 12.34807123867271
+      }
+    },
+    "training_rmse_c": 0.0800870663450197,
+    "bic": -3589.428147302906,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 17
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "context_sha256": "5c78091dccb0b4d63f1f4670a21cf38a1f92d96295e112fe59760a21a8e62c6b",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "c8e7401906bd30c8a508fbb54fec29e0a9b4cf9371cb173ef67f08cc6cce6ab4",
+    "evidence_ids": [
+      "action-3",
+      "action-5",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "No mismatch recorded; action-3 RMSE 0.07 and action-5 RMSE 0.08 both pass threshold 0.3, but passing does not certify mechanism. Prior fits on initial-0,1,2 show sensor_lag RMSE 0.083 BIC -1749 vs linear/quadratic RMSE 0.374 BIC -672/-660. Fit sensor_lag on all five observations to compare bounded candidates with fitting tool before spending remaining 2 experiments; staging only, not acceptance or causation.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 11519,
+    "output_tokens": 612,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01699975,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:11:18.645542+00:00"
+}

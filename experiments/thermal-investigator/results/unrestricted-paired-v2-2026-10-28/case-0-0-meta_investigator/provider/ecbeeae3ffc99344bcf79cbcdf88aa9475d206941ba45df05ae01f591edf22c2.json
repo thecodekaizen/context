@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "ecbeeae3ffc99344bcf79cbcdf88aa9475d206941ba45df05ae01f591edf22c2",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "8ff737890ee3e611f3bc823180f09d9f76242e0aedc8ffb6f8851389fc8c64d5",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "No measured mismatch yet on initial-0, initial-1, initial-2; training fits (linear RMSE 0.079, quadratic_loss RMSE 0.079, sensor_lag RMSE 0.085) cannot establish mechanism or future accuracy. Propose diagnostic sustained-both to probe high-temperature loss behavior within budget; proposal does not run experiment.",
+    "schedule_id": "sustained-both"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 7523,
+    "output_tokens": 737,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.012536,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:07:24.176516+00:00"
+}

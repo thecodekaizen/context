@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "574fdaa2099ede7f2be6db68ce48dc352e9a9a14b29abedebc19bf42d33d4b80",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "e750eefc9b3ecc8c635d51912459d57b93192b75df7d06fe71b716edb7e01244",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "quadratic_loss",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Stage provisional quadratic_loss fit using all observed evidence initial-0, initial-1, initial-2 to complete numerical comparison of bounded families before consuming experiment budget; training fit does not establish mechanism.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 7423,
+    "output_tokens": 372,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01085975,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:06:44.126816+00:00"
+}

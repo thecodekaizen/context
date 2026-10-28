@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "301b7b5be5b3d1bc8b2001029e37abac2e1927424b1e7ced7d92eb47804f2f64",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "6f53a5a0dd1d1565833621627999728fc8aeaf9bb1cb7a3ba36df17963c6330e",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "quadratic_loss",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Stage provisional quadratic_loss fit on initial-0, initial-1, initial-2 plus action-2; training fit cannot establish mechanism or future accuracy. action-2 sustained 0.6/0.6 shows no_mismatch_observed (probe_rmse 0.086) but does not confirm mechanism; compare numerical fits before consuming scarce experiments.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 8527,
+    "output_tokens": 651,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0134255,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:09:10.285975+00:00"
+}

@@ -1,0 +1,36 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "ac3926c20df6e01212d828fa333f9752b818f4f956fe6a8f8e30627a938413a8",
+    "evidence_ids": [
+      "action-1",
+      "action-2",
+      "action-3",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": null,
+    "model_id": null,
+    "operation": "stop",
+    "rationale": "Stop with budget exhausted (0 actions remaining). action-1 RMSE 0.0768C, action-2 0.0898C, action-3 0.0769C, action-4 0.0821C all no_mismatch_observed vs 0.3C; no recorded mismatches. Training fits (linear, quadratic_loss, sensor_lag) on initial-0, initial-1, initial-2 remain not_independently_confirmed and cannot establish mechanism; no revision warranted.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 13847,
+    "output_tokens": 445,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0192,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "stop_requested",
+    "reason": "Stop with budget exhausted (0 actions remaining). action-1 RMSE 0.0768C, action-2 0.0898C, action-3 0.0769C, action-4 0.0821C all no_mismatch_observed vs 0.3C; no recorded mismatches. Training fits (linear, quadratic_loss, sensor_lag) on initial-0, initial-1, initial-2 remain not_independently_confirmed and cannot establish mechanism; no revision warranted.",
+    "note": "Controller must honor this request; no execution is dispatched by these tools"
+  }
+}

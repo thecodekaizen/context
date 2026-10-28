@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "53ec8519ba5562ab5863f7dc1562d6c3e93ef9e08721b0073e11814e20fd5354",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "2d0fa24ebd77ee9d45398432804660d782048237813f3138b96e9bf87bad2b1a",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "action-2 sustained-both probe showed no_mismatch_observed RMSE 0.082C; initial-0, initial-1, initial-2 training fits favor linear but fitting is not confirmation; propose diagnostic both-release to seek measured mismatch within budget before staging acceptance.",
+    "schedule_id": "both-release"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 9228,
+    "output_tokens": 450,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0134475,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:14:43.874890+00:00"
+}

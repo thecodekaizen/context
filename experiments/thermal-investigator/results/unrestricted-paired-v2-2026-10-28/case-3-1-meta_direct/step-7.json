@@ -1,0 +1,60 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "90bedc6a51e8a1ed81f9a736b2d5d92a7f467602be851a68848ec6c095a8d1a8",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "candidate_fits on initial-0,initial-1,initial-2 show sensor_lag training RMSE 0.072C vs linear 0.32C and quadratic_loss 0.32C; initial shows no_mismatch on action-2 probe_rmse 0.085C, action-4 0.082C, action-6 0.087C probe-only scope. Numerical fitting comparison of linear on all bounded evidence must precede scarce experiment (1 action left); fit is provisional not mechanistic or confirmatory.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 13657,
+    "output_tokens": 759,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.020297,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-dc821e5e1bef55ae3300d81f",
+    "family": "linear",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_thermal",
+        "sensor_lag": false
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.0016688077114242993,
+        "loss_rate_2_per_s": 0.005170248862072546,
+        "coupling_rate_12_per_s": 0.006194870173349827,
+        "coupling_rate_21_per_s": 0.007535864535658645,
+        "heater_gain_1_c_per_s": 0.26743398706516003,
+        "heater_gain_2_c_per_s": 0.29045324693369645
+      }
+    },
+    "training_rmse_c": 0.38771377649017164,
+    "bic": -1324.907070231213,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 20
+  }
+}

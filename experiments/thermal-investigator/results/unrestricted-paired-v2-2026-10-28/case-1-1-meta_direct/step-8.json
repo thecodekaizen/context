@@ -1,0 +1,80 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "b2760aca85947adc6e04c95c522e6c9f318accba8e880568929340cb488cba92",
+    "evidence_ids": [
+      "action-2",
+      "action-3",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "All families compared on same full evidence action-2,3,4,initial-0,1,2: sensor_lag RMSE 0.081C BIC -3567.6 vs linear 0.442C BIC -1136.6 vs quadratic 0.440C BIC -1130.5; fit alone cannot establish mechanism. Initial model shows no_mismatch on action-2 RMSE 0.081C, action-3 0.072C, action-4 0.086C probe-only, which does not certify unseen schedules; propose opposed-levels diagnostic to test initial model on new input within 1 remaining budget. Proposal does not run experiment.",
+    "schedule_id": "opposed-levels"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 14400,
+    "output_tokens": 756,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.021213,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "proposal_only",
+    "model_id": "initial",
+    "schedule": {
+      "id": "opposed-levels",
+      "segments": [
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 15
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 15,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 15
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 15,
+          "q2_percent": 60
+        }
+      ]
+    },
+    "kind": "diagnostic",
+    "evidence_ids": [
+      "action-2",
+      "action-3",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "note": "Explicit preparation and dispatch through Investigation are required",
+    "execution": {
+      "action_id": "action-8",
+      "assessment": {
+        "probe_rmse_c": 0.0797295889291871,
+        "threshold_c": 0.3,
+        "status": "no_mismatch_observed",
+        "scope": "This probe only; passing does not certify unseen schedules."
+      },
+      "verdict": "no_mismatch_observed",
+      "scope": "Evidence for this experiment only; no global reliability claim"
+    }
+  }
+}

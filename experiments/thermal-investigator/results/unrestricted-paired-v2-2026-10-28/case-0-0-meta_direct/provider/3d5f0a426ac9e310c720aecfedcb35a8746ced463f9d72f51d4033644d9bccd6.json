@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "3d5f0a426ac9e310c720aecfedcb35a8746ced463f9d72f51d4033644d9bccd6",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "e1ded4b2060ffc376affcffc09363fad55f9c46babfe1fd962528a147e8e1dc1",
+    "evidence_ids": [
+      "action-5",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Propose diagnostic alternate test of initial model after action-5 sustained-both showed no_mismatch_observed; training fits do not establish mechanism and different dynamic input is needed for independent measured confirmation.",
+    "schedule_id": "alternate"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 10276,
+    "output_tokens": 765,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01609625,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:07:03.619251+00:00"
+}

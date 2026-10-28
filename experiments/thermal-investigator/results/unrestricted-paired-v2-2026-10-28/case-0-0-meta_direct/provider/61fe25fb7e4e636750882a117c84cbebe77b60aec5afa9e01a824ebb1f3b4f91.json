@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "61fe25fb7e4e636750882a117c84cbebe77b60aec5afa9e01a824ebb1f3b4f91",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "f798d37cfb63d42ca2d655d8275444735d8342bbfe3b27adb41a0ca84f1e6289",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Stage provisional sensor_lag fit using all observed evidence initial-0, initial-1, initial-2 to compare bounded explanations numerically before consuming experiment budget; training fit does not establish mechanism.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 7061,
+    "output_tokens": 461,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0107855,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:06:40.389144+00:00"
+}

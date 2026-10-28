@@ -1,0 +1,81 @@
+{
+  "version": "unrestricted-paired-v1",
+  "seeds": [
+    1103,
+    1129,
+    1153,
+    1181,
+    1213
+  ],
+  "worlds": [
+    "coupled",
+    "sensor-delay"
+  ],
+  "methods": [
+    "fixed_bic",
+    "disagreement_bic",
+    "meta_direct",
+    "meta_investigator"
+  ],
+  "primary": "system-mean sealed RMSE C at equal seven-action budget ceiling",
+  "practical_gate": "investigator median error at least 20% below both conventional baselines; report paired differences and failures",
+  "initial_trials": 3,
+  "maximum_total_experiment_actions": 7,
+  "reset_seconds_per_trial": 300,
+  "maximum_fits": 9,
+  "shared_initial_fits": 3,
+  "max_calls_per_Meta_case": 8,
+  "max_Meta_calls_total": 160,
+  "bootstrap": "paired median difference, 10000 resamples, seed 148, descriptive 95% interval",
+  "guard_per_Meta_case_usd": 0.5,
+  "aggregate_local_guard_usd": 10,
+  "no_automatic_retries": true,
+  "initial_selection": "BIC across all three supplied families; same fitted candidates for each method",
+  "fixed_schedule": [
+    "sustained-both",
+    "left-stair",
+    "staggered",
+    "right-stair"
+  ],
+  "active_baseline": "maximum supplied-family prediction variance; refit all families after two and four new trials",
+  "numerical_model_selection": "BIC on all available observations; tools equally accessible",
+  "Meta_submission": "latest independently supported revision, otherwise unrestricted initial model; no post-hoc best-model oracle",
+  "failures": "report execution error and score last supported model when possible; failures never omitted",
+  "early_stop": "charged actual actions plus common ceiling; no experiment-saving claim from accuracy alone",
+  "challenge": "same pre-existing lab schedule; fresh instances only, not fresh challenge family",
+  "limitations": [
+    "simulation only",
+    "bounded supplied grammar",
+    "ten cases feasibility not broad proof",
+    "direct and investigator differ only in instruction policy; same persistence and tools",
+    "no hardware or industrial savings claim"
+  ],
+  "source_sha256": {
+    "predictor.py": "023c29087a99485a8332dae4b4c8f4ef470a6370788c90abce2390af2f75c6da",
+    "adequacy.py": "c2e95f82cfd69e728e500795d41bda0be3020669e55d57b6f6c663313b924d8a",
+    "adequacy_check.py": "e97da88041b510b4c4f5784accce930bbb80bf007d578a8058c265335a631399",
+    "pilot.py": "66a15427959414babdaf96fa6c39cb4a009f1bd258c357cccf3487be940f2c45",
+    "run.py": "ab958836540e2785e962c4527f2e1269e47b3ac9b09bcc1b4e9e066f16d46f97",
+    "nonlinear.py": "355cad25f2ed76bed85b8ca108d0ffa1b3fa5a040c7e4ef5e8c753bc736695f4",
+    "revision_check.py": "bd1998a292838cc113fbdeffe53e84707c0e83c22fb7136f79d00545a392e42e",
+    "controller_review.py": "b7a802af5f45a5a9b6eec6f48183439580de3735d2d7dc057f3d990f048c19f5",
+    "investigator_tools.py": "a4734a91525922c6ac5a6becfab10fb9eb6c703da52612427f1595754a58fd8f",
+    "decisions.py": "de70ad3ccc2b6d3dd96ee1ef6caf8c793e7777ca506f1286bbfa9c3406007d87",
+    "design.py": "fc2e6964d7ae939af82282a46cef1169d9e3b1eb8ae012d641cf1edfba8f9607",
+    "__init__.py": "a718642bf14f3582ef1386a22c4ba0edabaaefc7f3903e237cbc948b7a9ed429",
+    "review.py": "43b89864013ab04c0c27620ae1fa15b6e8a5cae10cdd983802b78b4e3cbc2b09",
+    "comparison.py": "acc01e56b308e33f0b62844bad7e97b78172965f3efd7fc2f4a47dffb574481b",
+    "live_tools.py": "9984ecd1e55e51f9c8af12add5aff02b2b4d70bddeaa8c36a36510bef1e5bb7d",
+    "contracts.py": "e32c44ce72cb0b4d818c31b901ea0fae83d8de956a982e8761377e0c4dbc4c9b",
+    "investigation.py": "9c5115075aa9f424fcf524bb5c262e5b43145d2f159c9da3ea3cd4a881805613",
+    "live_controller.py": "ca5002eb8edd598501f74dc58a17ca286a432cc22eb254a870ac36d3961bb0ff",
+    "investigation_demo.py": "4641d0a911f4e86d4dd0debdfe2af99bac9d8f6f8c8c93cab0c2ca2b4c189b36",
+    "physical.py": "bd7ba38b300c54e44694093f2e81593486c0ba115ffe5e9cc653cb3a474cb1e1",
+    "model_registry.py": "93e0ac4b0105a1e9074c9adf760984bb0cebf49e5f5c3667bf0f23cb1ab443eb",
+    "structure_check.py": "565ba4486c2bfbcf9ceac86ca12af98d42539733eb8219c95bdf35023b4eeff2",
+    "physical_check.py": "3b7f5cd9a46346ba5396132ba0cf7e032177dfd6ef3d93ae67c56d1ed3c5c8b6",
+    "lab.py": "7d4855f0fbd2226922ea08dec11d243f1a9b60a6f220b0e4f3138c183457980f",
+    "meta.py": "690c67c2de5bdb3cd9fe0cc66f3cff900a55f649af9c99e5dccf53b0ba19e93d",
+    "validation.py": "40af64b949211e212b75a02ebba83482dc2cc5d2c7fe22c3bd70b1c5c20e5e38"
+  }
+}

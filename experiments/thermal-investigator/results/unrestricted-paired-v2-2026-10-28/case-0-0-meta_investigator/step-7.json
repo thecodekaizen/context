@@ -1,0 +1,60 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "bce43b3208834c57023737822d6393d9759c133f3c75be0931b8bb6ed24ec72a",
+    "evidence_ids": [
+      "action-4",
+      "action-5",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "No measured mismatch on initial-0, initial-1, initial-2 and action-4 probe RMSE 0.086, action-5 probe RMSE 0.082, action-6 probe RMSE 0.093; existing fits use only initial evidence and training fit cannot establish mechanism. Refit linear on expanded evidence before consuming last physical experiment.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 13071,
+    "output_tokens": 569,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.018757,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-1eb6dab1e40dcf324965f5c5",
+    "family": "linear",
+    "evidence_ids": [
+      "action-4",
+      "action-5",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_thermal",
+        "sensor_lag": false
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.01032350514767631,
+        "loss_rate_2_per_s": 0.003959705787805425,
+        "coupling_rate_12_per_s": 0.007306019297524451,
+        "coupling_rate_21_per_s": 0.003209482483777648,
+        "heater_gain_1_c_per_s": 0.5435895518316312,
+        "heater_gain_2_c_per_s": 0.21691533790668377
+      }
+    },
+    "training_rmse_c": 0.08270621843328131,
+    "bic": -3549.6675941745457,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 18
+  }
+}

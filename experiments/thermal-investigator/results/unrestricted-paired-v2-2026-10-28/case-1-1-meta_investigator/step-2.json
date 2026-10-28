@@ -1,0 +1,55 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "5ad96974523bb6d353b9e303453cf61e2a8277ec9eec7b6e7818cd62830226ac",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Compare predictive alternatives on initial-0, initial-1, initial-2 before experiments: sensor_lag training RMSE 0.083 vs 0.374 linear/quadratic, BIC -1749 lowest; stage provisional sensor_lag candidate only, not acceptance.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6792,
+    "output_tokens": 726,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0115755,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-f9af6e41971edbb690631c06",
+    "bic": -1749.032375867756,
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "sensor_lag",
+    "model": {
+      "estimated_parameters": {
+        "coupling_rate_12_per_s": 0.009674917819034153,
+        "coupling_rate_21_per_s": 0.004811818960379109,
+        "heater_gain_1_c_per_s": 0.5146643141255465,
+        "heater_gain_2_c_per_s": 0.23219119945426786,
+        "loss_rate_1_per_s": 0.013699071319835837,
+        "loss_rate_2_per_s": 0.0056591133848600175,
+        "shared_sensor_time_constant_s": 12.656217014359619
+      },
+      "specification": {
+        "sensor_lag": true,
+        "type": "two_node_thermal"
+      }
+    },
+    "optimizer_evaluations": 17,
+    "training_rmse_c": 0.08320584804967526,
+    "validation_status": "not_independently_confirmed"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "bea4125aae9825c21ddb52897be13f248881bc0c02770de4226bcc84f3fe182f",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "c4f6f60cef736df1adecdc790dc08f4b32e99c273722281e192ae4ffee997205",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Use numerical fitting before scarce experiments; sensor_lag training RMSE 0.083C BIC -1749 vs linear 0.29C BIC -856 and quadratic_loss 0.29C BIC -844 on initial-0,1,2; action-2 alternate probe RMSE 0.079C no mismatch for initial model on that input only, not global confirmation; staging provisional fit is not causal claim.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 8644,
+    "output_tokens": 538,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0130915,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:17:39.381137+00:00"
+}

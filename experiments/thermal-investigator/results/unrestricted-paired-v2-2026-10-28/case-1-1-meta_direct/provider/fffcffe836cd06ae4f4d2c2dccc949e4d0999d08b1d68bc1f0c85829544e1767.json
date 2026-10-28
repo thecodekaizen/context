@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "fffcffe836cd06ae4f4d2c2dccc949e4d0999d08b1d68bc1f0c85829544e1767",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "82cc64b348e1bb93d70ac09f5f4858181823fb79b488d39750f39bfc1178caef",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Compare bounded predictive candidates by fitting before spending experiments; sensor_lag training RMSE 0.083C vs 0.374C for linear/quadratic on initial-0,1,2 suggests it best explains observed lagged rise/decay, but fit alone does not establish mechanism.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6393,
+    "output_tokens": 420,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.00977625,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:10:16.849705+00:00"
+}

@@ -1,0 +1,74 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "edc1a60263bf7576263c45440c683cb8ae6aa712c2b56e18fe057a53b124d163",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Initial observations initial-0, initial-1, initial-2 cover symmetric and single-sided heating; candidate training fits favor linear by BIC but training fit does not establish mechanism or future accuracy, so propose independent diagnostic staggered test of initial model before consuming further budget.",
+    "schedule_id": "staggered"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6745,
+    "output_tokens": 900,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01225625,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "proposal_only",
+    "model_id": "initial",
+    "schedule": {
+      "id": "staggered",
+      "segments": [
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 0,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 0,
+          "q2_percent": 0
+        }
+      ]
+    },
+    "kind": "diagnostic",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "note": "Explicit preparation and dispatch through Investigation are required",
+    "execution": {
+      "action_id": "action-2",
+      "assessment": {
+        "probe_rmse_c": 0.0858253495224671,
+        "threshold_c": 0.3,
+        "status": "no_mismatch_observed",
+        "scope": "This probe only; passing does not certify unseen schedules."
+      },
+      "verdict": "no_mismatch_observed",
+      "scope": "Evidence for this experiment only; no global reliability claim"
+    }
+  }
+}

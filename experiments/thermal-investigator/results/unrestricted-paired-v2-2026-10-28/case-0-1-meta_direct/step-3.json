@@ -1,0 +1,57 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "df5a937ab1ca21646fbfdf3618ce80f5ce02fa49f4539803f0f579ce495279a8",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "action-2 alternate probe RMSE 0.0819C shows no mismatch for initial sensor_lag on that input only, not confirmation. Refit numerically on combined initial-0, initial-1, initial-2 plus action-2 before spending remaining 3 physical experiments; fitting is provisional only.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 8634,
+    "output_tokens": 695,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01374625,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-85932270422a3a4157e5476b",
+    "family": "sensor_lag",
+    "evidence_ids": [
+      "action-2",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.010283349179243886,
+        "loss_rate_2_per_s": 0.003973611623606439,
+        "coupling_rate_12_per_s": 0.007242375411868662,
+        "coupling_rate_21_per_s": 0.0032055531986604643,
+        "heater_gain_1_c_per_s": 0.5411431503660155,
+        "heater_gain_2_c_per_s": 0.21678343861123878,
+        "shared_sensor_time_constant_s": 12.16861065634565
+      }
+    },
+    "training_rmse_c": 0.07965390987601219,
+    "bic": -2385.6450866676855,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 19
+  }
+}

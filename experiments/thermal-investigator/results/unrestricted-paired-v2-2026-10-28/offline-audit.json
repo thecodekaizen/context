@@ -1,0 +1,374 @@
+{
+  "status": "consistent",
+  "completed_case_records": 40,
+  "expected_case_records": 40,
+  "complete": true,
+  "checks": [
+    {
+      "case": "case-0-0-disagreement_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 9,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-0-0-fixed_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 6,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-0-0-meta_direct",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 5,
+      "fits": 5,
+      "explicit_stop": false,
+      "decision_cap_reached": true
+    },
+    {
+      "case": "case-0-0-meta_investigator",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 6,
+      "fits": 5,
+      "explicit_stop": false,
+      "decision_cap_reached": true
+    },
+    {
+      "case": "case-0-1-disagreement_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 9,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-0-1-fixed_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 6,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-0-1-meta_direct",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 5,
+      "fits": 8,
+      "explicit_stop": false,
+      "decision_cap_reached": true
+    },
+    {
+      "case": "case-0-1-meta_investigator",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 4,
+      "explicit_stop": true,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-1-0-disagreement_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 9,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-1-0-fixed_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 6,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-1-0-meta_direct",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 5,
+      "fits": 8,
+      "explicit_stop": false,
+      "decision_cap_reached": true
+    },
+    {
+      "case": "case-1-0-meta_investigator",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 3,
+      "explicit_stop": true,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-1-1-disagreement_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 9,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-1-1-fixed_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 6,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-1-1-meta_direct",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 6,
+      "explicit_stop": false,
+      "decision_cap_reached": true
+    },
+    {
+      "case": "case-1-1-meta_investigator",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 6,
+      "fits": 6,
+      "explicit_stop": false,
+      "decision_cap_reached": true
+    },
+    {
+      "case": "case-2-0-disagreement_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 9,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-2-0-fixed_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 6,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-2-0-meta_direct",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 4,
+      "fits": 6,
+      "explicit_stop": true,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-2-0-meta_investigator",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 3,
+      "explicit_stop": true,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-2-1-disagreement_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 9,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-2-1-fixed_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 6,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-2-1-meta_direct",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 6,
+      "explicit_stop": false,
+      "decision_cap_reached": true
+    },
+    {
+      "case": "case-2-1-meta_investigator",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 5,
+      "explicit_stop": true,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-3-0-disagreement_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 9,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-3-0-fixed_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 6,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-3-0-meta_direct",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 6,
+      "fits": 7,
+      "explicit_stop": false,
+      "decision_cap_reached": true
+    },
+    {
+      "case": "case-3-0-meta_investigator",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 6,
+      "explicit_stop": false,
+      "decision_cap_reached": true
+    },
+    {
+      "case": "case-3-1-disagreement_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 9,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-3-1-fixed_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 6,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-3-1-meta_direct",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 6,
+      "explicit_stop": false,
+      "decision_cap_reached": true
+    },
+    {
+      "case": "case-3-1-meta_investigator",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 5,
+      "fits": 4,
+      "explicit_stop": true,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-4-0-disagreement_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 9,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-4-0-fixed_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 6,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-4-0-meta_direct",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 5,
+      "fits": 6,
+      "explicit_stop": false,
+      "decision_cap_reached": true
+    },
+    {
+      "case": "case-4-0-meta_investigator",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 4,
+      "explicit_stop": true,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-4-1-disagreement_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 9,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-4-1-fixed_bic",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 7,
+      "fits": 6,
+      "explicit_stop": false,
+      "decision_cap_reached": false
+    },
+    {
+      "case": "case-4-1-meta_direct",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 6,
+      "fits": 7,
+      "explicit_stop": false,
+      "decision_cap_reached": true
+    },
+    {
+      "case": "case-4-1-meta_investigator",
+      "status": "completed",
+      "score_recomputed": true,
+      "actions": 4,
+      "fits": 3,
+      "explicit_stop": true,
+      "decision_cap_reached": false
+    }
+  ],
+  "limitations": [
+    "internal consistency, not authenticity",
+    "shared seed parameter draws couple the two worlds",
+    "fallback forecasts from failed controllers are not successful Meta forecasts",
+    "common initial numerical model is itself a three-trial conventional reference"
+  ]
+}

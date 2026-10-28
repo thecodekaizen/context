@@ -1,0 +1,33 @@
+{
+  "status": "completed",
+  "context_sha256": "a6ab82b7a1c3db12a342d825d96e6a682cd11c86708830772c47ffa140732327",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "b49f8ee436d56d100eeb5b707cbed11e4d7331cd0a32dcb1986c6834ccbf54da",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "action-2 RMSE 0.081, action-4 RMSE 0.081, action-6 RMSE 0.077 all no_mismatch_observed below 0.3; passing does not certify unseen inputs. Training fit favors sensor_lag but fit cannot establish mechanism. Propose independent sustained-both diagnostic of initial within 1 remaining budget to boundly seek mismatch.",
+    "schedule_id": "sustained-both"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 13796,
+    "output_tokens": 545,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01956125,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:13:29.137046+00:00"
+}

@@ -1,0 +1,33 @@
+{
+  "status": "completed",
+  "context_sha256": "9cd43f677e0e4fdca845dba87cabfa4d2eec964959f8f7eaee50d8227d5d4430",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "eb1be389988c9e3692ee03283fed2e4115d575eee8abc18840054f90b3495866",
+    "evidence_ids": [
+      "action-2",
+      "action-3",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "quadratic_loss",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Compare bounded predictive candidates numerically before spending final experiment: sensor_lag training RMSE 0.081C (BIC -3567.6) vs linear 0.442C (BIC -1136.6) on action-2,3,4,initial-0,1,2; quadratic only fitted on initial-0,1,2 RMSE 0.374C, so fit quadratic on same full evidence for direct comparison. Fit alone cannot establish mechanism or future accuracy; action-2 RMSE 0.081C, action-3 0.072C, action-4 0.086C are probe-only no_mismatch.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 13635,
+    "output_tokens": 494,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01914325,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:10:44.882486+00:00"
+}

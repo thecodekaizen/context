@@ -1,0 +1,36 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "13ef3b43fbce9c30d1f2c1bc36c0df27394eb07432d2354f4d17c179bccac254",
+    "evidence_ids": [
+      "action-2",
+      "action-3",
+      "action-4",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": null,
+    "model_id": null,
+    "operation": "stop",
+    "rationale": "No recorded mismatches: action-2 RMSE 0.081C, action-3 0.083C, action-4 0.078C, action-6 0.079C all no_mismatch_observed. Actions_remaining 0, no unresolved mismatch to report. Fitting is not confirmation. Stop within bounded budget.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 14971,
+    "output_tokens": 481,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.020758,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "stop_requested",
+    "reason": "No recorded mismatches: action-2 RMSE 0.081C, action-3 0.083C, action-4 0.078C, action-6 0.079C all no_mismatch_observed. Actions_remaining 0, no unresolved mismatch to report. Fitting is not confirmation. Stop within bounded budget.",
+    "note": "Controller must honor this request; no execution is dispatched by these tools"
+  }
+}

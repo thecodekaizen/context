@@ -1,0 +1,62 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "fc56504759e2c45850a1b4cb3908ea143301633b30a748e77aaf43521cae7089",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "quadratic_loss",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "No mismatch recorded: action-2, action-4, action-6 probes all no_mismatch_observed, but passing does not certify unseen schedules. Linear fit on 5 evidences exists; quadratic_loss and sensor_lag not yet compared on full 6-evidence set. Use fitting tool to compare quadratic_loss explanation before consuming final experiment; training fit does not establish mechanism.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 13593,
+    "output_tokens": 550,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01932875,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-824aaa0c9a4063d63a949e3c",
+    "family": "quadratic_loss",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "action-6",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_quadratic_loss",
+        "sensor_lag": false
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.007044573854247636,
+        "loss_rate_2_per_s": 0.01173990104020749,
+        "coupling_rate_12_per_s": 0.008418257954042186,
+        "coupling_rate_21_per_s": 0.010333358039329369,
+        "heater_gain_1_c_per_s": 0.3628687385092018,
+        "heater_gain_2_c_per_s": 0.39729879911689386,
+        "quadratic_loss_1_per_c_s": 3.987097295650457e-13,
+        "quadratic_loss_2_per_c_s": 1.6726092316830522e-06
+      }
+    },
+    "training_rmse_c": 0.07751767727129341,
+    "bic": -3629.804946029075,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 33
+  }
+}

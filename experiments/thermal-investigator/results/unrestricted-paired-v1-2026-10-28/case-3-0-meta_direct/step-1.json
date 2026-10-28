@@ -1,0 +1,54 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "c9dbdc663e3d66ec28057f2fc4df2d2b217b35dfa80e519dd1977a37a34f3720",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Compare bounded predictive candidates numerically before physical experiments using initial-0 both-heat, initial-1 left-only, initial-2 right-only; fitting is not causal confirmation.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6374,
+    "output_tokens": 456,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0099055,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-0509e4db2a2736dc170a095e",
+    "bic": -1761.645792163371,
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "model": {
+      "estimated_parameters": {
+        "coupling_rate_12_per_s": 0.009086061788468632,
+        "coupling_rate_21_per_s": 0.0055460826186116505,
+        "heater_gain_1_c_per_s": 0.3582142687975136,
+        "heater_gain_2_c_per_s": 0.17470030204754786,
+        "loss_rate_1_per_s": 0.007451059399107943,
+        "loss_rate_2_per_s": 0.006922525272375064
+      },
+      "specification": {
+        "sensor_lag": false,
+        "type": "two_node_thermal"
+      }
+    },
+    "optimizer_evaluations": 15,
+    "training_rmse_c": 0.08243203578522121,
+    "validation_status": "not_independently_confirmed"
+  }
+}

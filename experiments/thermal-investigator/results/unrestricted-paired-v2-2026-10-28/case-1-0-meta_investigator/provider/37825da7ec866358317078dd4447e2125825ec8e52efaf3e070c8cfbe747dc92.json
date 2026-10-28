@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "context_sha256": "37825da7ec866358317078dd4447e2125825ec8e52efaf3e070c8cfbe747dc92",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "1255c623b78af32814435abfab490aa74203716c0aabc3debe678ecbc0e761cd",
+    "evidence_ids": [
+      "action-4",
+      "action-5",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Training fits on initial-0, initial-1, initial-2 do not establish mechanism or future accuracy; action-4 RMSE 0.08 and action-5 RMSE 0.087 show no_mismatch_observed only for those probes and do not certify unseen schedules, so propose staggered diagnostic of initial model to seek bounded independent mismatch evidence.",
+    "schedule_id": "staggered"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 11115,
+    "output_tokens": 674,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01675825,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:10:00.671148+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "4f5a1403d7f10290ad5c9d5b62f3aea2b6111bdf3558a079e24f13475a2804bb",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "2101892f0bf1b0f1ca4078751dbe11097eca6a8219ca414cef3750320722de61",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "initial",
+    "operation": "propose_experiment",
+    "rationale": "Training fits on initial-0, initial-1, initial-2 favor linear BIC -1854.6 over quadratic_loss -1842.9 and sensor_lag -1815.3 but fitting is not confirmation; propose diagnostic sustained-both high-power test of initial model to seek measured mismatch before staging acceptance.",
+    "schedule_id": "sustained-both"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6755,
+    "output_tokens": 817,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.011916,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:14:33.286759+00:00"
+}

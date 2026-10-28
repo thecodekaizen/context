@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "context_sha256": "8c1e0a0f30eb269c593f4ebc6621be4c25179e807cb44243d4d3e517c53fc35f",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "986409d8e39b1bd22f4e80cc1e38d757544389c44b740db8aebd403a118956db",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Both action-2 sustained-both probe RMSE 0.082C and action-4 both-release probe RMSE 0.081C show no_mismatch_observed, but passing does not certify mechanism; prior fits only compared linear BIC -1854.6 vs quadratic -1842.9 vs sensor_lag -1815.3 on initial-0, initial-1, initial-2 and quadratic BIC -2446.07 on action-2+initials. Fit sensor_lag on full observed evidence before consuming remaining 2 experiments; fitting is provisional only, not causation or future accuracy.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 11080,
+    "output_tokens": 733,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01696525,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:14:49.289477+00:00"
+}

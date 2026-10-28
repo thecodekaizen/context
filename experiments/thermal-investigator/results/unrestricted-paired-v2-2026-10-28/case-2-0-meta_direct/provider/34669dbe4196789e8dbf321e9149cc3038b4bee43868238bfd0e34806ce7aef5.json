@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "34669dbe4196789e8dbf321e9149cc3038b4bee43868238bfd0e34806ce7aef5",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "dfec927393a39f2ae2c7208c9d269590c5de96b8aae5a393db783970d880b94d",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Compare bounded predictive candidates numerically before spending physical experiments; initial-0, initial-1, initial-2 cover joint heating and single-sided heating. Fitting is not causal confirmation.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6378,
+    "output_tokens": 435,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.00982125,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:11:32.614950+00:00"
+}

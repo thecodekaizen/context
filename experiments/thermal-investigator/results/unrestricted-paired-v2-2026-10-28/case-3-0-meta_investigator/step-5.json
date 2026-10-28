@@ -1,0 +1,58 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "18db773d5a38454c75f053e5431ee8d8e698815b21d61e97f2f1b316327a625e",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "No mismatch yet: action-2 staggered probe RMSE 0.0858C and action-4 sustained-both probe RMSE 0.0823C both pass, but passing does not certify unseen schedules. Existing fits compare families only on initial-0, initial-1, initial-2 except quadratic_loss on action-2. Use fitting tool to compare linear explanation on expanded evidence initial-0, initial-1, initial-2 plus action-2, action-4 before spending remaining 2 experiments; training fit does not establish mechanism.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 11074,
+    "output_tokens": 662,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.016656,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-f45d387d30bb328d1e16a1ef",
+    "family": "linear",
+    "evidence_ids": [
+      "action-2",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_thermal",
+        "sensor_lag": false
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.007013997966812253,
+        "loss_rate_2_per_s": 0.011743690635158332,
+        "coupling_rate_12_per_s": 0.008422775501822917,
+        "coupling_rate_21_per_s": 0.010329363783659964,
+        "heater_gain_1_c_per_s": 0.3623106204103633,
+        "heater_gain_2_c_per_s": 0.3971449609944838
+      }
+    },
+    "training_rmse_c": 0.07655122522209193,
+    "bic": -3045.3726038598156,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 15
+  }
+}

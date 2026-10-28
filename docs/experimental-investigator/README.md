@@ -6,13 +6,14 @@ The user approved planning an ambitious experimental investigator after withdraw
 
 ## Read in this order
 
-0. STATUS.md — current evidence, open gates and immediate delivery order.
-1. PRODUCT.md — user, problem, concrete outcome and interface.
-2. PROTOCOL.md — experiments, fair baselines, evaluation and decision gates.
-3. ARCHITECTURE.md — actual engineering, model responsibilities and boundaries.
-4. IMPLEMENTATION.md — seven days of tasks, acceptance criteria and progress.
-5. DEMO.md — three-minute demonstration built around measured outcomes.
-6. DECISIONS.md — choices, limitations and evidence sources.
+1. CONTRIBUTION_REVIEW.md — completed comparison and negative advantage result.
+2. STATUS.md — current evidence, gates and delivery consequences.
+3. PRODUCT.md — intended user, problem, outcome and interface.
+4. PROTOCOL.md — experiments, fair baselines, evaluation and decision gates.
+5. ARCHITECTURE.md — engineering, model responsibilities and boundaries.
+6. IMPLEMENTATION.md — seven-day tasks, acceptance criteria and progress.
+7. DEMO.md — proposed demonstration; claims remain bounded by recorded results.
+8. DECISIONS.md — choices, limitations and evidence sources.
 
 ## First application
 

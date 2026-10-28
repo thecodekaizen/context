@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "context_sha256": "64b49b12e7a68c5da5c8218e6f9ee22a42646ef248c39d6395826b1a6b2f2f7b",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "9402576892c1c874081b2d0e23a2b5e50bd98096d27b70d64c0cd28329e0e6af",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Stage provisional linear fit on initial-0, initial-1, initial-2 before any physical experiment; lowest BIC -1756 vs -1745 and -1733 and training RMSE 0.083C does not establish mechanism or future accuracy.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 6373,
+    "output_tokens": 411,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.009713,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T09:16:17.683271+00:00"
+}

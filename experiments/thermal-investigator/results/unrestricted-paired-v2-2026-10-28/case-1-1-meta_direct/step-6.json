@@ -1,0 +1,60 @@
+{
+  "decision": {
+    "candidate_id": null,
+    "context_id": "3485813ff030664b198dbab1ee11e5b373c91302aad35b05008afd9170cad867",
+    "evidence_ids": [
+      "action-2",
+      "action-3",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "Compare bounded candidates numerically before spending last experiment: sensor_lag training RMSE 0.081C on all six observations vs linear 0.374C on initial-0,1,2 suggests sensor_lag explains lag, but fit alone does not establish mechanism or future accuracy; fit linear on same full evidence action-2,3,4,initial-0,1,2 for direct BIC/RMSE comparison.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 13009,
+    "output_tokens": 755,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01947,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-d7fa866a9e5457cab03e6adf",
+    "family": "linear",
+    "evidence_ids": [
+      "action-2",
+      "action-3",
+      "action-4",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_thermal",
+        "sensor_lag": false
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.004004768480828209,
+        "loss_rate_2_per_s": 0.0010000000000009012,
+        "coupling_rate_12_per_s": 0.00569282927271169,
+        "coupling_rate_21_per_s": 0.0035282851551452503,
+        "heater_gain_1_c_per_s": 0.3118000006583023,
+        "heater_gain_2_c_per_s": 0.16941500998235484
+      }
+    },
+    "training_rmse_c": 0.4418935372085733,
+    "bic": -1136.5527531521757,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 19
+  }
+}

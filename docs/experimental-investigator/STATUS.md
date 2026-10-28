@@ -2,6 +2,8 @@
 
 ## Assessment
 
+Latest decision: CONTRIBUTION_REVIEW.md. The fair local advantage claim fails its predeclared gate; this is now a measured negative result, not merely an unrun test. Live integration works, but scientific superiority and submission readiness are not established. Pause paid variants of this same task.
+
 Implementation follows the numerical-evidence phase of the approved plan. Submission readiness is at risk until the substantive Meta contribution gate passes. We have a simulation experiment suite, not the final investigator product. Test count and simulation accuracy do not close the product or contribution gates.
 
 ## Evidence and gaps
@@ -39,7 +41,7 @@ October 28 remains the evidence day. October 29 is persistent loop/API day; Octo
 
 Continue within thermal identification to implement the already-planned mismatch/revision/confirmation loop. The negative Meta pilot remains authoritative evidence of no demonstrated benefit so far. The local adequacy result justifies an explicit mismatch transition; it does not establish autonomous science or a winning entry. No additional paid calls are needed to implement the next milestone.
 
-Latest verified suite: 65 tests, including live-controller evidence review and mismatch retention checks. Deterministic walkthrough confirms restart and cached replay. The equal-budget numerical comparison (step 2) is now complete: batch fitting wins on median error; no final failures occur, limiting sensitivity evaluation. Next is the contribution review and bounded structural-mismatch design before paid calls. Current unrelated frontend changes remain untouched.
+Latest verified suite: 70 tests, including paired-protocol, schema-availability and offline comparison-audit checks. Deterministic walkthrough confirms restart and cached replay. The equal-budget numerical comparison (step 2) is now complete: batch fitting wins on median error; no final failures occur, limiting sensitivity evaluation. Next is the contribution review and bounded structural-mismatch design before paid calls. Current unrelated frontend changes remain untouched.
 
 
 ## Structural coverage follow-up
@@ -59,3 +61,8 @@ Two real Spark calls completed; both were rejected for invalid operation semanti
 After retaining two informative unsuccessful campaigns, the third campaign completed seven live Meta decisions: fit quadratic loss → provisionally register → reject on independent input (0.38837°C) → fit sensor lag → register → support on new input (0.07534°C) → stop. It used six of seven experimental slots and two of four fitting reservations. Estimated campaign cost $0.101373; all three controller campaigns together $0.2814865. All evidence remains under the experiment results directory, including earlier stop/no-revision outcomes.
 
 Live tool execution and evidence-driven model revision are now demonstrated on a constrained simulated development case. This is a meaningful engineering milestone, not an advantage over full-family numerical selection. The initial model was intentionally restricted; a fair comparison must lift that restriction for all applicable methods. Next implementation: session API and investigation workspace backed by these contracts. Continue to keep the comparative contribution gate open.
+
+
+## Final local contribution result
+
+The corrected unrestricted paired evaluation is complete. The investigator misses the predeclared 20% improvement gate and ties direct Meta on every forecast. Every Meta final model is the shared initial numerical model. See CONTRIBUTION_REVIEW.md for raw evidence links, failures, limitations, costs and delivery consequences. Stop representing comparative advantage as merely awaiting a run: it was tested and was not supported. No hardware or broad impossibility claim follows.
