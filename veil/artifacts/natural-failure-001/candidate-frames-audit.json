@@ -1,0 +1,658 @@
+{
+  "export_sha256": "601fa8d28436a92a06bdcd474bb5e5e4cb73166dd5d7978ffad1fe8126e5f047",
+  "status": "residual_observed",
+  "frames_checked": 72,
+  "full_identifier_recovered_frames": 0,
+  "residual_findings": [
+    {
+      "time_ms": 0,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 83,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 167,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 250,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 333,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 417,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 500,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 583,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 667,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 750,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 833,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 917,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 1000,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 1083,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 1167,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 1250,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 1333,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 1417,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 1500,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 1583,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 1667,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 1750,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 1833,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 1917,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 2000,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 2083,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 2167,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 2250,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 2333,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 2417,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 2500,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 2583,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 2667,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 2750,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 2833,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 2917,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 3000,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 3083,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 3167,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 3250,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 3333,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 3417,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 3500,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 3583,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 3667,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 3750,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 3833,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 3917,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 4000,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 4083,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 4167,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 4250,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 4333,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025."
+    },
+    {
+      "time_ms": 4417,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 4500,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025."
+    },
+    {
+      "time_ms": 4583,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 4667,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025."
+    },
+    {
+      "time_ms": 4750,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025."
+    },
+    {
+      "time_ms": 4833,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 4917,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 5000,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025."
+    },
+    {
+      "time_ms": 5083,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025."
+    },
+    {
+      "time_ms": 5167,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025."
+    },
+    {
+      "time_ms": 5250,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025."
+    },
+    {
+      "time_ms": 5333,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 5417,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 5500,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 5583,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 5667,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 5750,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 5833,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    },
+    {
+      "time_ms": 5917,
+      "original_identifier_index": 0,
+      "full_identifier": false,
+      "matching_fragments": [
+        "2025"
+      ],
+      "observed_text": "2025"
+    }
+  ],
+  "needs_manual_review": true,
+  "scope": "Local independent OCR on supplied exported frames, normalized planted values and contiguous four-character fragments. Not proof against all recovery methods."
+}
