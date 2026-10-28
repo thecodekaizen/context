@@ -1,0 +1,58 @@
+{
+  "step": 1,
+  "decision": {
+    "candidate_id": null,
+    "context_id": "143119f760072c5e7bc81830882a74f728641d59e5cf921164101089c930344e",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "family": "quadratic_loss",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "v1 mismatch on probe (RMSE 0.304 >0.3) with sustained both-heating to ~37C vs lower temps in initial-0/1/2; quadratic loss may explain high-temp deviation, compare fit before spending experiments; fitting is provisional not confirmation",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 7343,
+    "output_tokens": 364,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01072575,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-15ba3b4c461e2804885261c9",
+    "family": "quadratic_loss",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_quadratic_loss",
+        "sensor_lag": false
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.0062559647973544985,
+        "loss_rate_2_per_s": 0.00518788964142865,
+        "coupling_rate_12_per_s": 0.005503604643252809,
+        "coupling_rate_21_per_s": 0.003984859097181126,
+        "heater_gain_1_c_per_s": 0.35180667354325734,
+        "heater_gain_2_c_per_s": 0.19376331394873933,
+        "quadratic_loss_1_per_c_s": 6.418387268562777e-05,
+        "quadratic_loss_2_per_c_s": 9.941629240687853e-05
+      }
+    },
+    "training_rmse_c": 0.2463618507534478,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 19
+  }
+}

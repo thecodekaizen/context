@@ -37,3 +37,10 @@ Wire decision → validated tool result → refreshed context into a bounded loo
 ## Live-schema findings
 
 The subsequent two-call live run exposed invalid combinations allowed by the original flat provider schema, even though the local validator rejected them. The wire schema now nests operation-specific branches, nulls unused fields, and offers confirmation only for registered revisions. Two regression checks were added. No successful live tool execution has been observed yet; the final branch fix is locally verified only. See the live run report for both raw responses and token costs.
+
+
+## Controller integration
+
+`live_controller.py` dispatches validated proposals through prediction freezing and the separate lab process, applies fitting/registration decisions, refreshes public evidence, and honors stop. It defaults to dry-run protocol output; explicit --live enables requests. Each campaign caps at eight calls/$1, seven experiment actions and four fit reservations. No automatic retries.
+
+`register_revision` explicitly stages a provisional model, not acceptance. This distinction matters: requiring confirmation before registration creates a deadlock because confirmation needs a registered executable candidate. Current context retains measured mismatches even when other inputs pass. `controller_review.py` independently checks exported predictions, errors, budget, event order and confirmation-input novelty without API calls. The latest development campaign exercises both rejection and support; it remains simulation-only and not a fair superiority benchmark.

@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "context_sha256": "fd5d9cf0fce571f86c4770751cf92047e84c799b35ac1a15a2ce473b2a16a8ec",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "2f9c3a345aa89afb2539de10163120f6321a54d3653e9ef952001c5bf17cff72",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe",
+      "experiment-1"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "v1",
+    "operation": "propose_experiment",
+    "rationale": "v1 shows probe mismatch RMSE 0.356C >0.3C on sustained-both, but experiment-1 left-stair shows no mismatch RMSE 0.148C <0.3C; single mismatch is insufficient to revise mechanism, preserve v1 and seek independent confirmation with right-stair.",
+    "schedule_id": "right-stair"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 8955,
+    "output_tokens": 728,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01428775,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T08:29:01.441190+00:00"
+}

@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "d93cfcd0745b81ddc5be534403bf01d3bb417431981e0a89674bc57386788bcf",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "143119f760072c5e7bc81830882a74f728641d59e5cf921164101089c930344e",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "family": "quadratic_loss",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "v1 mismatch on probe (RMSE 0.304 >0.3) with sustained both-heating to ~37C vs lower temps in initial-0/1/2; quadratic loss may explain high-temp deviation, compare fit before spending experiments; fitting is provisional not confirmation",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 7343,
+    "output_tokens": 364,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01072575,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T08:32:19.260285+00:00"
+}

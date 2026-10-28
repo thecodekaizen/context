@@ -14,7 +14,7 @@ Implementation follows the numerical-evidence phase of the approved plan. Submis
 | Unsupported-model failure exposure | Implemented | fresh-validation-2026-10-28 and prospective-adequacy-2026-10-28 |
 | Prospective adequacy experiment | Implemented locally | Fixed sustained probe flags 9/9 failing systems, one additional flag; 30 fresh systems, previously used challenge schedules |
 | Meta transport and bounded usage | Implemented | Six-call smoke; estimated $0.0463; no advantage over conventional selection |
-| Evidence-linked revision and confirmation | Implemented locally | SQLite store and restarted deterministic walkthrough; revision policy is human-authored, Meta role still open |
+| Evidence-linked revision and confirmation | Implemented and exercised live | Meta rejected one supplied candidate and supported another through independent simulated confirmation; fair advantage remains open |
 | Persistent resumable investigation | Core implemented | Transactional reservations, completed replay, uncertain-dispatch reconciliation; API and user pause/stop controls remain |
 | Investigator API and workspace | Not implemented | Historical SHOWME frontend does not satisfy this requirement |
 | Interactive user-selected challenge and export | Partial CLI evidence only | Need current-product API/UI and complete export |
@@ -39,7 +39,7 @@ October 28 remains the evidence day. October 29 is persistent loop/API day; Octo
 
 Continue within thermal identification to implement the already-planned mismatch/revision/confirmation loop. The negative Meta pilot remains authoritative evidence of no demonstrated benefit so far. The local adequacy result justifies an explicit mismatch transition; it does not establish autonomous science or a winning entry. No additional paid calls are needed to implement the next milestone.
 
-Latest verified suite: 62 tests, including shared tools and live-failure schema regression checks. Deterministic walkthrough confirms restart and cached replay. The equal-budget numerical comparison (step 2) is now complete: batch fitting wins on median error; no final failures occur, limiting sensitivity evaluation. Next is the contribution review and bounded structural-mismatch design before paid calls. Current unrelated frontend changes remain untouched.
+Latest verified suite: 65 tests, including live-controller evidence review and mismatch retention checks. Deterministic walkthrough confirms restart and cached replay. The equal-budget numerical comparison (step 2) is now complete: batch fitting wins on median error; no final failures occur, limiting sensitivity evaluation. Next is the contribution review and bounded structural-mismatch design before paid calls. Current unrelated frontend changes remain untouched.
 
 
 ## Structural coverage follow-up
@@ -52,3 +52,10 @@ Shared bounded investigation tools are now implemented over persisted public evi
 ## Live tool integration result
 
 Two real Spark calls completed; both were rejected for invalid operation semantics before dispatch. Estimated total cost $0.022909. The first schema amendment removed incompatible field combinations; the second local fix restricts confirmation branches to revised models. No third request. API connectivity is proven; successful live tool use remains open. Preserve these failures alongside the earlier six-call smoke results. See `results/live-tools-2026-10-28/REPORT.md` under the experiment directory.
+
+
+## Successful live revision loop
+
+After retaining two informative unsuccessful campaigns, the third campaign completed seven live Meta decisions: fit quadratic loss → provisionally register → reject on independent input (0.38837°C) → fit sensor lag → register → support on new input (0.07534°C) → stop. It used six of seven experimental slots and two of four fitting reservations. Estimated campaign cost $0.101373; all three controller campaigns together $0.2814865. All evidence remains under the experiment results directory, including earlier stop/no-revision outcomes.
+
+Live tool execution and evidence-driven model revision are now demonstrated on a constrained simulated development case. This is a meaningful engineering milestone, not an advantage over full-family numerical selection. The initial model was intentionally restricted; a fair comparison must lift that restriction for all applicable methods. Next implementation: session API and investigation workspace backed by these contracts. Continue to keep the comparative contribution gate open.

@@ -1,0 +1,11 @@
+{
+  "action_id": "probe",
+  "assessment": {
+    "probe_rmse_c": 0.4400344346614762,
+    "threshold_c": 0.3,
+    "status": "model_mismatch_observed",
+    "scope": "This probe only; passing does not certify unseen schedules."
+  },
+  "verdict": "model_mismatch_observed",
+  "scope": "Evidence for this experiment only; no global reliability claim"
+}

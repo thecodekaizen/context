@@ -1,0 +1,79 @@
+{
+  "step": 6,
+  "decision": {
+    "candidate_id": null,
+    "context_id": "89d59a8d9f13406593e3bc487607758076e6b81f00bcebf5dd5d24d708493c1c",
+    "evidence_ids": [
+      "experiment-3",
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "family": null,
+    "kind": "confirmation",
+    "model_id": "revision-46809cd0201ab87b08c5e605",
+    "operation": "propose_experiment",
+    "rationale": "v1 mismatch on probe RMSE 0.305>0.3 and revision-15e4e43665102c17b9e15cf9 rejected on experiment-3 RMSE 0.388>0.3 remain unresolved; sensor_lag candidate staged as revision-46809cd0201ab87b08c5e605 with provisional training RMSE 0.08 is not confirmation; propose independent confirmation on unseen staggered input to test fitted candidate",
+    "schedule_id": "staggered"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 11410,
+    "output_tokens": 539,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01655325,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "proposal_only",
+    "model_id": "revision-46809cd0201ab87b08c5e605",
+    "schedule": {
+      "id": "staggered",
+      "segments": [
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 0,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 0,
+          "q2_percent": 0
+        }
+      ]
+    },
+    "kind": "confirmation",
+    "evidence_ids": [
+      "experiment-3",
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "note": "Explicit preparation and dispatch through Investigation are required",
+    "execution": {
+      "action_id": "experiment-6",
+      "assessment": {
+        "probe_rmse_c": 0.07533947496403254,
+        "threshold_c": 0.3,
+        "status": "no_mismatch_observed",
+        "scope": "This probe only; passing does not certify unseen schedules."
+      },
+      "verdict": "revision_supported_on_confirmation",
+      "scope": "Evidence for this experiment only; no global reliability claim"
+    }
+  }
+}

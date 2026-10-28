@@ -1,0 +1,25 @@
+{
+  "status": "consistent",
+  "actions_used": 6,
+  "action_budget": 7,
+  "confirmation_supports": 1,
+  "confirmation_rejections": 1,
+  "checks": [
+    {
+      "action_id": "experiment-3",
+      "rmse_c": 0.38837196800281204,
+      "verdict": "revision_rejected"
+    },
+    {
+      "action_id": "experiment-6",
+      "rmse_c": 0.07533947496403254,
+      "verdict": "revision_supported_on_confirmation"
+    },
+    {
+      "action_id": "probe",
+      "rmse_c": 0.3045593616446587,
+      "verdict": "model_mismatch_observed"
+    }
+  ],
+  "limitations": "Internal consistency only; no authenticity, superiority or global reliability certificate"
+}

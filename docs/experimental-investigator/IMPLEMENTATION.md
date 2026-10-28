@@ -180,3 +180,12 @@ Added persisted public-evidence context, bounded/cached numerical fitting, misma
 ## Actual Meta tool calls — October 28
 
 User explicitly requested real API calls. Two live Spark 1.3 calls completed at estimated total $0.022909 (14,169 input, 1,223 output tokens). Both responses were rejected by local semantic validation before any tool or experiment executed. First mixed proposal fields; second requested confirmation for unrevised v1. Provider schema now uses nested operation branches and restricts confirmation to revised models. This last fix is locally checked, not yet live verified. Raw failures are retained in `experiments/thermal-investigator/results/live-tools-2026-10-28/`. No third request or automatic retry. 62 tests pass. Connectivity is established; successful live tool use and contribution remain unresolved.
+
+
+## Real controller loop — October 28
+
+Three separately bounded live integration campaigns now exist, all using generated simulation evidence and supplied structures. First: three calls, two diagnostics, no revision ($0.04137425 estimated). Second: eight calls, candidate fitting but no registration/confirmation ($0.13873925). Third, after explicit provisional-registration semantics: seven calls, quadratic-loss revision rejected at 0.38837°C on new input, sensor-delay revision supported at 0.07534°C on another new input ($0.101373). Combined estimate $0.2814865. No automatic retries.
+
+The core live loop now works: observe mismatch → model fitting → provisional registration → frozen independent confirmation → rejection → alternative revision → new confirmation support → stop. A separate-process lab handles generated measurements. Offline review recomputes predictions/errors and checks budget, lifecycle order and new confirmation inputs; all three exports pass. The suite has 65 tests. Preserve all three reports under `results/live-controller-*-2026-10-28`.
+
+This closes end-to-end live integration, not superiority. Initial families were deliberately restricted to exercise revision; the successful development case follows policy amendments and is not an unbiased success-rate estimate. Supplied-family conventional selection remains the strongest demonstrated baseline. Next delivery milestone: bounded session API/workspace against these real persisted contracts, plus a frozen fair contribution comparison. No hardware or prize claim.

@@ -1,0 +1,36 @@
+{
+  "step": 2,
+  "decision": {
+    "candidate_id": "fit-15ba3b4c461e2804885261c9",
+    "context_id": "a3ad3773980af7dd00020fb968cd5341b8d4bc1f5d21b6b16decd247b5ad455e",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "family": null,
+    "kind": null,
+    "model_id": "v1",
+    "operation": "register_revision",
+    "rationale": "v1 mismatch on probe RMSE 0.305>0.3; quadratic_loss fit provisional training RMSE 0.246 not confirmation; stage candidate for independent test",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 7985,
+    "output_tokens": 323,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.011354,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "revision_registered",
+    "model_id": "revision-15e4e43665102c17b9e15cf9",
+    "candidate_id": "fit-15ba3b4c461e2804885261c9",
+    "provisional": true,
+    "next_step": "Propose independent confirmation on this model_id; registration is not acceptance"
+  }
+}

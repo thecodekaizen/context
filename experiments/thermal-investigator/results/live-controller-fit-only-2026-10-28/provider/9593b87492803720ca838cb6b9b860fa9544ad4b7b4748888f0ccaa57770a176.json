@@ -1,0 +1,34 @@
+{
+  "status": "completed",
+  "context_sha256": "9593b87492803720ca838cb6b9b860fa9544ad4b7b4748888f0ccaa57770a176",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "4782a9b3fc59e9ec1b3a20bc365e03cce33cb39187b67926c89922d4aab7c136",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe",
+      "experiment-3",
+      "experiment-4",
+      "experiment-5"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "v1 mismatch remains unresolved on probe RMSE 0.44C, experiment-3 RMSE 0.567C, experiment-4 RMSE 0.448C, experiment-5 RMSE 0.447C >0.3C threshold. Existing candidates not_independently_confirmed: sensor_lag training RMSE 0.077C vs quadratic_loss 0.347C on initial-0,1,2+probe, linear 0.423C on full evidence. Fitting is not confirmation or causation. Use remaining fit budget to compare sensor_lag on full evidence before stopping; no revision accepted.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 14947,
+    "output_tokens": 884,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.02244075,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T08:31:08.928698+00:00"
+}

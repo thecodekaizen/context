@@ -1,0 +1,58 @@
+{
+  "step": 1,
+  "decision": {
+    "candidate_id": null,
+    "context_id": "8e4330510526411d135e9bd8c5fe9feb8e1872b78b51737c2632cf3d0c0ee005",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "family": "quadratic_loss",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "v1 mismatch on probe (sustained 0.6,0.6, RMSE 0.44C >0.3 threshold) remains unresolved; fitting comparison is required before spending scarce experiments. Fit quadratic_loss to initial-0, initial-1, initial-2 plus probe to test if temperature-dependent loss explains high-temperature deviation.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 7234,
+    "output_tokens": 535,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01131625,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-9fc50e9285cb256f5233548b",
+    "family": "quadratic_loss",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_quadratic_loss",
+        "sensor_lag": false
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.001852831764664248,
+        "loss_rate_2_per_s": 0.001000000000000091,
+        "coupling_rate_12_per_s": 0.009895265012810343,
+        "coupling_rate_21_per_s": 0.0067273015130519245,
+        "heater_gain_1_c_per_s": 0.34269269666686336,
+        "heater_gain_2_c_per_s": 0.20313162210393,
+        "quadratic_loss_1_per_c_s": 7.316109058196891e-05,
+        "quadratic_loss_2_per_c_s": 8.656716424837999e-05
+      }
+    },
+    "training_rmse_c": 0.34754652035752687,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 28
+  }
+}

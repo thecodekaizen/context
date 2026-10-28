@@ -1,0 +1,388 @@
+{
+  "status": "completed",
+  "steps": [
+    {
+      "step": 1,
+      "decision": {
+        "candidate_id": null,
+        "context_id": "143119f760072c5e7bc81830882a74f728641d59e5cf921164101089c930344e",
+        "evidence_ids": [
+          "initial-0",
+          "initial-1",
+          "initial-2",
+          "probe"
+        ],
+        "family": "quadratic_loss",
+        "kind": null,
+        "model_id": null,
+        "operation": "fit_candidate",
+        "rationale": "v1 mismatch on probe (RMSE 0.304 >0.3) with sustained both-heating to ~37C vs lower temps in initial-0/1/2; quadratic loss may explain high-temp deviation, compare fit before spending experiments; fitting is provisional not confirmation",
+        "schedule_id": null
+      },
+      "usage": {
+        "model": "muse-spark-1.3",
+        "input_tokens": 7343,
+        "output_tokens": 364,
+        "cached_input_tokens": 0,
+        "estimated_usd": 0.01072575,
+        "usage_reported": true,
+        "cache_hit": false,
+        "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+      },
+      "result": {
+        "candidate_id": "fit-15ba3b4c461e2804885261c9",
+        "family": "quadratic_loss",
+        "evidence_ids": [
+          "initial-0",
+          "initial-1",
+          "initial-2",
+          "probe"
+        ],
+        "model": {
+          "specification": {
+            "type": "two_node_quadratic_loss",
+            "sensor_lag": false
+          },
+          "estimated_parameters": {
+            "loss_rate_1_per_s": 0.0062559647973544985,
+            "loss_rate_2_per_s": 0.00518788964142865,
+            "coupling_rate_12_per_s": 0.005503604643252809,
+            "coupling_rate_21_per_s": 0.003984859097181126,
+            "heater_gain_1_c_per_s": 0.35180667354325734,
+            "heater_gain_2_c_per_s": 0.19376331394873933,
+            "quadratic_loss_1_per_c_s": 6.418387268562777e-05,
+            "quadratic_loss_2_per_c_s": 9.941629240687853e-05
+          }
+        },
+        "training_rmse_c": 0.2463618507534478,
+        "validation_status": "not_independently_confirmed",
+        "optimizer_evaluations": 19
+      }
+    },
+    {
+      "step": 2,
+      "decision": {
+        "candidate_id": "fit-15ba3b4c461e2804885261c9",
+        "context_id": "a3ad3773980af7dd00020fb968cd5341b8d4bc1f5d21b6b16decd247b5ad455e",
+        "evidence_ids": [
+          "initial-0",
+          "initial-1",
+          "initial-2",
+          "probe"
+        ],
+        "family": null,
+        "kind": null,
+        "model_id": "v1",
+        "operation": "register_revision",
+        "rationale": "v1 mismatch on probe RMSE 0.305>0.3; quadratic_loss fit provisional training RMSE 0.246 not confirmation; stage candidate for independent test",
+        "schedule_id": null
+      },
+      "usage": {
+        "model": "muse-spark-1.3",
+        "input_tokens": 7985,
+        "output_tokens": 323,
+        "cached_input_tokens": 0,
+        "estimated_usd": 0.011354,
+        "usage_reported": true,
+        "cache_hit": false,
+        "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+      },
+      "result": {
+        "status": "revision_registered",
+        "model_id": "revision-15e4e43665102c17b9e15cf9",
+        "candidate_id": "fit-15ba3b4c461e2804885261c9",
+        "provisional": true,
+        "next_step": "Propose independent confirmation on this model_id; registration is not acceptance"
+      }
+    },
+    {
+      "step": 3,
+      "decision": {
+        "candidate_id": null,
+        "context_id": "c42c8c8cac54ae160138670a715ba664257aa4c298d28ec612eaf4e426be369f",
+        "evidence_ids": [
+          "initial-0",
+          "initial-1",
+          "initial-2",
+          "probe"
+        ],
+        "family": null,
+        "kind": "confirmation",
+        "model_id": "revision-15e4e43665102c17b9e15cf9",
+        "operation": "propose_experiment",
+        "rationale": "v1 mismatch on probe RMSE 0.305>0.3 remains unresolved; quadratic_loss candidate staged as revision but training RMSE 0.246 is not confirmation; propose independent confirmation on both-release to test fitted candidate on unseen input",
+        "schedule_id": "both-release"
+      },
+      "usage": {
+        "model": "muse-spark-1.3",
+        "input_tokens": 8412,
+        "output_tokens": 334,
+        "cached_input_tokens": 0,
+        "estimated_usd": 0.0119345,
+        "usage_reported": true,
+        "cache_hit": false,
+        "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+      },
+      "result": {
+        "status": "proposal_only",
+        "model_id": "revision-15e4e43665102c17b9e15cf9",
+        "schedule": {
+          "id": "both-release",
+          "segments": [
+            {
+              "seconds": 30.0,
+              "q1_percent": 60,
+              "q2_percent": 60
+            },
+            {
+              "seconds": 30.0,
+              "q1_percent": 60,
+              "q2_percent": 60
+            },
+            {
+              "seconds": 30.0,
+              "q1_percent": 0,
+              "q2_percent": 0
+            },
+            {
+              "seconds": 30.0,
+              "q1_percent": 0,
+              "q2_percent": 0
+            }
+          ]
+        },
+        "kind": "confirmation",
+        "evidence_ids": [
+          "initial-0",
+          "initial-1",
+          "initial-2",
+          "probe"
+        ],
+        "note": "Explicit preparation and dispatch through Investigation are required",
+        "execution": {
+          "action_id": "experiment-3",
+          "assessment": {
+            "probe_rmse_c": 0.38837196800281204,
+            "threshold_c": 0.3,
+            "status": "model_mismatch_observed",
+            "scope": "This probe only; passing does not certify unseen schedules."
+          },
+          "verdict": "revision_rejected",
+          "scope": "Evidence for this experiment only; no global reliability claim"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "decision": {
+        "candidate_id": null,
+        "context_id": "2a44538067d3d70a5a449bbbeb64fcc30b45a7b8426b82df6e33dc14924e74c8",
+        "evidence_ids": [
+          "initial-0",
+          "initial-1",
+          "initial-2",
+          "probe",
+          "experiment-3"
+        ],
+        "family": "sensor_lag",
+        "kind": null,
+        "model_id": null,
+        "operation": "fit_candidate",
+        "rationale": "v1 mismatch on probe RMSE 0.305>0.3 and revision-15e4e43665102c17b9e15cf9 rejected on experiment-3 RMSE 0.388>0.3; quadratic_loss training RMSE 0.246 did not confirm. Compare untested sensor_lag family via fitting before spending remaining experiments; fit is provisional not acceptance.",
+        "schedule_id": null
+      },
+      "usage": {
+        "model": "muse-spark-1.3",
+        "input_tokens": 10358,
+        "output_tokens": 419,
+        "cached_input_tokens": 0,
+        "estimated_usd": 0.01472825,
+        "usage_reported": true,
+        "cache_hit": false,
+        "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+      },
+      "result": {
+        "candidate_id": "fit-bc097fbbb2b183746438835e",
+        "family": "sensor_lag",
+        "evidence_ids": [
+          "experiment-3",
+          "initial-0",
+          "initial-1",
+          "initial-2",
+          "probe"
+        ],
+        "model": {
+          "specification": {
+            "type": "two_node_thermal",
+            "sensor_lag": true
+          },
+          "estimated_parameters": {
+            "loss_rate_1_per_s": 0.010918824993093186,
+            "loss_rate_2_per_s": 0.009598856037277271,
+            "coupling_rate_12_per_s": 0.006859015491733299,
+            "coupling_rate_21_per_s": 0.004753614304416889,
+            "heater_gain_1_c_per_s": 0.43457703693514277,
+            "heater_gain_2_c_per_s": 0.23614642761825708,
+            "shared_sensor_time_constant_s": 5.840799316286349
+          }
+        },
+        "training_rmse_c": 0.08038036434761822,
+        "validation_status": "not_independently_confirmed",
+        "optimizer_evaluations": 15
+      }
+    },
+    {
+      "step": 5,
+      "decision": {
+        "candidate_id": "fit-bc097fbbb2b183746438835e",
+        "context_id": "bd7c4d074e89866cd6c8cc41b88b3779f9446009aeb56fe7174845f8bd79a88c",
+        "evidence_ids": [
+          "experiment-3",
+          "initial-0",
+          "initial-1",
+          "initial-2",
+          "probe"
+        ],
+        "family": null,
+        "kind": null,
+        "model_id": "v1",
+        "operation": "register_revision",
+        "rationale": "v1 mismatch on probe RMSE 0.305>0.3 and revision-15e4e43665102c17b9e15cf9 rejected on experiment-3 RMSE 0.388>0.3 remain unresolved; sensor_lag candidate fit training RMSE 0.08 is provisional not confirmation; stage for independent confirmation test",
+        "schedule_id": null
+      },
+      "usage": {
+        "model": "muse-spark-1.3",
+        "input_tokens": 10971,
+        "output_tokens": 523,
+        "cached_input_tokens": 0,
+        "estimated_usd": 0.0159365,
+        "usage_reported": true,
+        "cache_hit": false,
+        "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+      },
+      "result": {
+        "status": "revision_registered",
+        "model_id": "revision-46809cd0201ab87b08c5e605",
+        "candidate_id": "fit-bc097fbbb2b183746438835e",
+        "provisional": true,
+        "next_step": "Propose independent confirmation on this model_id; registration is not acceptance"
+      }
+    },
+    {
+      "step": 6,
+      "decision": {
+        "candidate_id": null,
+        "context_id": "89d59a8d9f13406593e3bc487607758076e6b81f00bcebf5dd5d24d708493c1c",
+        "evidence_ids": [
+          "experiment-3",
+          "initial-0",
+          "initial-1",
+          "initial-2",
+          "probe"
+        ],
+        "family": null,
+        "kind": "confirmation",
+        "model_id": "revision-46809cd0201ab87b08c5e605",
+        "operation": "propose_experiment",
+        "rationale": "v1 mismatch on probe RMSE 0.305>0.3 and revision-15e4e43665102c17b9e15cf9 rejected on experiment-3 RMSE 0.388>0.3 remain unresolved; sensor_lag candidate staged as revision-46809cd0201ab87b08c5e605 with provisional training RMSE 0.08 is not confirmation; propose independent confirmation on unseen staggered input to test fitted candidate",
+        "schedule_id": "staggered"
+      },
+      "usage": {
+        "model": "muse-spark-1.3",
+        "input_tokens": 11410,
+        "output_tokens": 539,
+        "cached_input_tokens": 0,
+        "estimated_usd": 0.01655325,
+        "usage_reported": true,
+        "cache_hit": false,
+        "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+      },
+      "result": {
+        "status": "proposal_only",
+        "model_id": "revision-46809cd0201ab87b08c5e605",
+        "schedule": {
+          "id": "staggered",
+          "segments": [
+            {
+              "seconds": 30.0,
+              "q1_percent": 60,
+              "q2_percent": 0
+            },
+            {
+              "seconds": 30.0,
+              "q1_percent": 60,
+              "q2_percent": 60
+            },
+            {
+              "seconds": 30.0,
+              "q1_percent": 0,
+              "q2_percent": 60
+            },
+            {
+              "seconds": 30.0,
+              "q1_percent": 0,
+              "q2_percent": 0
+            }
+          ]
+        },
+        "kind": "confirmation",
+        "evidence_ids": [
+          "experiment-3",
+          "initial-0",
+          "initial-1",
+          "initial-2",
+          "probe"
+        ],
+        "note": "Explicit preparation and dispatch through Investigation are required",
+        "execution": {
+          "action_id": "experiment-6",
+          "assessment": {
+            "probe_rmse_c": 0.07533947496403254,
+            "threshold_c": 0.3,
+            "status": "no_mismatch_observed",
+            "scope": "This probe only; passing does not certify unseen schedules."
+          },
+          "verdict": "revision_supported_on_confirmation",
+          "scope": "Evidence for this experiment only; no global reliability claim"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "decision": {
+        "candidate_id": null,
+        "context_id": "147ad696bc44ce45e16b5c7bbc64b454f37836ff01ba805305610f2854c33526",
+        "evidence_ids": [
+          "probe",
+          "experiment-3",
+          "experiment-6",
+          "initial-0",
+          "initial-1",
+          "initial-2"
+        ],
+        "family": null,
+        "kind": null,
+        "model_id": null,
+        "operation": "stop",
+        "rationale": "v1 mismatch on probe RMSE 0.305>0.3 and revision-15e4e43665102c17b9e15cf9 rejected on experiment-3 RMSE 0.388>0.3 remain recorded mismatches. Sensor_lag candidate training RMSE 0.08 vs quadratic_loss 0.246 compared via fitting, then staged as revision-46809cd0201ab87b08c5e605 and supported on experiment-6 RMSE 0.075 on that input only. Passing experiment-6 does not resolve prior failures or certify unseen schedules. Stopping with 1 action left to keep limitation visible; provisional fits are not causal acceptance.",
+        "schedule_id": null
+      },
+      "usage": {
+        "model": "muse-spark-1.3",
+        "input_tokens": 13328,
+        "output_tokens": 819,
+        "cached_input_tokens": 0,
+        "estimated_usd": 0.02014075,
+        "usage_reported": true,
+        "cache_hit": false,
+        "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+      },
+      "result": {
+        "status": "stop_requested",
+        "reason": "v1 mismatch on probe RMSE 0.305>0.3 and revision-15e4e43665102c17b9e15cf9 rejected on experiment-3 RMSE 0.388>0.3 remain recorded mismatches. Sensor_lag candidate training RMSE 0.08 vs quadratic_loss 0.246 compared via fitting, then staged as revision-46809cd0201ab87b08c5e605 and supported on experiment-6 RMSE 0.075 on that input only. Passing experiment-6 does not resolve prior failures or certify unseen schedules. Stopping with 1 action left to keep limitation visible; provisional fits are not causal acceptance.",
+        "note": "Controller must honor this request; no execution is dispatched by these tools"
+      }
+    }
+  ],
+  "limitation": "Live integration only; supplied model grammar and deliberately restricted initial family"
+}

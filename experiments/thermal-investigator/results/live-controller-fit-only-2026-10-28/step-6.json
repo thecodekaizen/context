@@ -1,0 +1,62 @@
+{
+  "step": 6,
+  "decision": {
+    "candidate_id": null,
+    "context_id": "35735167ee447c8f46e39f99780946129856e9d71fd3f706d4385aea0166f401",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe",
+      "experiment-3",
+      "experiment-4",
+      "experiment-5"
+    ],
+    "family": "linear",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "v1 mismatch remains unresolved on probe RMSE 0.44C, experiment-3 RMSE 0.567C, experiment-4 RMSE 0.448C, experiment-5 RMSE 0.447C (threshold 0.3C). Existing sensor_lag training RMSE 0.077C beats quadratic_loss 0.347C on initial-0,1,2+probe but both are not_independently_confirmed and fitting is not confirmation. All families supplied; linear not yet compared. Fit linear on full evidence to complete bounded comparison before exhausting fit budget; no revision accepted.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 14293,
+    "output_tokens": 1005,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0221375,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-807ede26025677d21d1e6fce",
+    "family": "linear",
+    "evidence_ids": [
+      "experiment-3",
+      "experiment-4",
+      "experiment-5",
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_thermal",
+        "sensor_lag": false
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.0024837214235167273,
+        "loss_rate_2_per_s": 0.0016018145383800363,
+        "coupling_rate_12_per_s": 0.009279419513987185,
+        "coupling_rate_21_per_s": 0.006579637042454962,
+        "heater_gain_1_c_per_s": 0.34055084447896433,
+        "heater_gain_2_c_per_s": 0.20526641183003072
+      }
+    },
+    "training_rmse_c": 0.42281083269095443,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 20
+  }
+}

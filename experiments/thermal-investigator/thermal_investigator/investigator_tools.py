@@ -40,9 +40,14 @@ class InvestigationTools:
                  'registered_models':[{'model_id':r['id'],'parent_id':r['parent'],'evidence_ids':json.loads(r['evidence']),
                                        'model':json.loads(r['body'])} for r in exported['models']],
                  'candidate_fits':fits,
+                 'revision_semantics':{'register_revision':'Stage a provisional fitted candidate for testing, not acceptance or causal identification.',
+                    'confirmation':'To test a fitted candidate: register_revision first, then propose_experiment on its returned model_id with kind confirmation.',
+                    'verdict':'Only measured confirmation supports or rejects a staged revision on that tested input.'},
                  'previous_decisions':[{'decision_id':r['id'],'decision':json.loads(r['request']),'result':json.loads(r['result'])}
                     for r in self.store.db.execute('SELECT * FROM tool_decisions WHERE session=? ORDER BY rowid',(self.session,))],
                  'observed_assessments':[json.loads(r['result']) for r in exported['actions'] if r['status']=='completed'],
+                 'recorded_mismatches':[{'model_id':r['model'],'action_id':r['id'],'assessment':json.loads(r['result'])['assessment']}
+                    for r in exported['actions'] if r['status']=='completed' and json.loads(r['result'])['assessment']['status']=='model_mismatch_observed'],
                  'actions_remaining':exported['session']['budget']-exported['session']['used'],
                  'unresolved_actions':[{'action_id':r['id'],'status':r['status']} for r in exported['actions'] if r['status']!='completed'],
                  'legal_schedules':[p.to_dict() for p in probe_library()],
@@ -99,7 +104,7 @@ class InvestigationTools:
                 raise ValueError('Revision must preserve fitted evidence references')
             model_id='revision-'+hashlib.sha256(decision_id.encode()).hexdigest()[:24]
             self.store.add_model(self.session,model_id,candidate['model'],decision['evidence_ids'],parent=decision['model_id'])
-            result={'status':'revision_registered','model_id':model_id,'candidate_id':decision['candidate_id']}
+            result={'status':'revision_registered','model_id':model_id,'candidate_id':decision['candidate_id'],'provisional':True,'next_step':'Propose independent confirmation on this model_id; registration is not acceptance'}
         elif decision['operation']=='propose_experiment':
             plan=next(p for p in probe_library() if p.id==decision['schedule_id'])
             result={'status':'proposal_only','model_id':decision['model_id'],'schedule':plan.to_dict(),
@@ -195,9 +200,16 @@ def decide_with_tools(provider,tools,policy):
     context=tools.context()
     instruction=('Choose one bounded investigation tool operation from observed evidence. All model families are supplied. '
                  'Cite observations. A training fit cannot establish mechanism or future accuracy. Proposals do not run experiments. '
-                 'Use null for fields irrelevant to the operation. Never infer hidden system labels or future measurements.')
+                 'Use null for fields irrelevant to the operation. Never infer hidden system labels or future measurements. '
+                 'A measured mismatch remains evidence against that model on that input even if other inputs pass. '
+                 'One failed trial is sufficient to compare bounded predictive candidates; fitting is not a claim of causation. '
+                 'Use available numerical fitting tools to compare explanations before consuming scarce physical experiments. '
+                 'register_revision only stages a PROVISIONAL fitted candidate; it does not accept it. '
+                 'To independently test a fitted candidate, first register_revision, then propose_experiment with its returned model_id and kind confirmation. '
+                 'Testing the original model again cannot confirm the alternative candidate. '
+                 'If stopping with recorded mismatch, explicitly report the unresolved limitation; never treat easier passing trials as resolving it.')
     if policy=='meta_investigator':
-        instruction+=' Preserve the working hypothesis until measured mismatch supports revision; seek independent confirmation and stop when evidence is insufficient.'
+        instruction+=' Maintain evidence-linked hypotheses. When mismatch is measured, compare predictive alternatives and seek independent confirmation before accepting a revision. Keep all unresolved mismatch visible.'
     instruction+=' Return an object with a decision field matching exactly one operation branch.'
     def validate_wire(value):
         if not isinstance(value,dict) or set(value)!={'decision'}:raise ValueError('Expected operation envelope')

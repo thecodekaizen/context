@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "context_sha256": "50b1a9cc6312c7a30b3a2b9c94ae2927490b0c2c72278099d7c3736f44d3b9ad",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "c1533c0d99088816c1576fbf247a4704878dfea487ff9c47f2b273a590e200a9",
+    "evidence_ids": [
+      "experiment-3",
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "v1",
+    "operation": "propose_experiment",
+    "rationale": "v1 mismatch remains unresolved on probe RMSE 0.44C and on experiment-3 both-release RMSE 0.567C >0.3 threshold. Sensor_lag training RMSE 0.077C beats quadratic_loss 0.347C on initial-0,1,2+probe but training fit is not independent confirmation. Propose staggered diagnostic to independently test transient lag vs high-temp loss predictions before any revision.",
+    "schedule_id": "staggered"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 10372,
+    "output_tokens": 899,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01678575,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T08:30:53.338272+00:00"
+}

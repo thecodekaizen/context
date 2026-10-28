@@ -1,0 +1,77 @@
+{
+  "step": 3,
+  "decision": {
+    "candidate_id": null,
+    "context_id": "1cb267aa082a200ee114742465b4009ca5f3e312db643857ec687ccab6b81e98",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "v1",
+    "operation": "propose_experiment",
+    "rationale": "v1 mismatch on probe RMSE 0.44C >0.3 remains unresolved. Sensor_lag training RMSE 0.077C beats quadratic_loss 0.347C on same evidence initial-0,1,2,probe but neither is independently confirmed; fitting is not confirmation. Propose both-release diagnostic to independently test transient vs high-temp predictions before any revision.",
+    "schedule_id": "both-release"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 8441,
+    "output_tokens": 604,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01311825,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "proposal_only",
+    "model_id": "v1",
+    "schedule": {
+      "id": "both-release",
+      "segments": [
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 0,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 0,
+          "q2_percent": 0
+        }
+      ]
+    },
+    "kind": "diagnostic",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "note": "Explicit preparation and dispatch through Investigation are required",
+    "execution": {
+      "action_id": "experiment-3",
+      "assessment": {
+        "probe_rmse_c": 0.5670956007272708,
+        "threshold_c": 0.3,
+        "status": "model_mismatch_observed",
+        "scope": "This probe only; passing does not certify unseen schedules."
+      },
+      "verdict": "model_mismatch_observed",
+      "scope": "Evidence for this experiment only; no global reliability claim"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "49504707a4d329c5a62738cd9f954590fe45239a8edfe73320f098daad7f4285",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "c42c8c8cac54ae160138670a715ba664257aa4c298d28ec612eaf4e426be369f",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "family": null,
+    "kind": "confirmation",
+    "model_id": "revision-15e4e43665102c17b9e15cf9",
+    "operation": "propose_experiment",
+    "rationale": "v1 mismatch on probe RMSE 0.305>0.3 remains unresolved; quadratic_loss candidate staged as revision but training RMSE 0.246 is not confirmation; propose independent confirmation on both-release to test fitted candidate on unseen input",
+    "schedule_id": "both-release"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 8412,
+    "output_tokens": 334,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0119345,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T08:32:25.546540+00:00"
+}

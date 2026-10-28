@@ -1,0 +1,63 @@
+{
+  "step": 7,
+  "decision": {
+    "candidate_id": null,
+    "context_id": "4782a9b3fc59e9ec1b3a20bc365e03cce33cb39187b67926c89922d4aab7c136",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe",
+      "experiment-3",
+      "experiment-4",
+      "experiment-5"
+    ],
+    "family": "sensor_lag",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "v1 mismatch remains unresolved on probe RMSE 0.44C, experiment-3 RMSE 0.567C, experiment-4 RMSE 0.448C, experiment-5 RMSE 0.447C >0.3C threshold. Existing candidates not_independently_confirmed: sensor_lag training RMSE 0.077C vs quadratic_loss 0.347C on initial-0,1,2+probe, linear 0.423C on full evidence. Fitting is not confirmation or causation. Use remaining fit budget to compare sensor_lag on full evidence before stopping; no revision accepted.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 14947,
+    "output_tokens": 884,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.02244075,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "candidate_id": "fit-8ff12a1853e0f38a18b297de",
+    "family": "sensor_lag",
+    "evidence_ids": [
+      "experiment-3",
+      "experiment-4",
+      "experiment-5",
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "model": {
+      "specification": {
+        "type": "two_node_thermal",
+        "sensor_lag": true
+      },
+      "estimated_parameters": {
+        "loss_rate_1_per_s": 0.008727697262311845,
+        "loss_rate_2_per_s": 0.006957923908382269,
+        "coupling_rate_12_per_s": 0.013686599509951774,
+        "coupling_rate_21_per_s": 0.008732802361181066,
+        "heater_gain_1_c_per_s": 0.48837223224434034,
+        "heater_gain_2_c_per_s": 0.27667205185220506,
+        "shared_sensor_time_constant_s": 9.478424110477096
+      }
+    },
+    "training_rmse_c": 0.0804379611275243,
+    "validation_status": "not_independently_confirmed",
+    "optimizer_evaluations": 17
+  }
+}

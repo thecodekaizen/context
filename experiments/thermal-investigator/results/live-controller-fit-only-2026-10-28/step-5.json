@@ -1,0 +1,81 @@
+{
+  "step": 5,
+  "decision": {
+    "candidate_id": null,
+    "context_id": "ab8ca49679584bf55f717c81618f6163a3e843ce62704ec40331d03d8576952c",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe",
+      "experiment-3",
+      "experiment-4"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "v1",
+    "operation": "propose_experiment",
+    "rationale": "v1 mismatch remains unresolved on probe RMSE 0.44C, experiment-3 RMSE 0.567C, experiment-4 RMSE 0.448C. Sensor_lag fit training RMSE 0.077C beats quadratic_loss 0.347C on initial-0,1,2+probe but both are not_independently_confirmed; fitting is not confirmation. Propose opposed-levels diagnostic to independently discriminate transient lag vs temperature-dependent loss before any revision, consuming final budgeted experiment.",
+    "schedule_id": "opposed-levels"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 12318,
+    "output_tokens": 908,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0192565,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "proposal_only",
+    "model_id": "v1",
+    "schedule": {
+      "id": "opposed-levels",
+      "segments": [
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 15
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 15,
+          "q2_percent": 60
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 15
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 15,
+          "q2_percent": 60
+        }
+      ]
+    },
+    "kind": "diagnostic",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe",
+      "experiment-3",
+      "experiment-4"
+    ],
+    "note": "Explicit preparation and dispatch through Investigation are required",
+    "execution": {
+      "action_id": "experiment-5",
+      "assessment": {
+        "probe_rmse_c": 0.4471524625320127,
+        "threshold_c": 0.3,
+        "status": "model_mismatch_observed",
+        "scope": "This probe only; passing does not certify unseen schedules."
+      },
+      "verdict": "model_mismatch_observed",
+      "scope": "Evidence for this experiment only; no global reliability claim"
+    }
+  }
+}

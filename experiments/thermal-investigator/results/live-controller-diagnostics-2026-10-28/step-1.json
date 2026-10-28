@@ -1,0 +1,77 @@
+{
+  "step": 1,
+  "decision": {
+    "candidate_id": null,
+    "context_id": "b1ca34a5e3201839d79c5b497103c76ded927be894dd9644652fe01b692ba5e2",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "v1",
+    "operation": "propose_experiment",
+    "rationale": "v1 fitted on initial-0, initial-1, initial-2 shows probe mismatch RMSE 0.356C >0.3C on sustained-both heating to ~34C; single probe mismatch is insufficient to revise mechanism, so preserve v1 and seek independent confirmation at different power levels with left-stair.",
+    "schedule_id": "left-stair"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 7092,
+    "output_tokens": 686,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0117805,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "proposal_only",
+    "model_id": "v1",
+    "schedule": {
+      "id": "left-stair",
+      "segments": [
+        {
+          "seconds": 30.0,
+          "q1_percent": 15,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 30,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 45,
+          "q2_percent": 0
+        },
+        {
+          "seconds": 30.0,
+          "q1_percent": 60,
+          "q2_percent": 0
+        }
+      ]
+    },
+    "kind": "diagnostic",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "note": "Explicit preparation and dispatch through Investigation are required",
+    "execution": {
+      "action_id": "experiment-1",
+      "assessment": {
+        "probe_rmse_c": 0.14752985219380463,
+        "threshold_c": 0.3,
+        "status": "no_mismatch_observed",
+        "scope": "This probe only; passing does not certify unseen schedules."
+      },
+      "verdict": "no_mismatch_observed",
+      "scope": "Evidence for this experiment only; no global reliability claim"
+    }
+  }
+}

@@ -82,3 +82,30 @@ class InvestigatorToolTests(unittest.TestCase):
         self.assertEqual(len(proposals),1)
         self.assertEqual(proposals[0]['properties']['kind']['enum'],['diagnostic'])
         with self.assertRaises(ValueError):validate_tool_decision(self.decision('propose_experiment',model_id='v1',schedule_id='both-release',kind='confirmation'),self.tools.context())
+    def test_mismatch_remains_visible_after_passing_other_input(self):
+        self.store.prepare('s','failure','v1',self.plan.to_dict())
+        wrong={**self.obs,'temperature_c':[[a+1,b+1] for a,b in self.obs['temperature_c']]}
+        self.store.execute('s','failure',lambda *args:wrong)
+        self.store.prepare('s','passing','v1',self.plan.to_dict())
+        self.store.execute('s','passing',lambda *args:self.obs)
+        context=self.tools.context()
+        self.assertEqual([r['action_id'] for r in context['recorded_mismatches']],['failure'])
+    def test_offline_controller_review_recomputes_predictions(self):
+        from thermal_investigator.controller_review import review_export
+        self.store.prepare('s','diagnostic','v1',self.plan.to_dict())
+        self.store.execute('s','diagnostic',lambda *args:self.obs)
+        exported=self.store.export('s')
+        self.assertEqual(review_export(exported)['status'],'consistent')
+        frozen=json.loads(exported['actions'][0]['prediction']);frozen[10][0]+=1.
+        exported['actions'][0]['prediction']=json.dumps(frozen)
+        with self.assertRaises(ValueError):review_export(exported)
+    def test_offline_review_rejects_budget_and_score_changes(self):
+        from thermal_investigator.controller_review import review_export
+        self.store.prepare('s','diagnostic','v1',self.plan.to_dict())
+        self.store.execute('s','diagnostic',lambda *args:self.obs)
+        exported=self.store.export('s');exported['session']['used']+=1
+        with self.assertRaises(ValueError):review_export(exported)
+        exported=self.store.export('s');result=json.loads(exported['actions'][0]['result'])
+        result['assessment']['probe_rmse_c']=1.
+        exported['actions'][0]['result']=json.dumps(result)
+        with self.assertRaises(ValueError):review_export(exported)

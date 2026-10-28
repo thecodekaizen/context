@@ -1,0 +1,37 @@
+{
+  "step": 8,
+  "decision": {
+    "candidate_id": null,
+    "context_id": "9603b943b544160eca6005a83110753b29d0e983ed692928fb9f765c04ace56c",
+    "evidence_ids": [
+      "probe",
+      "experiment-3",
+      "experiment-4",
+      "experiment-5",
+      "initial-0",
+      "initial-1",
+      "initial-2"
+    ],
+    "family": null,
+    "kind": null,
+    "model_id": null,
+    "operation": "stop",
+    "rationale": "Stop with budget exhausted (0 actions, 0 fits). v1 mismatch remains unresolved: probe RMSE 0.44C, experiment-3 0.567C, experiment-4 0.448C, experiment-5 0.447C all >0.3C. Compared fits on available evidence: sensor_lag training RMSE 0.080C beats quadratic_loss 0.348C and linear 0.423C, but all validation_status not_independently_confirmed; fitting is not confirmation or causation, so no revision accepted. Unresolved limitation: sensor_lag hypothesis not independently confirmed.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 15631,
+    "output_tokens": 502,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.02167225,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "result": {
+    "status": "stop_requested",
+    "reason": "Stop with budget exhausted (0 actions, 0 fits). v1 mismatch remains unresolved: probe RMSE 0.44C, experiment-3 0.567C, experiment-4 0.448C, experiment-5 0.447C all >0.3C. Compared fits on available evidence: sensor_lag training RMSE 0.080C beats quadratic_loss 0.348C and linear 0.423C, but all validation_status not_independently_confirmed; fitting is not confirmation or causation, so no revision accepted. Unresolved limitation: sensor_lag hypothesis not independently confirmed.",
+    "note": "Controller must honor this request; no execution is dispatched by these tools"
+  }
+}

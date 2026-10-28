@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "context_sha256": "e47b504418cd9376255c2fca86e984bfe16c2b7c6412d59772606b2c3bba93bc",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "8e4330510526411d135e9bd8c5fe9feb8e1872b78b51737c2632cf3d0c0ee005",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe"
+    ],
+    "family": "quadratic_loss",
+    "kind": null,
+    "model_id": null,
+    "operation": "fit_candidate",
+    "rationale": "v1 mismatch on probe (sustained 0.6,0.6, RMSE 0.44C >0.3 threshold) remains unresolved; fitting comparison is required before spending scarce experiments. Fit quadratic_loss to initial-0, initial-1, initial-2 plus probe to test if temperature-dependent loss explains high-temperature deviation.",
+    "schedule_id": null
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 7234,
+    "output_tokens": 535,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.01131625,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T08:30:39.238175+00:00"
+}

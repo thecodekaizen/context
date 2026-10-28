@@ -1,0 +1,33 @@
+{
+  "status": "completed",
+  "context_sha256": "2ed75ef3f9c4bd20e28c5f78fc103086c1cb99ac46c6f11a5b6057e29d3f0aaf",
+  "decision": {
+    "candidate_id": null,
+    "context_id": "ab8ca49679584bf55f717c81618f6163a3e843ce62704ec40331d03d8576952c",
+    "evidence_ids": [
+      "initial-0",
+      "initial-1",
+      "initial-2",
+      "probe",
+      "experiment-3",
+      "experiment-4"
+    ],
+    "family": null,
+    "kind": "diagnostic",
+    "model_id": "v1",
+    "operation": "propose_experiment",
+    "rationale": "v1 mismatch remains unresolved on probe RMSE 0.44C, experiment-3 RMSE 0.567C, experiment-4 RMSE 0.448C. Sensor_lag fit training RMSE 0.077C beats quadratic_loss 0.347C on initial-0,1,2+probe but both are not_independently_confirmed; fitting is not confirmation. Propose opposed-levels diagnostic to independently discriminate transient lag vs temperature-dependent loss before any revision, consuming final budgeted experiment.",
+    "schedule_id": "opposed-levels"
+  },
+  "usage": {
+    "model": "muse-spark-1.3",
+    "input_tokens": 12318,
+    "output_tokens": 908,
+    "cached_input_tokens": 0,
+    "estimated_usd": 0.0192565,
+    "usage_reported": true,
+    "cache_hit": false,
+    "price_source": "https://dev.meta.ai/docs/pricing-rate-limits"
+  },
+  "utc": "2026-10-28T08:30:58.947428+00:00"
+}

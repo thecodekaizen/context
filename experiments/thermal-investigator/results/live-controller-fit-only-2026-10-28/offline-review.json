@@ -1,0 +1,30 @@
+{
+  "status": "consistent",
+  "actions_used": 7,
+  "action_budget": 7,
+  "confirmation_supports": 0,
+  "confirmation_rejections": 0,
+  "checks": [
+    {
+      "action_id": "experiment-3",
+      "rmse_c": 0.5670956007272708,
+      "verdict": "model_mismatch_observed"
+    },
+    {
+      "action_id": "experiment-4",
+      "rmse_c": 0.4479413260791789,
+      "verdict": "model_mismatch_observed"
+    },
+    {
+      "action_id": "experiment-5",
+      "rmse_c": 0.4471524625320127,
+      "verdict": "model_mismatch_observed"
+    },
+    {
+      "action_id": "probe",
+      "rmse_c": 0.4400344346614762,
+      "verdict": "model_mismatch_observed"
+    }
+  ],
+  "limitations": "Internal consistency only; no authenticity, superiority or global reliability certificate"
+}
