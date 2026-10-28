@@ -1,0 +1,31 @@
+{
+  "diagnostic": {
+    "action_id": "probe",
+    "assessment": {
+      "probe_rmse_c": 0.40952927873208556,
+      "threshold_c": 0.3,
+      "status": "model_mismatch_observed",
+      "scope": "This probe only; passing does not certify unseen schedules."
+    },
+    "verdict": "model_mismatch_observed",
+    "scope": "Evidence for this experiment only; no global reliability claim"
+  },
+  "confirmation": {
+    "action_id": "confirmation",
+    "assessment": {
+      "probe_rmse_c": 4.793890005275496e-10,
+      "threshold_c": 0.3,
+      "status": "no_mismatch_observed",
+      "scope": "This probe only; passing does not certify unseen schedules."
+    },
+    "verdict": "revision_supported_on_confirmation",
+    "scope": "Evidence for this experiment only; no global reliability claim"
+  },
+  "meta_calls": 0,
+  "limitations": [
+    "single development walkthrough",
+    "noiseless simulation",
+    "human-supplied revision policy",
+    "not a paired superiority evaluation"
+  ]
+}

@@ -40,8 +40,8 @@ Acceptance: a saved run contains an experiment, model fit, prediction committed 
 
 ## Day 2 — 29 October: make the investigation persistent
 
-- [ ] Versioned candidate models and evidence-linked revisions.
-- [ ] Reliable budget accounting, stop/resume and duplicate-action prevention.
+- [x] Versioned candidate models and evidence-linked revisions in SQLite; measured parent mismatch required, historical models retained.
+- [x] Transactional reservations, restart/resume, cached completed actions and conservative uncertain-dispatch reconciliation. No automatic retry of unknown external outcomes. General session pause/stop controls remain for API/UI integration.
 - [ ] Bounded investigation API using existing backend conventions.
 - [ ] Direct Meta baseline receives equivalent tools and limits.
 
@@ -153,3 +153,10 @@ Completed 30 fresh systems and three challenges per system, comparing physical c
 ## Prospective adequacy — October 28
 
 Added a separate public-data-only diagnostic decision module and frozen local evaluation. Thirty fresh simulated systems; equal three fitting trials plus one probe per strategy; no refitting after probe. Sustained heating flags all nine systems with challenge failure, with one additional flag on a system passing the three challenges. Disagreement catches six of nine; release catches three. See `experiments/thermal-investigator/results/prospective-adequacy-2026-10-28/REPORT.md` and INTERPRETATION.md. This supports a conventional prospective check, not a Meta contribution or hardware reliability claim. All 180 saved evidence commitments were checked. 37 tests pass; zero API calls. Next: explicit mismatch/revision/confirmation state under a matched experiment budget.
+
+
+## Persistent mismatch/revision/confirmation — October 28
+
+Added SQLite-backed investigation sessions, versioned executable models, evidence references, frozen predictions and transactional action reservations. Completed actions replay from storage. Interrupted dispatch remains uncertain until reconciled, without a second reservation or blind execution retry. The store cannot guarantee exactly-once hardware I/O.
+
+A deterministic noiseless simulated walkthrough charges three initial trials, detects 0.40953°C mismatch on trial four, registers a supplied sensor-delay revision, freezes a distinct confirmation, restarts, and records support on trial five. Published evidence: `experiments/thermal-investigator/results/persistent-walkthrough-2026-10-28/`. It uses a human-authored revision policy and is not a paired accuracy evaluation or Meta contribution. 45 tests pass, including resume, budget exhaustion, invalid evidence, rejected revision and uncertain dispatch. No API calls. Next: fresh paired revision comparison with equal total budget, followed by the bounded substantive Meta gate.
