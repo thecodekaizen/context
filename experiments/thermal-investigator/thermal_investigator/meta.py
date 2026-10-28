@@ -77,11 +77,16 @@ class MetaDecider:
             return json.load(response)
 
     def decide(self, context, strategy):
+        return self.decide_contract(context, instructions(strategy), decision_schema(context),
+                                    lambda value: validate_decision(value, context))
+
+    def decide_contract(self, context, instruction, schema, validator):
+        """Reuse the guarded transport for a separately validated bounded contract."""
         payload = {"model": MODEL, "reasoning": {"effort": "minimal"},
                    "max_output_tokens": MAX_OUTPUT_TOKENS,
-                   "input": instructions(strategy) + "\n\n" + json.dumps(context, separators=(",", ":")),
+                   "input": instruction + "\n\n" + json.dumps(context, separators=(",", ":")),
                    "text": {"format": {"type": "json_schema", "name": "thermal_investigation_decision",
-                                       "strict": True, "schema": decision_schema(context)}}}
+                                       "strict": True, "schema": schema}}}
         encoded = json.dumps(payload, separators=(",", ":")).encode()
         if len(encoded) > MAX_REQUEST_BYTES:
             raise ValueError("Public decision context exceeds the pilot input limit")
@@ -95,7 +100,7 @@ class MetaDecider:
                 cached = json.loads(response_path.read_text())
                 if cached["status"] != "completed":
                     raise ValueError("An attempt with this context already exists; no automatic repeat")
-                return validate_decision(cached["decision"], context), {**cached["usage"], "cache_hit": True}
+                return validator(cached["decision"]), {**cached["usage"], "cache_hit": True}
             state = self._state()
             if state["attempts"] >= self.max_calls or state["charged_or_reserved_usd"] + reserved > self.budget_usd:
                 raise ValueError("Persistent pilot call/cost guard exhausted")
@@ -128,7 +133,7 @@ class MetaDecider:
                      for part in item.get("content", []) if part.get("type") == "output_text"]
             if raw.get("status") != "completed" or not texts:
                 raise ValueError("Meta response incomplete or empty; attempt retained without retries")
-            decision = validate_decision(json.loads("".join(texts)), context)
+            decision = validator(json.loads("".join(texts)))
             response_path.write_text(json.dumps({"status": "completed", "context_sha256": fingerprint,
                 "decision": decision, "usage": report, "utc": datetime.now(timezone.utc).isoformat()}, indent=2))
             return decision, report
