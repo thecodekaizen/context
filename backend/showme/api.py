@@ -12,6 +12,7 @@ from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
 from .focus import inspect_joint
+from .joint_recovery import compare_recovery
 from .media import inspect_video, make_model_video
 from .meta import MuseSparkClient
 from .observe import observe_snapshot, observe_video, validate_observation, validate_snapshot
@@ -301,6 +302,41 @@ def reconcile_physical_session(payload: dict) -> dict:
         return {"session": reconcile_session(process, payload.get("checks"))}
     except (ValueError, TypeError, KeyError) as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@app.post("/api/skills/compare-recovery")
+def compare_joint_recovery(
+    reference_image: Annotated[UploadFile, File()],
+    before_image: Annotated[UploadFile, File()],
+    after_image: Annotated[UploadFile, File()],
+    process_json: Annotated[str, Form(max_length=100_000)],
+    transition_id: Annotated[str, Form(max_length=100)],
+    before_seconds: Annotated[float, Form()],
+    after_seconds: Annotated[float, Form()],
+) -> dict:
+    """Explicit paid three-image comparison, not an automatic completion check."""
+    try:
+        process = json.loads(process_json)
+        if not isinstance(process, dict):
+            raise ValueError("provide a reviewed process object")
+        validate_references(process)
+        with tempfile.TemporaryDirectory(prefix="showme-recovery-") as temporary:
+            paths = []
+            for role, upload in [("reference", reference_image), ("before", before_image), ("after", after_image)]:
+                suffix = Path(upload.filename or "").suffix.lower()
+                if suffix not in {".jpg", ".jpeg", ".png"} or upload.content_type not in {"image/jpeg", "image/png"}:
+                    raise HTTPException(status_code=415, detail="Select JPEG or PNG recovery evidence.")
+                path = Path(temporary) / (role + suffix)
+                if _copy_bounded(upload, path, max_bytes=MAX_SNAPSHOT_BYTES) == 0:
+                    raise ValueError("recovery image is empty")
+                paths.append(path)
+            result = compare_recovery(MuseSparkClient.from_env(), *paths, process, transition_id, before_seconds, after_seconds)
+            return {"comparison": result, "status": result["status"]}
+    except (OSError, ValueError, RuntimeError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    finally:
+        for upload in [reference_image, before_image, after_image]:
+            upload.file.close()
 
 
 def _copy_bounded(

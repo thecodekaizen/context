@@ -42,3 +42,7 @@ The backend now exposes explicit `POST /api/skills/inspect-joint` for a source i
 ## Optional physical-session projection — October 28
 
 `POST /api/skills/reconcile-session` accepts JSON `{process, checks}` and locally projects an ordered physical snapshot history. It separates current and historical matches, rejects simulation/model-revision mixing, and withholds unproven recovery/completion claims. See `../experiments/showme-task-session.md`. It is optional; preserve a single frontend history rather than duplicating state stores.
+
+## Same-joint recovery comparison — October 28
+
+Explicit paid multipart `POST /api/skills/compare-recovery` compares reference/before/after images for one transition. It derives reported recovery only from a prior visible difference and later matching same-joint evidence. Unchanged views do not demonstrate correction. Exact fields and integration limits: `../experiments/showme-joint-recovery-v1.md`. No real provider accuracy result exists yet for this path.
