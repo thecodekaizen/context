@@ -23,3 +23,12 @@ def test_bad_upload_and_path():
 
 def test_health():
     assert client.get('/api/health').json()['status']=='ok'
+
+def test_review_without_key(clips,monkeypatch):
+    monkeypatch.delenv('MODEL_API_KEY',raising=False)
+    r=client.post('/api/demo')
+    assert r.status_code==200
+    response=client.post('/api/investigations/demo/interpret/f0')
+    assert response.status_code==503
+    assert 'MODEL_API_KEY' in response.json()['detail']
+    assert client.post('/api/investigations/not-valid/interpret/f0').status_code==404

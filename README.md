@@ -39,11 +39,11 @@ npx playwright install chromium
 npx playwright test
 ```
 
-12 backend tests cover copy, trim, omission, reordering, repetition,
+24 backend tests cover copy, trim, omission, reordering, repetition,
 rescaling/recompression, unknown and ambiguous static sources, invalid media,
 real multipart uploads, persisted evidence, and HTTP range playback.
-Two Chromium tests exercise the real generated analysis, source reveal,
-evidence download, browser errors and mobile overflow. The API must be running.
+Four Chromium tests exercise the real generated analysis, source reveal,
+evidence download, browser errors, mobile overflow, missing credentials and model-citation seeking (using an explicitly mocked test response). The API must be running.
 
 ## Evidence engine
 
@@ -69,13 +69,25 @@ again; caching and collection indexing remain future work.
 ## Meta status
 
 Official API docs were verified on October 29, 2026; see
-[verification notes](docs/meta-verification.md). An optional, validated
-`meta.interpret()` adapter targets Muse Spark 1.3 on the documented Responses API.
-It is not exposed in the UI and has **not** completed live inference: no
-`MODEL_API_KEY` is configured. The deterministic MVP does not require a key.
-The adapter sends alignment metadata only, so it cannot infer scene semantics.
-Multimodal interpretation with timestamped video/audio evidence remains the
-next integration milestone; this is not yet a submission-ready Meta AI demo.
+[verification notes](docs/meta-verification.md). **Review with Meta AI** creates
+a source excerpt around a finding and a published excerpt around the corresponding
+edit boundary, then sends those clips (including available audio) to Meta. This
+external transfer occurs only when you click the review button. Source excerpts
+are capped at 30 seconds and 8 MB each; long findings require manual inspection.
+
+The adapter uses Muse Spark 1.2 because Meta's current guide cautions about audio
+quality on 1.3. Model observations must cite supplied clip IDs and valid clip-local
+time ranges. The server translates those citations to original media timestamps;
+clicking a citation seeks the appropriate player. Possible interpretation and
+uncertainty are displayed separately from measured edits. Valid timestamp bounds
+do not verify the truth of a model claim.
+
+Set `MODEL_API_KEY` in the environment **before starting the server** to enable
+live review. No credential is configured in this development session, so real
+Meta authentication and inference remain unverified. Tests use a mock transport;
+no test output is shown as real model analysis. Missing keys, provider failures
+and invalid model citations leave deterministic evidence available. Interpretation
+reports persist separately under `data/<investigation>/interpretation-<finding>.json`.
 
 ## Scope and limitations
 

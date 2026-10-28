@@ -10,6 +10,9 @@ from fastapi.staticfiles import StaticFiles
 from starlette.concurrency import run_in_threadpool
 from .alignment import analyze
 from .fixtures import generate
+from .context_pack import build_pack
+from .meta import interpret
+import httpx
 
 ROOT=Path(__file__).resolve().parents[2]
 DATA=ROOT/'data'; DATA.mkdir(exist_ok=True)
@@ -71,6 +74,34 @@ def media(identifier:str,filename:str):
     path=DATA/identifier/filename
     if not path.is_file(): raise HTTPException(404)
     return FileResponse(path)
+
+@app.post('/api/investigations/{identifier}/interpret/{finding_id}')
+async def review(identifier:str,finding_id:str):
+    if not (identifier=='demo' or len(identifier)==32 and all(c in '0123456789abcdef' for c in identifier)):
+        raise HTTPException(404)
+    directory=DATA/identifier
+    if not (directory/'evidence.json').is_file():
+        raise HTTPException(404,'Investigation does not exist')
+    if not os.getenv('MODEL_API_KEY'):
+        raise HTTPException(503,'Meta analysis unavailable: configure MODEL_API_KEY in the server environment.')
+    if not lock.acquire(blocking=False):
+        raise HTTPException(429,'An analysis is already running')
+    try:
+        evidence=json.loads((directory/'evidence.json').read_text())
+        clips=await run_in_threadpool(build_pack,directory,evidence,finding_id)
+        result=await interpret(evidence,finding_id,clips)
+        # Save separately so model statements never become deterministic findings.
+        target=directory/f'interpretation-{finding_id}.json'
+        temporary=target.with_suffix('.tmp')
+        temporary.write_text(json.dumps(result,indent=2))
+        temporary.replace(target)
+        return result
+    except ValueError as exc:
+        raise HTTPException(422,str(exc)) from exc
+    except httpx.HTTPError as exc:
+        raise HTTPException(502,'Meta request failed. Check account access and server configuration; measured evidence is unchanged.') from exc
+    finally:
+        lock.release()
 
 if (ROOT/'web/dist').exists():
     app.mount('/',StaticFiles(directory=ROOT/'web/dist',html=True),name='web')

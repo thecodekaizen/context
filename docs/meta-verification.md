@@ -13,3 +13,17 @@ Live authentication, account model availability and actual inference are UNVERIF
 until a key is supplied in the server environment. No fabricated model output.
 Next integration milestone: bounded source clips with audio, timestamped model
 citations validated against deterministic evidence, and credentialed integration tests.
+
+## Multimodal integration follow-up
+https://dev.meta.ai/docs/video-understanding checked October 29, 2026.
+It documents Responses input_video with a public or base64 data video_url.
+It also cautions that Muse Spark 1.3 audio quality may be degraded and uses
+Muse Spark 1.2 for audio examples. The bounded-video adapter therefore selects
+muse-spark-1.2 and sends MP4 clips with retained audio where present.
+
+Current implementation exposes an explicit UI action, creates at most two clips,
+validates the returned JSON and clip-local citations, converts citations to full
+media timestamps, and saves interpretation separately from deterministic evidence.
+No live Meta request has been made; MODEL_API_KEY remains unavailable. Mocked
+request/response tests validate our code contract, not provider compatibility.
+The earlier metadata-only adapter has been replaced by this bounded-video path.
