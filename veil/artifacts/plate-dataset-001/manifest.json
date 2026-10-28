@@ -1,0 +1,33 @@
+{
+  "dataset": "https://zenodo.org/records/13342103",
+  "license": "CC BY 4.0",
+  "archive_md5": "1c4a9db36e5f0a662ca7a5a0fcb513dc",
+  "samples": [
+    {
+      "sample": 0,
+      "sha256": "cb20996d99d972097d701fa2b832441fdad9ee1f59710ca5c891c8baeb3a0018"
+    },
+    {
+      "sample": 1,
+      "sha256": "f4629f1905193a8cd54fde60eaacb63895aa2900e4b1b47fb557be7d7baebea9"
+    },
+    {
+      "sample": 2,
+      "sha256": "29fa4ea08f4e9c27e2e4987df84ffd2e201f2ba3be2d58118a043cac2788c19a"
+    },
+    {
+      "sample": 3,
+      "sha256": "d8fffa9a23a0705b992b2864deede1a0a8a4535ed9f0de0015e5362f116dd84c"
+    },
+    {
+      "sample": 4,
+      "sha256": "e351e65fe5aedc6919df24cf3510da2a97988e7f3109c33d21a1c73e9580ddbe"
+    },
+    {
+      "sample": 5,
+      "sha256": "381d04d749da80556058a489b059f16eaf2267932e11ebd5abd9e07b8748a7a1"
+    }
+  ],
+  "scope": "Six frozen synthetic test-split plate crops composited on simple vehicle-like canvases; image detection only. No natural video tracking claim.",
+  "max_calls": 4
+}
