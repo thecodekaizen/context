@@ -10,7 +10,7 @@ from typing import Any
 
 from .meta import MuseSparkClient
 
-OBSERVATION_PROMPT_VERSION = "showme-observe-v5"
+OBSERVATION_PROMPT_VERSION = "showme-observe-v6"
 
 
 def observation_schema(process: dict[str, Any]) -> dict[str, Any]:
@@ -96,6 +96,12 @@ def observation_prompt(process: dict[str, Any], duration_seconds: float, *, has_
         "Compare this learner video with the process learned from an expert. "
         "The process is a hypothesis, and the learner clip may be correct, divergent, "
         "ambiguous, or recovered; do not assume which. Do not infer unseen events. "
+        "Record transient interactions with tools, parts or attachment points even when the learner later "
+        "returns to the modeled trace. Do not omit an observed interaction merely because it has no matching "
+        "transition or because its intent is uncertain. Give it an unclear event with state_id unknown, "
+        "visible evidence and declared affected object IDs (or unknown when no declared object applies). "
+        "Keep noticing an unexpected interaction separate from diagnosing a mistake: a brief selection, "
+        "touch, repositioning or inspection is not automatically a procedural error. "
         "The learned clip is only one observed trace: its ordering_observations describe "
         "what happened before what in that clip, not required prerequisites. Do not call "
         "a learner divergent only because they perform those actions in another order. "

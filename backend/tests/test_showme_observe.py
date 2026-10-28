@@ -28,6 +28,12 @@ class ObservationValidationTests(unittest.TestCase):
             "reference_checks": [],
         }
 
+    def test_observer_retains_transient_interactions_without_assuming_error(self):
+        prompt = observation_prompt(self.process, 5)
+        self.assertIn("Do not omit an observed interaction", prompt)
+        self.assertIn("not automatically a procedural error", prompt)
+        self.assertIn("unclear event with state_id unknown", prompt)
+
     def test_accepts_grounded_valid_timeline(self):
         validate_observation(self.valid, self.process, 5.0)
 
