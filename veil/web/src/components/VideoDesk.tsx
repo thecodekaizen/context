@@ -1,17 +1,17 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import type { Finding, VideoVersion } from '../types';
-import { RECORDED_MEDIA_PATHS } from '../data/recorded-example';
+import type { Finding } from '../types';
 
 interface VideoDeskProps {
-  currentStage: string;
-  videoVersion: VideoVersion;
-  onSetVideoVersion: (version: VideoVersion) => void;
+  primaryUrl: string;
+  secondaryUrl: string;
+  primaryBadge: string;
+  secondaryBadge: string;
   currentTimeMs: number;
   onSeek: (ms: number) => void;
-  selectedFinding: Finding | null;
-  liveSourceUrl?: string | null;
-  liveExportUrl?: string | null;
-  mode: 'recorded' | 'live';
+  selectedFinding?: Finding | null;
+  isPairedView: boolean;
+  onTogglePaired: () => void;
+  isTriView?: boolean;
 }
 
 function formatTime(ms: number): string {
@@ -23,42 +23,22 @@ function formatTime(ms: number): string {
 }
 
 export const VideoDesk: React.FC<VideoDeskProps> = ({
-  videoVersion,
-  onSetVideoVersion,
+  primaryUrl,
+  secondaryUrl,
+  primaryBadge,
+  secondaryBadge,
   currentTimeMs,
   onSeek,
-  selectedFinding,
-  liveSourceUrl,
-  liveExportUrl,
-  mode,
+  isPairedView,
+  isTriView,
 }) => {
   const primaryVideoRef = useRef<HTMLVideoElement>(null);
   const secondaryVideoRef = useRef<HTMLVideoElement>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
-  const [durationMs, setDurationMs] = useState(18000);
-  const [isPairedView, setIsPairedView] = useState(true);
-  const [showOverlays, setShowOverlays] = useState(true);
+  const [durationMs, setDurationMs] = useState(8000);
 
-  // Determine media URLs
-  let primaryUrl = '';
-  let secondaryUrl = '';
-  let primaryBadge = '';
-  let secondaryBadge = '';
-
-  if (mode === 'recorded') {
-    primaryUrl = RECORDED_MEDIA_PATHS[videoVersion].url;
-    primaryBadge = RECORDED_MEDIA_PATHS[videoVersion].badge;
-    secondaryUrl = RECORDED_MEDIA_PATHS.source.url;
-    secondaryBadge = RECORDED_MEDIA_PATHS.source.badge;
-  } else {
-    primaryUrl = liveExportUrl || liveSourceUrl || '';
-    primaryBadge = liveExportUrl ? 'Exported Redaction' : 'Live Source Media';
-    secondaryUrl = liveSourceUrl || '';
-    secondaryBadge = 'Original Input';
-  }
-
-  // Handle external seeks
+  // Sync external seek
   useEffect(() => {
     const targetSeconds = currentTimeMs / 1000;
     if (primaryVideoRef.current && Math.abs(primaryVideoRef.current.currentTime - targetSeconds) > 0.15) {
@@ -69,19 +49,19 @@ export const VideoDesk: React.FC<VideoDeskProps> = ({
     }
   }, [currentTimeMs]);
 
+  // Sync secondary video when primary updates time
   const handleTimeUpdate = useCallback(() => {
     if (!primaryVideoRef.current) return;
     const currentMs = Math.round(primaryVideoRef.current.currentTime * 1000);
     onSeek(currentMs);
 
-    // Sync secondary video if paired
-    if (secondaryVideoRef.current && isPairedView) {
+    if (secondaryVideoRef.current && isPairedView && !isTriView) {
       const diff = Math.abs(secondaryVideoRef.current.currentTime - primaryVideoRef.current.currentTime);
       if (diff > 0.1) {
         secondaryVideoRef.current.currentTime = primaryVideoRef.current.currentTime;
       }
     }
-  }, [onSeek, isPairedView]);
+  }, [onSeek, isPairedView, isTriView]);
 
   const togglePlay = () => {
     if (!primaryVideoRef.current) return;
@@ -91,7 +71,7 @@ export const VideoDesk: React.FC<VideoDeskProps> = ({
       setIsPlaying(false);
     } else {
       primaryVideoRef.current.play().catch(() => {});
-      if (isPairedView) {
+      if (isPairedView && !isTriView) {
         secondaryVideoRef.current?.play().catch(() => {});
       }
       setIsPlaying(true);
@@ -107,16 +87,20 @@ export const VideoDesk: React.FC<VideoDeskProps> = ({
     }
   };
 
-  // Check if phone residual is visible at current time
-  const isResidualTime = currentTimeMs >= 7000 && currentTimeMs <= 8500;
-  const isHeroResidual = selectedFinding?.id === 'phone-residual-01' || isResidualTime;
+  const handleSliderSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const ms = Number(e.target.value);
+    onSeek(ms);
+    const sec = ms / 1000;
+    if (primaryVideoRef.current) primaryVideoRef.current.currentTime = sec;
+    if (secondaryVideoRef.current) secondaryVideoRef.current.currentTime = sec;
+  };
 
   return (
     <section className="video-desk" aria-label="Video Inspection Surface">
-      <div className={isPairedView ? 'paired-desk' : 'player-container'}>
-        {/* Primary Screen (Export / Processed Media) */}
+      <div className={!isTriView && isPairedView ? 'paired-desk' : 'player-container'}>
+        {/* Primary Screen (Redacted or Natural or Tri-View) */}
         <div className="video-pane">
-          <div className={`pane-badge ${isResidualTime && videoVersion === 'redacted' ? 'alert' : 'clean'}`}>
+          <div className="pane-badge clean">
             {primaryBadge}
           </div>
           <video
@@ -130,43 +114,10 @@ export const VideoDesk: React.FC<VideoDeskProps> = ({
             playsInline
             controls={false}
           />
-
-          {/* Real-time Bounding Box Overlays */}
-          {showOverlays && (
-            <div className="overlay-canvas" aria-hidden="true">
-              {/* Highlight residual omitted phone number at 00:07.500 */}
-              {isHeroResidual && videoVersion === 'redacted' && (
-                <div
-                  className="box-highlight exposed-residual"
-                  style={{
-                    left: '52%',
-                    top: '46%',
-                    width: '18%',
-                    height: '12%',
-                  }}
-                  title="Unprotected residual phone number detected"
-                />
-              )}
-
-              {/* Show selected finding bounding box */}
-              {selectedFinding?.highlightBox && !isHeroResidual && (
-                <div
-                  className="box-highlight"
-                  style={{
-                    left: '42%',
-                    top: '20%',
-                    width: '16%',
-                    height: '24%',
-                  }}
-                  title={selectedFinding.title}
-                />
-              )}
-            </div>
-          )}
         </div>
 
         {/* Secondary Screen (Source Reference in Paired View) */}
-        {isPairedView && (
+        {!isTriView && isPairedView && (
           <div className="video-pane">
             <div className="pane-badge">{secondaryBadge}</div>
             <video
@@ -181,6 +132,19 @@ export const VideoDesk: React.FC<VideoDeskProps> = ({
         )}
       </div>
 
+      {/* Scrubber Slider */}
+      <div className="scrubber-bar">
+        <input
+          type="range"
+          min={0}
+          max={durationMs}
+          value={currentTimeMs}
+          onChange={handleSliderSeek}
+          className="scrub-slider"
+          aria-label="Video scrubber"
+        />
+      </div>
+
       {/* Desk Controls Bar */}
       <div className="desk-controls">
         <div className="playback-buttons">
@@ -190,8 +154,25 @@ export const VideoDesk: React.FC<VideoDeskProps> = ({
           <button onClick={() => onSeek(0)} aria-label="Rewind to start">
             ⏮ 00:00.000
           </button>
-          <button onClick={() => onSeek(7500)} className={isResidualTime ? 'danger' : ''} aria-label="Seek to residual exposure at 00:07.500">
-            ⚠ Seek to Residual (00:07.500)
+          <button
+            onClick={() => {
+              const prev = Math.max(0, currentTimeMs - 1000 / 12);
+              onSeek(prev);
+              if (primaryVideoRef.current) primaryVideoRef.current.currentTime = prev / 1000;
+            }}
+            title="Step backward 1 frame"
+          >
+            ◀ Frame
+          </button>
+          <button
+            onClick={() => {
+              const next = Math.min(durationMs, currentTimeMs + 1000 / 12);
+              onSeek(next);
+              if (primaryVideoRef.current) primaryVideoRef.current.currentTime = next / 1000;
+            }}
+            title="Step forward 1 frame"
+          >
+            Frame ▶
           </button>
         </div>
 
@@ -200,35 +181,13 @@ export const VideoDesk: React.FC<VideoDeskProps> = ({
         </div>
 
         <div className="toggle-group">
-          {mode === 'recorded' && (
-            <select
-              value={videoVersion}
-              onChange={(e) => onSetVideoVersion(e.target.value as VideoVersion)}
-              className="toggle-btn"
-              aria-label="Select export version to inspect"
-            >
-              <option value="redacted">Export 1: Missed Placard Number</option>
-              <option value="repaired">Export 2: Rejected 1-Digit Repair</option>
-              <option value="protected">Export 3: Corrected Full Cover</option>
-              <option value="source">Original Unredacted Footage</option>
-            </select>
-          )}
-
-          <button
-            className={`toggle-btn ${isPairedView ? 'active' : ''}`}
-            onClick={() => setIsPairedView(!isPairedView)}
-            aria-pressed={isPairedView}
-          >
-            {isPairedView ? 'Side-by-Side: On' : 'Single View'}
-          </button>
-
-          <button
-            className={`toggle-btn ${showOverlays ? 'active' : ''}`}
-            onClick={() => setShowOverlays(!showOverlays)}
-            aria-pressed={showOverlays}
-          >
-            {showOverlays ? 'Overlays: On' : 'Overlays: Off'}
-          </button>
+          <span className="mode-indicator-pill">
+            {isTriView
+              ? 'Tri-View: Original vs Opaque vs Natural'
+              : isPairedView
+              ? 'Synchronized Dual View'
+              : 'Single Export View'}
+          </span>
         </div>
       </div>
     </section>

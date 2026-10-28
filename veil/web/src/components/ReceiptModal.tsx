@@ -14,12 +14,22 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
+  const version = receipt.version || '0.2.0';
+  const visualCovers = receipt.visual_regions_covered ?? receipt.media_inspection?.decoded_frames ?? 0;
+  const audioMutes = receipt.audio_intervals_muted ?? 0;
+  const costUsd = receipt.model_calls_estimated_cost_usd ?? receipt.estimated_api_cost_usd ?? 0;
+  const limitations = receipt.limitations || [
+    'Independent media inspection validates decoded frames and container integrity.',
+    'Automatic detection and verification sampled selective frames; does not guarantee zero leaks.',
+    'Evaluated on reviewed testbed benchmark clips and local pipeline passes.'
+  ];
+
   const handleDownloadReceipt = () => {
     const blob = new Blob([JSON.stringify(receipt, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `veil-receipt-${receipt.version}.json`;
+    a.download = `veil-receipt-${receipt.job_id || version}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -31,7 +41,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
           <div>
             <h2 id="receipt-title" className="modal-title">Machine-Readable Audit Receipt</h2>
             <span style={{ fontSize: '11px', color: 'var(--color-text-secondary)', fontFamily: 'var(--font-mono)' }}>
-              Engine Specification v{receipt.version}
+              Engine Specification v{version}
             </span>
           </div>
           <button onClick={onClose} aria-label="Close dialog">✕</button>
@@ -56,19 +66,19 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
           <div style={{ background: 'var(--color-control-bg)', padding: '8px', borderRadius: '8px' }}>
             <span style={{ color: 'var(--color-text-muted)' }}>Visual Covers</span>
             <div style={{ fontSize: '16px', fontWeight: 600, color: 'var(--color-accent-protect)' }}>
-              {receipt.visual_regions_covered}
+              {visualCovers}
             </div>
           </div>
           <div style={{ background: 'var(--color-control-bg)', padding: '8px', borderRadius: '8px' }}>
             <span style={{ color: 'var(--color-text-muted)' }}>Audio Mutes</span>
             <div style={{ fontSize: '16px', fontWeight: 600, color: 'var(--color-accent-amber)' }}>
-              {receipt.audio_intervals_muted}
+              {audioMutes}
             </div>
           </div>
           <div style={{ background: 'var(--color-control-bg)', padding: '8px', borderRadius: '8px' }}>
             <span style={{ color: 'var(--color-text-muted)' }}>Estimated Cost</span>
             <div style={{ fontSize: '16px', fontWeight: 600, color: 'var(--color-accent-mint)' }}>
-              ${receipt.model_calls_estimated_cost_usd.toFixed(2)}
+              ${costUsd.toFixed(2)}
             </div>
           </div>
         </div>
@@ -76,7 +86,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
         <div>
           <h4 style={{ fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Explicit Limitations & Audit Scope:</h4>
           <ul style={{ fontSize: '12px', color: 'var(--color-text-secondary)', paddingLeft: '18px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            {receipt.limitations.map((lim, idx) => (
+            {limitations.map((lim, idx) => (
               <li key={idx}>{lim}</li>
             ))}
           </ul>

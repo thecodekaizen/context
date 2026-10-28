@@ -1,267 +1,247 @@
 import React, { useState, useEffect } from 'react';
-import type { StageId, OperatingMode, Finding, VideoVersion, LocalJob } from './types';
+import type { Finding } from './types';
 import { Header } from './components/Header';
-import { StageNav } from './components/StageNav';
+import { DatasetToolbar } from './components/DatasetToolbar';
 import { VideoDesk } from './components/VideoDesk';
 import { FindingInspector } from './components/FindingInspector';
-import { VerificationHero } from './components/VerificationHero';
-import { Timeline } from './components/Timeline';
 import { ImportModal } from './components/ImportModal';
 import { ReceiptModal } from './components/ReceiptModal';
 import { EmbedDrawer } from './components/EmbedDrawer';
 
-import {
-  RECORDED_FINDINGS,
-  RECORDED_VERIFICATION_HERO,
-  RECORDED_RECEIPT,
-} from './data/recorded-example';
+import { REAL_DATASET_CLIPS } from './data/real-datasets';
+import { RECORDED_RECEIPT } from './data/recorded-example';
 
 import {
   checkBackendHealth,
   createJob,
   redactJob,
+  processNaturalJob,
+  getReceipt,
   getExportUrl,
 } from './data/api-client';
 
 export const App: React.FC = () => {
-  const [mode, setMode] = useState<OperatingMode>('recorded');
-  const [stage, setStage] = useState<StageId>('verify');
-  const [videoVersion, setVideoVersion] = useState<VideoVersion>('redacted');
-  const [currentTimeMs, setCurrentTimeMs] = useState<number>(7500);
-  const [selectedFinding, setSelectedFinding] = useState<Finding | null>(RECORDED_FINDINGS[3]); // Default to hero residual
+  // Navigation & mode
+  const [appMode, setAppMode] = useState<'real_dataset' | 'live_upload'>('real_dataset');
+  const [selectedClipId, setSelectedClipId] = useState<string>('vehicle_surface');
+  const [redactionStyle, setRedactionStyle] = useState<'natural' | 'opaque'>('natural');
+  const [isPairedView, setIsPairedView] = useState<boolean>(true);
+
+  // Playback state
+  const [currentTimeMs, setCurrentTimeMs] = useState<number>(0);
+  const [selectedFinding, setSelectedFinding] = useState<Finding | null>(null);
 
   // Modals
-  const [importModalOpen, setImportModalOpen] = useState(false);
   const [receiptModalOpen, setReceiptModalOpen] = useState(false);
   const [embedDrawerOpen, setEmbedDrawerOpen] = useState(false);
+  const [importModalOpen, setImportModalOpen] = useState(false);
 
-  // Live state
+  // Backend connection state
   const [backendOnline, setBackendOnline] = useState(false);
-  const [liveJob, setLiveJob] = useState<LocalJob | null>(null);
+
+  // Live job execution state
+  const [liveJob, setLiveJob] = useState<any | null>(null);
   const [liveSourceUrl, setLiveSourceUrl] = useState<string | null>(null);
   const [liveExportUrl, setLiveExportUrl] = useState<string | null>(null);
+  const [liveReceipt, setLiveReceipt] = useState<any | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [processing, setProcessing] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
 
-  // Check loopback API status on mount
+  // Check backend health periodically
   useEffect(() => {
     checkBackendHealth().then(setBackendOnline);
     const interval = setInterval(() => {
       checkBackendHealth().then(setBackendOnline);
-    }, 10000);
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
-  // Update video version automatically when changing stages in recorded mode
-  const handleSelectStage = (newStage: StageId) => {
-    setStage(newStage);
-    if (mode === 'recorded') {
-      if (newStage === 'import' || newStage === 'detect') {
-        setVideoVersion('source');
-      } else if (newStage === 'redact' || newStage === 'verify') {
-        setVideoVersion('redacted');
-        if (newStage === 'verify') {
-          setCurrentTimeMs(7500);
-          setSelectedFinding(RECORDED_FINDINGS[3]);
-        }
-      } else if (newStage === 'repair') {
-        setVideoVersion('repaired');
-      } else if (newStage === 'export') {
-        setVideoVersion('protected');
-      }
+  const activeClip = REAL_DATASET_CLIPS[selectedClipId] || REAL_DATASET_CLIPS.vehicle_surface;
+
+  // Determine active media URLs based on mode and redaction style
+  let primaryVideoUrl = '';
+  let secondaryVideoUrl = '';
+  let primaryBadgeLabel = '';
+  let secondaryBadgeLabel = '';
+
+  if (appMode === 'real_dataset') {
+    if (activeClip.isTriView) {
+      primaryVideoUrl = activeClip.naturalUrl;
+      secondaryVideoUrl = activeClip.sourceUrl;
+      primaryBadgeLabel = 'Tri-View: Original vs Opaque vs Natural (Synced)';
+      secondaryBadgeLabel = 'Original Input';
+    } else if (redactionStyle === 'natural') {
+      primaryVideoUrl = activeClip.naturalUrl;
+      secondaryVideoUrl = activeClip.sourceUrl;
+      primaryBadgeLabel = '🛡 Natural Replacement (DEMO Plate / Face Blur)';
+      secondaryBadgeLabel = 'Original Unredacted Source';
+    } else {
+      primaryVideoUrl = activeClip.opaqueUrl;
+      secondaryVideoUrl = activeClip.sourceUrl;
+      primaryBadgeLabel = '⬛ Opaque Baseline (Hard Black Squares)';
+      secondaryBadgeLabel = 'Original Unredacted Source';
     }
-  };
+  } else {
+    // Live job mode
+    primaryVideoUrl = liveExportUrl || liveSourceUrl || '';
+    secondaryVideoUrl = liveSourceUrl || '';
+    primaryBadgeLabel = liveExportUrl
+      ? redactionStyle === 'natural'
+        ? '🛡 Live Export: Natural Replacement'
+        : '⬛ Live Export: Opaque Redaction'
+      : 'Uploaded Media';
+    secondaryBadgeLabel = 'Original Source Video';
+  }
 
-  const handleInspectExposedFrame = () => {
-    setVideoVersion('redacted');
-    setCurrentTimeMs(7500);
-    setSelectedFinding(RECORDED_FINDINGS[3]);
-  };
-
-  const handleSelectFindingById = (id: string) => {
-    const match = RECORDED_FINDINGS.find((f) => f.id === id);
-    if (match) {
-      setSelectedFinding(match);
-      setCurrentTimeMs(match.start_ms);
-    }
-  };
-
-  // Live API File Upload
+  // Handle live custom upload
   const handleLiveUpload = async (file: File) => {
     setUploading(true);
     setUploadError(null);
     try {
+      const sourceObjUrl = URL.createObjectURL(file);
+      setLiveSourceUrl(sourceObjUrl);
+
+      // Create job on backend
       const job = await createJob(file);
       setLiveJob(job);
-      setLiveSourceUrl(URL.createObjectURL(file));
-      setMode('live');
-      setStage('redact');
-      setImportModalOpen(false);
-    } catch (err: any) {
-      setUploadError(err.detail || err.message || 'Upload failed');
-    } finally {
       setUploading(false);
-    }
-  };
+      setImportModalOpen(false);
 
-  // Live Redact Render
-  const handleLiveRedact = async () => {
-    if (!liveJob) return;
-    try {
-      // Fetch saved smoke timeline to render
-      const res = await fetch('/artifacts/timeline.json');
-      const timeline = await res.json();
-      const updatedJob = await redactJob(liveJob.id, timeline);
-      setLiveJob(updatedJob);
-      setLiveExportUrl(getExportUrl(liveJob.id));
-      setStage('export');
+      // Trigger automatic processing based on chosen style
+      setProcessing(true);
+      if (redactionStyle === 'natural') {
+        // Run natural replacement
+        await processNaturalJob(job.id, [
+          {
+            track_id: 'plate-001',
+            kind: 'plate',
+            original_identifiers: ['DEMO'],
+          },
+        ]);
+      } else {
+        // Run standard opaque redaction
+        await redactJob(job.id);
+      }
+
+      const exportUrl = getExportUrl(job.id);
+      setLiveExportUrl(exportUrl);
+
+      try {
+        const rcpt = await getReceipt(job.id);
+        setLiveReceipt(rcpt);
+      } catch {
+        // Receipt might be pending
+      }
+      setProcessing(false);
     } catch (err: any) {
-      alert(`Render error: ${err.detail || err.message}`);
+      setUploading(false);
+      setProcessing(false);
+      setUploadError(err.message || 'Processing failed on local engine');
     }
   };
 
   return (
-    <div className="app-container">
+    <div className="veil-app">
       <Header
-        mode={mode}
-        onToggleMode={(m) => setMode(m)}
+        mode={appMode}
+        onToggleMode={(m) => {
+          setAppMode(m);
+          if (m === 'live_upload') {
+            setImportModalOpen(true);
+          }
+        }}
         onOpenEmbed={() => setEmbedDrawerOpen(true)}
         onOpenReceipt={() => setReceiptModalOpen(true)}
         backendOnline={backendOnline}
       />
 
-      <StageNav
-        currentStage={stage}
-        onSelectStage={handleSelectStage}
-        hasResidualAlert={mode === 'recorded'}
-      />
-
-      <main className="workspace-grid">
-        {/* Left Column: Video Desk & Timeline */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <VideoDesk
-            currentStage={stage}
-            videoVersion={videoVersion}
-            onSetVideoVersion={setVideoVersion}
-            currentTimeMs={currentTimeMs}
-            onSeek={setCurrentTimeMs}
-            selectedFinding={selectedFinding}
-            liveSourceUrl={liveSourceUrl}
-            liveExportUrl={liveExportUrl}
-            mode={mode}
+      <main className="app-main" id="main-content">
+        {/* Top Control Bar */}
+        {appMode === 'real_dataset' ? (
+          <DatasetToolbar
+            selectedClipId={selectedClipId}
+            onSelectClip={(id) => {
+              setSelectedClipId(id);
+              setCurrentTimeMs(0);
+            }}
+            redactionStyle={redactionStyle}
+            onChangeStyle={setRedactionStyle}
+            isPairedView={isPairedView}
+            onTogglePaired={() => setIsPairedView(!isPairedView)}
           />
-
-          <Timeline
-            currentTimeMs={currentTimeMs}
-            durationMs={18000}
-            onSeek={setCurrentTimeMs}
-            onSelectFindingById={handleSelectFindingById}
-          />
-        </div>
-
-        {/* Right Column: Findings Inspector & Hero Verification Surface */}
-        <aside className="desk-sidebar">
-          {stage === 'verify' || stage === 'repair' ? (
-            <VerificationHero
-              heroData={RECORDED_VERIFICATION_HERO}
-              onInspectExposedFrame={handleInspectExposedFrame}
-              onSetVideoVersion={setVideoVersion}
-              currentVideoVersion={videoVersion}
-            />
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {stage === 'import' && (
-                <div className="sidebar-panel">
-                  <h3 className="panel-title">Stage 1: Media Import</h3>
-                  <p style={{ fontSize: '13px', color: 'var(--color-text-secondary)' }}>
-                    {mode === 'recorded'
-                      ? 'Archived 18-second synthetic clip with fictional face, moving license plate, printed phone placard, and spoken phone digits.'
-                      : 'Upload a video to the local engine for private processing.'}
-                  </p>
-                  <button className="primary" onClick={() => setImportModalOpen(true)}>
-                    {mode === 'recorded' ? 'Open Import Dialog' : 'Upload Video to Job'}
-                  </button>
-                </div>
-              )}
-
-              {stage === 'redact' && mode === 'live' && (
-                <div className="sidebar-panel">
-                  <h3 className="panel-title">Stage 3: Render Redaction</h3>
-                  <p style={{ fontSize: '13px', color: 'var(--color-text-secondary)' }}>
-                    Apply client-supplied reviewed timeline to current job #{liveJob?.id}.
-                  </p>
-                  <button className="primary" onClick={handleLiveRedact}>
-                    Render Redacted MP4
-                  </button>
-                </div>
-              )}
-
-              {stage === 'export' && (
-                <div className="sidebar-panel">
-                  <h3 className="panel-title">Stage 6: Export & Receipts</h3>
-                  <p style={{ fontSize: '13px', color: 'var(--color-text-secondary)' }}>
-                    Exported video with applied frame-accurate visual covers and muted audio interval.
-                  </p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <a
-                      href={mode === 'recorded' ? '/artifacts/protected.mp4' : (liveExportUrl || '#')}
-                      download="veil-redacted.mp4"
-                      className="primary"
-                      style={{ textDecoration: 'none', textAlign: 'center', padding: '8px 14px', borderRadius: '8px' }}
-                    >
-                      Download Redacted MP4
-                    </a>
-                    <button onClick={() => setReceiptModalOpen(true)}>
-                      Download Audit Receipt
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              <FindingInspector
-                findings={RECORDED_FINDINGS}
-                selectedFinding={selectedFinding}
-                onSelectFinding={setSelectedFinding}
-                onSeek={setCurrentTimeMs}
-              />
+        ) : (
+          <div className="dataset-toolbar live-banner">
+            <div className="clip-selector-group">
+              <span className="toolbar-label">Live API Session:</span>
+              <span className="live-job-tag">
+                {liveJob ? `Job ID: ${liveJob.id} (${liveJob.status})` : 'No custom video loaded'}
+              </span>
             </div>
-          )}
-        </aside>
+
+            <div className="style-selector-group">
+              <button
+                className="primary"
+                onClick={() => setImportModalOpen(true)}
+                disabled={uploading || processing}
+              >
+                {uploading ? 'Uploading...' : processing ? 'Processing...' : '📁 Upload New Video File'}
+              </button>
+
+              <button
+                className={`style-pill-btn natural ${redactionStyle === 'natural' ? 'active' : ''}`}
+                onClick={() => setRedactionStyle('natural')}
+              >
+                🛡 Natural Mode
+              </button>
+
+              <button
+                className={`style-pill-btn opaque ${redactionStyle === 'opaque' ? 'active' : ''}`}
+                onClick={() => setRedactionStyle('opaque')}
+              >
+                ⬛ Opaque Mode
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Video Desk Viewport & Inspector Split */}
+        <div className="main-workbench">
+          <div className="video-desk-container">
+            <VideoDesk
+              primaryUrl={primaryVideoUrl}
+              secondaryUrl={secondaryVideoUrl}
+              primaryBadge={primaryBadgeLabel}
+              secondaryBadge={secondaryBadgeLabel}
+              currentTimeMs={currentTimeMs}
+              onSeek={setCurrentTimeMs}
+              selectedFinding={selectedFinding}
+              isPairedView={isPairedView}
+              onTogglePaired={() => setIsPairedView(!isPairedView)}
+              isTriView={appMode === 'real_dataset' && activeClip.isTriView}
+            />
+          </div>
+
+          <aside className="inspector-container">
+            <FindingInspector
+              clip={activeClip}
+              redactionStyle={redactionStyle}
+              onOpenReceipt={() => setReceiptModalOpen(true)}
+              selectedFinding={selectedFinding}
+              onSelectFinding={setSelectedFinding}
+            />
+          </aside>
+        </div>
       </main>
 
-      {/* Audit Scope Footer Bar */}
-      <footer className="audit-scope-bar">
-        <div className="scope-text">
-          <span className="scope-icon">🛡</span>
-          <span>
-            <strong>Verification Scope:</strong> No exposure reported in 3 sampled frames (00:02.000, 00:07.500, 00:16.000). Other frames may contain missed exposures.
-          </span>
-        </div>
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <button onClick={() => setReceiptModalOpen(true)} className="toggle-btn">
-            View Receipt
-          </button>
-          <a
-            href={mode === 'recorded' ? '/artifacts/protected.mp4' : (liveExportUrl || '#')}
-            download="veil-protected.mp4"
-            className="toggle-btn"
-            style={{ textDecoration: 'none' }}
-          >
-            Download Protected MP4
-          </a>
-        </div>
-      </footer>
-
-      {/* Dialog Modals & Drawers */}
+      {/* Modals & Drawers */}
       <ImportModal
         isOpen={importModalOpen}
         onClose={() => setImportModalOpen(false)}
         onUploadFile={handleLiveUpload}
         onSelectRecordedExample={() => {
-          setMode('recorded');
-          setStage('verify');
-          setVideoVersion('redacted');
-          setCurrentTimeMs(7500);
+          setAppMode('real_dataset');
+          setSelectedClipId('vehicle_surface');
         }}
         uploading={uploading}
         uploadError={uploadError}
@@ -270,7 +250,7 @@ export const App: React.FC = () => {
       <ReceiptModal
         isOpen={receiptModalOpen}
         onClose={() => setReceiptModalOpen(false)}
-        receipt={RECORDED_RECEIPT}
+        receipt={liveReceipt || RECORDED_RECEIPT}
       />
 
       <EmbedDrawer
@@ -280,4 +260,5 @@ export const App: React.FC = () => {
     </div>
   );
 };
+
 export default App;

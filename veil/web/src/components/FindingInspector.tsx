@@ -1,98 +1,125 @@
 import React from 'react';
-import type { Finding } from '../types';
+import type { DatasetClip } from '../data/real-datasets';
+import type { RedactionStyle, Finding } from '../types';
 
 interface FindingInspectorProps {
-  findings: Finding[];
-  selectedFinding: Finding | null;
-  onSelectFinding: (finding: Finding) => void;
-  onSeek: (ms: number) => void;
+  clip: DatasetClip;
+  redactionStyle: RedactionStyle;
+  onOpenReceipt: () => void;
+  selectedFinding?: Finding | null;
+  onSelectFinding?: (finding: Finding) => void;
 }
 
 export const FindingInspector: React.FC<FindingInspectorProps> = ({
-  findings,
+  clip,
+  redactionStyle,
+  onOpenReceipt,
   selectedFinding,
   onSelectFinding,
-  onSeek,
 }) => {
   return (
-    <div className="sidebar-panel" aria-label="Detected privacy findings">
+    <div className="sidebar-panel" aria-label="Detected privacy findings and inspection">
       <div className="panel-header">
-        <h3 className="panel-title">Detected Findings ({findings.length})</h3>
-        <span style={{ fontSize: '11px', color: 'var(--color-text-secondary)', fontFamily: 'var(--font-mono)' }}>
-          Saved real inference
-        </span>
+        <h3 className="panel-title">Active Benchmark Telemetry</h3>
+        <span className="badge-pill">{clip.resolution} · {clip.fps} fps</span>
+      </div>
+
+      <div className="telemetry-card">
+        <div className="telemetry-row">
+          <span className="label">Dataset Provenance:</span>
+          <span className="value">{clip.badge}</span>
+        </div>
+        <div className="telemetry-row">
+          <span className="label">Active Redaction Mode:</span>
+          <span className={`value-badge ${redactionStyle === 'natural' ? 'natural' : 'opaque'}`}>
+            {clip.isTriView
+              ? 'Synchronized Tri-View'
+              : redactionStyle === 'natural'
+              ? '🛡 Natural Replacement (DEMO / Blur)'
+              : '⬛ Opaque Covers (Hard Black Box)'}
+          </span>
+        </div>
+      </div>
+
+      <div className="section-divider">
+        <h4>Protected Targets ({clip.tracks.length})</h4>
       </div>
 
       <div className="findings-list">
-        {findings.map((f) => {
-          const isSelected = selectedFinding?.id === f.id;
-          const isResidual = f.status === 'unprotected_residual';
-
+        {clip.tracks.map((t) => {
+          const isSelected = selectedFinding?.id === t.id;
           return (
             <div
-              key={f.id}
-              className={`finding-row ${isSelected ? 'selected' : ''} ${isResidual ? 'residual-alert' : ''}`}
+              key={t.id}
+              className={`finding-row ${isSelected ? 'selected' : ''}`}
+              style={{ cursor: onSelectFinding ? 'pointer' : 'default' }}
               onClick={() => {
-                onSelectFinding(f);
-                onSeek(f.start_ms);
-              }}
-              role="button"
-              tabIndex={0}
-              aria-pressed={isSelected}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  onSelectFinding(f);
-                  onSeek(f.start_ms);
-                }
+                onSelectFinding?.({
+                  id: t.id,
+                  title: t.label,
+                  category: t.category,
+                  start_ms: 0,
+                  end_ms: clip.durationMs,
+                  source: 'ground_truth',
+                  status: 'protected',
+                  statusLabel: 'Protected',
+                  description: t.naturalDetails,
+                });
               }}
             >
               <div className="finding-top">
-                <span className="finding-name">{f.title}</span>
-                <span className="finding-time">
-                  {(f.start_ms / 1000).toFixed(1)}s - {(f.end_ms / 1000).toFixed(1)}s
-                </span>
+                <span className="finding-name">{t.label}</span>
+                <span className="category-tag">{t.category}</span>
               </div>
-
               <div className="finding-meta">
-                <span>{f.source}</span>
-                <span className={`status-chip ${isResidual ? 'residual' : 'protected'}`}>
-                  {f.statusLabel}
+                <span className="strategy-tag">
+                  {redactionStyle === 'natural' && !clip.isTriView ? t.treatment : 'Opaque Black Rectangle ([y1:y2, x1:x2] = 0)'}
                 </span>
               </div>
+              <p className="finding-desc">
+                {redactionStyle === 'natural' && !clip.isTriView ? t.naturalDetails : 'Standard conservative rectangular cover. Guaranteed opaque pixel block.'}
+              </p>
             </div>
           );
         })}
       </div>
 
-      {/* Selected Finding Detail Card */}
-      {selectedFinding && (
-        <div style={{ marginTop: '8px', padding: '12px', background: 'var(--color-control-bg)', borderRadius: '8px', border: '1px solid var(--color-border-subtle)', fontSize: '12px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-            <strong>Finding Details</strong>
-            <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-accent-protect)' }}>
-              {selectedFinding.id}
-            </span>
-          </div>
+      <div className="section-divider">
+        <h4>Exported-Pixel OCR Verification</h4>
+      </div>
 
-          <p style={{ color: 'var(--color-text-secondary)', marginBottom: '8px', lineHeight: 1.4 }}>
-            {selectedFinding.description}
-          </p>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', color: 'var(--color-text-muted)', fontSize: '11px', fontFamily: 'var(--font-mono)' }}>
-            <div>Model Source: {selectedFinding.source}</div>
-            <div>
-              Confidence: {selectedFinding.confidence !== null ? `${selectedFinding.confidence * 100}%` : 'Null (not supplied by provider)'}
-            </div>
-          </div>
-
-          <button
-            style={{ marginTop: '10px', width: '100%' }}
-            onClick={() => onSeek(selectedFinding.start_ms)}
-          >
-            Seek to finding timestamp ({ (selectedFinding.start_ms / 1000).toFixed(1) }s)
-          </button>
+      <div className="audit-metrics-grid">
+        <div className="metric-box">
+          <span className="metric-num">{clip.auditMetrics.scannedFrames}</span>
+          <span className="metric-label">Decoded Frames</span>
         </div>
-      )}
+        <div className="metric-box clean">
+          <span className="metric-num">{clip.auditMetrics.residualsFound}</span>
+          <span className="metric-label">Leaked Residuals</span>
+        </div>
+        <div className="metric-box clean">
+          <span className="metric-num">{clip.auditMetrics.blackouts}</span>
+          <span className="metric-label">Blackout Frames</span>
+        </div>
+        <div className="metric-box">
+          <span className="metric-num">{clip.auditMetrics.meanOutsideDiff}</span>
+          <span className="metric-label">Outside Diff</span>
+        </div>
+      </div>
+
+      <div className="safety-callout">
+        <div className="callout-header">
+          <span className="callout-icon">ℹ</span>
+          <strong>Why Do Black Boxes Ever Appear in Natural Mode?</strong>
+        </div>
+        <p className="callout-text">
+          VEIL prioritizes verified data security over cosmetics. If tracking drifts or replacement geometry extends outside the protective bounding box, the engine automatically falls back to an opaque black box to prevent leaking character edges.
+        </p>
+      </div>
+
+      <button className="primary receipt-btn" onClick={onOpenReceipt}>
+        View Full Machine-Readable Audit Receipt
+      </button>
     </div>
   );
 };

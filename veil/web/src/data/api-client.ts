@@ -1,6 +1,6 @@
 import type { LocalJob, Timeline } from '../types';
 
-const BASE_URL = ''; // Uses Vite proxy to http://127.0.0.1:8018
+const BASE_URL = ''; // Proxied via Vite to http://127.0.0.1:8020
 
 export class ApiError extends Error {
   status: number;
@@ -66,11 +66,11 @@ export async function getJob(jobId: string): Promise<LocalJob> {
   return res.json();
 }
 
-export async function redactJob(jobId: string, timeline: Timeline): Promise<LocalJob> {
+export async function redactJob(jobId: string, timeline?: Timeline): Promise<LocalJob> {
   const res = await fetch(`${BASE_URL}/v1/jobs/${encodeURIComponent(jobId)}/redact`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(timeline),
+    body: timeline ? JSON.stringify(timeline) : undefined,
   });
 
   if (!res.ok) {
@@ -84,6 +84,56 @@ export async function redactJob(jobId: string, timeline: Timeline): Promise<Loca
     throw new ApiError(res.status, detail);
   }
 
+  return res.json();
+}
+
+export async function processNaturalJob(
+  jobId: string,
+  surfaces: Array<{
+    track_id: string;
+    start_frame?: number;
+    corners?: Array<[number, number]>;
+    kind: 'plate' | 'screen' | 'document';
+    original_identifiers: string[];
+  }>,
+  timeline?: Timeline
+): Promise<LocalJob> {
+  const res = await fetch(`${BASE_URL}/v1/jobs/${encodeURIComponent(jobId)}/natural`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      media_is_synthetic_or_consented: true,
+      timeline: timeline || null,
+      surfaces,
+    }),
+  });
+
+  if (!res.ok) {
+    let detail = 'Natural replacement failed';
+    try {
+      const json = await res.json();
+      detail = json.detail || detail;
+    } catch {
+      // fallback
+    }
+    throw new ApiError(res.status, detail);
+  }
+
+  return res.json();
+}
+
+export async function getNaturalReview(jobId: string): Promise<any> {
+  const res = await fetch(`${BASE_URL}/v1/jobs/${encodeURIComponent(jobId)}/natural-review`);
+  if (!res.ok) {
+    let detail = 'Natural review not ready';
+    try {
+      const json = await res.json();
+      detail = json.detail || detail;
+    } catch {
+      // fallback
+    }
+    throw new ApiError(res.status, detail);
+  }
   return res.json();
 }
 

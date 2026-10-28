@@ -8,7 +8,11 @@ export default defineConfig({
     host: '127.0.0.1',
     proxy: {
       '/v1': {
-        target: process.env.VEIL_API_URL || 'http://127.0.0.1:8018',
+        target: process.env.VEIL_API_URL || 'http://127.0.0.1:8020',
+        changeOrigin: true,
+      },
+      '/openapi.json': {
+        target: process.env.VEIL_API_URL || 'http://127.0.0.1:8020',
         changeOrigin: true,
       },
     },
