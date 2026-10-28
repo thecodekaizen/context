@@ -78,7 +78,7 @@ with VeilClient(base_url="http://127.0.0.1:8018") as client:
         </div>
 
         <div style={{ fontSize: '12px', color: 'var(--color-text-muted)', lineHeight: 1.4 }}>
-          <strong>Architecture Note:</strong> The HTTP API currently renders a client-supplied reviewed timeline. Automatic detection and post-export verification will be exposed via <code>/v1/jobs/&#123;id&#125;/detect</code> and <code>/v1/jobs/&#123;id&#125;/verify</code> as core pipeline integration completes.
+          <strong>Processing scope:</strong> Upload stores a local video. Detection and exported-media review are available through the API with explicit cloud-transfer consent. This interface does not yet collect the reviewed targets and original identifiers required for natural replacement; use the API or SDK for that workflow.
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '8px' }}>

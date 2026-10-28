@@ -14,9 +14,9 @@ This package contains the official reference interface for VEIL: an embeddable m
    - Shows a 3-frame sampled review pass with explicit audit scope disclosure: *"Reviewed at 00:02.000, 00:07.500 and 00:16.000. Other frames may contain missed exposures."*
 
 2. **Live Engine API Mode**
-   - Connects to the local loopback engine at `http://127.0.0.1:8018` via Vite's development proxy.
+   - Connects to the local loopback engine at `http://127.0.0.1:8020` via Vite's development proxy.
    - Allows uploading local videos (constrained to 100 MiB, 60s, 1080p, audio required).
-   - Renders client-supplied reviewed timelines and downloads verified MP4 exports and receipts.
+   - Uploads local media. Processing arbitrary uploads through this interface remains incomplete; use the API/SDK with detected or reviewed targets. Export checks report their scope and do not guarantee privacy.
 
 ---
 

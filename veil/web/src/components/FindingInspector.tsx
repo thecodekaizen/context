@@ -77,7 +77,7 @@ export const FindingInspector: React.FC<FindingInspectorProps> = ({
                 </span>
               </div>
               <p className="finding-desc">
-                {redactionStyle === 'natural' && !clip.isTriView ? t.naturalDetails : 'Standard conservative rectangular cover. Guaranteed opaque pixel block.'}
+                {redactionStyle === 'natural' && !clip.isTriView ? t.naturalDetails : 'Standard conservative rectangular cover. Opaque pixels inside the selected region; missed regions remain possible.'}
               </p>
             </div>
           );
@@ -113,7 +113,7 @@ export const FindingInspector: React.FC<FindingInspectorProps> = ({
           <strong>Why Do Black Boxes Ever Appear in Natural Mode?</strong>
         </div>
         <p className="callout-text">
-          VEIL prioritizes verified data security over cosmetics. If tracking drifts or replacement geometry extends outside the protective bounding box, the engine automatically falls back to an opaque black box to prevent leaking character edges.
+          When tracking fails or replacement corners leave the protective region, VEIL uses an opaque cover. The exported file still needs inspection: incorrect detection regions can leave information exposed. Natural replacement is experimental.
         </p>
       </div>
 

@@ -14,10 +14,6 @@ import { RECORDED_RECEIPT } from './data/recorded-example';
 import {
   checkBackendHealth,
   createJob,
-  redactJob,
-  processNaturalJob,
-  getReceipt,
-  getExportUrl,
 } from './data/api-client';
 
 export const App: React.FC = () => {
@@ -108,31 +104,10 @@ export const App: React.FC = () => {
       setUploading(false);
       setImportModalOpen(false);
 
-      // Trigger automatic processing based on chosen style
-      setProcessing(true);
-      if (redactionStyle === 'natural') {
-        // Run natural replacement
-        await processNaturalJob(job.id, [
-          {
-            track_id: 'plate-001',
-            kind: 'plate',
-            original_identifiers: ['DEMO'],
-          },
-        ]);
-      } else {
-        // Run standard opaque redaction
-        await redactJob(job.id);
-      }
-
-      const exportUrl = getExportUrl(job.id);
-      setLiveExportUrl(exportUrl);
-
-      try {
-        const rcpt = await getReceipt(job.id);
-        setLiveReceipt(rcpt);
-      } catch {
-        // Receipt might be pending
-      }
+      // Upload does not establish detections, a reviewed timeline, or original values.
+      setLiveExportUrl(null);
+      setLiveReceipt(null);
+      setUploadError('Video uploaded. Processing needs detected or reviewed privacy targets. For natural replacement, supply the original identifier and a matching track through the API or SDK. No export has been created.');
       setProcessing(false);
     } catch (err: any) {
       setUploading(false);

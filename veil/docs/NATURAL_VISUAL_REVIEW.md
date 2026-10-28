@@ -58,7 +58,7 @@ The metrics below were computed directly from decoded exported video frames by `
 | **Applied Strategy Distribution** | 72 frames | 72 opaque | 72 natural | 70 natural, 2 opaque | 72 invalid natural |
 
 *Technical Note on Metrics*:
-- **Outside-Region Difference**: The mean absolute difference of ~1.86/255 outside the dilated edit boundary is purely H.264 lossy compression quantization noise, proving zero spatial degradation to surrounding vehicle pixels.
+- **Outside-Region Difference**: The mean absolute difference of ~1.86/255 outside the dilated edit boundary is consistent with re-encoding differences, but does not establish their sole cause or prove zero damage outside the edit.
 - **Temporal Patch Difference**: This measures unaligned pixel variation across normalized consecutive homography patches. It reflects raw surface appearance changes; it does not decouple vehicle acceleration from lighting, and is not an aligned optical-flow flicker measurement.
 
 ---
@@ -75,7 +75,7 @@ Artifacts located in `veil/artifacts/natural-review-20261028/failure_gallery/`:
   - At frame 24, geometry is withheld; the engine instantly swaps to an enlarged solid black opaque rectangle.
   - At frame 26, geometry resumes; the engine abruptly swaps back to the light textured plate.
 - **Visual Impact**: Severe visual discontinuity. During playback, the 2-frame blackout functions as a high-contrast flash/strobe that immediately draws viewer attention to the redacted region.
-- **Severity**: **HIGH**. Any fallback mechanism intended for creator-grade video requires cross-dissolve temporal feathering (e.g., 3–5 frame alpha blend) rather than a single-frame hard cut.
+- **Severity**: **HIGH**. Aesthetic improvement needs a separately validated opaque treatment. Do not crossfade a protective cover over exposed original text: partially transparent frames could reveal it.
 
 ### Defect 2: Boundary Seam Aliasing & Edge Halos
 - **Artifact**: `defect_02_edge_boundary_seam.jpg`
@@ -151,7 +151,7 @@ In accordance with the hackathon criteria and `ANTIGRAVITY_NATURAL_EXPERIMENTS.m
 ### 1. Current Redaction / Verification / Repair Baseline
 **Verdict**: **GO FOR HONEST SUBMISSION DEMO**
 - The core VEIL baseline (multimodal detection, opaque bounding-box redaction, SAM tracking, face-only blur, lossy codec repair, and native macOS exported-pixel verification) is robust, tested (61 passing unit/integration tests), and fully grounded in reproducible telemetry.
-- It demonstrates real privacy guarantees without claiming zero leaks or unverified artificial beauty.
+- It demonstrates bounded exported-media checks and repair on controlled fixtures, without a privacy guarantee or established generalization.
 
 ### 2. Natural-Editing Feature
 **Verdict**: **NO-GO / INSUFFICIENT EVIDENCE (Under the 4/6 Gate)**

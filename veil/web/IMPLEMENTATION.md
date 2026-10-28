@@ -55,5 +55,5 @@ Reference frontend for VEIL: an API-first multimodal video privacy engine (Detec
 
 ## Blocked / Limitations
 
-- Automatic detection and verifier endpoints (`/v1/jobs/{id}/detect`, `/v1/jobs/{id}/verify`) are not yet implemented in Python API; the live mode only renders client-supplied reviewed timelines.
+- The backend implements detection and exported-media verification endpoints with explicit cloud consent. The reference upload interface does not yet collect processing consent, reviewed targets or original identifiers; upload alone does not create an export.
 - Recorded example uses saved real Meta model inference from smoke test 001.
