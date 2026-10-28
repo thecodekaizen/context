@@ -61,3 +61,7 @@ with VeilClient(base_url="http://127.0.0.1:8018") as client:
 ```
 
 Routes: create/read job, POST reviewed timeline to `/v1/jobs/{id}/redact`, read findings/receipt, and download `/v1/jobs/{id}/export`. No `/verify` route is claimed yet. Jobs persist under ignored `artifacts/private/jobs`; processing is synchronous and guarded by per-job filesystem locks. After an interrupted process, inspect the job before manually removing a stale `.lock`. Current input limits: 100 MiB, 60 seconds, 1080p, audio required. Timing support remains constrained to constant-frame-rate clips; the frame-rate metadata check is a rejection heuristic, not an exhaustive VFR validator.
+
+## Build the reference demonstration
+
+Frontend ownership, visual direction, exact current API contracts, recorded/live mode separation and acceptance criteria are in [Antigravity handoff](../ANTIGRAVITY_VEIL.md). The frontend lives in `veil/web/` relative to repository root. GitHub repository: https://github.com/thecodekaizen/veil. Local checkout: `/Users/thecodekaizen/Code/Projects/hackathons/veil`. Historical experiments remain preserved.
