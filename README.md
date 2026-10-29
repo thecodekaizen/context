@@ -164,3 +164,21 @@ Film excerpts and application captures: *Big Buck Bunny* (2008), (c) copyright
 transcoded and edited for controlled evaluation. [Source and license](https://peach.blender.org/about/).
 
 Deadline: November 4, 2026, 9 PM ET (November 5, 7:30 AM IST).
+
+## Release preparation
+
+GitHub Actions verifies lint, backend tests, production build and browser flows
+without API credentials. Optional film cases skip unless their source is installed.
+A real authenticated model check is documented separately; CI uses mock transport.
+
+After committing a release revision, create local source and submission archives:
+
+```sh
+.venv/bin/python scripts/package-release.py
+```
+
+Outputs go to ignored `data/release/`, including SHA-256 hashes and the exact
+source revision. Source packaging reads committed files, never `.env`, uploads,
+local caches or installed dependencies. The bundle includes the rendered demo.
+
+[Release notes](docs/release-notes.md) · [Official submission references](docs/submission-requirements.md)

@@ -14,3 +14,4 @@ playwright-report/
 demo-video/assets/
 demo-video/renders/
 .hyperframes/
+.thumbnails/
