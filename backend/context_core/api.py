@@ -14,6 +14,7 @@ from starlette.concurrency import run_in_threadpool
 
 from .alignment import analyze
 from .context_pack import build_pack
+from .dossier_api import router as dossier_router
 from .fixtures import generate
 from .library import add_source, list_sources, rank_sources
 from .media import playback_file
@@ -318,6 +319,8 @@ async def search_collection(edited: Annotated[UploadFile, File()]):
     finally:
         lock.release()
 
+
+app.include_router(dossier_router(lambda: DATA, lock))
 
 if (ROOT / "web/dist").exists():
     app.mount("/", StaticFiles(directory=ROOT / "web/dist", html=True), name="web")

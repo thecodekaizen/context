@@ -60,3 +60,109 @@ export type Review = {
     uncertainty: string;
   };
 };
+
+export type DossierEvent = {
+  id: string;
+  text: string;
+  start: number;
+  end: number;
+  modality: "visual" | "audio" | "on_screen";
+};
+
+export type DossierClaim = {
+  id: string;
+  text: string;
+  origin: "speech" | "on_screen" | "supplied_caption";
+  start?: number | null;
+  end?: number | null;
+};
+
+export type DossierSource = {
+  id: string;
+  url: string;
+  title: string;
+  search_snippet: string;
+  discovery: string;
+  fetch_status: "fetched" | "unavailable";
+  text?: string;
+  http_status?: number;
+  fetch_error?: string;
+  content_sha256?: string;
+};
+
+export type DossierFinding = {
+  claim_id: string;
+  verdict: "supported" | "contradicted" | "inconclusive";
+  explanation: string;
+  source_refs: { source_id: string; excerpt: string }[];
+  validation?: {
+    citation_ids_and_excerpts_checked?: boolean;
+    rejected_source_ids?: string[];
+    semantic_entailment?: string;
+  };
+};
+
+export type DossierAssessment = {
+  summary: string;
+  findings: DossierFinding[];
+  provenance: string;
+  missing_evidence: string[];
+};
+
+export type DossierMedia = {
+  duration: number;
+  width: number;
+  height: number;
+  codec: string;
+  has_audio: boolean;
+  sha256: string;
+  analyzed_seconds: number;
+  media_url: string;
+  frames: { id: string; time: number; url: string }[];
+};
+
+export type Dossier = {
+  id: string;
+  schema_version?: string;
+  mode: "single_video";
+  status: "running" | "complete" | "error";
+  stage: "queued" | "analyzing" | "retrieving" | "verifying" | "complete" | "error";
+  created_at: string;
+  caption?: string;
+  input_provenance?: {
+    source_url?: string;
+    catalog_url?: string;
+    credit?: string;
+    test_caption?: string;
+    method?: string;
+    filename?: string;
+    original_recording_supplied?: boolean;
+  };
+  media?: DossierMedia;
+  analysis?: {
+    summary: string;
+    observations: DossierEvent[];
+    claims: DossierClaim[];
+    search_queries: string[];
+    unknowns: string[];
+  };
+  retrieval?: {
+    provider_search_performed: boolean;
+    queries_proposed: string[];
+    candidate_count: number;
+    coverage: string;
+    provider_summary?: string;
+  };
+  sources: DossierSource[];
+  assessment?: DossierAssessment;
+  authenticity?: {
+    status: string;
+    reason: string;
+  };
+  manipulation?: {
+    status: string;
+    reason: string;
+  };
+  failure_log?: string[];
+  error?: string;
+};
