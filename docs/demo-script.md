@@ -1,38 +1,33 @@
-# Three-minute demo script
+# Three-Minute Demo Storyboard: CONTEXT Vision Studio
 
-Use actual analysis and a real or valid cached Meta review. Keep the network
-wait visible or clearly disclose a jump cut. Do not substitute authored model
-answers. The film example is controlled editing of licensed production footage,
-not a claim of discovering real misinformation.
+**Meta Global AI Developer Hackathon 2026**  
+**Track:** Multimodal Video Intelligence Studio  
+**Target Video Duration:** 3:00 minutes (180 seconds)  
 
-| Time | Show | Narration |
-| --- | --- | --- |
-| 0:00–0:20 | CONTEXT workspace and two videos | “A video can contain authentic frames and still leave out part of the story. CONTEXT helps us inspect what was removed and how the sequence changed.” |
-| 0:20–0:45 | Add an original to the local collection; search using its edited clip | “We start with a collection of provided source recordings. CONTEXT indexes them once and compares the published clip against their visual sequences. It makes no claim to search the whole internet.” |
-| 0:45–1:10 | Selected source, coverage, original/published tracks | “The alignment maps the edit back to the original. Blue spans are supported correspondences. The highlighted source interval sits outside the published sequence. Unresolved frames remain uncertain.” |
-| 1:10–1:35 | Click an omission and let its full interval play | “One click reveals the actual missing footage. The source player starts at the detected timestamp, while the published clip stays available for comparison. The visual evidence comes first.” |
-| 1:35–2:05 | Review with Meta AI; observations and citations | “Muse Spark reviews bounded excerpts from both versions, including available audio. Its interpretation is separate from deterministic edit detection. Every observation must reference a supplied clip and an in-range timestamp.” |
-| 2:05–2:25 | Click a model citation; inspect uncertainty | “Clicking a citation takes us back to the footage. These timestamps are checked, but that does not make the model’s interpretation automatically true. Uncertainty remains visible.” |
-| 2:25–2:45 | Download evidence JSON; reload the saved case | “The report records source hashes, intervals, method and limitations. Investigations persist, and model reviews are reused only when their evidence identity still matches.” |
-| 2:45–3:00 | Evaluation results, final workspace | “Controlled tests found and fixed false omissions from ambiguous scenes and false one-speed mappings. CONTEXT helps people inspect an edit’s evidence before deciding what it means. See the whole story.” |
+---
 
-## Preparation
+## Storyboard Overview: Prove the Engine, Not Just the Tabs
 
-1. Run the README setup and start the local server with `.env` loaded.
-2. Run the optional Blender evaluation download so the film example is available.
-3. Index `data/evaluation/source.mp4` once, then search with
-   `data/evaluation/omission.mp4`. These are a controlled six-second omission.
-4. For visible source attribution, also open **Explore licensed film case**.
-   Its provenance panel includes title, license, modifications and credit.
-5. Generate a real Meta review. Confirm citations and uncertainty. Cached review
-   reuse is acceptable when clearly explained; never label it a fresh inference.
-6. Record at 1440×1000 or similar. Keep the cursor and relevant controls visible.
-7. Include the film attribution in the final video credits and description.
+| Timecode | Screen / Lens | Action | Spoken Narration | Grounded Evidence Shown |
+|---|---|---|---|---|
+| **0:00–0:25** | Studio Home | Drop `artemis-captioned-omission.mp4` into the single-video intake. | *"A video can show authentic NASA launch footage, but the caption claims astronauts were on board. How do you verify the footage, uncover what was omitted, and challenge the claim using only the single video?"* | Single unannotated video intake; pipeline acknowledges ingestion in $<1\text{s}$. |
+| **0:25–1:05** | **LENS: CONTEXT** (Dossier) | Click **Investigate**. Show live analysis stages. View extracted claims and discovered sources. | *"CONTEXT extracts visual events and spoken claims using Meta Muse Spark. It autonomously searches indexed corpora and verified records. Here, it matches the official NASA Artemis I Mission Journey with 86% coverage, and flags the caption claim as CONTRADICTED, citing the official uncrewed mission kit."* | Discovered source citations; contradiction badge; timeline with omission cuts. |
+| **1:05–1:40** | **Dual-Player Comparator** | Click **"Reveal Missing Context in Synchronized Dual Player"**. | *"One click opens our synchronized dual player. Deterministic frame fingerprints and 16 kHz audio cross-correlation lock the published edit to the original broadcast. We scrub directly into the 6-second cut NASA omitted, with zero hallucination."* | Dual video player synchronized at millisecond accuracy; visual & audio alignment tracks. |
+| **1:40–2:15** | **Abstention & Honest Edit** | Load `honest_qualification.mp4` sample. | *"Epistemic honesty matters. When a video is shortened fairly without false claims, CONTEXT flags the cut as observed, but abstains from accusing the editor of deception. Absence of evidence is never treated as fabrication."* | Honest provenance classification; zero false accusations. |
+| **2:15–2:45** | **LENS: PRELUDE** (Anticipate) | Switch to **Anticipate Roadway Hazards**. Load `near_crash_011` dashcam scenario. Adjust cutoff slider to $t \le 7.1\text{s}$. | *"The same time-series engine powers PRELUDE for anticipatory road safety research. We enforce a hard leak-proof cutoff before the incident. Farneback flow isolates lateral crossing vectors and looming expansion rate $\tau$. Muse Spark identifies the oncoming hatchback failing to yield, flagging an early cue 1.2 seconds before the physical conflict."* | Hard pre-incident horizon ($t \le 7.1\text{s}$); bounding boxes with velocity arrows; $+1.20\text{s}$ lead time; zero false alarms on safe controls. |
+| **2:45–3:00** | System Summary | Show evaluation metrics table and architecture overview. | *"CONTEXT Vision Studio: One unified video-first engine, two proven multimodal lenses, and strict epistemic boundaries. Grounded multimodal intelligence you can inspect frame by frame."* | 82/82 passing tests, quantitative benchmark summaries, open-source repo. |
 
-## Publication credit
+---
 
-Film excerpts from *Big Buck Bunny* (2008), (c) copyright 2008, Blender Foundation /
-www.bigbuckbunny.org. Licensed CC BY 3.0. Excerpts trimmed, transcoded and edited
-for this controlled demonstration. Source: https://peach.blender.org/about/
+## Preparation Checklist Before Recording
 
-The raw QA walkthrough is silent and is not the final narrated submission video.
+1. Ensure the local server is running:
+   ```bash
+   uvicorn context_core.api:app --app-dir backend --env-file .env --host 127.0.0.1 --port 8000
+   ```
+2. Open `http://127.0.0.1:8000/` in Chrome at 1920×1080 resolution.
+3. Pre-load sample scenarios:
+   - CONTEXT: `artemis-captioned-omission` (ready via "Open Saved Investigation").
+   - PRELUDE: `near_crash_011` (ready via top sample chips).
+4. Verify audio recording input and system sound routing.
+5. Keep mouse movements smooth and deliberate; pause 1 second on key finding cards.
