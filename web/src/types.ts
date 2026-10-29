@@ -190,3 +190,75 @@ export type Dossier = {
   failure_log?: string[];
   error?: string;
 };
+
+export type PreludeTrajectoryPoint = {
+  time: number;
+  box: [number, number, number, number];
+  velocity: [number, number];
+  area: number;
+};
+
+export type PreludeActorTrack = {
+  track_id: string;
+  label: string;
+  trajectory: PreludeTrajectoryPoint[];
+  is_hazard: boolean;
+  looming_rate: number;
+  lateral_crossing_velocity: number;
+};
+
+export type PreludeFinding = {
+  hazard_detected: boolean;
+  risk_level: "nominal" | "low" | "medium" | "high" | "critical" | string;
+  t_cue_seconds?: number | null;
+  t_incident_seconds?: number | null;
+  lead_time_seconds?: number | null;
+  conflict_type: string;
+  summary: string;
+  hazard_actor?: string | null;
+  kinematic_signals: {
+    peak_lateral_flow?: number;
+    mean_lateral_flow?: number;
+    peak_looming_rate?: number;
+    active_tracks_count?: number;
+  };
+  observations: string[];
+  uncertainty: string;
+  disclaimer: string;
+};
+
+export type PreludeDossier = {
+  video_id: string;
+  video_path: string;
+  media_url?: string;
+  duration: number;
+  t_cutoff: number;
+  t_incident?: number | null;
+  lead_time?: number | null;
+  hazard_detected: boolean;
+  risk_level: string;
+  finding: PreludeFinding;
+  actors: PreludeActorTrack[];
+  timeline_events: {
+    time: number;
+    kind: string;
+    label: string;
+    detail: string;
+    is_hazard?: boolean;
+    risk_level?: string;
+  }[];
+  disclaimer: string;
+};
+
+export type PreludeSample = {
+  id: string;
+  title: string;
+  description: string;
+  filename: string;
+  t_incident?: number | null;
+  t_cutoff: number;
+  expected_hazard: boolean;
+  conflict_type: string;
+  available: boolean;
+  media_url: string;
+};

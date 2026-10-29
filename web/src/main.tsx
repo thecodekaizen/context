@@ -5,6 +5,7 @@ import type { Segment, Finding, Evidence, Review, Dossier } from "./types";
 import { SourceCollection } from "./SourceCollection";
 import { RecentInvestigations } from "./RecentInvestigations";
 import { InvestigationDossier } from "./InvestigationDossier";
+import { PreludeStudio } from "./PreludeStudio";
 
 const time = (n: number) =>
   `${Math.floor(n / 60)
@@ -13,9 +14,9 @@ const time = (n: number) =>
 
 function App() {
   // Top-level product mode
-  const [appMode, setAppMode] = useState<"investigation" | "comparator">(
-    "investigation",
-  );
+  const [appMode, setAppMode] = useState<
+    "investigation" | "prelude" | "comparator"
+  >("investigation");
 
   // Single-video investigation state
   const [dossier, setDossier] = useState<Dossier | null>(null);
@@ -386,8 +387,15 @@ function App() {
           className={`mode-tab-btn ${appMode === "investigation" ? "active" : ""}`}
           onClick={() => setAppMode("investigation")}
         >
-          <span className="mode-badge-primary">PRIMARY</span>
+          <span className="mode-badge-primary">LENS: CONTEXT</span>
           Single-Video Investigation Dossier
+        </button>
+        <button
+          className={`mode-tab-btn ${appMode === "prelude" ? "active" : ""}`}
+          onClick={() => setAppMode("prelude")}
+        >
+          <span className="mode-badge-anticipate">LENS: PRELUDE</span>
+          Anticipate Roadway Hazards
         </button>
         <button
           className={`mode-tab-btn ${appMode === "comparator" ? "active" : ""}`}
@@ -591,7 +599,12 @@ function App() {
         </section>
       )}
 
-      {/* MODE 2: TWO-VIDEO COMPARISON (SUPPORTING CAPABILITY) */}
+      {/* MODE 2: PRELUDE ANTICIPATORY ROADWAY HAZARD LENS */}
+      {appMode === "prelude" && (
+        <PreludeStudio onBackToContext={() => setAppMode("investigation")} />
+      )}
+
+      {/* MODE 3: TWO-VIDEO COMPARISON (SUPPORTING CAPABILITY) */}
       {appMode === "comparator" && (
         <section className="comparator-flow">
           <div style={{ marginBottom: 16 }}>

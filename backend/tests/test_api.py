@@ -162,3 +162,48 @@ def test_incompatible_container_upload_serves_preview(clips, tmp_path, monkeypat
     assert result["media"]["source"].endswith("original-preview.mp4")
     preview = client.get(result["media"]["source"], headers={"Range": "bytes=0-99"})
     assert preview.status_code == 206 and len(preview.content) == 100
+
+
+def test_prelude_samples_endpoint():
+    r = client.get("/api/prelude/samples")
+    assert r.status_code == 200
+    samples = r.json()
+    assert len(samples) >= 4
+    sample_ids = {s["id"] for s in samples}
+    assert "near_crash_011" in sample_ids
+    assert "normal_safe_004" in sample_ids
+
+
+def test_prelude_sample_media_endpoint():
+    r = client.get("/api/prelude/samples/near_crash_011/media", headers={"Range": "bytes=0-99"})
+    assert r.status_code in (200, 206)
+    assert len(r.content) > 0
+
+
+def test_prelude_investigate_sample_endpoint(monkeypatch):
+    # Mock model call so test does not require live external API call
+    from context_core import prelude
+
+    async def mock_meta(frames, timestamps, t_cutoff, kinematics, **kwargs):
+        return {
+            "hazard_detected": True,
+            "risk_level": "critical",
+            "risk_cue_seconds": 6.6,
+            "hazard_actor": "silver hatchback",
+            "conflict_type": "lateral_encroachment",
+            "observations": ["At t=6.6s, silver hatchback enters ego lane"],
+            "uncertainty": "Offline monocular replay only.",
+        }
+
+    monkeypatch.setattr(prelude, "analyze_pre_incident_with_meta", mock_meta)
+
+    r = client.post("/api/prelude/investigate?sample_id=near_crash_011&t_cutoff=7.1&t_incident=7.8")
+    assert r.status_code == 200, r.text
+    dossier = r.json()
+    assert dossier["hazard_detected"] is True
+    assert dossier["risk_level"] == "critical"
+    assert dossier["finding"]["t_cue_seconds"] == 6.6
+    assert dossier["lead_time"] == 1.2
+    assert "media_url" in dossier
+    assert "disclaimer" in dossier
+

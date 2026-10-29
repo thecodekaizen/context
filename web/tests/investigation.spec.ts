@@ -114,3 +114,95 @@ test("matched corpus source reveals missing context in synchronized dual player"
   await expect(page.locator("video")).toHaveCount(2);
   await expect(page.getByText("86% VISUAL COVERAGE")).toBeVisible();
 });
+
+test("prelude anticipatory roadway hazard lens displays telemetry, tracks, and lead time", async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+
+  // Mock prelude investigate API call for fast, deterministic browser test
+  await page.route("**/api/prelude/investigate*", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        video_id: "prelude_mock_001",
+        video_path: "mock.mp4",
+        media_url: "/api/prelude/samples/near_crash_011/media",
+        duration: 7.8,
+        t_cutoff: 7.1,
+        t_incident: 7.8,
+        lead_time: 1.2,
+        hazard_detected: true,
+        risk_level: "critical",
+        finding: {
+          hazard_detected: true,
+          risk_level: "critical",
+          t_cue_seconds: 6.6,
+          t_incident_seconds: 7.8,
+          lead_time_seconds: 1.2,
+          conflict_type: "lateral_encroachment",
+          summary: "Pre-incident hazard detected at t=6.6s (1.2s lead time before incident at t=7.8s).",
+          hazard_actor: "silver hatchback crossing ego lane",
+          kinematic_signals: {
+            peak_lateral_flow: 19.6,
+            peak_looming_rate: 86.2,
+            active_tracks_count: 22,
+          },
+          observations: ["At t=6.6s, silver hatchback enters ego travel lane."],
+          uncertainty: "Offline monocular replay only.",
+          disclaimer: "Offline research/replay only. Not for real-time driving safety.",
+        },
+        actors: [
+          {
+            track_id: "actor_1",
+            label: "vehicle",
+            trajectory: [
+              { time: 6.6, box: [0.3, 0.4, 0.6, 0.7], velocity: [-0.15, 0.05], area: 0.09 },
+            ],
+            is_hazard: true,
+            looming_rate: 86.2,
+            lateral_crossing_velocity: 0.15,
+          },
+        ],
+        timeline_events: [
+          { time: 0.0, kind: "intake", label: "Dashcam Ingestion", detail: "Duration 7.8s" },
+          { time: 6.6, kind: "early_warning", label: "Hazard Flagged", detail: "Early warning" },
+        ],
+        disclaimer: "Offline research/replay only. Not for real-time driving safety.",
+      }),
+    });
+  });
+
+  await page.goto("/");
+
+  // Switch to PRELUDE lens
+  await page.click('button:has-text("Anticipate Roadway Hazards")');
+  await expect(page.locator(".prelude-studio")).toBeVisible();
+  await expect(page.locator(".prelude-title")).toHaveText(
+    "Anticipatory Roadway Hazard Intelligence",
+  );
+  await expect(page.locator(".sample-chip")).toHaveCount(4);
+
+  // Verify telemetry & risk display
+  await expect(page.locator(".hero-risk-panel")).toBeVisible({ timeout: 5000 });
+  await expect(page.locator(".telemetry-box")).toHaveCount(3);
+  await expect(page.locator(".prelude-timeline-track")).toBeVisible();
+  await expect(page.locator(".timeline-window.pre-incident")).toBeVisible();
+  await expect(page.locator(".timeline-window.withheld")).toBeVisible();
+  await expect(page.locator(".lead-time-tag")).toContainText("+1.20s Lead Time");
+
+  // Verify disclaimer
+  await expect(page.locator(".prelude-disclaimer-pill")).toContainText(
+    "Offline Replay Only",
+  );
+
+  // Switch back to CONTEXT
+  await page.locator(".prelude-back-btn").click();
+  await expect(
+    page.getByRole("heading", { name: /Investigate footage from ONE input/ }),
+  ).toBeVisible();
+
+  expect(errors).toEqual([]);
+});

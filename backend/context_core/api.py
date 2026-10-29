@@ -20,6 +20,7 @@ from .fixtures import generate
 from .library import add_source, list_sources, rank_sources
 from .media import playback_file, save_evidence
 from .meta import evidence_signature, interpret
+from .prelude import run_prelude_investigation
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data"
@@ -299,6 +300,135 @@ async def search_collection(edited: Annotated[UploadFile, File()]):
     except Exception:
         shutil.rmtree(directory, ignore_errors=True)
         raise
+    finally:
+        lock.release()
+
+
+PRELUDE_BENCHMARK_DIR = DATA / "prelude_benchmark"
+PRELUDE_SAMPLES = {
+    "near_crash_011": {
+        "id": "near_crash_011",
+        "title": "Australian Dashcam — T-Intersection Yield Failure",
+        "description": "Australian road dashcam: oncoming hatchback cuts across path at uncontrolled junction.",
+        "filename": "near_crash_011.mp4",
+        "t_incident": 7.8,
+        "t_cutoff": 7.1,
+        "expected_hazard": True,
+        "conflict_type": "lateral_encroachment",
+    },
+    "near_crash_007": {
+        "id": "near_crash_007",
+        "title": "Australian Dashcam — Residential Junction Near-Miss",
+        "description": "Australian road dashcam: crossing vehicle at junction with limited sightline.",
+        "filename": "near_crash_007.mp4",
+        "t_incident": 4.5,
+        "t_cutoff": 4.0,
+        "expected_hazard": True,
+        "conflict_type": "lateral_encroachment",
+    },
+    "normal_safe_004": {
+        "id": "normal_safe_004",
+        "title": "Safe Residential Driving Control",
+        "description": "Normal daylight residential driving: vehicle yields stopped at give-way triangle. Negative control.",
+        "filename": "normal_safe_004.mp4",
+        "t_incident": None,
+        "t_cutoff": 3.0,
+        "expected_hazard": False,
+        "conflict_type": "nominal_flow",
+    },
+    "normal_safe_061": {
+        "id": "normal_safe_061",
+        "title": "Safe Suburban Arterial Driving Control",
+        "description": "Normal suburban arterial driving with steady lane keeping. Negative control.",
+        "filename": "normal_safe_061.mp4",
+        "t_incident": None,
+        "t_cutoff": 6.0,
+        "expected_hazard": False,
+        "conflict_type": "nominal_flow",
+    },
+}
+
+
+@app.get("/api/prelude/samples")
+async def list_prelude_samples():
+    """Return available pre-loaded dashcam benchmark scenarios."""
+    items = []
+    for sid, meta in PRELUDE_SAMPLES.items():
+        vpath = PRELUDE_BENCHMARK_DIR / meta["filename"]
+        items.append({
+            **meta,
+            "available": vpath.exists(),
+            "media_url": f"/api/prelude/samples/{sid}/media",
+        })
+    return items
+
+
+@app.get("/api/prelude/samples/{sample_id}/media")
+async def get_prelude_sample_media(sample_id: str):
+    """Stream dashcam sample video."""
+    sample = PRELUDE_SAMPLES.get(sample_id)
+    if not sample:
+        raise HTTPException(404, "Sample not found")
+    vpath = PRELUDE_BENCHMARK_DIR / sample["filename"]
+    if not vpath.exists():
+        raise HTTPException(404, "Sample media file not available on disk")
+    return FileResponse(vpath, media_type="video/mp4")
+
+
+@app.post("/api/prelude/investigate")
+async def investigate_prelude(
+    sample_id: str | None = None,
+    t_cutoff: float | None = None,
+    t_incident: float | None = None,
+    video: UploadFile | None = None,
+):
+    """Run anticipatory roadway hazard analysis on uploaded dashcam or sample scenario."""
+    if not lock.acquire(blocking=False):
+        raise HTTPException(429, "An analysis is already running. Try again shortly.")
+
+    try:
+        if sample_id:
+            sample = PRELUDE_SAMPLES.get(sample_id)
+            if not sample:
+                raise HTTPException(404, f"Sample '{sample_id}' not found")
+            vpath = PRELUDE_BENCHMARK_DIR / sample["filename"]
+            if not vpath.exists():
+                raise HTTPException(404, f"Sample video file '{sample['filename']}' not found on disk")
+            cutoff = t_cutoff if t_cutoff is not None else sample["t_cutoff"]
+            incident = t_incident if t_incident is not None else sample["t_incident"]
+            dossier = await run_prelude_investigation(
+                video_path=vpath,
+                t_cutoff=cutoff,
+                t_incident=incident,
+            )
+            dossier_dict = dossier.model_dump()
+            dossier_dict["media_url"] = f"/api/prelude/samples/{sample_id}/media"
+            return dossier_dict
+
+        if video is None:
+            raise HTTPException(400, "Either sample_id or video upload must be provided")
+
+        upload_dir = DATA / f"prelude_upload_{uuid4().hex[:12]}"
+        upload_dir.mkdir(parents=True, exist_ok=True)
+        target_path = upload_dir / "dashcam.mp4"
+        await save_upload(video, target_path)
+
+        preview_path = upload_dir / "preview.mp4"
+        final_media = await run_in_threadpool(playback_file, target_path, preview_path)
+
+        dossier = await run_prelude_investigation(
+            video_path=final_media,
+            t_cutoff=t_cutoff,
+            t_incident=t_incident,
+        )
+        dossier_dict = dossier.model_dump()
+        dossier_dict["media_url"] = f"/api/media/{upload_dir.name}/{final_media.name}"
+        return dossier_dict
+
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(500, f"Prelude analysis error: {exc}") from exc
     finally:
         lock.release()
 
