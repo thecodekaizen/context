@@ -5,6 +5,7 @@ import ipaddress
 import re
 import socket
 from html.parser import HTMLParser
+from typing import ClassVar
 from urllib.parse import urlsplit, urlunsplit
 
 import httpx
@@ -58,7 +59,9 @@ def public_url(url, *, media=False):
         or p.password
         or p.port not in (None, 80, 443)
     ):
-        raise ValueError("Only public HTTP/HTTPS URLs without credentials are supported")
+        raise ValueError(
+            "Only public HTTP/HTTPS URLs without credentials are supported"
+        )
     host = p.hostname.lower().rstrip(".")
     if media:
         if host not in MEDIA_HOSTS or not p.path.lower().endswith(
@@ -82,7 +85,7 @@ def public_url(url, *, media=False):
 
 
 class PageText(HTMLParser):
-    BLOCKED = {
+    BLOCKED: ClassVar[set[str]] = {
         "script",
         "style",
         "nav",
@@ -170,7 +173,54 @@ def search_receipts(payload):
                             "discovery": "provider_search_citation",
                         },
                     )
-    return list(sources.values())[:8], True
+                    sources[citation["url"]]["cited_by_provider"] = True
+    return list(sources.values()), True
+
+
+def select_sources(candidates, queries, limit=8):
+    """Rank actual search receipts before the bounded inspection budget.
+
+    Receipt order reflects query order, not evidence quality. Prioritize cited,
+    inspectable primary documents; keep every candidate in the saved audit.
+    Domain preference is a fetch strategy, never a truth judgment.
+    """
+    terms = set(re.findall(r"[a-z0-9]+", " ".join(queries).lower()))
+    terms -= {"a", "an", "the", "was", "it", "of", "to", "on", "and", "is", "in", "or"}
+
+    def score(source):
+        try:
+            parsed = urlsplit(source["url"])
+            host = (parsed.hostname or "").lower().rstrip(".")
+        except ValueError:
+            return (-1, -1, -1, -1)
+        inspectable = any(host == d or host.endswith("." + d) for d in DOCUMENT_DOMAINS)
+        html = not parsed.path.lower().endswith(
+            (".pdf", ".mp4", ".jpg", ".png", ".zip")
+        )
+        primary = host.endswith((".gov", ".gov.uk", ".int", ".edu"))
+        words = set(
+            re.findall(
+                r"[a-z0-9]+",
+                (
+                    source.get("title", "")
+                    + " "
+                    + parsed.path
+                    + " "
+                    + source.get("search_snippet", "")
+                ).lower(),
+            )
+        )
+        return (
+            int(inspectable and html),
+            int(source.get("cited_by_provider", False)),
+            int(primary),
+            len(terms & words),
+        )
+
+    ranked = sorted(candidates, key=score, reverse=True)
+    return [
+        {**source, "selection_score": list(score(source))} for source in ranked[:limit]
+    ]
 
 
 async def inspect_source(source):

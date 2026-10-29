@@ -34,6 +34,11 @@ export type Evidence = {
   segments: Segment[];
   findings: Finding[];
   limitations: string[];
+  audio_alignment?: {
+    status: "analyzed" | "unavailable";
+    segments: Segment[];
+    reason?: string;
+  };
 };
 export type Review = {
   cached?: boolean;
@@ -107,6 +112,7 @@ export type DossierAssessment = {
   findings: DossierFinding[];
   provenance: string;
   missing_evidence: string[];
+  validation?: { rejected_findings: unknown[] };
 };
 
 export type DossierMedia = {
@@ -126,7 +132,8 @@ export type Dossier = {
   schema_version?: string;
   mode: "single_video";
   status: "running" | "complete" | "error";
-  stage: "queued" | "analyzing" | "retrieving" | "verifying" | "complete" | "error";
+  stage:
+    "queued" | "analyzing" | "retrieving" | "verifying" | "complete" | "error";
   created_at: string;
   caption?: string;
   input_provenance?: {
@@ -141,6 +148,7 @@ export type Dossier = {
   media?: DossierMedia;
   analysis?: {
     summary: string;
+    validation?: { rejected_items: unknown[] };
     observations: DossierEvent[];
     claims: DossierClaim[];
     search_queries: string[];

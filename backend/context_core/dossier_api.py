@@ -11,7 +11,13 @@ from uuid import uuid4
 from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 
-from .dossier import investigate, write
+from .dossier import (
+    investigate,
+    text_output,
+    validate_analysis,
+    validate_assessment,
+    write,
+)
 from .retrieval import download_video
 
 
@@ -91,6 +97,45 @@ def router(data_root, lock: Lock):
                 raise HTTPException(422, str(exc)) from exc
             raise
 
+    def validated_report(target):
+        report = json.loads((target / "dossier.json").read_text())
+        if report.get("status") == "complete":
+            observation = target / "observation-response.json"
+            verification = target / "verification-response.json"
+            analysis_text = (
+                text_output(json.loads(observation.read_text()))
+                if observation.exists()
+                else json.dumps(report["analysis"])
+            )
+            assessment_text = (
+                text_output(json.loads(verification.read_text()))
+                if verification.exists()
+                else json.dumps(report["assessment"])
+            )
+            report["analysis"] = validate_analysis(
+                analysis_text, report["media"], report.get("caption", "")
+            )
+            report["assessment"] = validate_assessment(
+                assessment_text, report["analysis"], report["sources"]
+            )
+            report["validation_version"] = 2
+        return report
+
+    def read_report(target):
+        try:
+            return validated_report(target)
+        except (ValueError, KeyError, TypeError) as exc:
+            report = json.loads((target / "dossier.json").read_text())
+            for field in ("analysis", "assessment"):
+                report.pop(field, None)
+            report.update(
+                status="error",
+                stage="error",
+                error="Saved evidence failed validation; rerun investigation",
+                validation_error=type(exc).__name__,
+            )
+            return report
+
     @api.get("")
     def recent():
         files = sorted(
@@ -98,11 +143,11 @@ def router(data_root, lock: Lock):
             key=lambda p: p.stat().st_mtime,
             reverse=True,
         )[:25]
-        return {"dossiers": [json.loads(f.read_text()) for f in files]}
+        return {"dossiers": [read_report(f.parent) for f in files]}
 
     @api.get("/{identifier}")
     def get(identifier: str):
-        return json.loads((directory(identifier) / "dossier.json").read_text())
+        return read_report(directory(identifier))
 
     @api.get("/{identifier}/media/{filename}")
     def media(identifier: str, filename: str):

@@ -13,9 +13,13 @@ const fmtTime = (s: number) => {
 };
 
 export function InvestigationDossier({ dossier }: Props) {
-  const [tab, setTab] = useState<"overview" | "player" | "claims" | "sources" | "boundaries">("overview");
+  const [tab, setTab] = useState<
+    "overview" | "player" | "claims" | "sources" | "boundaries"
+  >("overview");
   const [currentTime, setCurrentTime] = useState<number>(0);
-  const [selectedModality, setSelectedModality] = useState<"all" | "visual" | "audio" | "on_screen">("all");
+  const [selectedModality, setSelectedModality] = useState<
+    "all" | "visual" | "audio" | "on_screen"
+  >("all");
   const [activeEvent, setActiveEvent] = useState<DossierEvent | null>(null);
   const [expandedSource, setExpandedSource] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -26,31 +30,52 @@ export function InvestigationDossier({ dossier }: Props) {
   const findings = assessment?.findings || [];
   const sources = dossier.sources || [];
 
-  const contradictedCount = findings.filter((f) => f.verdict === "contradicted").length;
-  const supportedCount = findings.filter((f) => f.verdict === "supported").length;
-  const inconclusiveCount = findings.filter((f) => f.verdict === "inconclusive").length;
+  const contradictedCount = findings.filter(
+    (f) => f.verdict === "contradicted",
+  ).length;
+  const supportedCount = findings.filter(
+    (f) => f.verdict === "supported",
+  ).length;
+  const inconclusiveCount = findings.filter(
+    (f) => f.verdict === "inconclusive",
+  ).length;
 
-  const seekTo = (seconds: number) => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = seconds;
-      videoRef.current.play().catch(() => {});
-    }
+  const pendingSeek = useRef<number | null>(null);
+  const applyPendingSeek = () => {
+    const player = videoRef.current;
+    if (!player || player.readyState < 1 || pendingSeek.current === null)
+      return;
+    player.currentTime = pendingSeek.current;
+    setCurrentTime(pendingSeek.current);
+    pendingSeek.current = null;
+    void player.play().catch(() => {});
   };
+  const seekTo = (seconds: number) => {
+    pendingSeek.current = seconds;
+    setTab("player");
+    applyPendingSeek();
+  };
+  useEffect(() => {
+    if (tab === "player") applyPendingSeek();
+  }, [tab]);
 
   const handleTimeUpdate = () => {
     if (!videoRef.current) return;
     const t = videoRef.current.currentTime;
     setCurrentTime(t);
     if (analysis?.observations) {
-      const match = analysis.observations.find((obs) => t >= obs.start && t <= obs.end);
-      if (match) setActiveEvent(match);
+      const match = analysis.observations.find(
+        (obs) => t >= obs.start && t <= obs.end,
+      );
+      setActiveEvent(match || null);
     }
   };
 
-  const filteredObservations = analysis?.observations.filter((obs) => {
-    if (selectedModality === "all") return true;
-    return obs.modality === selectedModality;
-  }) || [];
+  const filteredObservations =
+    analysis?.observations.filter((obs) => {
+      if (selectedModality === "all") return true;
+      return obs.modality === selectedModality;
+    }) || [];
 
   return (
     <div className="dossier-container">
@@ -62,17 +87,23 @@ export function InvestigationDossier({ dossier }: Props) {
           <span className="badge-sep">•</span>
           <span className="dossier-id">{dossier.id.slice(0, 12)}</span>
           <span className="badge-sep">•</span>
-          <span className="dossier-status-pill">{dossier.status.toUpperCase()}</span>
+          <span className="dossier-status-pill">
+            {dossier.status.toUpperCase()}
+          </span>
         </div>
 
         <h1 className="dossier-title">
-          {dossier.caption ? `“${dossier.caption}”` : "Multimodal Single-Video Investigation"}
+          {dossier.caption
+            ? `“${dossier.caption}”`
+            : "Multimodal Single-Video Investigation"}
         </h1>
 
         <div className="dossier-summary-box">
           <div className="summary-label">ASSESSMENT SUMMARY</div>
           <p className="summary-text">
-            {assessment?.summary || analysis?.summary || "Investigation complete. Grounded evidence details below."}
+            {assessment?.summary ||
+              analysis?.summary ||
+              "Investigation complete. Grounded evidence details below."}
           </p>
         </div>
 
@@ -84,14 +115,16 @@ export function InvestigationDossier({ dossier }: Props) {
           </div>
           <div className="metric-card supported">
             <div className="metric-val">{supportedCount}</div>
-            <div className="metric-lbl">Supported Facts</div>
+            <div className="metric-lbl">Source-Supported Claims</div>
           </div>
           <div className="metric-card inconclusive">
             <div className="metric-val">{inconclusiveCount}</div>
             <div className="metric-lbl">Inconclusive / Unproven</div>
           </div>
           <div className="metric-card sources">
-            <div className="metric-val">{sources.filter((s) => s.fetch_status === "fetched").length}</div>
+            <div className="metric-val">
+              {sources.filter((s) => s.fetch_status === "fetched").length}
+            </div>
             <div className="metric-lbl">Checked Sources</div>
           </div>
         </div>
@@ -154,7 +187,9 @@ export function InvestigationDossier({ dossier }: Props) {
                         seekTo(obs.start);
                       }}
                     >
-                      <span className={`modality-pill ${obs.modality}`}>{obs.modality}</span>
+                      <span className={`modality-pill ${obs.modality}`}>
+                        {obs.modality}
+                      </span>
                       <span className="time-code">{fmtTime(obs.start)}</span>
                       <span className="obs-text">{obs.text}</span>
                     </div>
@@ -169,7 +204,9 @@ export function InvestigationDossier({ dossier }: Props) {
                     <span className="status-dot warning" />
                     <strong>Authenticity Status</strong>
                   </div>
-                  <div className="status-val">{dossier.authenticity?.status || "Unproven"}</div>
+                  <div className="status-val">
+                    {dossier.authenticity?.status || "Unproven"}
+                  </div>
                   <p className="status-desc">{dossier.authenticity?.reason}</p>
                 </div>
                 <div className="status-card">
@@ -177,7 +214,9 @@ export function InvestigationDossier({ dossier }: Props) {
                     <span className="status-dot neutral" />
                     <strong>Manipulation Status</strong>
                   </div>
-                  <div className="status-val">{dossier.manipulation?.status || "Original Not Located"}</div>
+                  <div className="status-val">
+                    {dossier.manipulation?.status || "Original Not Located"}
+                  </div>
                   <p className="status-desc">{dossier.manipulation?.reason}</p>
                 </div>
               </div>
@@ -187,33 +226,50 @@ export function InvestigationDossier({ dossier }: Props) {
             <div className="overview-right">
               <div className="card-box">
                 <div className="card-header">
-                  <span className="card-eyebrow">VERIFIED FINDINGS</span>
+                  <span className="card-eyebrow">
+                    SOURCE-LINKED ASSESSMENTS
+                  </span>
                   <h3>Claims vs. External Evidence</h3>
                 </div>
 
                 <div className="findings-stream">
                   {findings.map((f) => {
-                    const claim = analysis?.claims.find((c) => c.id === f.claim_id);
+                    const claim = analysis?.claims.find(
+                      (c) => c.id === f.claim_id,
+                    );
                     return (
-                      <div key={f.claim_id} className={`finding-box ${f.verdict}`}>
+                      <div
+                        key={f.claim_id}
+                        className={`finding-box ${f.verdict}`}
+                      >
                         <div className="finding-box-top">
                           <span className={`verdict-pill ${f.verdict}`}>
                             {f.verdict.toUpperCase()}
                           </span>
                           <span className="claim-origin-pill">
-                            {claim?.origin?.replace("_", " ").toUpperCase() || "CLAIM"}
+                            {claim?.origin?.replace("_", " ").toUpperCase() ||
+                              "CLAIM"}
                           </span>
                         </div>
-                        <div className="claim-quote">“{claim?.text || f.claim_id}”</div>
+                        <div className="claim-quote">
+                          “{claim?.text || f.claim_id}”
+                        </div>
                         <p className="finding-expl">{f.explanation}</p>
 
                         {f.source_refs.length > 0 && (
                           <div className="finding-refs">
-                            <span className="refs-label">Checked Evidence:</span>
+                            <span className="refs-label">
+                              Checked Evidence:
+                            </span>
                             {f.source_refs.map((ref, idx) => (
-                              <blockquote key={idx} className="evidence-excerpt">
+                              <blockquote
+                                key={idx}
+                                className="evidence-excerpt"
+                              >
                                 “{ref.excerpt}”
-                                <span className="ref-source-id">({ref.source_id})</span>
+                                <span className="ref-source-id">
+                                  ({ref.source_id})
+                                </span>
                               </blockquote>
                             ))}
                           </div>
@@ -240,11 +296,16 @@ export function InvestigationDossier({ dossier }: Props) {
                     controls
                     src={media.media_url}
                     onTimeUpdate={handleTimeUpdate}
+                    onLoadedMetadata={applyPendingSeek}
                     className="cinema-video"
                   />
                   <div className="video-meta-overlay">
-                    <span>{fmtTime(currentTime)} / {fmtTime(media.duration)}</span>
-                    <span>{media.width}x{media.height} • {media.codec.toUpperCase()}</span>
+                    <span>
+                      {fmtTime(currentTime)} / {fmtTime(media.duration)}
+                    </span>
+                    <span>
+                      {media.width}x{media.height} • {media.codec.toUpperCase()}
+                    </span>
                   </div>
                 </div>
               ) : (
@@ -254,7 +315,9 @@ export function InvestigationDossier({ dossier }: Props) {
               {/* Keyframe Snapshot Reel */}
               {media?.frames && media.frames.length > 0 && (
                 <div className="frame-reel">
-                  <div className="reel-title">ANALYZED KEYFRAME REEL (CLICK TO SEEK)</div>
+                  <div className="reel-title">
+                    ANALYZED KEYFRAME REEL (CLICK TO SEEK)
+                  </div>
                   <div className="reel-scroll">
                     {media.frames.map((frame) => (
                       <div
@@ -263,7 +326,9 @@ export function InvestigationDossier({ dossier }: Props) {
                         onClick={() => seekTo(frame.time)}
                       >
                         <img src={frame.url} alt={`Frame at ${frame.time}s`} />
-                        <span className="frame-time">{fmtTime(frame.time)}</span>
+                        <span className="frame-time">
+                          {fmtTime(frame.time)}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -276,15 +341,17 @@ export function InvestigationDossier({ dossier }: Props) {
               <div className="sidebar-header">
                 <h3>Multimodal Timeline</h3>
                 <div className="modality-filters">
-                  {(["all", "visual", "audio", "on_screen"] as const).map((m) => (
-                    <button
-                      key={m}
-                      className={`filter-btn ${selectedModality === m ? "active" : ""}`}
-                      onClick={() => setSelectedModality(m)}
-                    >
-                      {m.replace("_", " ")}
-                    </button>
-                  ))}
+                  {(["all", "visual", "audio", "on_screen"] as const).map(
+                    (m) => (
+                      <button
+                        key={m}
+                        className={`filter-btn ${selectedModality === m ? "active" : ""}`}
+                        onClick={() => setSelectedModality(m)}
+                      >
+                        {m.replace("_", " ")}
+                      </button>
+                    ),
+                  )}
                 </div>
               </div>
 
@@ -298,7 +365,9 @@ export function InvestigationDossier({ dossier }: Props) {
                       onClick={() => seekTo(obs.start)}
                     >
                       <div className="event-top">
-                        <span className={`modality-badge ${obs.modality}`}>{obs.modality}</span>
+                        <span className={`modality-badge ${obs.modality}`}>
+                          {obs.modality}
+                        </span>
                         <span className="event-time">
                           {fmtTime(obs.start)} – {fmtTime(obs.end)}
                         </span>
@@ -320,8 +389,9 @@ export function InvestigationDossier({ dossier }: Props) {
             <div className="section-heading">
               <h2>Extracted Factual Claims & Evaluation</h2>
               <p>
-                Meta models independently extracted claims from spoken commentary, on-screen lower thirds,
-                and supplied captions. Claims are grounded strictly against fetched primary documents.
+                Meta models independently extracted claims from spoken
+                commentary, on-screen lower thirds, and supplied captions.
+                Claims are grounded strictly against fetched primary documents.
               </p>
             </div>
 
@@ -329,7 +399,10 @@ export function InvestigationDossier({ dossier }: Props) {
               {findings.map((f) => {
                 const claim = analysis?.claims.find((c) => c.id === f.claim_id);
                 return (
-                  <div key={f.claim_id} className={`claim-card-detailed ${f.verdict}`}>
+                  <div
+                    key={f.claim_id}
+                    className={`claim-card-detailed ${f.verdict}`}
+                  >
                     <div className="card-top-bar">
                       <span className={`verdict-badge ${f.verdict}`}>
                         {f.verdict.toUpperCase()}
@@ -363,11 +436,17 @@ export function InvestigationDossier({ dossier }: Props) {
                       <div className="source-citations-container">
                         <strong>Checked Citations:</strong>
                         {f.source_refs.map((ref, i) => {
-                          const src = sources.find((s) => s.id === ref.source_id);
+                          const src = sources.find(
+                            (s) => s.id === ref.source_id,
+                          );
                           return (
                             <div key={i} className="citation-pill">
-                              <span className="cite-badge">✓ Verified Match</span>
-                              <span className="cite-excerpt">“{ref.excerpt}”</span>
+                              <span className="cite-badge">
+                                ✓ Verified Match
+                              </span>
+                              <span className="cite-excerpt">
+                                “{ref.excerpt}”
+                              </span>
                               {src && (
                                 <a
                                   href={src.url}
@@ -384,11 +463,13 @@ export function InvestigationDossier({ dossier }: Props) {
                       </div>
                     )}
 
-                    {f.validation?.rejected_source_ids && f.validation.rejected_source_ids.length > 0 && (
-                      <div className="rejected-refs-note">
-                        Excluded {f.validation.rejected_source_ids.length} unverified or ungrounded citation references.
-                      </div>
-                    )}
+                    {f.validation?.rejected_source_ids &&
+                      f.validation.rejected_source_ids.length > 0 && (
+                        <div className="rejected-refs-note">
+                          Excluded {f.validation.rejected_source_ids.length}{" "}
+                          unverified or ungrounded citation references.
+                        </div>
+                      )}
                   </div>
                 );
               })}
@@ -404,8 +485,9 @@ export function InvestigationDossier({ dossier }: Props) {
             <div className="section-heading">
               <h2>Automatically Discovered Sources</h2>
               <p>
-                Sources retrieved via Meta's live search integration. No URLs were manually supplied.
-                Full text fetched and cached strictly within verified public domains.
+                Sources retrieved via Meta's live search integration. No URLs
+                were manually supplied. Full text fetched and cached strictly
+                within verified public domains.
               </p>
             </div>
 
@@ -415,7 +497,9 @@ export function InvestigationDossier({ dossier }: Props) {
                   <div className="source-card-top">
                     <span className="source-id-badge">{s.id}</span>
                     <span className={`fetch-status-badge ${s.fetch_status}`}>
-                      {s.fetch_status === "fetched" ? "Fetched (200 OK)" : "Coverage Bound"}
+                      {s.fetch_status === "fetched"
+                        ? "Fetched (200 OK)"
+                        : "Coverage Bound"}
                     </span>
                   </div>
 
@@ -438,13 +522,19 @@ export function InvestigationDossier({ dossier }: Props) {
                       <button
                         className="toggle-text-btn"
                         onClick={() =>
-                          setExpandedSource(expandedSource === s.id ? null : s.id)
+                          setExpandedSource(
+                            expandedSource === s.id ? null : s.id,
+                          )
                         }
                       >
-                        {expandedSource === s.id ? "Hide Extracted Text" : `View Extracted Text (${s.text.length} chars)`}
+                        {expandedSource === s.id
+                          ? "Hide Extracted Text"
+                          : `View Extracted Text (${s.text.length} chars)`}
                       </button>
                       {expandedSource === s.id && (
-                        <pre className="source-pre">{s.text.slice(0, 3000)}...</pre>
+                        <pre className="source-pre">
+                          {s.text.slice(0, 3000)}...
+                        </pre>
                       )}
                     </div>
                   )}
@@ -466,13 +556,18 @@ export function InvestigationDossier({ dossier }: Props) {
             <div className="section-heading">
               <h2>Epistemic Boundaries & Uncertainty</h2>
               <p>
-                CONTEXT strictly enforces honest boundaries: verified event facts do not automatically authenticate
-                the uploaded footage itself, and the absence of an original does not equal fabrication.
+                CONTEXT strictly enforces honest boundaries: verified event
+                facts do not automatically authenticate the uploaded footage
+                itself, and the absence of an original does not equal
+                fabrication.
               </p>
             </div>
 
             <div className="boundaries-grid">
               <div className="boundary-card">
+                <h3>Validation Exclusions</h3>
+                <p>{analysis?.validation?.rejected_items.length || 0} observations or claims excluded for invalid timing, modality, or identity. {assessment?.validation?.rejected_findings.length || 0} findings excluded for unknown or duplicate claim references.</p>
+                <p>Excluded evidence is never repaired by changing its timestamp or modality.</p>
                 <h3>Identified Unknowns</h3>
                 <ul className="boundary-list">
                   {analysis?.unknowns.map((u, i) => (
@@ -492,9 +587,18 @@ export function InvestigationDossier({ dossier }: Props) {
 
               <div className="boundary-card full-width">
                 <h3>Provenance & Methodology</h3>
-                <p><strong>Evaluation Input:</strong> {JSON.stringify(dossier.input_provenance)}</p>
-                <p><strong>Model Contribution:</strong> Observation extraction by <code>muse-spark-1.2</code>; web search and fact verification by <code>muse-spark-1.3</code>.</p>
-                <p><strong>Dossier Assessment:</strong> {assessment?.provenance}</p>
+                <p>
+                  <strong>Evaluation Input:</strong>{" "}
+                  {JSON.stringify(dossier.input_provenance)}
+                </p>
+                <p>
+                  <strong>Model Contribution:</strong> Observation extraction by{" "}
+                  <code>muse-spark-1.2</code>; web search and fact verification
+                  by <code>muse-spark-1.3</code>.
+                </p>
+                <p>
+                  <strong>Dossier Assessment:</strong> {assessment?.provenance}
+                </p>
               </div>
             </div>
           </div>

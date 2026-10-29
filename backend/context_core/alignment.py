@@ -4,13 +4,33 @@ import itertools
 
 import numpy as np
 
+from .audio_alignment import analyze_audio
 from .media import RATE, VideoSamples, sample
 
 THRESHOLD = 0.075
 
 
 def analyze(original, edited):
-    return align_samples(sample(original), sample(edited))
+    result = align_samples(sample(original), sample(edited))
+    if result["source"]["has_audio"] and result["edited"]["has_audio"]:
+        try:
+            result["audio_alignment"] = {
+                "status": "analyzed",
+                **analyze_audio(original, edited),
+            }
+        except ValueError as exc:
+            result["audio_alignment"] = {
+                "status": "unavailable",
+                "segments": [],
+                "reason": str(exc),
+            }
+    else:
+        result["audio_alignment"] = {
+            "status": "unavailable",
+            "segments": [],
+            "reason": "Both files need an audio stream",
+        }
+    return result
 
 
 def align_samples(source_samples: VideoSamples, edited_samples: VideoSamples):
@@ -211,7 +231,7 @@ def align_samples(source_samples: VideoSamples, edited_samples: VideoSamples):
         "segments": segments,
         "findings": findings,
         "limitations": [
-            "Visual matching only; audio and speaker intent are not analyzed.",
+            "Visual coverage and findings describe images only. Separate audio correspondences locate sound; neither establishes speaker intent.",
             "Repeated/static scenes may be rejected as ambiguous.",
             "Cropping, overlays, speed changes and large color changes are not reliably supported.",
             "Omissions require a supported cut or aligned boundary; unresolved source ranges are not labeled omitted. An edit alone does not establish misleading intent.",
