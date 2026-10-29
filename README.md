@@ -138,6 +138,13 @@ Meta key for an uncached review. Creates a silent browser QA recording under
 ignored `data/walkthrough`. It uses the actual app and provider, no mocked findings.
 The raw recording is not the final narrated submission video.
 
+The narrated 3:00, 1920×1080 MP4 is at
+`demo-video/renders/context-demo-3min.mp4` (generated, ignored). It uses actual
+captures, local synthesized narration and a clearly labeled saved real Meta
+response. The film example and evaluation limits are disclosed. No submission
+or public upload has been performed.
+
+[Editable demo and rebuild instructions](demo-video/README.md) ·
 [Three-minute script](docs/demo-script.md) · [Submission draft](docs/submission.md)
 
 ## Scope

@@ -1,0 +1,60 @@
+{
+  "duration_seconds": 180,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "fps": 24,
+  "voice": "Local synthesized Samantha (English US)",
+  "check_passed": true,
+  "checks": {
+    "lint": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "runtime": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "layout": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "motion": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "contrast": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "craft": {
+      "errors": 0,
+      "warnings": 1
+    },
+    "audio": {
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  "warning_review": "Auxiliary data/credit labels are 16\u201318px at 1080p; main narrative is 28px or larger. Opening and closing narrated holds are intentional.",
+  "provider_response": "Saved real Muse Spark 1.2 interpretation; no fresh inference implied.",
+  "export": {
+    "duration_seconds": 180.0,
+    "resolution": [
+      1920,
+      1080
+    ],
+    "fps": "24/1",
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "bytes": 20052294
+  },
+  "audio_measurement": {
+    "integrated_lufs": -13.0,
+    "true_peak_dbfs": -1.4,
+    "loudness_range_lu": 3.7
+  },
+  "visual_review": "Opening, evidence, Meta review and closing snapshots inspected; exported contact sheet inspected.",
+  "preview": "http://localhost:3017/#project/demo-video"
+}

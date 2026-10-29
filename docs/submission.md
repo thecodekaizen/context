@@ -75,10 +75,12 @@ Meta Model API, pytest, Playwright.
 - `docs/demo-script.md`: three-minute demonstration plan.
 - `docs/film-workstation.png` and `docs/film-review.png`: actual application captures.
 - `scripts/record-walkthrough.mjs`: real browser walkthrough recording.
-- Local recordings are under ignored `data/walkthrough/`.
+- Three-minute narrated full-HD export: `demo-video/renders/context-demo-3min.mp4`.
+- Editable video project and verification summary: `demo-video/`.
+- Local raw recordings remain under ignored `data/walkthrough/`.
 
-Repository publication, hosting, final narrated demo and submission upload have
-not been performed. This document is a factual submission draft, not confirmation
+The final narrated demo is rendered and locally verified. Repository publication,
+hosting and submission upload have not been performed. This document is a factual submission draft, not confirmation
 of eligibility or submission acceptance.
 
 ## Demo source attribution
