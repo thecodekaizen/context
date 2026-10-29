@@ -96,3 +96,21 @@ test("overview observation opens the player at its evidence timestamp", async ({
     await video.evaluate((v: HTMLVideoElement) => v.currentTime),
   ).toBeLessThan(17);
 });
+
+test("matched corpus source reveals missing context in synchronized dual player", async ({
+  page,
+}) => {
+  await page.goto("/?dossier=artemis-captioned-omission");
+  await expect(page.locator(".dossier-hero")).toBeVisible({ timeout: 15000 });
+  await expect(page.locator(".matched-source-banner")).toBeVisible();
+  await expect(page.locator(".matched-source-banner h4")).toContainText(
+    "NASA Artemis I Mission Journey",
+  );
+  await expect(page.locator(".source-coverage-pill")).toContainText("86% Match");
+
+  // Click button to reveal missing context in dual player
+  await page.locator(".btn-open-dual-comparator").click();
+  await expect(page.locator(".workbench")).toBeVisible();
+  await expect(page.locator("video")).toHaveCount(2);
+  await expect(page.getByText("86% VISUAL COVERAGE")).toBeVisible();
+});

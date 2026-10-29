@@ -171,6 +171,22 @@ export type Dossier = {
     status: string;
     reason: string;
   };
+  matched_source?: {
+    status: "matched" | "no_match" | "ambiguous" | "unindexed";
+    source_id?: string;
+    source_name?: string;
+    coverage?: number;
+    margin?: number;
+    investigation_id?: string;
+    finding_count?: number;
+    findings?: Finding[];
+    segments?: Segment[];
+    audio_alignment?: {
+      status: "analyzed" | "unavailable";
+      segments: Segment[];
+    };
+    candidates?: { id: string; name: string; coverage: number; score: number }[];
+  };
   failure_log?: string[];
   error?: string;
 };

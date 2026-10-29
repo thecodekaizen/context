@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import shutil
 import threading
 from pathlib import Path
@@ -17,7 +18,7 @@ from .context_pack import build_pack
 from .dossier_api import router as dossier_router
 from .fixtures import generate
 from .library import add_source, list_sources, rank_sources
-from .media import playback_file
+from .media import playback_file, save_evidence
 from .meta import evidence_signature, interpret
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -25,20 +26,6 @@ DATA = ROOT / "data"
 DATA.mkdir(exist_ok=True)
 app = FastAPI(title="CONTEXT", version="0.2.0")
 lock = threading.Lock()
-
-
-def save_evidence(directory, result):
-    result["id"] = directory.name
-    result["media"] = {}
-    for kind, filename in [("source", "original"), ("edited", "edited")]:
-        playback = playback_file(
-            directory / f"{filename}.mp4", directory / f"{filename}-preview.mp4"
-        )
-        result["media"][kind] = f"/api/media/{directory.name}/{playback.name}"
-    temporary = directory / "evidence.tmp"
-    temporary.write_text(json.dumps(result, indent=2))
-    temporary.replace(directory / "evidence.json")
-    return result
 
 
 def investigation(directory, source_name=None, edited_name=None):
@@ -208,11 +195,7 @@ async def review(identifier: str, finding_id: str):
 
 
 def valid_identifier(identifier):
-    return (
-        identifier == "demo"
-        or len(identifier) == 32
-        and all(c in "0123456789abcdef" for c in identifier)
-    )
+    return bool(re.match(r"^[a-zA-Z0-9_-]{1,64}$", identifier))
 
 
 @app.get("/api/investigations")

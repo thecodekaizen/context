@@ -157,3 +157,20 @@ def playback_file(path, target):
             "Playback conversion changed timing beyond the supported tolerance"
         )
     return Path(target)
+
+
+def save_evidence(directory, result):
+    directory = Path(directory)
+    result["id"] = directory.name
+    result["media"] = {}
+    for kind, filename in [("source", "original"), ("edited", "edited")]:
+        source_path = directory / f"{filename}.mp4"
+        if source_path.exists():
+            playback = playback_file(
+                source_path, directory / f"{filename}-preview.mp4"
+            )
+            result["media"][kind] = f"/api/media/{directory.name}/{playback.name}"
+    temporary = directory / "evidence.tmp"
+    temporary.write_text(json.dumps(result, indent=2))
+    temporary.replace(directory / "evidence.json")
+    return result

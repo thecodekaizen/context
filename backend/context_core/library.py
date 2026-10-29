@@ -100,6 +100,33 @@ def rank_sources(root, edited):
         if top["coverage"] >= MIN_COVERAGE
         else "no_match"
     )
+    if status == "no_match" and top["coverage"] >= 0.25 and margin >= MIN_MARGIN:
+        meta = next((m for m in sources if m["id"] == top["id"]), None)
+        if meta and meta.get("has_audio") and edited_samples.info.get("has_audio"):
+            try:
+                from .audio_alignment import analyze_audio
+                audio_res = analyze_audio(Path(root) / top["id"] / "original.mp4", edited)
+                audio_segs = audio_res.get("segments", [])
+                audio_dur = sum(s["edited_end"] - s["edited_start"] for s in audio_segs if s.get("kind") == "match")
+                total_dur = edited_samples.info.get("duration") or 1.0
+                if (audio_dur / total_dur) >= MIN_COVERAGE:
+                    status = "matched"
+                    results[top["id"]]["audio_alignment"] = {"status": "analyzed", **audio_res}
+                    results[top["id"]]["multimodal_coverage"] = round(max(top["coverage"], audio_dur / total_dur), 3)
+            except Exception:
+                pass
+
+    if status == "matched" and "audio_alignment" not in results[top["id"]]:
+        meta = next((m for m in sources if m["id"] == top["id"]), None)
+        if meta and meta.get("has_audio") and edited_samples.info.get("has_audio"):
+            try:
+                from .audio_alignment import analyze_audio
+                results[top["id"]]["audio_alignment"] = {
+                    "status": "analyzed",
+                    **analyze_audio(Path(root) / top["id"] / "original.mp4", edited),
+                }
+            except Exception:
+                pass
     report = {
         "status": status,
         "scope": "provided_local_collection",

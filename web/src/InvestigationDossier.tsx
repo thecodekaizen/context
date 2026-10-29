@@ -4,6 +4,7 @@ import type { Dossier, DossierEvent, DossierFinding } from "./types";
 interface Props {
   dossier: Dossier;
   onSelectFinding?: (finding: DossierFinding) => void;
+  onOpenComparator?: (investigationId: string) => void;
 }
 
 const fmtTime = (s: number) => {
@@ -12,7 +13,11 @@ const fmtTime = (s: number) => {
   return `${m.toString().padStart(2, "0")}:${sec.padStart(4, "0")}`;
 };
 
-export function InvestigationDossier({ dossier }: Props) {
+export function InvestigationDossier({
+  dossier,
+  onSelectFinding,
+  onOpenComparator,
+}: Props) {
   const [tab, setTab] = useState<
     "overview" | "player" | "claims" | "sources" | "boundaries"
   >("overview");
@@ -220,6 +225,36 @@ export function InvestigationDossier({ dossier }: Props) {
                   <p className="status-desc">{dossier.manipulation?.reason}</p>
                 </div>
               </div>
+
+              {dossier.matched_source?.status === "matched" && (
+                <div className="matched-source-banner">
+                  <div className="matched-banner-top">
+                    <span className="source-match-badge">CORPUS ORIGINAL LOCATED</span>
+                    <span className="source-coverage-pill">
+                      {Math.round((dossier.matched_source.coverage || 0) * 100)}% Match
+                    </span>
+                  </div>
+                  <h4>{dossier.matched_source.source_name}</h4>
+                  <p className="matched-banner-desc">
+                    Deterministic temporal alignment identified{" "}
+                    <strong>
+                      {dossier.matched_source.finding_count || 0} cut/omission intervals
+                    </strong>{" "}
+                    relative to this indexed source.
+                  </p>
+                  {onOpenComparator && dossier.matched_source.investigation_id && (
+                    <button
+                      type="button"
+                      className="btn-open-dual-comparator"
+                      onClick={() =>
+                        onOpenComparator(dossier.matched_source!.investigation_id!)
+                      }
+                    >
+                      Reveal Missing Context in Synchronized Dual Player &rarr;
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Right column: Primary Findings */}

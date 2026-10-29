@@ -94,6 +94,19 @@ function App() {
     }
   };
 
+  const openComparatorForCase = async (id: string) => {
+    try {
+      const res = await fetch(`/api/investigations/${encodeURIComponent(id)}`);
+      if (!res.ok) throw new Error("Could not load comparison");
+      const data = await res.json();
+      acceptEvidence(data.evidence || data);
+      setAppMode("comparator");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const startInvestigation = async (presetTarget?: {
     file?: File;
     url?: string;
@@ -570,7 +583,10 @@ function App() {
 
           {/* Dossier Output Component */}
           {dossier && !dossierBusy && (
-            <InvestigationDossier dossier={dossier} />
+            <InvestigationDossier
+              dossier={dossier}
+              onOpenComparator={openComparatorForCase}
+            />
           )}
         </section>
       )}
@@ -578,6 +594,18 @@ function App() {
       {/* MODE 2: TWO-VIDEO COMPARISON (SUPPORTING CAPABILITY) */}
       {appMode === "comparator" && (
         <section className="comparator-flow">
+          <div style={{ marginBottom: 16 }}>
+            <button
+              type="button"
+              className="chip active"
+              onClick={() => {
+                setAppMode("investigation");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
+              &larr; Back to Single-Video Investigation Dossier
+            </button>
+          </div>
           <section className="intro">
             <div>
               <div className="eyebrow">
