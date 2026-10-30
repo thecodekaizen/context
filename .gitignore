@@ -12,7 +12,8 @@ playwright-report/
 .env.*
 !.env.example
 demo-video/assets/
-demo-video/renders/
+demo-video/renders/*
+!demo-video/renders/context-demo-3min.mp4
 .hyperframes/
 .thumbnails/
 docs/audit/
