@@ -1,0 +1,16 @@
+{
+  "policy_version": "context-domain-v1",
+  "sha256": "ec146856493edcdfb796c9ebe3338851c65141761ec910af8283bbcd0b21053c",
+  "category": "software_benchmark",
+  "exclusions": {
+    "politics": false,
+    "elections": false,
+    "news": false,
+    "wartime": false,
+    "real_public_figures": false
+  },
+  "basis": "operator_review",
+  "reviewer": "Codex AI visual reviewer; no human review claimed",
+  "rationale": "Reviewed complete decoded 4 Hz contact sheets covering all authored 4 Hz states, generator, transforms and synthetic-tone provenance. Only local Python cache measurements and qualification panels; no speech, people, politics, elections, news or wartime content. Authored illustration, not field validation.",
+  "reviewed_at": "2026-10-30T14:04:47.612662Z"
+}

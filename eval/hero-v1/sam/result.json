@@ -1,0 +1,16 @@
+{
+  "manifest_sha256": "9dc7e31fcf510d81e99d7ec51f96d1bad52f9bc113ef2cf7dc5b101ed9ca95f8",
+  "source_sha256": "ec146856493edcdfb796c9ebe3338851c65141761ec910af8283bbcd0b21053c",
+  "input_sha256": "e0aa8a2b3be8f3fecd71d95aa0470f772a4855d36685af4e6493860b25a84d7f",
+  "frame_seconds": 7,
+  "prompt": "right-side test conditions panel",
+  "model": "sam-3.1",
+  "scope": "One authored panel in one frame; no tracking, OCR, semantic effect or production integration claim.",
+  "replay": false,
+  "passed": false,
+  "mask_count": 0,
+  "panel_pixel_recall": 0.0,
+  "panel_iou": 0.0,
+  "predicted_mask_fraction_outside_retained_crop": null,
+  "elapsed_seconds": 2.733
+}

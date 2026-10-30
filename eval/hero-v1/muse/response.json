@@ -1,0 +1,89 @@
+{
+  "model": "muse-spark-1.2",
+  "created_utc": "2026-10-30T14:08:56Z",
+  "status": "completed",
+  "usage": {
+    "input_tokens": 10942,
+    "output_tokens": 3520,
+    "total_tokens": 14462
+  },
+  "stripped": [
+    "response id",
+    "reasoning/message item ids",
+    "reasoning item",
+    "headers",
+    "api key"
+  ],
+  "live_call_made_during_bundle_build": false,
+  "input_media_sha256": {
+    "source": "ec146856493edcdfb796c9ebe3338851c65141761ec910af8283bbcd0b21053c",
+    "edited": "2faa504786f87145202624b3d78f2e0234db326e30dce515decf9c776e9fdb78"
+  },
+  "interpretation": {
+    "classification": "inconclusive",
+    "observations": [
+      {
+        "text": "Source excerpt sampled frame shows TEST CONDITIONS panel displaying WARM CACHE ONLY, Cache pre-populated, COLD-START SETUP IS EXCLUDED, Not an end-to-end speedup claim, Cold setup: 0.83 ms",
+        "citations": [
+          {
+            "clip_id": "source_context",
+            "start": 2,
+            "end": 3
+          },
+          {
+            "clip_id": "source_context",
+            "start": 4,
+            "end": 5
+          }
+        ]
+      },
+      {
+        "text": "Source excerpt later sampled frame shows TEST CONDITIONS panel displaying Python dictionary, Single local process, Measured on this machine only, See test conditions",
+        "citations": [
+          {
+            "clip_id": "source_context",
+            "start": 6,
+            "end": 7
+          }
+        ]
+      },
+      {
+        "text": "Published excerpt sampled frames show TEST CONDITIONS panel displaying Python dictionary, Single local process, Measured on this machine only, See test conditions",
+        "citations": [
+          {
+            "clip_id": "published_context",
+            "start": 2,
+            "end": 3
+          },
+          {
+            "clip_id": "published_context",
+            "start": 4,
+            "end": 5
+          },
+          {
+            "clip_id": "published_context",
+            "start": 6,
+            "end": 7
+          }
+        ]
+      },
+      {
+        "text": "Both excerpts show main panel with Measured lookup 0.009 \u03bcs, Per dictionary read 10,000 repeated reads per batch, header CACHE LOOKUP LATENCY and footer CONTROLLED CASE synthetic diagnostic tone, no speech",
+        "citations": [
+          {
+            "clip_id": "source_context",
+            "start": 2,
+            "end": 3
+          },
+          {
+            "clip_id": "published_context",
+            "start": 2,
+            "end": 3
+          }
+        ]
+      }
+    ],
+    "possible_effect": "The supplied omission is an audio interval that in the source coincides with the period when a visible qualification limited the timing to warm cache only, pre-populated, with cold-start excluded and not an end-to-end speedup claim. If that qualifying context were absent in the edited version, the same numeric lookup figure could be interpreted as general or end-to-end performance rather than the narrow controlled case. Evidence is insufficient to determine whether the edited video retains that qualification outside the sparse sampled frames.",
+    "uncertainty": "Sparse frames are higher-resolution samples from bounded windows and cannot prove presence or absence throughout an entire clip; do not presume a qualification disappeared because it is not visible in sampled intervals. Acoustic grounding establishes soundtrack correspondence only and does not authenticate images; frame observations remain model interpretations. Both clips have audio but no transcript is provided and the footer describes the soundtrack as synthetic diagnostic tone with no speech, so audio content of the omitted interval cannot be grounded beyond that description."
+  }
+}

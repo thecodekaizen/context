@@ -1,0 +1,80 @@
+{
+  "scope": "Authored cache-qualification illustration, actual Python microtimings; not independent field evaluation or commercial performance proof. Scripted cut of an authored clip, not field footage.",
+  "source_duration_seconds": 18.0,
+  "edited_duration_seconds": 14.0,
+  "omission": {
+    "expected_interval_seconds": [
+      6,
+      10
+    ],
+    "detected_interval_seconds": [
+      6.0,
+      10.0
+    ],
+    "expected_edit_position_seconds": 6,
+    "detected_edit_position_seconds": 6.0,
+    "boundary_error_seconds": [
+      0.0,
+      0.0
+    ],
+    "mean_boundary_error_seconds": 0.0,
+    "evidence_modality": "audio",
+    "pipeline_status_before_audio_grounding": "insufficient_evidence"
+  },
+  "crop": {
+    "source_resolution": [
+      1280,
+      720
+    ],
+    "edited_resolution": [
+      960,
+      720
+    ],
+    "retained_box_xywh": [
+      0,
+      0,
+      960,
+      720
+    ],
+    "area_retained_fraction": 0.75,
+    "area_omitted_fraction": 0.25,
+    "omitted_margins": [
+      {
+        "name": "right",
+        "x": 960,
+        "y": 0,
+        "width": 320,
+        "height": 720
+      }
+    ],
+    "detector": "OpenCV geometry (not SAM)",
+    "omission_clip_crop_detected": false
+  },
+  "muse": {
+    "model": "muse-spark-1.2",
+    "created_utc": "2026-10-30T14:08:56Z",
+    "classification": "inconclusive",
+    "disclaimer_text_read": [
+      "WARM CACHE ONLY",
+      "Cache pre-populated",
+      "COLD-START SETUP IS EXCLUDED",
+      "Not an end-to-end speedup claim",
+      "Cold setup: 0.83 ms"
+    ],
+    "disclaimer_observation_verbatim": "Source excerpt sampled frame shows TEST CONDITIONS panel displaying WARM CACHE ONLY, Cache pre-populated, COLD-START SETUP IS EXCLUDED, Not an end-to-end speedup claim, Cold setup: 0.83 ms",
+    "disclaimer_seen_in": "source excerpt only (sampled frames)",
+    "possible_effect": "The supplied omission is an audio interval that in the source coincides with the period when a visible qualification limited the timing to warm cache only, pre-populated, with cold-start excluded and not an end-to-end speedup claim. If that qualifying context were absent in the edited version, the same numeric lookup figure could be interpreted as general or end-to-end performance rather than the narrow controlled case. Evidence is insufficient to determine whether the edited video retains that qualification outside the sparse sampled frames.",
+    "uncertainty": "Sparse frames are higher-resolution samples from bounded windows and cannot prove presence or absence throughout an entire clip; do not presume a qualification disappeared because it is not visible in sampled intervals. Acoustic grounding establishes soundtrack correspondence only and does not authenticate images; frame observations remain model interpretations. Both clips have audio but no transcript is provided and the footer describes the soundtrack as synthetic diagnostic tone with no speech, so audio content of the omitted interval cannot be grounded beyond that description.",
+    "saved_response": "muse/response.json (saved, not re-run)"
+  },
+  "sam": {
+    "model": "sam-3.1",
+    "prompt": "right-side test conditions panel",
+    "frame_seconds": 7,
+    "mask_count": 0,
+    "panel_pixel_recall": 0.0,
+    "panel_iou": 0.0,
+    "passed": false,
+    "note": "Zero masks on the hero clip: SAM 3.1 contributes nothing here. Experimental."
+  }
+}
