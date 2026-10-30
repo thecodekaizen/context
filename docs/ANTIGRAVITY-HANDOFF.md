@@ -1,84 +1,172 @@
-# Antigravity Handoff: CONTEXT Product Correction & Smoke-Test Gate
+# Antigravity Master Agent Handoff: CONTEXT Video Evidence Workstation
 
-**Timestamp:** 2026-10-29T08:53:00+05:30  
-**Git HEAD:** `fcada63` (`main`)  
-**Context Workspace:** `/Users/thecodekaizen/Code/Projects/hackathons/context`  
-**Scheduled Resume:** October 29, 2026 at 10:42 AM Asia/Kolkata (following user credit reset)
-
----
-
-## 1. Executive Summary & Antigravity Progress
-
-Antigravity has executed the P0/P1/P2 product correction. CONTEXT is now an autonomous **single-video multimodal investigation platform** that extracts observations and claims with Meta's `muse-spark-1.2`, performs live external web search with `muse-spark-1.3`, inspects and verifies source documents, and compiles an evidence dossier.
-
-The previous two-video alignment tool remains available as a supporting drill-down capability.
-
-### Proven End-to-End Single-Video Investigation Benchmark
-
-* **Input Footage:** `data/real-investigation-input/download.mp4` (Official NASA Artemis I Recap, 151.5s, lawful public domain, unsupplied original).
-* **Counterfactual Caption:** `"Artemis I carried astronauts to the Moon."`
-* **Autonomous Pipeline:**
-  1. `muse-spark-1.2` extracted **30 timestamped observations**, **14 claims**, and 4 targeted search queries.
-  2. `muse-spark-1.3` executed live web search, discovering 8 external candidate sources.
-  3. Two official primary NASA sources ([NASA Artemis I](https://www.nasa.gov/mission/artemis-i/) and [NASA Press Kit](https://www.nasa.gov/artemis-i-press-kit-2/)) were fetched and indexed (16,746 and 18,000 characters).
-  4. Exact quotes verified: `"Mission Type Uncrewed lunar flight test"` and `"Artemis I is an uncrewed flight test that will provide a foundation for human deep space exploration"`.
-  5. Finding: Caption is **`CONTRADICTED`**.
-  6. Epistemic boundaries enforced: The dossier explicitly separates event facts from upload authenticity, declaring uncertainty where required.
-* **UI & Testing:**
-  * Interactive Dossier UI built in `web/src/InvestigationDossier.tsx` and `web/src/main.tsx` with cinema player, 8-keyframe reel, filterable multimodal timeline, claims fact-check cards, and discovered sources drawer.
-  * Rebuilt web distribution (`npm run build`).
-  * 58 backend tests (`backend/tests/`) passing.
-  * 3 Playwright end-to-end tests passing.
-  * 6 full-page screenshots captured in `docs/screenshots/`.
+**Last Updated:** October 30, 2026, 11:35 AM IST  
+**Repository:** [https://github.com/thecodekaizen/context](https://github.com/thecodekaizen/context)  
+**Active Branch:** `main`  
+**Latest Git Commit:** `ad4af1e`  
+**Hackathon Target:** Meta Global AI Developer Hackathon 2026 (Deadline: November 4, 2026, 9:00 PM ET / Nov 5, 7:30 AM IST)  
+**Status:** **G1–G3 GATES PASSED · 100% EVAL RECALL · 132/132 TESTS PASSING · 3-MIN MASTER VIDEO RENDERED**
 
 ---
 
-## 2. Token Exhaustion Status & Resumption Instructions
+## 1. Executive Summary for Resuming / Collaborating Agents
 
-At 08:51 AM IST, calls to `https://api.meta.ai/v1/responses` returned `HTTP 403: Request to POST /v1/responses on api.meta.ai not allowed by policy`, indicating temporary exhaustion of the Meta API credit.
+This document is the single source of truth for the **CONTEXT** workspace. Any agent picking up this codebase must read this document first.
 
-* **Credit Reset:** 10:42 AM Asia/Kolkata (October 29, 2026).
-* **Status:** Antigravity has completed its active editing turn and committed all changes (`fcada63`). The workspace is clean and stable.
-* **Directive for Resuming Agent:**
-  1. Inspect `git status` and this document first.
-  2. Do not overwrite or discard Antigravity's single-video pipeline or UI.
-  3. Execute the 45-minute smoke-test classification gate immediately once credit resets.
+CONTEXT is a local video evidence workstation that investigates deceptive edits in **developer tutorials, software benchmark demos, and commercial product claims**. When a published clip selectively excises critical context (e.g. an Out-Of-Memory crash, an unhandled exception, or non-standard hardware flags) or reframes/crops out peripheral disclaimers, CONTEXT aligns the clip against the source recording, reconstructs the missing intervals, and provides a synchronized dual-player workbench alongside bounded **Meta Muse Spark 1.2** and **Meta SAM 3.1** review.
 
 ---
 
-## 3. The 45-Minute CONTEXT Smoke-Test Gate
+## 2. Non-Negotiable Core Rules & Architectural Constraints
 
-### Dataset & Specification
+1. **Deterministic Alignment First:**
+   - Foundation models are **NEVER** permitted to guess, assert, or invent an omission ungrounded.
+   - Omissions are detected mathematically via 4Hz visual feature downsampling and normalized acoustic cross-correlation.
+   - If the aligner finds no correspondence, the system output is strictly **`"no material omission"`**.
+   - Meta models are only invoked on deterministically grounded, bounded excerpt clips.
 
-* **Source Video:** `data/real-investigation-input/download.mp4` (151.5s, NASA Artemis I talk/recap, multi-speaker speech with Pam Melroy and Charlie Blackwell-Thompson).
-* **Target Edits (Generated in `data/smoke_test/`):**
+2. **Domain Boundary (Strict Whitelist):**
+   - CONTEXT is restricted exclusively to **developer tutorials, benchmark demos, and product claims**.
+   - Absolutely **NO** politics, elections, government speech, wartime footage, or real public figures.
 
-| Edit Identifier | Source Cut Intervals | Description | Ground Truth | Measured Alignment Error | Alignment Status |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| `honest_shortening_1` | `[1.0s – 20.0s]` | Opening talk trimmed for brevity; preserves core factual claim. | `not_misleading` | **0.00s** (Detected: 1.0s) | **PASSED** (Coverage: 92.1%) |
-| `honest_shortening_2` | `[47.0s – 72.0s]` | Launch director poll and liftoff sequence; self-contained. | `not_misleading` | **0.75s** (Detected: 47.75s) | **PASSED** (Coverage: 86.0%) |
-| `deceptive_omission` | `[12.0s – 20.0s]` + `[84.0s – 90.0s]` | Omits uncrewed qualification; splices pad view into Mars return. | `misleading` | **0.00s** (Detected: 12.0s) | **PASSED** (Coverage: 92.9%) |
-| `reorder` | `[57.0s – 72.0s]` then `[45.0s – 53.0s]` | Swaps liftoff before launch authorization poll. Inverts cause and effect. | `misleading` | **0.00s** (Detected: 57.0s) | **PASSED** (Coverage: 76.1%) |
-| `reversed_claim` | `[3.5s – 10.0s]` + `[12.0s – 19.0s]` | Cuts "Fifty years after", claiming Apollo footprints left on Pad 39B. | `misleading` | **0.00s** (Detected: 3.5s) | **PASSED** (Coverage: 96.3%) |
+3. **Rule 9 (Authentic Builder Voiceover):**
+   - The final submission video **MUST** feature authentic builder voice narration.
+   - Synthetic voice clones are strictly prohibited in the final submission.
+   - The narration script with per-chapter timecodes is in `docs/demo-script.md`. Silent WAV placeholders are currently rendered in `demo-video/renders/context-demo-3min.mp4` until the builder records their voiceover.
 
-**Temporal Alignment Result:** 5/5 PASSED (All 5 edits aligned within 0.00s – 0.75s, well below the 2.0s gate threshold). Results saved to `data/smoke_test/smoke_test_alignment.json`.
+4. **Sandbox & Git Protocol:**
+   - Commits inside the Antigravity sandbox must use `--no-gpg-sign` (sandbox cannot access user SSH keys).
+   - Git push requires `BypassSandbox: true` for HTTPS credential authorization.
+   - Telemetry and file-hash manifests in `docs/audit/` and `docs/sprint/` are ignored in `.gitignore` to prevent gitleaks generic-api-key triggers.
 
 ---
 
-## 4. Immediate Step for Resuming Agent (10:42 AM IST)
+## 3. Architecture & Core Codebase Map
 
-Run the classification benchmark against Meta's `muse-spark-1.3`:
-
-```bash
-PYTHONPATH=backend .venv/bin/python scripts/run_smoke_test_classification.py
+```
+context/
+├── backend/
+│   ├── context_core/
+│   │   ├── align.py                # 4Hz visual downsampling & cosine feature alignment
+│   │   ├── acoustic_align.py       # Normalized audio cross-correlation
+│   │   ├── crop_detector.py        # Multi-scale template matching & SAM 3.1 spatial crop detector
+│   │   ├── grounded_omissions.py   # Strict grounding validator
+│   │   ├── context_pack.py         # Excerpt pack creator for Meta API (boundary clips only)
+│   │   ├── meta.py                 # Meta Muse Spark 1.2 review with strict citation validation
+│   │   ├── comparison.py           # Comparison engine, persistence & evidence aggregator
+│   │   ├── media.py                # Video probing, thumbnailing & evidence.json persistence
+│   │   └── api.py                  # FastAPI REST endpoints (/api/analyze, /api/demo/crop, etc.)
+│   └── tests/                      # 132 automated tests (pytest)
+│
+├── web/
+│   ├── src/
+│   │   ├── main.tsx                # Dual-player workbench, Evidence Explorer & mode switcher
+│   │   ├── SourceComparison.tsx    # Dossier mode side-by-side player & SVG crop overlay
+│   │   ├── InvestigationDossier.tsx# Single-video dossier view
+│   │   ├── PreludeStudio.tsx       # Anticipatory hazard replay studio
+│   │   └── types.ts                # TypeScript schemas for Evidence, Finding, CropAnalysis
+│   └── dist/                       # Production frontend build (bundled in Docker)
+│
+├── demo-video/
+│   ├── story.json                  # 6-chapter storyboard (180s total)
+│   ├── index.html                  # HyperFrames / GSAP 24fps 1920x1080 animated composition
+│   ├── assets/                     # Playwright-captured chapter videos & fonts
+│   └── renders/
+│       └── context-demo-3min.mp4   # Master 3-minute Full HD demo MP4 (180.00s flat)
+│
+├── eval/
+│   └── execution-v1/               # Frozen 30-edit benchmark suite & 3 CC0 source videos
+│       ├── sources/                # sort.mp4, cache.mp4, serialize.mp4
+│       ├── edits/                  # 30 scripted FFmpeg edits (10 recipes each)
+│       └── manifest.json           # Frozen ground-truth labels and tolerance contracts
+│
+├── scripts/
+│   ├── build-demo.py               # Generates demo-video/index.html & calculates audio durations
+│   ├── capture-demo-chapters.mjs   # Headless Playwright chapter screen recorder
+│   ├── run_execution_eval.py       # Runs frozen 30-edit benchmark evaluation
+│   └── run_sam_gate.py             # Runs SAM 3.1 spatial crop pixel recall gate
+│
+├── Dockerfile                      # Multi-stage production container build
+└── README.md                       # Complete public documentation with Mermaid diagrams
 ```
 
-### Success Criteria:
-* Spark cut classification accuracy >= 4/5 (80%).
-* Both honest edits (`honest_shortening_1` and `honest_shortening_2`) **must be classified as `not_misleading`** (zero false accusations).
-* Record results in `data/smoke_test/smoke_test_classification.json` and report findings, classifications, and any failures directly to the user.
+---
 
-### Fallback Protocol:
-* If the smoke-test gate fails after credit reset, report the failure and follow the user's fallback direction toward existing VEIL, while preserving all CONTEXT codebase intact.
-* Priority hierarchy: **CONTEXT -> VEIL -> PROOFREEL**.
-* Do not work on CONTROL. PRELUDE only if user safely captures and labels ordinary traffic. No releases or packaging without explicit approval.
+## 4. Frozen Evaluation Suite & Verified Results
+
+All evaluation gates were frozen **before** inference tuning and are 100% reproducible:
+
+| Evaluation Component | Scope / Dataset | Target Threshold | Measured Result | Status |
+|---|---|---|---|---|
+| **True Omission Recall** | 12 scripted omission & reorder cuts | $\ge 80\%$ | **100.0%** (12/12) | **PASSED** |
+| **Mean Boundary Error** | 12 detected omissions vs ground truth | $\le 0.5\text{s}$ | **0.00 seconds** | **PASSED** |
+| **Benign False Alarm Rate** | 18 controls (speedup, trims, subtitles, drift) | $< 10\%$ | **0.0%** (0/18) | **PASSED** |
+| **SAM 3.1 Spatial Crop Gate** | 10 center/pan-and-scan spatial crops | Pixel recall $\ge 80\%$ | **>99.9% recall, 84% IoU** | **PASSED** |
+| **Backend Test Suite** | 132 pytest unit and integration tests | 100% pass | **132 / 132 passed** | **PASSED** |
+| **Demo Composition Check** | `hyperframes check` across 599 crafts | 0 errors | **0 errors, 47/47 WCAG AA** | **PASSED** |
+
+---
+
+## 5. Master Commands Reference for Revalidation
+
+### 1. Run Backend Tests & Linting
+```bash
+cd /Users/thecodekaizen/Code/Projects/hackathons/context
+.venv/bin/pytest -q
+.venv/bin/ruff check backend scripts
+.venv/bin/ruff format --check backend scripts
+```
+
+### 2. Build Frontend
+```bash
+cd /Users/thecodekaizen/Code/Projects/hackathons/context/web
+node_modules/.bin/prettier --check src tests *.ts
+node_modules/.bin/tsc --noEmit
+node_modules/.bin/vite build
+```
+
+### 3. Run Benchmark Suite
+```bash
+cd /Users/thecodekaizen/Code/Projects/hackathons/context
+PYTHONPATH=backend .venv/bin/python scripts/run_execution_eval.py
+PYTHONPATH=backend .venv/bin/python scripts/run_sam_gate.py
+```
+
+### 4. Run Workstation Server
+```bash
+cd /Users/thecodekaizen/Code/Projects/hackathons/context
+.venv/bin/uvicorn context_core.api:app --app-dir backend --host 127.0.0.1 --port 8000
+```
+
+### 5. Re-capture Demo Chapters & Re-render Master Video
+```bash
+# Ensure server is running on port 8000 first
+cd /Users/thecodekaizen/Code/Projects/hackathons/context
+node scripts/capture-demo-chapters.mjs
+.venv/bin/python scripts/build-demo.py
+cd demo-video
+npm run check
+npm run render -- --output renders/context-demo-3min.mp4 --fps 24 --quality high --workers 4 --video-frame-format png
+```
+
+### 6. Test Docker Container
+```bash
+cd /Users/thecodekaizen/Code/Projects/hackathons/context
+docker build -t context .
+docker run -p 8000:8000 context
+# Verify: curl http://localhost:8000/api/health
+```
+
+---
+
+## 6. Immediate Next Steps for Next Agent & Builder
+
+1. **Builder Voiceover Recording (Scheduled for Tuesday Nov 3):**
+   - The builder must record the authentic human narration using the exact per-chapter text and timecodes in [docs/demo-script.md](file:///Users/thecodekaizen/Code/Projects/hackathons/context/docs/demo-script.md).
+   - Once recorded, place the WAV files in `demo-video/assets/` (`intro.wav`, `problem.wav`, `live_run.wav`, `sam_crop.wav`, `evaluation.wav`, `attribution_wrap.wav`).
+   - Run `cd demo-video && npm run render ...` to replace the silent audio track with the builder's voice.
+2. **Submission Portal Finalization (Nov 4):**
+   - Submit through [Cerebral Valley / Meta Hackathon portal](https://cerebralvalley.ai/e/meta-ai-developer-hackathon/hackathon/submit).
+   - Use repository URL: `https://github.com/thecodekaizen/context`.
+   - Provide demo video link or upload `demo-video/renders/context-demo-3min.mp4`.
+   - Copy description and technical summary from [docs/submission.md](file:///Users/thecodekaizen/Code/Projects/hackathons/context/docs/submission.md).
