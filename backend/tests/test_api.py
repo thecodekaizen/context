@@ -210,3 +210,14 @@ def test_prelude_investigate_sample_endpoint(monkeypatch):
     assert dossier["lead_time"] == 1.2
     assert "media_url" in dossier
     assert "disclaimer" in dossier
+
+
+def test_crop_demo_endpoint():
+    r = client.post("/api/demo/crop")
+    assert r.status_code == 200, r.text
+    data = r.json()
+    assert data["crop_analysis"]["detected"] is True
+    assert data["crop_analysis"]["area_omitted_fraction"] > 0.2
+    assert any(f["kind"] == "spatial_crop_reframe" for f in data["findings"])
+    saved = client.get(f"/api/media/{data['id']}/evidence.json").json()
+    assert saved["crop_analysis"]["detected"] is True

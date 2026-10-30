@@ -31,6 +31,18 @@ export type Finding = {
   source_start: number;
   source_end: number;
   edited_start?: number;
+  edited_end?: number;
+  modality?: string;
+  crop_box?: { x: number; y: number; width: number; height: number };
+  area_omitted_fraction?: number;
+  omitted_margins?: {
+    name: string;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  }[];
+  explanation?: string;
 };
 export type Evidence = {
   omission_evidence?: {

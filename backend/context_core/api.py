@@ -80,7 +80,11 @@ def investigation(directory, source_name=None, edited_name=None):
                 }
             )
     except (OSError, ValueError, RuntimeError):
-        pass
+        result["crop_analysis"] = {
+            "detected": False,
+            "confidence": 0.0,
+            "omitted_margins": [],
+        }
     if source_name:
         result["source"]["name"] = Path(source_name).name[:120]
     if edited_name:

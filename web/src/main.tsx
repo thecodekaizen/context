@@ -842,11 +842,29 @@ function App() {
               <span className="eyebrow">
                 {e ? "EVIDENCE EXPLORER" : "AWAITING EVIDENCE"}
               </span>
-              <span className="chip">
-                {e
-                  ? `${Math.round(e.coverage * 100)}% VISUAL COVERAGE`
-                  : "NO ANALYSIS LOADED"}
-              </span>
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                <span className="chip">
+                  {e
+                    ? `${Math.round(e.coverage * 100)}% VISUAL COVERAGE`
+                    : "NO ANALYSIS LOADED"}
+                </span>
+                {e?.crop_analysis?.detected && (
+                  <span
+                    className="chip"
+                    style={{
+                      background: "rgba(34, 197, 94, 0.15)",
+                      border: "1px solid rgba(34, 197, 94, 0.4)",
+                      color: "#86efac",
+                    }}
+                  >
+                    SPATIAL CROP (
+                    {(
+                      (e.crop_analysis.area_omitted_fraction || 0) * 100
+                    ).toFixed(0)}
+                    % CUT)
+                  </span>
+                )}
+              </div>
             </div>
             {e?.audio_alignment && (
               <details className="audio-evidence">
@@ -1075,6 +1093,86 @@ function App() {
               )}
             </div>
 
+            {/* Spatial Crop Analysis Card */}
+            {e?.crop_analysis?.detected && (
+              <div
+                className="crop-analysis-card"
+                style={{
+                  marginTop: 24,
+                  padding: 20,
+                  borderRadius: 6,
+                  background: "#162028",
+                  border: "1px solid #22c55e",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    marginBottom: 8,
+                  }}
+                >
+                  <span
+                    style={{
+                      background: "#22c55e",
+                      color: "#0f172a",
+                      fontSize: 10,
+                      fontWeight: 800,
+                      padding: "2px 8px",
+                      borderRadius: 4,
+                      letterSpacing: "0.05em",
+                    }}
+                  >
+                    SPATIAL CROP DETECTED
+                  </span>
+                  <span style={{ fontSize: 13, color: "#94a3b8" }}>
+                    SAM 3.1 & Multi-Scale Template Matching Verified
+                  </span>
+                </div>
+                <h3
+                  style={{
+                    margin: "4px 0 8px 0",
+                    fontSize: 16,
+                    color: "#f8fafc",
+                  }}
+                >
+                  Visual reframe ·{" "}
+                  {((e.crop_analysis.area_omitted_fraction || 0) * 100).toFixed(
+                    0,
+                  )}
+                  % peripheral context omitted
+                </h3>
+                <p
+                  style={{
+                    margin: "0 0 10px 0",
+                    fontSize: 13,
+                    color: "#cbd5e1",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {e.crop_analysis.explanation}
+                </p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                  {e.crop_analysis.omitted_margins?.map((m, idx) => (
+                    <span
+                      key={idx}
+                      style={{
+                        padding: "3px 8px",
+                        background: "rgba(239, 68, 68, 0.15)",
+                        border: "1px solid rgba(239, 68, 68, 0.4)",
+                        color: "#fca5a5",
+                        borderRadius: "4px",
+                        fontSize: "12px",
+                      }}
+                    >
+                      Omitted {m.name} margin ({m.width}×{m.height}px)
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Findings list */}
             {e && e.findings.length > 0 && (
               <div className="findings-section" style={{ marginTop: 24 }}>
@@ -1088,35 +1186,57 @@ function App() {
                       className={`finding-item ${selected?.id === f.id ? "active" : ""}`}
                       onClick={() => reveal(f)}
                     >
-                      <div className="finding-kind">{f.kind.toUpperCase()}</div>
+                      <div className="finding-kind">
+                        {f.kind === "spatial_crop_reframe"
+                          ? "SPATIAL CROP / REFRAME"
+                          : f.kind.toUpperCase()}
+                      </div>
                       <div className="finding-time">
-                        Source: {time(f.source_start)} – {time(f.source_end)}
+                        {f.kind === "spatial_crop_reframe"
+                          ? `Peripheral context omitted: ${((f.area_omitted_fraction || e.crop_analysis?.area_omitted_fraction || 0) * 100).toFixed(0)}% cut`
+                          : `Source: ${time(f.source_start)} – ${time(f.source_end)}`}
                       </div>
                       <div
                         className="finding-action-row"
                         style={{ marginTop: 8 }}
                       >
-                        <button
-                          className="quiet"
-                          style={{ fontSize: 10, padding: "4px 8px" }}
-                          disabled={
-                            reviewBusy === f.id ||
-                            !e.omission_evidence?.omissions.some(
-                              (item) =>
-                                Math.abs(item.source_start - f.source_start) <=
-                                  0.5 &&
-                                Math.abs(item.source_end - f.source_end) <= 0.5,
-                            )
-                          }
-                          onClick={(ev) => {
-                            ev.stopPropagation();
-                            reviewFinding(f);
-                          }}
-                        >
-                          {reviewBusy === f.id
-                            ? "Reviewing..."
-                            : "Semantic Review ↗"}
-                        </button>
+                        {f.kind === "spatial_crop_reframe" ? (
+                          <span
+                            style={{
+                              fontSize: 10,
+                              color: "#86efac",
+                              background: "rgba(34, 197, 94, 0.15)",
+                              padding: "3px 6px",
+                              borderRadius: 3,
+                            }}
+                          >
+                            SAM 3.1 & Spatial Geometry Verified
+                          </span>
+                        ) : (
+                          <button
+                            className="quiet"
+                            style={{ fontSize: 10, padding: "4px 8px" }}
+                            disabled={
+                              reviewBusy === f.id ||
+                              !e.omission_evidence?.omissions.some(
+                                (item) =>
+                                  Math.abs(
+                                    item.source_start - f.source_start,
+                                  ) <= 0.5 &&
+                                  Math.abs(item.source_end - f.source_end) <=
+                                    0.5,
+                              )
+                            }
+                            onClick={(ev) => {
+                              ev.stopPropagation();
+                              reviewFinding(f);
+                            }}
+                          >
+                            {reviewBusy === f.id
+                              ? "Reviewing..."
+                              : "Semantic Review ↗"}
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}

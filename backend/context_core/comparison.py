@@ -123,6 +123,7 @@ async def attach_comparison(
     except (OSError, ValueError, RuntimeError):
         crop_analysis = {"detected": False, "confidence": 0.0, "omitted_margins": []}
 
+    evidence["crop_analysis"] = crop_analysis
     if crop_analysis.get("detected"):
         crop_finding = {
             "id": "spatial-crop-reframe",

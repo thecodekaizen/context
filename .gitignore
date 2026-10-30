@@ -15,3 +15,6 @@ demo-video/assets/
 demo-video/renders/
 .hyperframes/
 .thumbnails/
+docs/audit/
+docs/sprint/
+AUDIT_SUMMARY.md
