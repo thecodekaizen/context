@@ -43,9 +43,5 @@ uses synthesized narration; no claim is made that it is the creator's own voice.
 
 ## Credit
 
-Film excerpts: Big Buck Bunny (2008), (c) copyright 2008, Blender Foundation /
-www.bigbuckbunny.org. CC BY 3.0. Excerpts trimmed and edited for controlled demo.
-https://peach.blender.org/about/
-
 Fonts: Space Grotesk and IBM Plex Mono, downloaded from Google Fonts.
 Animation: GSAP 3.14.2. Video authoring/rendering: HyperFrames 0.8.214.

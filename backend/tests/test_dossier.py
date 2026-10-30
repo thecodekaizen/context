@@ -42,7 +42,7 @@ def test_validate_analysis_robustness():
             "claims": [
                 {
                     "id": "c1",
-                    "text": "Artemis I had astronauts",
+                    "text": "Benchmark excludes cold-start setup",
                     "origin": "supplied_caption",
                     "start": 0,
                     "end": 0,
@@ -55,11 +55,11 @@ def test_validate_analysis_robustness():
                     "end": 10,
                 },
             ],
-            "search_queries": ["Artemis I astronauts"],
-            "unknowns": ["Mission crew status"],
+            "search_queries": ["benchmark cold-start setup"],
+            "unknowns": ["Cold-start measurement status"],
         }
     )
-    analysis = validate_analysis(raw, media, "Artemis I had astronauts")
+    analysis = validate_analysis(raw, media, "Benchmark excludes cold-start setup")
     assert len(analysis["observations"]) == 25
     assert len(analysis["claims"]) == 2
     assert analysis["claims"][0]["start"] is None
@@ -104,18 +104,18 @@ def test_validate_assessment_excerpts():
         "claims": [
             {
                 "id": "c1",
-                "text": "Artemis I carried astronauts to the Moon.",
+                "text": "The benchmark reports end-to-end speedup.",
                 "origin": "supplied_caption",
             },
-            {"id": "c2", "text": "Rocket was blue", "origin": "on_screen"},
+            {"id": "c2", "text": "Benchmark ran on a GPU", "origin": "on_screen"},
         ]
     }
     sources = [
         {
             "id": "source-0",
-            "url": "https://www.nasa.gov/mission/artemis-i/",
+            "url": "https://www.nasa.gov/benchmark-methodology/",
             "fetch_status": "fetched",
-            "text": "Artemis I was an uncrewed flight test to the Moon.",
+            "text": "The benchmark measures warm-cache runs only.",
         }
     ]
     raw_assessment = json.dumps(
@@ -125,9 +125,9 @@ def test_validate_assessment_excerpts():
                 {
                     "claim_id": "c1",
                     "verdict": "contradicted",
-                    "explanation": "Official documents state the mission was uncrewed.",
+                    "explanation": "Official documents state only warm-cache runs were measured.",
                     "source_refs": [
-                        {"source_id": "source-0", "excerpt": "uncrewed flight test"}
+                        {"source_id": "source-0", "excerpt": "warm-cache runs only"}
                     ],
                 },
                 {
@@ -137,12 +137,12 @@ def test_validate_assessment_excerpts():
                     "source_refs": [
                         {
                             "source_id": "source-0",
-                            "excerpt": "The rocket was painted bright blue",
+                            "excerpt": "The benchmark ran on a GPU",
                         }
                     ],
                 },
             ],
-            "provenance": "NASA records",
+            "provenance": "Benchmark documentation",
             "missing_evidence": [],
         }
     )
@@ -159,12 +159,12 @@ def test_validate_assessment_excerpts():
 
 def test_public_url_validation():
     assert (
-        public_url("https://www.nasa.gov/mission/artemis-i/")
-        == "https://www.nasa.gov/mission/artemis-i/"
+        public_url("https://www.nasa.gov/benchmark-methodology/")
+        == "https://www.nasa.gov/benchmark-methodology/"
     )
     assert (
-        public_url("https://en.wikipedia.org/wiki/Artemis_1")
-        == "https://en.wikipedia.org/wiki/Artemis_1"
+        public_url("https://en.wikipedia.org/wiki/Benchmark_(computing)")
+        == "https://en.wikipedia.org/wiki/Benchmark_(computing)"
     )
 
     # Media URLs
@@ -186,9 +186,9 @@ def test_search_receipts():
                 "type": "web_search_call",
                 "results": [
                     {
-                        "title": "Artemis I",
-                        "url": "https://www.nasa.gov/artemis-i/",
-                        "snippet": "Uncrewed mission",
+                        "title": "Benchmark methodology",
+                        "url": "https://www.nasa.gov/benchmark-methodology/",
+                        "snippet": "Warm-cache only",
                     }
                 ],
             }
@@ -197,7 +197,7 @@ def test_search_receipts():
     sources, searched = search_receipts(payload)
     assert searched is True
     assert len(sources) == 1
-    assert sources[0]["url"] == "https://www.nasa.gov/artemis-i/"
+    assert sources[0]["url"] == "https://www.nasa.gov/benchmark-methodology/"
 
 
 def test_dossiers_api(tmp_path, monkeypatch):

@@ -39,8 +39,9 @@ citations passed bounds validation. Result saved under ignored data/demo/.
 This establishes live request compatibility, not semantic accuracy on real footage.
 Earlier statements of unavailable credentials describe the prior development state.
 
-## Production-film workflow verification
-A real Muse Spark 1.2 review completed for the licensed Big Buck Bunny omission
+## Earlier film-excerpt workflow verification (historical)
+A film-excerpt example (since removed as outside the technical-video domain) was
+used for an earlier check. A real Muse Spark 1.2 review completed for that omission
 case: five timestamp-cited observations passed schema and range validation.
 The browser displayed the provider response, restored it after reload, sought
 a citation, and recorded the actual interaction with no browser errors. Source

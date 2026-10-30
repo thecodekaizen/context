@@ -11,3 +11,4 @@ Updated: (date/time IST)
 1.
 ## Facts to not re-derive
 - Hero clip:            - Cut interval(s):            - Eval results file:
+- Option 3 deferred: NASA allowlist in retrieval.py, ablation scripts/docs; revisit after hero bundle if README links to them.

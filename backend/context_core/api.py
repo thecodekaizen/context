@@ -151,8 +151,6 @@ def health():
         "semantic_example_id": "83767ad0f4c44a6e93cac7b7eea7dc48"
         if (DATA / "83767ad0f4c44a6e93cac7b7eea7dc48/dossier.json").is_file()
         else None,
-        "film_demo_available": (DATA / "evaluation/source.mp4").is_file()
-        and (DATA / "evaluation/omission.mp4").is_file(),
     }
 
 
@@ -190,51 +188,6 @@ async def demo():
             await run_in_threadpool(generate, directory)
         shutil.copyfile(directory / "omission.mp4", directory / "edited.mp4")
         return await run_in_threadpool(investigation, directory)
-    finally:
-        lock.release()
-
-
-@app.post("/api/demo/film")
-async def film_demo():
-    if (
-        not (DATA / "evaluation/source.mp4").is_file()
-        or not (DATA / "evaluation/omission.mp4").is_file()
-    ):
-        raise HTTPException(
-            404,
-            "Optional film example is not installed. Run the evaluation download first.",
-        )
-    require_files(
-        {
-            "source": DATA / "evaluation/source.mp4",
-            "edited": DATA / "evaluation/omission.mp4",
-        }
-    )
-    if not lock.acquire(blocking=False):
-        raise HTTPException(429, "An analysis is already running")
-    directory = DATA / uuid4().hex
-    directory.mkdir()
-    try:
-        shutil.copyfile(DATA / "evaluation/source.mp4", directory / "original.mp4")
-        shutil.copyfile(DATA / "evaluation/omission.mp4", directory / "edited.mp4")
-        result = await run_in_threadpool(
-            analyze, directory / "original.mp4", directory / "edited.mp4"
-        )
-        result["source"].update(
-            name="Big Buck Bunny — licensed film excerpt",
-            provenance={
-                "title": "Big Buck Bunny (2008)",
-                "attribution": "(c) copyright 2008, Blender Foundation / www.bigbuckbunny.org",
-                "license": "CC BY 3.0",
-                "url": "https://peach.blender.org/about/",
-                "original_window_seconds": [40, 64],
-                "transformations": "Trimmed, transcoded and edited for a controlled omission example. Published variant has no audio.",
-            },
-        )
-        return await run_in_threadpool(save_evidence, directory, result)
-    except Exception:
-        shutil.rmtree(directory, ignore_errors=True)
-        raise
     finally:
         lock.release()
 

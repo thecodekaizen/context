@@ -22,7 +22,7 @@ No application code or frozen manifest was modified during verification.
 
 ### Existing source acquisition does not establish in-domain discovery
 
-`backend/context_core/source_video.py` searches the NASA catalog. Older browser tests in `web/tests/investigation.spec.ts` exercise Artemis dossiers and an experimental roadway module. Those tests do not validate the current in-domain consequential-edit workflow.
+`backend/context_core/source_video.py` searches the NASA catalog. The older Artemis/roadway browser suite (`web/tests/investigation.spec.ts`) was deleted because it did not validate the current in-domain workflow.
 
 Do not expand this into a general news/fact-checking workflow. An in-domain source-discovery validation remains necessary.
 

@@ -126,14 +126,6 @@ def test_review_cache_requires_matching_evidence(clips, tmp_path, monkeypatch):
     assert not client.get(f"/api/investigations/{identifier}").json()["reviews"]
 
 
-def test_film_example_unavailable(tmp_path, monkeypatch):
-    from context_core import api
-
-    monkeypatch.setattr(api, "DATA", tmp_path)
-    assert not client.get("/api/health").json()["film_demo_available"]
-    assert client.post("/api/demo/film").status_code == 404
-
-
 def test_incompatible_container_upload_serves_preview(
     clips, tmp_path, monkeypatch, reviewed_clips
 ):

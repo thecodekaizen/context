@@ -5,12 +5,12 @@ def test_late_cited_primary_source_is_not_lost_to_first_eight_results():
     junk = [
         {"url": f"https://unknown.example/{i}", "title": "Unrelated"} for i in range(12)
     ]
-    url = "https://www.nasa.gov/mission/artemis-i/"
+    url = "https://www.nasa.gov/benchmark-methodology/"
     payload = {
         "output": [
             {
                 "type": "web_search_call",
-                "results": junk + [{"url": url, "title": "Artemis I"}],
+                "results": junk + [{"url": url, "title": "Benchmark methodology"}],
             },
             {
                 "type": "message",
@@ -20,7 +20,7 @@ def test_late_cited_primary_source_is_not_lost_to_first_eight_results():
     }
     candidates, searched = search_receipts(payload)
     assert searched and len(candidates) == 13
-    selected = select_sources(candidates, ["Artemis I crew"], limit=8)
+    selected = select_sources(candidates, ["benchmark methodology"], limit=8)
     assert selected[0]["url"] == url and selected[0]["cited_by_provider"]
 
 

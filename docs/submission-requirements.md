@@ -28,7 +28,7 @@ No terms have been accepted and no project has been submitted by the agent.
 
 - Factual project description: docs/submission.md
 - Release notes: docs/release-notes.md
-- Reproducible evaluation: docs/evaluation.md and docs/evaluation.json
+- Reproducible evaluation: docs/evaluation.md and eval/execution-v1/full-results/
 - Narrated demo: demo-video/renders/context-demo-3min.mp4
 - Source and submission archives: data/release/ after package-release.py runs
 

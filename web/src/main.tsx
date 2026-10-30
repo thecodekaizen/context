@@ -54,8 +54,7 @@ function App() {
   const [review, setReview] = useState<Review | null>(null),
     [reviewBusy, setReviewBusy] = useState<string | null>(null),
     [reviewError, setReviewError] = useState("");
-  const [collectionBusy, setCollectionBusy] = useState(false),
-    [filmAvailable, setFilmAvailable] = useState(false);
+  const [collectionBusy, setCollectionBusy] = useState(false);
 
   // Poll recent dossiers on load
   const loadRecentDossiers = () => {
@@ -74,7 +73,6 @@ function App() {
     fetch("/api/health", { signal: controller.signal })
       .then((r) => r.json())
       .then((data) => {
-        setFilmAvailable(Boolean(data.film_demo_available));
       })
       .catch(() => {});
 
@@ -254,7 +252,7 @@ function App() {
   const published = useRef<HTMLVideoElement>(null);
 
   async function analyze(
-    demo: false | true | "film" | "benchmark" | "crop" = false,
+    demo: false | true | "benchmark" | "crop" = false,
   ) {
     setReview(null);
     setReviewError("");
@@ -273,11 +271,9 @@ function App() {
           ? "/api/demo/benchmark"
           : demo === "crop"
             ? "/api/demo/crop"
-            : demo === "film"
-              ? "/api/demo/film"
-              : demo
-                ? "/api/demo"
-                : "/api/analyze",
+            : demo
+              ? "/api/demo"
+              : "/api/analyze",
         { method: "POST", ...(!demo ? { body } : {}) },
       );
       const data = await r.json();
@@ -789,15 +785,6 @@ function App() {
                         Try spatial crop demo →
                       </button>
                     </div>
-                    {false && filmAvailable && (
-                      <button
-                        className="quiet film-example"
-                        disabled={busy || collectionBusy || reviewBusy !== null}
-                        onClick={() => analyze("film")}
-                      >
-                        Explore licensed film case ↗
-                      </button>
-                    )}
                     <details className="content-policy-note">
                       <summary>
                         Content admission · technical footage only

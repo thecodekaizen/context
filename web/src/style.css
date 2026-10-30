@@ -681,11 +681,6 @@ footer {
 .recent-case[aria-current="true"] {
   border-color: #83a6bf;
 }
-.film-example {
-  padding-left: 0;
-  color: #a8c7dc;
-  margin-bottom: 8px;
-}
 .review-scope {
   border-bottom: 1px solid #354047;
   padding: 18px 0;

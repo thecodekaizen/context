@@ -48,7 +48,6 @@ with zipfile.ZipFile(BUNDLE, "w", compression=zipfile.ZIP_STORED) as archive:
     for name in [
         "docs/submission.md",
         "docs/evaluation.md",
-        "docs/evaluation.json",
         "demo-video/verification.json",
         "docs/demo-script.md",
     ]:
