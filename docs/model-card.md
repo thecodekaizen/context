@@ -9,7 +9,7 @@ for recorded runs, failures and exact scope.
 The visual matcher samples spatial color features at 4 Hz and uses mean absolute
 feature distance (`spatial-color-sequence-v2`); it is not a cosine matcher.
 Acoustic normalized correlation is an independent lane. Crop geometry uses
-OpenCV template matching. No-match is an abstention, not proof of fidelity.
+OpenCV template matching. No-match is an abstention, not evidence of fidelity.
 
 ## Muse Spark 1.2
 
@@ -20,17 +20,19 @@ windows and preserve readable UI text. Hashes, clip-local and media times are
 recorded. Changed frame bytes and invalid timestamps are rejected before dispatch.
 
 Outputs separate observations, possible effect, classification and uncertainty.
-Citation validation checks referenced clip IDs and time bounds, not the truth of
-observations or causal effect. Sparse images cannot establish absence throughout
-an entire video. A non-inconclusive classification needs citations from both media.
+Responses are checked for referenced clip IDs and time bounds only; this is not
+a check of the truth of observations or causal effect. Sparse images cannot establish absence throughout
+an entire video. A non-inconclusive classification needs references to both media.
 Model statements remain separate from measured evidence.
 
 In the authored cache case, the original video-only pack returned `harmless_edit`
 and missed the visible qualification. The revised pack read it and described its
-possible effect but returned `inconclusive`. Both runs are retained. This is one
-exploratory comparison, not independent semantic accuracy validation.
+possible effect but returned `inconclusive`. Both runs are retained. The retained
+Muse response is a saved recording (`eval/hero-v1/muse/response.json`), not
+re-run. This is one exploratory comparison, not independent semantic accuracy
+validation.
 
-## SAM 3.1
+## SAM 3.1 (experimental)
 
 The operational crop overlay is geometric; SAM masks are not integrated into it.
 A separate frozen chart-bar segmentation experiment passes 10/10 on replay of
@@ -45,5 +47,6 @@ Do not attribute the live margin overlay to SAM or claim proven disclaimer track
 Only reviewed developer tutorials, software benchmarks and product demos are
 admitted. Byte-bound local reviews are operator trust records, not signed identity
 or automatic content classification. Source discovery is limited to a registered
-catalog/local collection. Controlled evaluation success does not establish general
-video performance: a known external hyperfine deletion remains missed.
+catalog/local collection. Evaluation results are scripted cuts of authored recordings
+and do not establish performance on natural footage. Repetitive or static scenes
+have not been evaluated and no result is claimed for them.
