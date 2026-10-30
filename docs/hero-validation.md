@@ -19,7 +19,7 @@ The source was deliberately registered; this is catalog retrieval, not web disco
 - Automatically selected: `Controlled JavaScript sort benchmark (CC0)`.
 - Source SHA-256: `d77ac16b591bf5a58a3921ec8f31a74fe82b8f226eb2925b52637ef088166608`.
 - Edit SHA-256: `b46aa975930f8bb6c42d28b34990a01b9f6d078dadfdc036adfdcc08289832b5`.
-- Recovered source interval: **5.000–10.000 s**, edit position **5.000 s**.
+- Recovered source interval: **6.000–10.000 s**, edit position **6.000 s**.
 - Grounding: **audio**, confidence 1.0. The soundtrack is a disclosed synthetic
   sweep, not speech. Audio correspondence does not authenticate images.
 - One completed `muse-spark-1.2` review: **inconclusive**.

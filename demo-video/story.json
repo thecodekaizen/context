@@ -15,7 +15,7 @@
     "eyebrow": "01 / ARCHITECTURE CONTRACT",
     "title": "Deterministic alignment first.",
     "summary": "Raw vs. highlight comparison; measured correspondence establishes matches.",
-    "narration": "Here is the workflow. The reviewer submits the cut highlight alongside the raw recording. CONTEXT runs 4 Hz visual matching and acoustic cross-correlation to measure the correspondence—no model guessing. Within seconds, it locks the timeline and flags the exact four-second omission from seconds six to ten."
+    "narration": "Here is the workflow. The reviewer submits the cut highlight alongside the raw recording. CONTEXT matches the soundtracks by acoustic cross-correlation—no model guessing—and flags the exact four-second omission from seconds six to ten. Visual matching alone was not enough on this clip."
   },
   {
     "id": "live_run",
@@ -24,7 +24,7 @@
     "eyebrow": "02 / DUAL-PLAYER WORKSTATION",
     "title": "Synchronized feeds & 'WARM CACHE' reveal.",
     "summary": "Dual-player uncovers excised disclaimer; Muse Spark reads text.",
-    "narration": "Notice our synchronized dual player: scrubbing the edit drives the raw source in lockstep. When we click the omission card, the source exposes the excised footage. And here is the discovery: during those four missing seconds, the source displayed 'WARM CACHE ONLY' and 'COLD-START EXCLUDED'—which was completely missing in the cut. Bounded Meta Muse Spark 1.2 reads the qualification text and explains its potential interpretive impact, while honestly reporting inconclusive on whether meaning changed throughout the clip. The team catches the unintended omission before publishing."
+    "narration": "Notice our synchronized dual player: scrubbing the edit drives the raw source in lockstep. When we click the omission card, the source exposes the excised footage. And here is the discovery: during those four missing seconds, the source displayed 'WARM CACHE ONLY' and 'COLD-START SETUP IS EXCLUDED'—which do not appear in the edited sample frames. A saved response from Meta Muse Spark 1.2 reads the qualification text and explains its potential interpretive impact, while honestly reporting inconclusive on whether meaning changed throughout the clip. The team catches the unintended omission before publishing."
   },
   {
     "id": "sam_crop",
@@ -33,7 +33,7 @@
     "eyebrow": "03 / SPATIAL REFRAME DETECTION",
     "title": "Geometric crop & experimental SAM.",
     "summary": "Measured crop calipers; SAM evaluated separately on chart bars.",
-    "narration": "Spatial changes are audited separately. When a widescreen recording is reframed, OpenCV geometry measures the exact retained box—here, 25% of the frame was cropped out, removing the entire right-side conditions panel. Separately, we evaluated Meta SAM 3.1: it passed on ten frozen chart-bar crops, but returned zero masks on the live conditions panel. So the live margin overlay is strictly geometric evidence, not an AI claim."
+    "narration": "Spatial changes are audited separately. When a widescreen recording is reframed, OpenCV geometry measures the exact retained box—here, 25% of the frame was cropped out, removing the entire right-side conditions panel. Separately, we evaluated Meta SAM 3.1: it passed a replay on ten frozen chart-bar crops, but returned zero masks on the live conditions panel. So the live margin overlay is strictly geometric evidence, not an AI claim."
   },
   {
     "id": "evaluation",
@@ -42,7 +42,7 @@
     "eyebrow": "04 / FROZEN EVALUATION SUITE",
     "title": "Frozen benchmark evaluation.",
     "summary": "15/15 intervals recovered across 12 positive cases; 0 benign alarms.",
-    "narration": "Every metric is evaluated on a frozen contract: thirty scripted FFmpeg scenarios across three benchmark sources. It recovered all fifteen labeled omission intervals across twelve positive cases with zero boundary error, and produced zero false alarms across eighteen benign controls—statistically bounding the false alarm rate to under 17% by the rule of three on this scripted set."
+    "narration": "Every metric is evaluated on a frozen contract: thirty scripted FFmpeg scenarios across three benchmark sources. It recovered all fifteen labeled omission intervals across twelve positive cases with zero boundary error, and produced zero false alarms across eighteen benign controls—a 95% upper bound under 17% on a scripted set, by the rule of three."
   },
   {
     "id": "attribution_wrap",
@@ -50,7 +50,7 @@
     "duration": 15,
     "eyebrow": "05 / META MODELS & REPRODUCIBILITY",
     "title": "Inspectable evidence & honest boundaries.",
-    "summary": "External terminal failure disclosed; 184 verified backend tests.",
-    "narration": "We also test where the tool breaks. On a repetitive terminal benchmark animation without sound, visual coverage fell below threshold and CONTEXT safely abstained with 'no material omission' rather than guessing. Deterministic evidence first, bounded model review second, and honest limits throughout."
+    "summary": "Limits disclosed: scripted set, saved Muse response, SAM experimental.",
+    "narration": "Here is where the evidence stops: scripted cuts of authored clips, a saved Muse response, and SAM as an experiment. Deterministic evidence first, bounded model review second, and honest limits throughout."
   }
 ]
