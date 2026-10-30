@@ -19,11 +19,11 @@ reveal missing footage, and inspect timestamped Meta AI interpretation.
 
 ## Architecture
 
-Deterministic first. The aligner (transcript and audio matching, FFmpeg chunking, cached runs) finds and timestamps every omission. The Meta model may **ONLY** explain an omission tied to a matched source interval. If the aligner has no match, the output is `"no material omission"`. The model never asserts an omission by itself.
+Deterministic first. The aligner (4 Hz spatial color sequence matching via `spatial-color-sequence-v2` and normalized acoustic cross-correlation) finds and timestamps every omission. The Meta model may **ONLY** explain an omission tied to a matched source interval. If the aligner finds no correspondence, the output is strictly `"no material omission"` with an abstention limitation. The model never discovers or invents an omission independently of grounding.
 
 Output evidence JSON per omission:
 `{source_start, source_end, edit_position, confidence, matched_evidence, explanation}`.
-Any explanation citing a time outside the evidence is strictly rejected.
+Any explanation citing a time outside the bounded evidence window is strictly rejected.
 
 ```mermaid
 flowchart TD
@@ -76,54 +76,60 @@ flowchart TD
 ### 1. Synchronized Dual-Player Workbench (`01 WORKBENCH`)
 ![Dual-Player Omission Scrubber](docs/screenshots/02-dual-player-omission.png)
 
-- **Purpose:** Primary forensic evidence workspace. Synchronizes the candidate published edit alongside the unedited source recording into a sub-second aligned timeline with an interactive 4Hz visual confidence strip, audio waveforms, and omission markers.
-- **Real Run / Real Use Case:** **JavaScript Sort Benchmark (5-Second OOM Crash Omission)**
-  - *The Claim:* A published tutorial claims a "100x speedup" running a sort algorithm without errors.
-  - *The Deception:* Spliced out seconds `00:05.000` to `00:10.000` where the terminal threw an Out-Of-Memory exception and restarted the process.
-  - *The Detection:* As the user scrubs across second 3.5, the source player exposes the spliced-out footage in full context, while the bounded **Meta Muse Spark 1.2** review card flags the omission with exact timecodes: `"VERIFIED GROUNDED TO TIME 00:05.000 – 00:10.000"`.
+- **Purpose:** Primary forensic evidence workspace. Synchronizes the candidate published edit alongside the unedited source recording into an aligned timeline with an interactive 4 Hz visual confidence strip, audio waveforms, omission markers, and tabular millisecond readouts.
+- **Real Run / Authored Case:** **Python Cache Latency Qualification Demonstration**
+  - *The Footage:* Authored technical illustration displaying actual local microtimings (PBKDF2 cold setup vs dictionary lookup). A conditions panel at seconds 6–10 explicitly discloses `"WARM CACHE ONLY"`, `"COLD-START SETUP IS EXCLUDED"`, and `"Not an end-to-end speedup claim"`.
+  - *The Temporal Edit:* Excises source seconds `00:06.000` to `00:10.000`, removing the qualification while leaving the measured lookup figure intact.
+  - *The Detection:* Given only the edited clip, CONTEXT selects the registered source, reconstructs the timeline via acoustic correlation, recovers the exact 6–10 s deletion at edit position 6.000 s, and dispatches bounded excerpts plus timed 720p frames to **Meta Muse Spark 1.2**.
+  - *The Interpretation:* Muse Spark 1.2 reads the qualification in source frames, notes generic conditions in edited samples, and explains the potential interpretive impact while honestly reporting `inconclusive` on whether the qualification disappeared throughout the edit.
+- **Supporting Controlled Run:** **JavaScript Sort Benchmark (5-Second Deletion)**
+  - Recovers the 5.000–10.000 s deletion from the CC0 sort benchmark. Muse observes the benchmark header, qualification text, and measurements; semantic effect remains inconclusive.
 
 ---
 
-### 2. Spatial Forensics & Meta SAM 3.1 Margin Inspector
+### 2. Spatial Forensics & Crop Calipers
 ![Spatial Crop & SAM 3.1 Inspector](docs/screenshots/03-spatial-crop-sam.png)
 
-- **Purpose:** Detects spatial reframing, mobile aspect-ratio crops (e.g. 16:9 widescreen to 9:16 vertical), and peripheral disclaimer erasure.
-- **Real Run / Real Use Case:** **Mobile Reframe Disclaimer Shave (0.80x Zoom)**
-  - *The Claim:* A 16:9 widescreen benchmark is reframed into a 9:16 mobile clip.
-  - *The Deception:* The reframe zoomed in by `0.80x`, shaving off the outer `20.0%` margin containing crucial test hardware specifications and non-standard compiler flags.
-  - *The Detection:* CONTEXT's deterministic crop detector matches the spatial coordinates (`1536×864 @ 0.80x`), draws calipers around the retained area, and deploys **Meta SAM 3.1** to segment the cropped perimeter margins in red.
+- **Purpose:** Detects spatial reframing, aspect-ratio crops, and peripheral panel omissions.
+- **Real Run / Real Use Case:** **Cache Conditions Panel Spatial Cut**
+  - *The Edit:* Retains `[0, 0, 960, 720]` of a `1280×720` frame, shaving off the rightmost 25% margin containing the test conditions panel.
+  - *The Detection:* Deterministic OpenCV multi-scale template matching identifies the exact retained box and highlights omitted margins with HUD calipers.
+  - *Meta SAM 3.1 Status:* SAM 3.1 is an experimental segmentation model. A frozen 10-crop chart-bar experiment passes (>99.9% pixel recall on saved replay). A live test on the cache qualification panel returned zero masks (failed). Operational margin shading is computed strictly by deterministic OpenCV geometry.
 
 ---
 
 ### 3. Frozen Benchmark & Evaluation Matrix Hub (`02 EVALUATION`)
 ![Evaluation Matrix Hub](docs/screenshots/04-evaluation-matrix.png)
 
-- **Purpose:** Enterprise-grade transparency and reproducibility scorecard. Allows judges, auditors, and engineering teams to inspect empirical test runs across all frozen benchmark fixtures.
+- **Purpose:** Transparency and reproducibility scorecard for frozen fixtures.
 - **Real Run / Real Use Case:** **30-Edit Benchmark Suite & 18 Benign Controls**
-  - Evaluates 30 scripted FFmpeg deceptive edits across 3 CC0 benchmark videos (`sort.mp4`, `cache.mp4`, `serialize.mp4`) spanning 10 edit recipes.
-  - **Empirical Results:** `100% Interval Recall` (30/30 edits recovered), `0.0s Boundary Error`, `0.0% Benign False Alarms` across 18 benign controls (speedups, trims, subtitles), and `10/10` SAM 3.1 Spatial Gate passes.
-  - Filter chips allow filtering by individual failure modes (`False Speedup`, `Silent Cut`, `Benign Controls`).
+  - Evaluates 30 scripted FFmpeg edits across 3 CC0 benchmark videos (`sort.mp4`, `cache.mp4`, `serialize.mp4`) across 10 recipes.
+  - **Empirical Results:** `100% Interval Recall` (15/15 intervals recovered across 12 positive cases), `0.0s Boundary Error`, `0.0% Benign False Alarms` across 18 benign controls (speedups, trims, subtitles, compression).
+  - **Failure Boundary Disclosed:** Evaluated on real-world terminal footage (`hyperfine` benchmark animation). Visual coverage fell below the 60% threshold on repetitive frames, resulting in an honest abstention (*"no material omission"* with limitations).
 
 ---
 
-### 4. Verification Intake & Library Ingestion
+### 4. Verification Intake & Technical Catalog Ingestion
 ![Workbench Intake Surface](docs/screenshots/01-workbench-intake.png)
 
-- **Purpose:** Drag-and-drop intake for candidate published edits and source recordings, local media library search, and domain policy enforcement.
-- **Real Run / Real Use Case:** **Pre-Publish Developer QA**
-  - Developers or DevRel teams drop their edited video alongside the raw recording.
-  - Real-time SHA-256 fingerprinting ensures media provenance.
-  - Built-in quick presets (`Try benchmark omission →` and `Try spatial crop demo →`) allow instant single-click demonstration of verified forensic cases.
+- **Purpose:** Single-input intake for candidate published edits, operator-reviewed technical catalog lookup, and domain policy enforcement.
+- **Real Run / Real Use Case:** **Single-Edit Investigation**
+  - Users submit an edited video. The pipeline verifies content admission against the domain policy (developer tutorials, benchmarks, product claims).
+  - Catalog retrieval compares admitted candidates deterministically.
+  - Presets allow instant inspection of verified forensic cases and saved dossiers.
 
 ---
 
-## Gates (Friday Oct 30)
+## Capabilities & Validation Matrix
 
-| Gate | Target Capability | Threshold | Result | Status | Action Taken |
-|---|---|---|---|:---:|---|
-| **G1: Muse Voice Transcribe** | API existence & word timestamps | API returns word-level timestamps | `model_not_found` (404) | **FAIL** | Dropped from claims; fallback to acoustic normalized cross-correlation & local alignment. |
-| **G2: SAM 3.1 Screen Crops** | 10 screen/tutorial crop masks | Pixel Recall >= 70% | 10/10 passed (Recall > 99.9%, IoU ~84%) | **PASS** | Passed; built deterministic crop/reframe detector with SAM 3.1 integration (`crop_detector.py`). |
-| **G3: Cut Interval Pipeline** | Correct cut intervals on real scripted edit | Recall >= 80%, False Alarms < 10% | Recall: 100%, Error: 0.0s, False Alarms: 0.0% | **PASS** | Validated across 10-edit baseline and 30-edit benchmark. |
+| Capability | Component | Status | Empirical Evidence & Boundaries |
+|---|---|:---:|---|
+| **Temporal Omission Recovery** | 4 Hz spatial color sequence (`spatial-color-sequence-v2`) & normalized acoustic correlation | **Measured / Passing** | 15/15 intervals recovered across 12 positive cases in frozen `execution-v1` (30 cases total), 0.0 s mean boundary error, 0/18 benign alarms. Exact recovery of 6–10 s deletion in cache qualification case. Fails on repetitive terminal animation (hyperfine candidate: 46.3% coverage, abstains). |
+| **Spatial Crop Bounds** | Multi-scale template matching (`crop_detector.py`) | **Measured / Passing** | Exact retained box `[0, 0, 960, 720]` (25% area cut) on cache crop fixture; caliper geometry isolates omitted margins. |
+| **Grounded Semantic Review** | Meta Muse Spark 1.2 (`meta.py`, `context-review-v5-bounded-frames`) | **Integrated / Bounded** | Requests bounded to measured omissions (<=2 clips, <=30 s, 3 timed 720p frames each). Citations strictly bounds-checked. Reads cache qualification, observes generic edit conditions, and reports `inconclusive`. Valid timestamps do not prove semantic accuracy. |
+| **Screen-Content Segmentation** | Meta SAM 3.1 (`scripts/run_sam_gate.py`, `scripts/run_cache_qualification_sam.py`) | **Experimental** | Replay of 10 frozen chart-bar crops passes (>99.9% pixel recall, ~84% IoU). Standalone live panel test with concept prompt returned zero masks (failed). Operational crop margins use OpenCV geometry, not SAM masks. |
+| **Technical Source Discovery** | Registered catalog & local collection (`library.py`) | **Bounded Scope** | Ranks up to 4 registered technical sources + local collection (capped at 20). Untrusted captions rank metadata; deterministic correspondence independently selects media. Not internet-wide reverse search. |
+| **Content Admission Gate** | Fail-closed domain policy (`domain_policy.py`) | **Enforced Policy** | Restricts to developer tutorials, benchmarks, product demos. Excludes politics, elections, news, wartime, public figures. Local operator receipts bind exact SHA-256; not an automatic classifier. |
 
 ## Frozen Evaluation Contract & Results
 

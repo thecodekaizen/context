@@ -2038,6 +2038,32 @@ footer {
   border: 1px solid rgba(133, 116, 255, 0.3);
 }
 
+.source-coverage-pill.audio {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.lane-coverage-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  font-size: 19px;
+  line-height: 1.2;
+}
+
+.lane-coverage-summary small {
+  font-size: 11px;
+  font-weight: 500;
+  color: #7d93a0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.lane-coverage-divider {
+  color: #3a4b56;
+}
+
 .matched-source-banner h4 {
   margin: 0;
   font-size: 14px;
@@ -3346,6 +3372,12 @@ kbd {
   color: var(--subtle);
   font: 8px var(--mono);
   letter-spacing: 0.08em;
+}
+.player-foot-time {
+  font-variant-numeric: tabular-nums;
+  color: #c8d6e9;
+  font-weight: 600;
+  margin-left: 8px;
 }
 .video-viewport {
   position: relative;

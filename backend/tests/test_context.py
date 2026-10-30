@@ -5,7 +5,7 @@ import httpx
 import pytest
 from context_core.alignment import analyze
 from context_core.context_pack import build_pack, plan_clips
-from context_core.media import probe
+from context_core.media import digest, probe
 from context_core.meta import interpret, validate_interpretation
 
 pytestmark = pytest.mark.usefixtures("reviewed_clips")
@@ -44,6 +44,11 @@ def test_pack(clips, evidence, tmp_path):
         )
         assert len(clip["sha256"]) == 64
         assert not clip["has_audio"]
+        assert len(clip["frames"]) == 3
+        for frame in clip["frames"]:
+            assert 0 <= frame["clip_local_seconds"] < clip["end"] - clip["start"]
+            assert frame["media_seconds"] == clip["start"] + frame["clip_local_seconds"]
+            assert digest(frame["path"]) == frame["sha256"]
 
 
 def test_citation_translation(evidence):
@@ -87,6 +92,16 @@ def test_meta_request(evidence, tmp_path, monkeypatch):
         path = tmp_path / (clip["id"] + ".mp4")
         path.write_bytes(b"test-video")
         clip.update(path=str(path), has_audio=False, sha256="test")
+        frame = tmp_path / (clip["id"] + ".jpg")
+        frame.write_bytes(b"mocked-image-payload")
+        clip["frames"] = [
+            {
+                "path": str(frame),
+                "sha256": digest(frame),
+                "clip_local_seconds": 1.0,
+                "media_seconds": clip["start"] + 1.0,
+            }
+        ]
 
     def handler(request):
         body = json.loads(request.content)
@@ -96,6 +111,9 @@ def test_meta_request(evidence, tmp_path, monkeypatch):
             v["video_url"].startswith("data:video/mp4;base64,") for v in videos
         )
         assert "path" not in body["input"][0]["content"][0]["text"]
+        images = [c for c in body["input"][0]["content"] if c["type"] == "input_image"]
+        assert len(images) == 2
+        assert all(c["image_url"].startswith("data:image/jpeg;base64,") for c in images)
         return httpx.Response(
             200,
             json={
@@ -114,6 +132,46 @@ def test_meta_request(evidence, tmp_path, monkeypatch):
     )
     assert result["basis"] == "bounded_video_excerpts"
     assert result["citation_status"] == "bounds_checked_not_independently_verified"
+    assert all("path" not in f for c in result["clips"] for f in c["frames"])
+
+
+@pytest.mark.parametrize("invalid", ["outside_window", "changed_bytes", "too_many"])
+def test_invalid_bounded_frames_never_reach_provider(
+    evidence, tmp_path, monkeypatch, invalid
+):
+    monkeypatch.setenv("MODEL_API_KEY", "test-key")
+    pack = plan_clips(evidence, "f0")
+    for clip in pack:
+        video = tmp_path / (clip["id"] + ".mp4")
+        video.write_bytes(b"mock-video")
+        image = tmp_path / (clip["id"] + ".jpg")
+        image.write_bytes(b"mock-image")
+        clip.update(
+            path=str(video),
+            has_audio=False,
+            sha256=digest(video),
+            frames=[
+                {
+                    "path": str(image),
+                    "sha256": digest(image),
+                    "clip_local_seconds": 1.0,
+                }
+            ],
+        )
+    if invalid == "outside_window":
+        pack[0]["frames"][0]["clip_local_seconds"] = pack[0]["end"] - pack[0]["start"]
+    elif invalid == "changed_bytes":
+        pack[0]["frames"][0]["sha256"] = "0" * 64
+    else:
+        pack[0]["frames"] *= 4
+
+    def forbidden(request):
+        pytest.fail("Invalid bounded frame reached the network transport")
+
+    with pytest.raises(ValueError, match="[Ff]rame"):
+        asyncio.run(
+            interpret(evidence, "f0", pack, transport=httpx.MockTransport(forbidden))
+        )
 
 
 def test_missing_key(evidence, monkeypatch):

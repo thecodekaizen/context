@@ -23,7 +23,6 @@ function App() {
 
   // Single-video investigation state
   const [dossier, setDossier] = useState<Dossier | null>(null);
-  const [semanticExample, setSemanticExample] = useState<string | null>(null);
   const [dossierInputMode, setDossierInputMode] = useState<"upload" | "url">(
     "upload",
   );
@@ -76,7 +75,6 @@ function App() {
       .then((r) => r.json())
       .then((data) => {
         setFilmAvailable(Boolean(data.film_demo_available));
-        setSemanticExample(data.semantic_example_id || null);
       })
       .catch(() => {});
 
@@ -100,6 +98,7 @@ function App() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || "Failed to load dossier");
       setDossier(data);
+      setAppMode("investigation");
       const url = new URL(window.location.href);
       url.searchParams.set("dossier", id);
       window.history.replaceState(null, "", url);
@@ -462,10 +461,11 @@ function App() {
                       Investigate footage from <span>ONE input.</span>
                     </h1>
                     <p>
-                      Upload a reviewed technical demo. CONTEXT searches your registered
-                      source catalog and local references, tests correspondence, and
-                      asks Meta to explain only grounded omissions. A missing match
-                      remains unresolved; this is not an internet-wide video search.
+                      Upload a reviewed technical demo. CONTEXT searches your
+                      registered source catalog and local references, tests
+                      correspondence, and asks Meta to explain only grounded
+                      omissions. A missing match remains unresolved; this is not
+                      an internet-wide video search.
                     </p>
 
                     {recentDossiers.length > 0 && (
@@ -519,8 +519,11 @@ function App() {
 
                     {dossierInputMode === "upload" ? (
                       <div className="launch-field">
-                        <label>01 SELECT VIDEO (MP4, WEBM, MOV)</label>
+                        <label htmlFor="investigation-video">
+                          01 SELECT VIDEO (MP4, WEBM, MOV)
+                        </label>
                         <input
+                          id="investigation-video"
                           type="file"
                           accept="video/*"
                           disabled={dossierBusy}
@@ -531,9 +534,7 @@ function App() {
                       </div>
                     ) : (
                       <div className="launch-field">
-                        <label>
-                          01 SUPPORTED DIRECT MEDIA URL
-                        </label>
+                        <label>01 SUPPORTED DIRECT MEDIA URL</label>
                         <input
                           type="url"
                           className="launch-input-text"
@@ -639,7 +640,7 @@ function App() {
                       className={`pipeline-step ${dossierStage === "retrieving" ? "active" : dossierStage === "verifying" || dossierStage === "complete" ? "done" : ""}`}
                     >
                       <div className="step-num">4</div>
-                      <span>Live Web Search</span>
+                      <span>Grounding gate</span>
                     </div>
                     <div
                       className={`pipeline-step ${dossierStage === "verifying" ? "active" : dossierStage === "complete" ? "done" : ""}`}
@@ -655,7 +656,8 @@ function App() {
                     </div>
                   </div>
                   <p style={{ color: "#8fa1ae", fontSize: 11, margin: 0 }}>
-                    Matching source candidates and checking omission intervals before model review...
+                    Matching source candidates and checking omission intervals
+                    before model review...
                   </p>
                 </div>
               )}
@@ -730,7 +732,13 @@ function App() {
                     </p>
                   </div>
                   <aside className="upload">
-                    <div className="eyebrow">COMPARE TWO FOOTAGES</div><button className="quiet single-input-entry" onClick={() => setAppMode("investigation")}>Investigate a single edit ↗</button>
+                    <div className="eyebrow">COMPARE TWO FOOTAGES</div>
+                    <button
+                      className="quiet single-input-entry"
+                      onClick={() => setAppMode("investigation")}
+                    >
+                      Investigate a single edit ↗
+                    </button>
                     <label>
                       01 <span>Original source</span>
                       <input

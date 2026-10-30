@@ -98,9 +98,24 @@ export function ArtifactExport({
               <strong>
                 {evidence?.coverage != null
                   ? `${(evidence.coverage * 100).toFixed(1)}%`
-                  : "Not available"}
+                  : dossier?.matched_source?.coverage != null
+                    ? `${(dossier.matched_source.coverage * 100).toFixed(1)}%`
+                    : "Not available"}
               </strong>
             </div>
+            {(dossier?.matched_source?.audio_coverage != null ||
+              (evidence as any)?.audio_coverage != null) && (
+              <div>
+                <span>AUDIO COVERAGE</span>
+                <strong>
+                  {(
+                    ((dossier?.matched_source?.audio_coverage ??
+                      (evidence as any)?.audio_coverage) as number) * 100
+                  ).toFixed(1)}
+                  %
+                </strong>
+              </div>
+            )}
             <div>
               <span>MATCH CONFIDENCE · MEAN</span>
               <strong>

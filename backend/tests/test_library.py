@@ -116,3 +116,14 @@ def test_low_visual_coverage_does_not_suppress_independent_audio(monkeypatch, tm
     assert report["selection_basis"] == "audio_correspondence"
     assert evidence["coverage"] == 0.1
     assert evidence["status"] == "insufficient_evidence"
+
+
+def test_exact_bytes_resolve_static_source_without_visual_guessing(clips, tmp_path):
+    add_source(tmp_path, clips / "unknown.mp4", "Static technical calibration")
+    report, evidence = rank_sources(tmp_path, clips / "unknown.mp4")
+    assert report["status"] == "matched"
+    assert report["selection_basis"] == "byte_identity"
+    assert evidence["method"]["name"] == "sha256-byte-identity"
+    assert evidence["coverage"] == 1
+    assert evidence["findings"] == []
+    assert evidence["segments"][0]["source_start"] == 0

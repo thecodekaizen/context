@@ -475,14 +475,11 @@ async def investigate(
     write(directory, data)
     try:
         data["media"] = await run_in_threadpool(prepare, directory)
-        root_data = Path(__file__).resolve().parents[2] / "data"
         library = (
             Path(library_root)
             if library_root is not None
             else directory.parent / "library"
         )
-        if library_root is None and not library.is_dir():
-            library = root_data / "library"
         data["stage"] = "retrieving"
         write(directory, data)
         # No whole-video model observation, model-written URLs or news fact-check.

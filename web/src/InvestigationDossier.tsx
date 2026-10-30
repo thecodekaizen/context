@@ -192,10 +192,20 @@ export function InvestigationDossier({
 
         {dossier.model_configuration && (
           <p className="model-provenance">
-            Analyzed with {dossier.model_configuration.video_model} ·{" "}
-            {dossier.model_configuration.provider === "local"
-              ? "Sampled images only; audio and online search disabled"
-              : "Video, available audio and external evidence"}
+            {dossier.pipeline === "deterministic_first" ? (
+              <>
+                Interpretation model: {dossier.model_configuration.video_model}{" "}
+                · {completedComparisons.length} completed bounded review(s). No
+                whole-video model analysis or web fact-check was run.
+              </>
+            ) : (
+              <>
+                Analyzed with {dossier.model_configuration.video_model} ·{" "}
+                {dossier.model_configuration.provider === "local"
+                  ? "Sampled images only; audio and online search disabled"
+                  : "Video, available audio and external evidence"}
+              </>
+            )}
           </p>
         )}
         {analysis && analysis.claims.length === 0 && (
@@ -206,23 +216,66 @@ export function InvestigationDossier({
         )}
         {/* High-level metrics row */}
         <div className="dossier-metrics">
-          <div className="metric-card contradicted">
-            <div className="metric-val">{contradictedCount}</div>
-            <div className="metric-lbl">Contradicted Claims</div>
-          </div>
-          <div className="metric-card supported">
-            <div className="metric-val">{supportedCount}</div>
-            <div className="metric-lbl">Source-Supported Claims</div>
-          </div>
-          <div className="metric-card inconclusive">
-            <div className="metric-val">{inconclusiveCount}</div>
-            <div className="metric-lbl">Inconclusive / Unproven</div>
-          </div>
+          {dossier.pipeline === "deterministic_first" ? (
+            <>
+              <div className="metric-card sources">
+                <div className="metric-val">
+                  {dossier.matched_source?.coverage == null ? (
+                    "—"
+                  ) : dossier.matched_source.audio_coverage != null ? (
+                    <div className="lane-coverage-summary">
+                      <span>
+                        {Math.round(dossier.matched_source.coverage * 100)}%{" "}
+                        <small>visual</small>
+                      </span>
+                      <span className="lane-coverage-divider">·</span>
+                      <span>
+                        {Math.round(dossier.matched_source.audio_coverage * 100)}%{" "}
+                        <small>audio</small>
+                      </span>
+                    </div>
+                  ) : (
+                    `${Math.round(dossier.matched_source.coverage * 100)}%`
+                  )}
+                </div>
+                <div className="metric-lbl">Correspondence coverage</div>
+              </div>
+              <div className="metric-card inconclusive">
+                <div className="metric-val">
+                  {dossier.omission_evidence?.omissions.length ?? 0}
+                </div>
+                <div className="metric-lbl">Grounded omissions</div>
+              </div>
+              <div className="metric-card supported">
+                <div className="metric-val">{completedComparisons.length}</div>
+                <div className="metric-lbl">Bounded reviews</div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="metric-card contradicted">
+                <div className="metric-val">{contradictedCount}</div>
+                <div className="metric-lbl">Contradicted Claims</div>
+              </div>
+              <div className="metric-card supported">
+                <div className="metric-val">{supportedCount}</div>
+                <div className="metric-lbl">Source-Supported Claims</div>
+              </div>
+              <div className="metric-card inconclusive">
+                <div className="metric-val">{inconclusiveCount}</div>
+                <div className="metric-lbl">Inconclusive / Unproven</div>
+              </div>
+            </>
+          )}
           <div className="metric-card sources">
             <div className="metric-val">
               {sources.filter((s) => s.fetch_status === "fetched").length}
             </div>
-            <div className="metric-lbl">Checked Sources</div>
+            <div className="metric-lbl">
+              {dossier.pipeline === "deterministic_first"
+                ? "Acquired Candidates"
+                : "Checked Sources"}
+            </div>
           </div>
         </div>
       </section>
@@ -278,7 +331,11 @@ export function InvestigationDossier({
           className={`dossier-tab ${tab === "claims" ? "active" : ""}`}
           onClick={() => setTab("claims")}
         >
-          03 Claims & Fact-Check ({findings.length})
+          03{" "}
+          {dossier.pipeline === "deterministic_first"
+            ? "Supplied Claim"
+            : "Claims & Fact-Check"}{" "}
+          ({findings.length})
         </button>
         <button
           className={`dossier-tab ${tab === "sources" ? "active" : ""}`}
@@ -303,7 +360,11 @@ export function InvestigationDossier({
               <div className="card-box">
                 <div className="card-header">
                   <span className="card-eyebrow">OBSERVATIONS BREAKDOWN</span>
-                  <h3>What the Footage Shows</h3>
+                  <h3>
+                    {dossier.pipeline === "deterministic_first"
+                      ? "Measured correspondence"
+                      : "What the Footage Shows"}
+                  </h3>
                 </div>
                 <p className="section-desc">{analysis?.summary}</p>
 
@@ -362,6 +423,15 @@ export function InvestigationDossier({
                       {Math.round((dossier.matched_source.coverage || 0) * 100)}
                       % visual coverage
                     </span>
+                    {dossier.matched_source.audio_coverage != null && (
+                      <span
+                        className="source-coverage-pill audio"
+                        style={{ marginLeft: "6px" }}
+                      >
+                        {Math.round(dossier.matched_source.audio_coverage * 100)}
+                        % audio coverage
+                      </span>
+                    )}
                   </div>
                   <h4>{dossier.matched_source.source_name}</h4>
                   <p className="matched-banner-desc">
@@ -399,7 +469,11 @@ export function InvestigationDossier({
                   <span className="card-eyebrow">
                     SOURCE-LINKED ASSESSMENTS
                   </span>
-                  <h3>Claims vs. External Evidence</h3>
+                  <h3>
+                    {dossier.pipeline === "deterministic_first"
+                      ? "Supplied claim · unverified"
+                      : "Claims vs. External Evidence"}
+                  </h3>
                 </div>
 
                 <div className="findings-stream">
@@ -657,9 +731,9 @@ export function InvestigationDossier({
             <div className="section-heading">
               <h2>Automatically Discovered Sources</h2>
               <p>
-                Sources retained from the investigation's search receipts. No
-                URLs were manually supplied. Full text fetched and cached
-                strictly within verified public domains.
+                {dossier.pipeline === "deterministic_first"
+                  ? "Candidates retrieved from your registered technical catalog and local references. Provenance was registered in advance; a title match does not establish footage identity."
+                  : "Historical search receipts and retained document evidence. These are not current-domain admission decisions."}
               </p>
             </div>
 
@@ -670,20 +744,24 @@ export function InvestigationDossier({
                     <span className="source-id-badge">{s.id}</span>
                     <span className={`fetch-status-badge ${s.fetch_status}`}>
                       {s.fetch_status === "fetched"
-                        ? "Fetched (200 OK)"
-                        : "Coverage Bound"}
+                        ? dossier.pipeline === "deterministic_first"
+                          ? "Media bytes checked"
+                          : "Fetched (200 OK)"
+                        : "Unavailable / excluded"}
                     </span>
                   </div>
 
                   <h3 className="source-title">{s.title || s.url}</h3>
-                  <a
-                    href={s.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="source-url-link"
-                  >
-                    {s.url} ↗
-                  </a>
+                  {s.url && (
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="source-url-link"
+                    >
+                      {s.url} ↗
+                    </a>
+                  )}
 
                   {s.search_snippet && (
                     <p className="search-snippet">{s.search_snippet}</p>
@@ -700,8 +778,10 @@ export function InvestigationDossier({
                         }
                       >
                         {expandedSource === s.id
-                          ? "Hide Extracted Text"
-                          : `View Extracted Text (${s.text.length} chars)`}
+                          ? "Hide source details"
+                          : dossier.pipeline === "deterministic_first"
+                            ? "View provenance details"
+                            : `View Extracted Text (${s.text.length} chars)`}
                       </button>
                       {expandedSource === s.id && (
                         <pre className="source-pre">

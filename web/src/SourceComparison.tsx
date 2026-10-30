@@ -95,7 +95,11 @@ export function SourceComparison({ dossier }: { dossier: Dossier }) {
       </header>
       <p className="comparison-provenance">
         Source: {matched.source_name} ·{" "}
-        {matched.discovery === "registered_technical_catalog" ? "Retrieved from registered technical source catalog" : matched.discovery === "NASA_catalog_search" ? "Legacy catalog provenance (historical record)" : "Matched in provided local collection"}
+        {matched.discovery === "registered_technical_catalog"
+          ? "Retrieved from registered technical source catalog"
+          : matched.discovery === "NASA_catalog_search"
+            ? "Legacy catalog provenance (historical record)"
+            : "Matched in provided local collection"}
         .{" "}
         {matched.basis === "audio_only"
           ? "Audio match only: matching sound does not authenticate the images."
@@ -244,8 +248,10 @@ export function SourceComparison({ dossier }: { dossier: Dossier }) {
       <p className="comparison-uncertainty">
         Edits are measured separately from interpretation. A meaning change is a
         model assessment of these excerpts, not proof of deception or a
-        whole-video truth verdict. Caption claims have separate document-backed
-        assessments below.
+        whole-video truth verdict.{" "}
+        {dossier.pipeline === "deterministic_first"
+          ? "The supplied caption remains unverified."
+          : "Historical caption claims have separate document-backed assessments below."}
       </p>
     </section>
   );

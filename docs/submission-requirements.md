@@ -15,8 +15,14 @@ The representative must match the accepted participant/team registration.
 The public event information does not establish a required three-minute video
 length or mandatory repository visibility. Our three-minute demo is a prepared
 asset, not a claim that those format requirements have been confirmed.
-Authenticated portal fields and final upload limits still need to be checked.
 No terms have been accepted and no project has been submitted by the agent.
+
+## Execution Timeline to Submission
+
+- **Today / Tomorrow (Oct 31 – Nov 1):** Owner inspects the authenticated Cerebral Valley submission portal (`/hackathon/submit`) to confirm required fields, upload formats, character limits, and rule details early.
+- **Monday, Nov 2:** Builder records the 6-chapter authentic voiceover following `docs/demo-script.md`.
+- **Tuesday, Nov 3:** Buffer for any voiceover retakes, video re-render (`hyperframes render`), frame inspection, and final package verification (`scripts/package-release.py`).
+- **Wednesday, Nov 4 (Target: noon ET / 10:30 PM IST; Hard deadline: 9:00 PM ET):** Final owner review and explicit authorization for submission.
 
 ## Prepared project materials
 

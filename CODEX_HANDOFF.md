@@ -1,5 +1,12 @@
 # CODEX MASTER HANDOFF — CONTEXT Video Evidence Workstation
 
+> **Current continuation notice — October 30, 2026:** This document below is a
+> historical snapshot. Read [ANTIGRAVITY_HANDOFF.md](ANTIGRAVITY_HANDOFF.md) for the
+> latest dirty-working-tree state, 184-test verification, actual cache-case model
+> evidence, failed SAM panel test and remaining work through submission. Its
+> corrections supersede the older cosine/crash/SAM-integration and readiness
+> claims below; do not treat this snapshot as proof that only narration remains.
+
 **Timestamp:** October 30, 2026, 1:25 PM IST  
 **Repository:** [https://github.com/thecodekaizen/context](https://github.com/thecodekaizen/context) (Public)  
 **Branch:** `main` (Latest commit: `7f423d1`, working tree clean, pushed to origin)  

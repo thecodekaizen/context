@@ -172,6 +172,28 @@ def router(data_root, lock: Lock):
             report["assessment"] = validate_assessment(
                 assessment_text, report["analysis"], report.get("sources", [])
             )
+            if report.get("pipeline") == "deterministic_first":
+                from .grounded_omissions import grounded_omissions
+
+                evidence_path = target / "evidence.json"
+                grounding = (
+                    grounded_omissions(json.loads(evidence_path.read_text()))
+                    if evidence_path.exists()
+                    else {
+                        "status": "no material omission",
+                        "omissions": [],
+                        "limitations": "No sufficiently supported source correspondence was established.",
+                    }
+                )
+                report["omission_evidence"] = grounding
+                count = len(grounding["omissions"])
+                summary = (
+                    f"{count} internal omission(s) supported by matched media intervals. Inspect bounded review separately."
+                    if count
+                    else "no material omission"
+                )
+                report["analysis"]["summary"] = summary
+                report["assessment"]["summary"] = summary
             if (
                 not report["analysis"]["observations"]
                 and report.get("pipeline") != "deterministic_first"

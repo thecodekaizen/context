@@ -6,6 +6,8 @@ from .media import digest, run
 
 MAX_CLIP_SECONDS = 30
 MAX_CLIP_BYTES = 8 * 1024 * 1024
+MAX_FRAME_BYTES = 1024 * 1024
+FRAME_FRACTIONS = (0.25, 0.5, 0.75)
 
 
 def plan_clips(evidence, finding_id):
@@ -115,4 +117,40 @@ def build_pack(directory, evidence, finding_id):
             sha256=digest(path),
             has_audio=evidence[clip["media"]]["has_audio"],
         )
+        # Preserve readable UI text at three explicitly timed points in the same
+        # bounded window. These sparse frames never establish an omission.
+        clip["frames"] = []
+        for index, fraction in enumerate(FRAME_FRACTIONS):
+            local_time = (clip["end"] - clip["start"]) * fraction
+            frame = target / f"{clip['id']}-frame-{index}.jpg"
+            run(
+                [
+                    "ffmpeg",
+                    "-v",
+                    "error",
+                    "-y",
+                    "-ss",
+                    str(clip["start"] + local_time),
+                    "-i",
+                    str(src),
+                    "-frames:v",
+                    "1",
+                    "-vf",
+                    "scale=1280:720:force_original_aspect_ratio=decrease,setsar=1",
+                    "-q:v",
+                    "3",
+                    str(frame),
+                ]
+            )
+            if frame.stat().st_size > MAX_FRAME_BYTES:
+                frame.unlink()
+                raise ValueError("Bounded frame exceeds the upload size limit")
+            clip["frames"].append(
+                {
+                    "clip_local_seconds": local_time,
+                    "media_seconds": clip["start"] + local_time,
+                    "sha256": digest(frame),
+                    "path": str(frame),
+                }
+            )
     return clips

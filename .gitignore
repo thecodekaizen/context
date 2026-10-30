@@ -19,3 +19,5 @@ demo-video/renders/*
 docs/audit/
 docs/sprint/
 AUDIT_SUMMARY.md
+*.mp4.tmp
+.claude/settings.local.json

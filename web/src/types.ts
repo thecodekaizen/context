@@ -193,6 +193,7 @@ export type Dossier = {
   id: string;
   schema_version?: string;
   pipeline?: "deterministic_first";
+  omission_evidence?: Evidence["omission_evidence"];
   model_configuration?: {
     provider: string;
     video_model: string;

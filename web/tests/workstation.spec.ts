@@ -300,20 +300,16 @@ test("unreviewed uploads show a useful admission error without starting analysis
   page,
 }) => {
   await page.goto("/");
-  await page
-    .getByLabel("Original source", { exact: true })
-    .setInputFiles({
-      name: "trusted-benchmark.mp4",
-      mimeType: "video/mp4",
-      buffer: Buffer.from("unreviewed source fixture"),
-    });
-  await page
-    .getByLabel("Published edit", { exact: true })
-    .setInputFiles({
-      name: "technical-tutorial.mp4",
-      mimeType: "video/mp4",
-      buffer: Buffer.from("unreviewed edit fixture"),
-    });
+  await page.getByLabel("Original source", { exact: true }).setInputFiles({
+    name: "trusted-benchmark.mp4",
+    mimeType: "video/mp4",
+    buffer: Buffer.from("unreviewed source fixture"),
+  });
+  await page.getByLabel("Published edit", { exact: true }).setInputFiles({
+    name: "technical-tutorial.mp4",
+    mimeType: "video/mp4",
+    buffer: Buffer.from("unreviewed edit fixture"),
+  });
   const response = page.waitForResponse(
     (r) => r.url().endsWith("/api/analyze") && r.request().method() === "POST",
   );
@@ -326,4 +322,65 @@ test("unreviewed uploads show a useful admission error without starting analysis
     "Review the exact files locally",
   );
   await expect(page.locator(".forensic-stage")).toHaveCount(0);
+});
+
+test("single-input entry restores a faithful comparison with a supplied reference", async ({
+  page,
+}) => {
+  const { readFileSync } = await import("node:fs");
+  const source = readFileSync(
+    new URL("../../eval/execution-v1/sources/sort.mp4", import.meta.url),
+  );
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Investigate a single edit ↗" })
+    .click();
+  await page.getByLabel("01 SELECT VIDEO (MP4, WEBM, MOV)").setInputFiles({
+    name: "published.mp4",
+    mimeType: "video/mp4",
+    buffer: source,
+  });
+  await page.getByLabel("SOURCE RECORDING (OPTIONAL)").setInputFiles({
+    name: "source.mp4",
+    mimeType: "video/mp4",
+    buffer: source,
+  });
+  await page.getByRole("button", { name: "Launch Investigation ↗" }).click();
+  await expect(page.locator(".source-comparison")).toBeVisible({
+    timeout: 30000,
+  });
+  await expect(page.locator(".summary-text")).toHaveText(
+    "no material omission",
+  );
+  await expect(page.locator(".model-provenance")).toContainText(
+    "0 completed bounded review(s)",
+  );
+  await expect(
+    page.locator(".source-comparison .forensic-stage video"),
+  ).toHaveCount(2);
+  expect(await page.locator(".comparison-details").count()).toBe(0);
+  const url = page.url();
+  expect(url).toContain("dossier=");
+  await page.reload();
+  await expect(page.locator(".source-comparison")).toBeVisible();
+  await expect(page.locator(".summary-text")).toHaveText(
+    "no material omission",
+  );
+  await expect(
+    page.getByRole("slider", { name: "Edited video playhead" }),
+  ).toBeEnabled();
+  await page.getByRole("slider", { name: "Edited video playhead" }).fill("0.5");
+  await expect(page.locator(".transport-time")).toContainText("00:00.500");
+  await expect
+    .poll(() =>
+      page
+        .locator(".source-comparison .forensic-stage video")
+        .first()
+        .evaluate((v: HTMLVideoElement) => v.readyState),
+    )
+    .toBeGreaterThanOrEqual(2);
+  await page.screenshot({
+    path: "test-results/single-input-deterministic.png",
+    fullPage: true,
+  });
 });

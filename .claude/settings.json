@@ -1,0 +1,23 @@
+{
+  "model": "sonnet",
+  "env": {
+    "MAX_THINKING_TOKENS": "8000",
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "50"
+  },
+  "permissions": {
+    "allow": [
+      "Read", "Glob", "Grep", "Edit", "Write",
+      "Bash(git status:*)", "Bash(git diff:*)", "Bash(git log:*)",
+      "Bash(git add:*)", "Bash(git commit:*)", "Bash(git checkout -b:*)",
+      "Bash(bash scripts/t.sh:*)", "Bash(python -m pytest:*)",
+      "Bash(npm run build:*)", "Bash(npm run lint:*)",
+      "Bash(ffmpeg:*)", "Bash(ffprobe:*)", "Bash(ls:*)", "Bash(wc:*)"
+    ],
+    "deny": [
+      "Read(./.env)", "Read(./.env.*)",
+      "Read(./**/node_modules/**)", "Read(./**/dist/**)", "Read(./**/.venv/**)",
+      "Read(./**/*.mp4)", "Read(./**/*.mov)", "Read(./**/*.wav)",
+      "Bash(rm -rf:*)", "Bash(git push --force:*)", "Bash(git reset --hard:*)", "Bash(sudo:*)"
+    ]
+  }
+}

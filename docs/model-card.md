@@ -1,37 +1,49 @@
-# CONTEXT Model & Capability Card
+# CONTEXT model and capability card
 
-**Version:** 1.0 (Meta Global AI Developer Hackathon 2026)  
-**Repository:** [https://github.com/thecodekaizen/context](https://github.com/thecodekaizen/context)  
-**Primary Integration:** Meta Muse Spark 1.2 & Meta SAM 3.1
+Updated October 30, 2026. Current integration claims supersede earlier broad SAM
+and cosine-alignment descriptions. See [hero-validation.md](hero-validation.md)
+for recorded runs, failures and exact scope.
 
----
+## Deterministic evidence
 
-## 1. Overview & Architecture Role
+The visual matcher samples spatial color features at 4 Hz and uses mean absolute
+feature distance (`spatial-color-sequence-v2`); it is not a cosine matcher.
+Acoustic normalized correlation is an independent lane. Crop geometry uses
+OpenCV template matching. No-match is an abstention, not proof of fidelity.
 
-CONTEXT is a deterministic-first video evidence workstation that investigates deceptive edits in **developer tutorials, software benchmark demos, and commercial product claims**. 
+## Muse Spark 1.2
 
-The system enforces a strict boundary between mathematical signal alignment and generative AI reasoning:
-- **Signal-Level Grounding:** Mathematical alignment (4Hz visual cosine distance and normalized acoustic cross-correlation) isolates matching footage and omission intervals.
-- **Generative AI Role:** Foundation models are **never** permitted to guess, invent, or assert an ungrounded omission. The Meta model is only invoked on verified, grounded intervals to explain potential semantic consequences.
+Only verified internal omission intervals may trigger review. The pack contains
+at most two clips, each capped at 30 s and 8 MiB, and three timed JPEGs per clip
+fitted to 1280×720, capped at 1 MiB each. JPEGs derive from the same bounded
+windows and preserve readable UI text. Hashes, clip-local and media times are
+recorded. Changed frame bytes and invalid timestamps are rejected before dispatch.
 
----
+Outputs separate observations, possible effect, classification and uncertainty.
+Citation validation checks referenced clip IDs and time bounds, not the truth of
+observations or causal effect. Sparse images cannot establish absence throughout
+an entire video. A non-inconclusive classification needs citations from both media.
+Model statements remain separate from measured evidence.
 
-## 2. Meta AI Model Integration
+In the authored cache case, the original video-only pack returned `harmless_edit`
+and missed the visible qualification. The revised pack read it and described its
+possible effect but returned `inconclusive`. Both runs are retained. This is one
+exploratory comparison, not independent semantic accuracy validation.
 
-### A. Meta Muse Spark 1.2 (Bounded Semantic Interpretation)
-* **Input Pack:** Receives two tightly bounded video excerpts: the original source context around the omission and the published edit boundary context (embedded audio preserved).
-* **Output:** Generates structured semantic observations, potential effects on viewer interpretation, and epistemic uncertainty statements.
-* **Strict Citation Guardrail:** Every observation must cite specific clip IDs and timestamps. The server validates that all citations point strictly within the provided excerpt windows; any ungrounded assertion is automatically rejected.
-* **Epistemic Segregation:** Model reviews are stored separately (`interpretation-<id>.json`) and visually differentiated from measured physical findings.
+## SAM 3.1
 
-### B. Meta SAM 3.1 (Spatial Crop & Peripheral Segmentation)
-* **Capability:** Segments peripheral disclaimers, benchmark hardware configurations, non-standard compile flags, and UI disclaimer widgets cut out of frame when widescreen videos are cropped for mobile.
-* **Evaluation Performance:** Passed the SAM 3.1 spatial crop gate with **> 99.9% pixel recall** and **~84% IoU** across multi-scale spatial reframing cases.
+The operational crop overlay is geometric; SAM masks are not integrated into it.
+A separate frozen chart-bar segmentation experiment passes 10/10 on replay of
+saved API events. It does not establish disclaimer recognition or temporal tracking.
 
----
+A fresh live test on the authored cache conditions panel returned zero masks and
+failed the predeclared recall/IoU thresholds. The failure and replay are retained.
+Do not attribute the live margin overlay to SAM or claim proven disclaimer tracking.
 
-## 3. Epistemic Guardrails & Safety Boundaries
+## Limits
 
-1. **Domain Boundary (Strict Whitelist):** Restricted exclusively to developer tutorials, benchmark demos, and product claims. Explicitly prohibits analysis of elections, political campaigns, wartime footage, or real public figures.
-2. **Honest Failure Boundaries:** When an edit undergoes non-linear time warping (dynamic time remapping) or rapid jump-cuts below the 4Hz aligner resolution, CONTEXT safely abstains and outputs *"no material omission"*.
-3. **Evidence Before Assertion:** An edit is never labeled as "fake" or "deceptive" solely because an original source cannot be found. If no correspondence is established, the output remains strictly inconclusive.
+Only reviewed developer tutorials, software benchmarks and product demos are
+admitted. Byte-bound local reviews are operator trust records, not signed identity
+or automatic content classification. Source discovery is limited to a registered
+catalog/local collection. Controlled evaluation success does not establish general
+video performance: a known external hyperfine deletion remains missed.

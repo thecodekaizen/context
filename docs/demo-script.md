@@ -1,53 +1,40 @@
-# CONTEXT: 3-Minute Demo Script & Storyboard
+# CONTEXT demo script — evidence-aligned draft
 
-**Meta Global AI Developer Hackathon 2026**  
-**Target Duration:** Exactly 3:00 minutes (180 seconds)  
-**Track:** Solo / Indie Developer Track  
-**Rule:** Authentic builder voice only (no synthetic/cloned speech). Every claim backed by repo data.
+Updated October 31, 2026. Aligned with the Pre-Publication QA workflow and the
+exact Python cache qualification hero clip (4-second omission: 00:06.000–00:10.000).
 
----
+Three minutes is our editorial target, not a verified portal requirement. Record
+in the builder's own voice on Monday, leaving Tuesday for retakes and final render.
+Timing is a storyboard budget; narration duration has not been measured.
 
-## 3-Minute Timeline Overview
+## Pre-Publication QA demonstrable story
 
-| Timecode | Section | Visual on Screen | Spoken Narration (Builder Voice) | Grounded Repo Evidence |
-|---|---|---|---|---|
-| **0:00–0:25** | **The Hook & Reveal** | Play misleading 12-second clip where benchmark claims "100x speedup with zero errors". Then immediately snap to side-by-side reveal showing the 5 seconds cut out where cache memory spiked and crashed. | *"Watch this developer demo. The edited clip claims a 100x performance breakthrough. But when you align it with the original recording, you instantly see what was cut: seconds 5 to 10, where the benchmark memory spiked and threw an out-of-memory error."* | `eval/execution-v1/sources/sort.mp4` vs `sort-omission.mp4`; 5-second omitted interval. |
-| **0:25–0:55** | **The Core Problem & Architectural Rule** | Graphic showing the trap of "hallucinating analyzers" vs CONTEXT's deterministic-first architecture diagram. | *"Misleading edits of developer tutorials, benchmark demos, and product claims cut out critical qualifications. But you cannot simply ask a foundation model to guess what was cut—models hallucinate omissions that never existed. CONTEXT enforces a strict non-negotiable rule: deterministic alignment first. If our acoustic and visual aligner finds no correspondence, the output is 'no material omission'. The Meta model is only permitted to reason over verified, grounded intervals."* | Architecture rule in README; evidence contract `{source_start, source_end, edit_position, confidence}`. |
-| **0:55–1:50** | **Live Pipeline & Side-by-Side Review** | Live run in CONTEXT workstation: upload candidate clip, trace against source. Dual-player timeline scrubbers lock together. Clicking omission card seeks source player directly to the missing cut. | *"Here's a live run. The aligner chunks the media, downsamples 4Hz visual feature grids, and runs normalized acoustic cross-correlation. Within seconds, it locks the correspondence with sub-second accuracy. Notice our dual player: scrubbing the edited video synchronously drives the source. When we click the omission card, it reveals the excised footage. Meta Muse Spark 1.2 explains the exact semantic consequence, bounded strictly by our citation checker: any explanation citing timestamps outside the evidence is rejected."* | `SourceComparison.tsx`, synchronized playback, `grounded_omissions.py`, `meta.py` bounded citations. |
-| **1:50–2:20** | **Spatial Crop & Reframe (SAM 3.1)** | Switch to vertical mobile reframe case (`crop_omission`). Green dashed bounding box highlights retained area; red shaded overlay highlights the peripheral chart and disclaimer cropped out. | *"Deceptive cuts aren't just temporal—they're spatial. When a widescreen tutorial is reframed or cropped for mobile, key disclaimers and benchmark sidebars vanish. Having passed our SAM 3.1 gate with over 99% pixel recall, CONTEXT runs multi-scale spatial alignment and uses SAM 3.1 to segment and shade the exact peripheral elements cut out of frame."* | `crop_detector.py`, SAM 3.1 gate (`10/10` passed, IoU `0.84`), SVG margin overlay. |
-| **2:20–2:45** | **Evaluation & Quantitative Proof** | Display frozen benchmark table and charts: 30 scripted edits across 3 sources, 18 benign controls. | *"Every claim here is backed by reproducible numbers. Before writing a line of tuning code, we froze a labeled eval contract: 30 automated FFmpeg edits, including 18 benign controls—intro trims, 1.25x speed-ups, subtitles, re-encodes, and reorders. Our thresholds were fixed beforehand: at least 80% recall and under 10% false alarms. CONTEXT scored 100% interval recall, 0.0 seconds mean boundary error, and exactly zero false alarms on benign edits."* | `eval/execution-v1/full-results/RESULTS.md`; 30/30 passed; 0% false alarms. |
-| **2:45–3:00** | **Meta Model Attribution & Honest Failure** | Summary screen showing model roles, repo link, and the honest failure case. | *"Here's what each Meta model did: Muse Spark 1.2 provided bounded semantic interpretation; SAM 3.1 powered spatial reframe segmentation. And here is our honest failure case: when an edit undergoes aggressive non-linear speed changes or extreme jump-cuts, the aligner safely abstains rather than making a false accusation. CONTEXT is reproducible with one Docker command. Code, benchmarks, and data are public in our repository."* | Model attribution table, `Dockerfile`, reproducible commands. |
+- **The Problem:** An editor cuts a 18-second benchmark demo down to 14 seconds to hit
+  a runtime target. In doing so, the editor trimmed seconds 6–10, unaware that the
+  side conditions panel displayed "WARM CACHE ONLY" and "COLD-START SETUP EXCLUDED"
+  during those four seconds.
+- **The Audit:** The engineering lead or reviewer drops both versions into CONTEXT.
+- **The Discovery:** CONTEXT pinpoints the 4-second cut, locks the dual player, and
+  Meta Muse Spark 1.2 reads the excised qualification text. The team catches the
+  unintended omission before publishing.
+- **The Boundaries:** Real-world noise differs from scripted edits; 0/18 benign controls
+  statistically bounds false alarms to <16.7% (rule of three). Repetitive terminal
+  footage safely abstains. SAM 3.1 is experimental (chart bars only).
 
----
+| Time | Screen action | Draft builder narration |
+|---|---|---|
+| 0:00–0:25 | Edited highlight, then recovered source interval | “Before publishing a benchmark demo or technical highlight, how does an engineering team verify what the video edit cut out? An editor tightening a recording might trim four seconds to hit a runtime target without realizing those seconds carried an essential caveat. CONTEXT finds the excised interval and lets your team inspect the evidence before you publish.” |
+| 0:25–0:55 | Pre-publication intake and deterministic trace | “Here is the workflow. The reviewer submits the cut highlight alongside the raw recording. CONTEXT runs 4 Hz visual matching and acoustic cross-correlation to measure the correspondence—no model guessing. Within seconds, it locks the timeline and flags the exact four-second omission from seconds six to ten.” |
+| 0:55–1:50 | Synchronized dual-player, 'WARM CACHE' reveal, Muse review | “Notice our synchronized dual player: scrubbing the edit drives the raw source in lockstep. When we click the omission card, the source exposes the excised footage. And here is the discovery: during those four missing seconds, the source displayed 'WARM CACHE ONLY' and 'COLD-START EXCLUDED'—which was completely missing in the cut. Bounded Meta Muse Spark 1.2 reads the qualification text and explains its potential interpretive impact, while honestly reporting inconclusive on whether meaning changed throughout the clip. The team catches the unintended omission before publishing.” |
+| 1:50–2:20 | Cache crop calipers, then separately labeled SAM experiment | “Spatial changes are audited separately. When a widescreen recording is reframed, OpenCV geometry measures the exact retained box—here, 25% of the frame was cropped out, removing the entire right-side conditions panel. Separately, we evaluated Meta SAM 3.1: it passed on ten frozen chart-bar crops, but returned zero masks on the live conditions panel. So the live margin overlay is strictly geometric evidence, not an AI claim.” |
+| 2:20–2:45 | Evaluation matrix with scripted-case scope visible | “Every metric is evaluated on a frozen contract: thirty scripted FFmpeg scenarios across three benchmark sources. It recovered all fifteen labeled omission intervals across twelve positive cases with zero boundary error, and produced zero false alarms across eighteen benign controls—statistically bounding the false alarm rate to under 17% by the rule of three on this scripted set.” |
+| 2:45–3:00 | External terminal failure and model attribution | “We also test where the tool breaks. On a repetitive terminal benchmark animation without sound, visual coverage fell below threshold and CONTEXT safely abstained with 'no material omission' rather than guessing. Deterministic evidence first, bounded model review second, and honest limits throughout.” |
 
-## Narration Recording Script (Builder Voice)
+## Recording acceptance
 
-### Chapter 1: Hook & Reveal (0:00 – 0:25)
-> "Watch this developer demo. The edited clip claims a 100x performance breakthrough. But when you align it with the original recording, you instantly see what was cut: seconds 5 to 10, where the benchmark memory spiked and threw an out-of-memory error."
-
-### Chapter 2: The One-Line Problem (0:25 – 0:55)
-> "Misleading edits of developer tutorials, benchmark demos, and product claims cut out critical qualifications. But you cannot simply ask a foundation model to guess what was cut—models hallucinate omissions that never existed. CONTEXT enforces a strict non-negotiable rule: deterministic alignment first. If our acoustic and visual aligner finds no correspondence, the output is 'no material omission'. The Meta model is only permitted to reason over verified, grounded intervals."
-
-### Chapter 3: Live Dual-Player Run (0:55 – 1:50)
-> "Here's a live run. The aligner chunks the media, downsamples 4Hz visual feature grids, and runs normalized acoustic cross-correlation. Within seconds, it locks the correspondence with sub-second accuracy. Notice our dual player: scrubbing the edited video synchronously drives the source. When we click the omission card, it reveals the excised footage. Meta Muse Spark 1.2 explains the exact semantic consequence, bounded strictly by our citation checker: any explanation citing timestamps outside the evidence is rejected."
-
-### Chapter 4: SAM 3.1 Spatial Crop Detector (1:50 – 2:20)
-> "Deceptive cuts aren't just temporal—they're spatial. When a widescreen tutorial is reframed or cropped for mobile, key disclaimers and benchmark sidebars vanish. Having passed our SAM 3.1 gate with over 99% pixel recall, CONTEXT runs multi-scale spatial alignment and uses SAM 3.1 to segment and shade the exact peripheral elements cut out of frame."
-
-### Chapter 5: 30-Edit Eval Benchmark (2:20 – 2:45)
-> "Every claim here is backed by reproducible numbers. Before writing a line of tuning code, we froze a labeled eval contract: 30 automated FFmpeg edits, including 18 benign controls—intro trims, 1.25x speed-ups, subtitles, re-encodes, and reorders. Our thresholds were fixed beforehand: at least 80% recall and under 10% false alarms. CONTEXT scored 100% interval recall, 0.0 seconds mean boundary error, and exactly zero false alarms on benign edits."
-
-### Chapter 6: Model Attribution, Failure Case & Wrap (2:45 – 3:00)
-> "Here's what each Meta model did: Muse Spark 1.2 provided bounded semantic interpretation; SAM 3.1 powered spatial reframe segmentation. And here is our honest failure case: when an edit undergoes aggressive non-linear speed changes or extreme jump-cuts, the aligner safely abstains rather than making a false accusation. CONTEXT is reproducible with one Docker command. Code, benchmarks, and data are public in our repository."
-
----
-
-## Screen Recording Instructions
-
-1. Start uvicorn:
-   ```bash
-   uvicorn context_core.api:app --app-dir backend --env-file .env --host 127.0.0.1 --port 8000
-   ```
-2. Set display to 1920×1080 (16:9 widescreen).
-3. Record high-bitrate MP4 (60 fps or 30 fps).
-4. Synchronize video with your voiceover track according to the timecodes above.
+- Re-run the selected case and show actual output; label saved replay as replay.
+- Keep controlled-fixture and synthetic-soundtrack disclosures visible.
+- The cut is four seconds (00:06.000–00:10.000); do not say five seconds.
+- Do not replace “inconclusive” with a scripted changed-meaning verdict.
+- Do not call geometric margin shading a SAM mask.
+- Do not claim zero hallucinations, universal recall, proven intent, or verified semantic judgment.

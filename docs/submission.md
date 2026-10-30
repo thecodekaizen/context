@@ -1,130 +1,54 @@
-# CONTEXT — See What the Edit Cut Out
+# CONTEXT — inspect what the edit left out
 
-**A Video Evidence Workstation for Developer Tutorials, Benchmark Demos, and Product Claims**
-*Built for the Meta Global AI Developer Hackathon 2026*
+Working submission draft, updated October 30, 2026. Not submitted. Existing video
+and release artifacts predate current validation and must be updated before use.
 
-**Repository:** [https://github.com/thecodekaizen/context](https://github.com/thecodekaizen/context)  
-**License:** MIT / CC0 Benchmarks  
-**Demo Video:** [`demo-video/renders/context-demo-3min.mp4`](https://github.com/thecodekaizen/context/blob/main/demo-video/renders/context-demo-3min.mp4) (180.0s, 1920×1080 Full HD, 8.0 MB) · [Direct Download](https://github.com/thecodekaizen/context/releases/download/v1.0.0/context-demo-3min.mp4)  
-**Evaluation Status:** 100% Interval Recall · 0.0s Boundary Error · 0% Benign False Alarms · 133 Backend Tests Passing
+## Product
 
----
+CONTEXT is a deterministic-first evidence workstation for engineering and DevRel teams to audit technical tutorials, software benchmarks, and product demos before publication. When an editor tightens a raw recording into a marketing highlight, cuts can inadvertently excise vital technical caveats (such as cold-start setup exclusions, warmup flags, or hardware specifications). Given an edited highlight alongside the raw recording (or a candidate from a registered technical catalog), CONTEXT exposes grounded internal omissions and measures spatial crop bounds. Synchronized dual players, millisecond timestamps, and media fingerprints let reviewers inspect the evidence before publishing. Missing footage alone is not evidence of deceptive intent.
 
-## 1. Short Description
+## What Meta contributes
 
-**CONTEXT** is a local video evidence workstation that detects deceptive edits in developer tutorials, benchmark demos, and product claims. By aligning an edited video against its original source recording, CONTEXT identifies exact omitted footage and cropped peripheral disclaimers, displaying the excised evidence in a synchronized dual-player workbench alongside bounded semantic interpretation powered by **Meta Muse Spark 1.2** and **Meta SAM 3.1**.
+Muse Spark 1.2 reviews only bounded excerpts around measured internal omissions, with three higher-resolution timed 720p frames per clip to preserve interface text. It produces cited observations, potential interpretive effects, and explicit uncertainty. Citation checks reject out-of-window references; they do not independently verify semantic correctness. No correspondence means no model review request. Inconclusive outcomes are preserved honestly.
 
----
+SAM 3.1 is an experimental segmentation component evaluated separately. Its 10-case chart-bar gate passes on saved-response replay, but a live test on the cache conditions panel returned zero masks (failed). Operational margin shading and calipers are computed strictly by deterministic OpenCV geometry; they are not attributed to SAM. CONTEXT does not claim the open-weight prize, as Muse Spark is accessed via the hosted Meta Model API.
 
-## 2. The Problem
+## Demonstrated case
 
-Authentic video footage can be rendered deeply misleading through selective editing:
-- A benchmark demonstration shows a 100x speedup claim, but cuts out seconds 5 to 10 where memory usage spiked into an Out-Of-Memory crash.
-- A technical tutorial claims an effortless one-command setup, but edits out five minutes of broken dependencies and manual workaround steps.
-- A widescreen benchmark demo is reframed or cropped for mobile distribution, shaving off the peripheral disclaimers, hardware specifications, and non-standard compile flags.
+An explicitly authored Python cache demonstration displays actual local timings.
+Its source qualification says warm cache only, cold-start setup excluded, and no
+end-to-end speedup claim. A controlled temporal edit removes source seconds 6–10;
+a separate crop removes the right-side panel.
 
-Traditional deepfake detectors check frame-level pixel synthesis, which completely fails on real footage with deceptive chronological cuts or spatial reframing. Conversely, asking a foundation model to "spot what was omitted" results in hallucinations.
+Without a supplied source ID or caption, catalog lookup selects the registered
+source. Acoustic alignment recovers the exact 6–10 s deletion at edit 6 s. Crop
+geometry recovers the exact retained 960×720 region of a 1280×720 source, with
+25% area removed. The byte-identical control produces no omission or model call.
+The soundtrack is a synthetic diagnostic signal; this is authored demonstration
+media, not independent field validation. Visual temporal coverage on the edits is
+zero, so acoustic success must not be represented as visual authentication.
 
----
+The initial video-only Muse review missed the qualification and called the edit
+harmless. Adding bounded timed frames allowed Muse to read the qualification and
+explain its possible significance, while remaining inconclusive about changed
+meaning. Both results are retained. No verified materiality claim is made.
 
-## 3. Architecture & Core Innovation: Deterministic-First Grounding
+## Evaluation
 
-CONTEXT enforces a strict architectural contract: **deterministic alignment first, generative models second**.
+Frozen execution-v1: 30 controlled edits across three authored benchmark sources, 12 positive cases containing 15 labeled omission intervals, and 18 benign controls. Latest recheck: 15/15 intervals recovered, 0.0 s mean boundary error, 0/18 benign omission alarms. By the rule of three, 0/18 benign alarms bounds the true false-alarm rate below ~16.7% on this scripted benchmark suite. This measures deterministic deletion detection on scripted edits, not noisy real-world recordings, broad general-video recall, or deceptive intent. The separate cache qualification case is maintained outside the frozen benchmark.
 
-```mermaid
-flowchart TD
-    A[Published Video] & B[Candidate Source Video] --> C[FFmpeg Audio/Visual Ingestion]
-    C --> D[Visual Temporal Aligner<br/>4Hz Grids & Cosine Matching]
-    C --> E[Acoustic Correlation Aligner<br/>Normalized Cross-Correlation]
-    C --> F[Spatial Crop & Reframe Detector<br/>Multi-Scale Search & SAM 3.1]
-    
-    D & E --> G[Grounded Omission Synthesizer]
-    F --> G
-    
-    G -->|No Corroborated Correspondence| H[Verdict: 'No Material Omission']
-    G -->|Verified Interval Match| I[Grounded Evidence Pack]
-    
-    I --> J[Synchronized Dual-Player Workbench<br/>SVG Spatial Crop Overlay & Timeline]
-    I --> K[Meta Muse Spark 1.2 Review<br/>Bounded Semantic Interpretation]
-    
-    K --> L[Citation Checker<br/>Validates Timestamps & Bounds]
-    L --> M[Evidence Dossier JSON & UI]
-```
+A known two-second deletion in external hyperfine terminal footage is missed;
+the pipeline abstains and makes no Meta call. Catalog matching is bounded local
+candidate discovery, not internet-wide reverse video search.
 
-### Key Architectural Pillars
+## Submission readiness
 
-1. **Deterministic Alignment Engine:**
-   - Extracts 4Hz multi-scale visual feature grids and normalized acoustic cross-correlation waveforms.
-   - Computes exact mathematical frame-to-frame correspondence with sub-second accuracy.
-   - If no correspondence is established, CONTEXT outputs **"no material omission"**—it never invents or speculates about missing footage.
+The consequential-edit hero remains under validation. SAM panel segmentation and
+independent semantic-effect accuracy are unresolved. Record authentic builder
+narration, update the demonstration to current results, and check authenticated
+portal requirements before submission. No final rule acceptance or publication
+has been performed by the agent.
 
-2. **Spatial Crop & Reframe Detection (SAM 3.1):**
-   - Multi-scale spatial template matching isolates mobile reframes and pan-and-scan crops.
-   - Segments the retained central window and highlights omitted margins (top, bottom, left, right) in real-time SVG overlays on the dual-player.
-   - Segment Anything Model (SAM 3.1) isolates and segments peripheral text, disclaimer bars, and UI widgets cut out of frame.
-
-3. **Bounded Meta Model Integration:**
-   - **Meta Muse Spark 1.2:** Evaluates bounded context clips (original interval vs. edit boundary) to explain the potential semantic consequence of the omission.
-   - **Strict Citation Guardrail:** Every claim made by Muse Spark must include verified clip IDs and timestamps. Any assertion pointing outside measured evidence is automatically discarded.
-   - Model reviews are strictly separated from deterministic findings and clearly tagged.
-
----
-
-## 4. Frozen Evaluation Contract & Benchmark Results
-
-Before implementing detector tuning, we established and froze our evaluation protocol and pass/fail thresholds:
-- Target: $\ge 80\%$ recall on true omissions
-- Target: $< 10\%$ false alarms on benign transformations
-
-### Benchmark Suite (`eval/execution-v1`)
-We authored 30 scripted FFmpeg edits across 3 CC0 benchmark source videos (`sort.mp4`, `cache.mp4`, `serialize.mp4`), spanning 10 edit recipes each:
-
-| Recipe ID | Edit Description | Target Omission | Result | Boundary Error |
-|---|---|---|---|---|
-| `omission` | Omission of 5–10s crash interval | 5.0s – 10.0s | **DETECTED** | 0.0s |
-| `reorder` | Reordering of benchmark phases | 5.0s – 10.0s | **DETECTED** | 0.0s |
-| `crop_omission` | 80% center crop + temporal cut | 5.0s – 10.0s | **DETECTED** | 0.0s |
-| `clean` | Benign 1:1 identical control | None | **NO ALARM** | 0.0s |
-| `intro_trim` | Benign 0–2s intro fade cut | None | **NO ALARM** | 0.0s |
-| `outro_trim` | Benign trailing silence trim | None | **NO ALARM** | 0.0s |
-| `speed_125` | Benign 1.25x uniform speedup | None | **NO ALARM** | 0.0s |
-| `audio_drift` | Benign 0.2s soundtrack slip | None | **NO ALARM** | 0.0s |
-| `subtitle_burn` | Benign hardcoded bottom captions | None | **NO ALARM** | 0.0s |
-| `color_compress`| Benign high-compression / color transcode | None | **NO ALARM** | 0.0s |
-
-### Measured Summary Metrics
-- **True Omission Recall:** **100.0%** (12/12 detected)
-- **Mean Boundary Error:** **0.00 seconds**
-- **Benign False Alarm Rate:** **0.0%** (0/18 false alarms across speed, subtitle, transcode, and trim controls)
-- **SAM 3.1 Spatial Crop Gate:** **10/10 passed** (pixel recall >99.9%, IoU ~84%)
-- **Backend Test Suite:** **133 / 133 tests passing**
-
----
-
-## 5. Scope & Epistemic Guardrails
-
-To ensure production safety and legal compliance:
-1. **Domain Boundary:** CONTEXT is restricted exclusively to **developer tutorials, software benchmark demos, and commercial product claims**.
-2. **Strict Exclusions:** CONTEXT explicitly prohibits analysis of politics, elections, wartime footage, government speech, or real public figures.
-3. **Honest Failure Boundaries:** When an edit contains non-linear retiming (time remapping), dynamic speed warping, or extreme jump-cuts below aligner resolution, CONTEXT safely abstains rather than issuing a false accusation.
-
----
-
-## 6. Technology Stack
-
-- **Backend:** Python 3.15, FastAPI, Uvicorn, FFmpeg / FFprobe, OpenCV 5.0, NumPy, SciPy
-- **Frontend:** React 19, TypeScript 5.8, Vite 7, Native HTML5 Video & SVG Overlays, GSAP 3
-- **Meta AI Models:** Meta Muse Spark 1.2 (Bounded Video Semantic Review), Meta SAM 3.1 (Spatial Segmentation)
-- **Testing & Quality:** Pytest, Ruff linter/formatter, Playwright E2E browser tests, Gitleaks security scanning
-- **Containerization:** Multi-stage Docker build
-
----
-
-## 7. Submission Checklist & Deliverables
-
-- [x] **Public GitHub Repository:** [thecodekaizen/context](https://github.com/thecodekaizen/context)
-- [x] **Full 3-Minute Storyboard Demo:** `demo-video/` with HyperFrames/GSAP composition
-- [x] **Authentic Builder Narration:** Spoken narration script in `docs/demo-script.md` (Rule 9 compliant)
-- [x] **Reproducible Evaluation:** `eval/execution-v1/` with raw JSON benchmark fixtures
-- [x] **Docker One-Command Run:** `docker build -t context . && docker run -p 8000:8000 context`
-- [x] **133 Automated Tests:** Pytest passing on all endpoints, modules, and crop algorithms
+Evidence and reproducible commands: [hero-validation.md](hero-validation.md),
+[model-card.md](model-card.md), [source-discovery.md](source-discovery.md),
+[demo-script.md](demo-script.md).

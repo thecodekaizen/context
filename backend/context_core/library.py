@@ -7,7 +7,7 @@ from pathlib import Path
 import numpy as np
 
 from .alignment import align_samples
-from .media import VideoSamples, sample
+from .media import VideoSamples, digest, sample
 
 MAX_SOURCES = 20
 MIN_COVERAGE = 0.6
@@ -84,6 +84,37 @@ def rank_sources(root, edited, *, admitted_only=False):
                 meta["sha256"],
             )
         evidence = align_samples(original_samples, edited_samples)
+        if (
+            meta["sha256"] == edited_samples.sha256
+            and digest(Path(root) / meta["id"] / "original.mp4")
+            == edited_samples.sha256
+        ):
+            # Byte identity resolves even static images without weakening visual
+            # ambiguity rejection for different files. It does not prove authorship.
+            duration = edited_samples.info["duration"]
+            evidence.update(
+                status="matched",
+                coverage=1.0,
+                findings=[],
+                method={
+                    "name": "sha256-byte-identity",
+                    "timestamp_tolerance_seconds": 0,
+                },
+                segments=[
+                    {
+                        "id": "byte-identity",
+                        "kind": "match",
+                        "edited_start": 0,
+                        "edited_end": duration,
+                        "source_start": 0,
+                        "source_end": duration,
+                        "confidence": 1.0,
+                    }
+                ],
+                limitations=[
+                    "Identical SHA-256 media bytes establish this file correspondence, not original authorship, truthful claims or editorial intent."
+                ],
+            )
         matched = [s for s in evidence["segments"] if s["kind"] == "match"]
         duration = sum(s["edited_end"] - s["edited_start"] for s in matched)
         quality = (
@@ -104,14 +135,23 @@ def rank_sources(root, edited, *, admitted_only=False):
             }
         )
         results[meta["id"]] = evidence
-    candidates.sort(key=lambda c: c["score"], reverse=True)
+    candidates.sort(
+        key=lambda c: (
+            results[c["id"]].get("method", {}).get("name") == "sha256-byte-identity",
+            c["score"],
+        ),
+        reverse=True,
+    )
     top = candidates[0]
     margin = (
         top["score"] - candidates[1]["score"] if len(candidates) > 1 else top["score"]
     )
+    byte_identity = (
+        results[top["id"]].get("method", {}).get("name") == "sha256-byte-identity"
+    )
     status = (
         "matched"
-        if top["coverage"] >= MIN_COVERAGE and margin >= MIN_MARGIN
+        if byte_identity or (top["coverage"] >= MIN_COVERAGE and margin >= MIN_MARGIN)
         else "ambiguous"
         if top["coverage"] >= MIN_COVERAGE
         else "no_match"
@@ -185,7 +225,9 @@ def rank_sources(root, edited, *, admitted_only=False):
     report = {
         "status": status,
         "scope": "provided_local_collection",
-        "selection_basis": "audio_correspondence"
+        "selection_basis": "byte_identity"
+        if byte_identity
+        else "audio_correspondence"
         if results[top["id"]].get("multimodal_coverage")
         else "visual_correspondence",
         "candidates": candidates,

@@ -34,7 +34,7 @@ Review the source and published edit separately, then retry the upload. Byte cha
 - `/api/library/search`: query and each candidate source; unadmitted legacy sources are excluded from matching.
 - `/api/dossiers`: submitted video before background scheduling, supplied reference before indexing; URL inputs may be downloaded for hashing but are not analyzed before admission.
 - Direct single-video investigation and attached source comparison recheck admission as well.
-- Newly acquired source candidates cannot be indexed or compared without admission. The existing NASA catalog is not an in-domain discovery solution; that work remains outstanding.
+- Newly acquired source candidates cannot be indexed or compared without admission. The active source path now uses the reviewed technical catalog; see `docs/source-discovery.md`.
 - Semantic interpretation rechecks admission, including before returning a cached review. Saved evidence can still be read as historical evidence; reading it does not confer admission for new processing.
 - The deferred roadway analysis POST refuses requests. Its saved samples and historical records remain readable.
 
@@ -44,4 +44,4 @@ Unknown/malformed/missing reviews return HTTP 422 with a readable `detail` and s
 
 Tests prove policy precedence, byte binding, rejection ordering, lock cleanup and refusal to call analysis/model work. They do not prove automatic content classification: none is implemented. Existing technical regression tests use clearly marked simulated operator receipts for synthetic fixtures; those receipts are isolated in pytest temporary directories.
 
-The next product-validation task remains a real, in-domain investigation with reviewed source and edit, independent semantic assessment, and honest source-discovery failure reporting. Admission alone does not validate a match, changed meaning, disclaimer segmentation or deceptive intent.
+The external hyperfine demo evaluation and its actual failure result are recorded in `docs/source-discovery.md`. Independent semantic assessment and useful omission recall on natural technical footage remain unvalidated. Admission alone does not validate a match, changed meaning, disclaimer segmentation or deceptive intent.

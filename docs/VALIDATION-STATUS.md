@@ -1,8 +1,18 @@
 # CONTEXT Validation Status & Evaluation Gates
 
+> **Current validation notice — October 30, 2026:** This document records the
+> frozen execution-v1 benchmark results alongside current live investigation findings.
+> The Python/FastAPI backend test suite now stands at **184 passed tests**.
+> SAM 3.1 is an experimental segmentation model: its frozen chart-bar replay
+> passes 10/10, while a live concept test on the cache qualification panel returned zero
+> masks. Operational margin shading is computed deterministically with OpenCV geometry.
+> Bounded Meta Muse Spark 1.2 reviews cite observed qualifications while honestly
+> reporting inconclusive semantic effects. See [hero-validation.md](hero-validation.md)
+> and [model-card.md](model-card.md).
+
 **Date:** October 30, 2026  
 **Repository:** `thecodekaizen/context`  
-**Status:** **ALL GATES PASSED (G1, G2, G3) · 132/132 UNIT & INTEGRATION TESTS PASSING**
+**Status:** **FROZEN EXECUTION-V1 GATES PASSED · 184/184 BACKEND TESTS PASSING · LIVE HERO UNDER VALIDATION**
 
 ---
 

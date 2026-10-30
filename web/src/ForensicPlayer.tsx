@@ -139,6 +139,7 @@ export function ForensicPlayer(props: Props) {
   const [position, setPosition] = useState(0);
   const [sourcePosition, setSourcePosition] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [editedReady, setEditedReady] = useState(false);
   const [hover, setHover] = useState<number | null>(null);
   const [playbackError, setPlaybackError] = useState("");
   const [rate, setRate] = useState(1);
@@ -368,6 +369,7 @@ export function ForensicPlayer(props: Props) {
                 preload="metadata"
                 muted={i === 1 && linked}
                 onLoadedMetadata={() => {
+                  if (kind === "edited") setEditedReady(true);
                   setPlaybackError("");
                   props.onLoaded?.(kind);
                 }}
@@ -399,7 +401,12 @@ export function ForensicPlayer(props: Props) {
                   }
                 }}
                 onSeeked={() => {
-                  if (!i) props.onEditedUpdate();
+                  if (i) {
+                    setSourcePosition(sourceRef.current?.currentTime || 0);
+                    props.onSourceUpdate?.();
+                  } else {
+                    props.onEditedUpdate();
+                  }
                 }}
               />
               {i === 1 && crop && showMask && (
@@ -407,7 +414,12 @@ export function ForensicPlayer(props: Props) {
               )}
             </div>
             <div className="player-foot">
-              {i ? "SOURCE COORDINATES" : "EDITED CHRONOLOGY"}
+              <span>
+                {i ? "SOURCE COORDINATES" : "EDITED CHRONOLOGY"}
+                <span className="player-foot-time">
+                  {timecode(i ? sourcePosition : position)}
+                </span>
+              </span>
               <span className={i ? "blue" : "orange"}>●</span>
             </div>
           </div>
@@ -550,6 +562,7 @@ export function ForensicPlayer(props: Props) {
         </div>
         <input
           aria-label="Edited video playhead"
+          disabled={!editedReady}
           type="range"
           min="0"
           max={duration}
