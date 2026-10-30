@@ -1,6 +1,6 @@
 # CONTEXT demo script: Pre-Publication QA
 
-Voiceover for a human narrator. Narration is 243 words (limit 430); word counts are in each heading.
+Voiceover for a human narrator. Narration is 264 words (limit 310); word counts are in each heading.
 Every number comes from `eval/hero-v1/results.json` or `eval/execution-v1/full-results/results.json`.
 
 **Always on screen (corner badge):** "Controlled, authored case · Saved Muse response · Eval = scripted cuts". SAM 3.1 is not featured.
@@ -20,10 +20,10 @@ Every number comes from `eval/hero-v1/results.json` or `eval/execution-v1/full-r
 
 > Both players move together. Click the finding, and the raw recording plays the missing four seconds. On screen there: warm cache only, cold-start setup excluded, cold setup zero point eight three milliseconds. The edit's sampled frames show only a shorter conditions panel.
 
-## 1:30–2:00 | Muse reads it, the human decides (38 words)
+## 1:30–2:00 | Muse reads it, the human decides (59 words)
 **On screen:** Muse panel labeled "Saved response, not re-run": observation, possible effect, classification **inconclusive**. Then a reviewer-decision row.
 
-> Meta's Muse Spark 1.2 reads the frames in that matched interval. Alignment and crop measurement are deterministic. Muse explains why the text might matter, then reports inconclusive. This is a saved response, not run live. The human decides.
+> Meta's Muse Spark 1.2 reads the frames in that matched interval. Alignment and crop measurement are deterministic. Muse tied the removed seconds to the warm-cache-only limit. If that qualification is missing, it says the zero point zero zero nine microsecond figure could read as a general, end-to-end speedup. It reports inconclusive. Saved response, not run live. The human decides.
 
 ## 2:00–2:25 | The crop (33 words)
 **On screen:** Calipers: 1280×720 source, 960×720 retained, right margin shaded. "25% of frame removed · OpenCV geometry".
