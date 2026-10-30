@@ -221,3 +221,13 @@ def test_crop_demo_endpoint():
     assert any(f["kind"] == "spatial_crop_reframe" for f in data["findings"])
     saved = client.get(f"/api/media/{data['id']}/evidence.json").json()
     assert saved["crop_analysis"]["detected"] is True
+
+
+def test_benchmark_results_endpoint():
+    r = client.get("/api/benchmark/results")
+    assert r.status_code == 200, r.text
+    data = r.json()
+    assert data["interval_recall"] == 1.0
+    assert data["boundary_error_seconds"] == 0.0
+    assert data["benign_false_alarm_rate"] == 0.0
+    assert len(data["cases"]) == 30

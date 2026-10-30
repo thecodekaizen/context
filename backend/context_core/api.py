@@ -243,6 +243,14 @@ async def crop_demo():
         lock.release()
 
 
+@app.get("/api/benchmark/results")
+def benchmark_results():
+    path = ROOT / "eval/execution-v1/full-results/results.json"
+    if not path.is_file():
+        raise HTTPException(404, "Benchmark results not found")
+    return json.loads(path.read_text())
+
+
 @app.get("/api/media/{identifier}/{filename}")
 def media(identifier: str, filename: str):
     if not valid_identifier(identifier) or filename not in {

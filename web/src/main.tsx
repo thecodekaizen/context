@@ -6,6 +6,7 @@ import { SourceCollection } from "./SourceCollection";
 import { RecentInvestigations } from "./RecentInvestigations";
 import { InvestigationDossier } from "./InvestigationDossier";
 import { PreludeStudio } from "./PreludeStudio";
+import { BenchmarkHub } from "./BenchmarkHub";
 
 const time = (n: number) =>
   `${Math.floor(n / 60)
@@ -13,7 +14,10 @@ const time = (n: number) =>
     .padStart(2, "0")}:${(n % 60).toFixed(2).padStart(5, "0")}`;
 
 function App() {
-  // Top-level product mode
+  // Top-level product view & mode
+  const [activeView, setActiveView] = useState<"workbench" | "benchmark">(
+    "workbench",
+  );
   const [appMode, setAppMode] = useState<
     "investigation" | "prelude" | "comparator"
   >("comparator");
@@ -412,32 +416,51 @@ function App() {
         <span className="local">● META GLOBAL HACKATHON 2026</span>
       </header>
 
-      {/* Primary vs Supporting Mode Navigation */}
-      <nav className="mode-nav" hidden>
+      {/* Top Product Navigation: Workbench vs Benchmark Suite */}
+      <div
+        className="product-nav"
+        style={{
+          display: "flex",
+          gap: 12,
+          margin: "18px 0 24px 0",
+          borderBottom: "1px solid #282f34",
+          paddingBottom: 14,
+        }}
+      >
         <button
-          className={`mode-tab-btn ${appMode === "investigation" ? "active" : ""}`}
-          onClick={() => setAppMode("investigation")}
+          id="btn-nav-workbench"
+          className={`mode-tab-btn ${activeView === "workbench" ? "active" : ""}`}
+          onClick={() => {
+            setActiveView("workbench");
+            setAppMode("comparator");
+          }}
         >
-          <span className="mode-badge-primary">LENS: CONTEXT</span>
-          Single-Video Investigation Dossier
+          <span className="mode-badge-supporting">01 WORKBENCH</span>
+          Evidence Explorer & Dual Player
         </button>
         <button
-          className={`mode-tab-btn ${appMode === "prelude" ? "active" : ""}`}
-          onClick={() => setAppMode("prelude")}
+          id="btn-nav-benchmark"
+          className={`mode-tab-btn ${activeView === "benchmark" ? "active" : ""}`}
+          onClick={() => setActiveView("benchmark")}
         >
-          <span className="mode-badge-anticipate">LENS: PRELUDE</span>
-          Anticipate Roadway Hazards
+          <span className="mode-badge-primary">02 EVALUATION</span>
+          Frozen 30-Edit Benchmark Suite
         </button>
-        <button
-          className={`mode-tab-btn ${appMode === "comparator" ? "active" : ""}`}
-          onClick={() => setAppMode("comparator")}
-        >
-          <span className="mode-badge-supporting">SUPPORTING</span>
-          Two-Video Comparison Drill-Down
-        </button>
-      </nav>
+      </div>
 
-      {/* MODE 1: SINGLE-VIDEO INVESTIGATION (PRIMARY WORKFLOW) */}
+      {activeView === "benchmark" && (
+        <BenchmarkHub
+          onLoadDemo={(kind) => {
+            setActiveView("workbench");
+            setAppMode("comparator");
+            analyze(kind);
+          }}
+        />
+      )}
+
+      {activeView === "workbench" && (
+        <>
+          {/* MODE 1: SINGLE-VIDEO INVESTIGATION (PRIMARY WORKFLOW) */}
       {appMode === "investigation" && (
         <section className="single-investigation-flow">
           {/* Launch Box if no active dossier or user wants to submit another */}
@@ -1287,6 +1310,8 @@ function App() {
             )}
           </section>
         </section>
+      )}
+        </>
       )}
 
       <footer>

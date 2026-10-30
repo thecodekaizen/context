@@ -128,7 +128,7 @@ PYTHONPATH=backend .venv/bin/python scripts/execution_eval.py full
 # Replay SAM 3.1 crop gate benchmark
 PYTHONPATH=backend .venv/bin/python scripts/execution_sam_gate.py replay
 
-# Run full test suite (132 tests)
+# Run full test suite (133 tests)
 .venv/bin/pytest -q
 ```
 
@@ -167,7 +167,7 @@ Frontend development: `npm run dev --prefix web` alongside the API. Vite proxies
 ## Verification
 
 ```sh
-# Run full test suite (132 tests)
+# Run full test suite (133 tests)
 .venv/bin/pytest -q
 
 # Build frontend and verify formatting

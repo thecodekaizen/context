@@ -686,6 +686,10 @@ footer {
    SINGLE-VIDEO MULTIMODAL INVESTIGATION DOSSIER STYLES
    ========================================================================= */
 
+.mode-nav[hidden] {
+  display: none !important;
+}
+
 .mode-nav {
   display: flex;
   gap: 12px;

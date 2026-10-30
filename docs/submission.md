@@ -6,7 +6,7 @@
 **Repository:** [https://github.com/thecodekaizen/context](https://github.com/thecodekaizen/context)  
 **License:** MIT / CC0 Benchmarks  
 **Demo Video:** `demo-video/renders/context-demo-3min.mp4` (180s, 1920×1080 Full HD)  
-**Evaluation Status:** 100% Interval Recall · 0.0s Boundary Error · 0% Benign False Alarms · 132 Backend Tests Passing
+**Evaluation Status:** 100% Interval Recall · 0.0s Boundary Error · 0% Benign False Alarms · 133 Backend Tests Passing
 
 ---
 
@@ -97,7 +97,7 @@ We authored 30 scripted FFmpeg edits across 3 CC0 benchmark source videos (`sort
 - **Mean Boundary Error:** **0.00 seconds**
 - **Benign False Alarm Rate:** **0.0%** (0/18 false alarms across speed, subtitle, transcode, and trim controls)
 - **SAM 3.1 Spatial Crop Gate:** **10/10 passed** (pixel recall >99.9%, IoU ~84%)
-- **Backend Test Suite:** **132 / 132 tests passing**
+- **Backend Test Suite:** **133 / 133 tests passing**
 
 ---
 
@@ -127,4 +127,4 @@ To ensure production safety and legal compliance:
 - [x] **Authentic Builder Narration:** Spoken narration script in `docs/demo-script.md` (Rule 9 compliant)
 - [x] **Reproducible Evaluation:** `eval/execution-v1/` with raw JSON benchmark fixtures
 - [x] **Docker One-Command Run:** `docker build -t context . && docker run -p 8000:8000 context`
-- [x] **132 Automated Tests:** Pytest passing on all endpoints, modules, and crop algorithms
+- [x] **133 Automated Tests:** Pytest passing on all endpoints, modules, and crop algorithms

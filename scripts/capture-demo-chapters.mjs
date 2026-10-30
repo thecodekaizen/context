@@ -136,7 +136,12 @@ try {
 
     // Wait for analysis and workbench
     await page.waitForSelector(".workbench");
-    await page.waitForTimeout(4000);
+    await page.waitForTimeout(2000);
+
+    // Scroll dual player into view
+    const workbench = page.locator(".workbench");
+    await workbench.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(3000);
 
     // Scrub video into omission cut (seconds 5 to 10)
     const videos = page.locator("video");
@@ -172,17 +177,17 @@ try {
     if (await cropBtn.isVisible()) {
       await cropBtn.click();
       await page.waitForSelector(".workbench");
-      await page.waitForTimeout(4000);
+      await page.waitForTimeout(3000);
 
       // Scroll to dual player to highlight SVG bounding box and red shaded margins
       const workbench = page.locator(".workbench");
       await workbench.scrollIntoViewIfNeeded();
-      await page.waitForTimeout(6000);
+      await page.waitForTimeout(7000);
 
       const cropCard = page.locator(".crop-analysis-card");
       if (await cropCard.isVisible()) {
         await cropCard.scrollIntoViewIfNeeded();
-        await page.waitForTimeout(6000);
+        await page.waitForTimeout(7000);
       }
     } else {
       await page.waitForTimeout(10000);
@@ -194,14 +199,29 @@ try {
   await record(story[4], async (page) => {
     await page.goto("/");
     await page.waitForSelector("header");
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(1500);
 
-    // Scroll to bottom metrics / limitation summary
-    const footer = page.locator("footer");
-    if (await footer.isVisible()) {
-      await footer.scrollIntoViewIfNeeded();
+    // Switch to Benchmark & Evaluation Hub
+    const evalTab = page.locator("#btn-nav-benchmark");
+    if (await evalTab.isVisible()) {
+      await evalTab.click();
     }
-    await page.waitForTimeout(10000);
+    await page.waitForSelector(".benchmark-hub-section");
+    await page.waitForTimeout(3000);
+
+    // Scroll to metrics cards and table
+    const table = page.locator(".benchmark-table-wrapper");
+    if (await table.isVisible()) {
+      await table.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(7000);
+    }
+
+    // Filter by Benign Controls (18)
+    const benignBtn = page.locator('button:has-text("Benign Controls (18)")');
+    if (await benignBtn.isVisible()) {
+      await benignBtn.click();
+      await page.waitForTimeout(6000);
+    }
   });
 
   // Chapter 5: attribution_wrap (15s)
