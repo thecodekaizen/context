@@ -151,16 +151,12 @@ try {
     }
 
     // Scroll to findings cards and click omission reveal
-    const findings = page.locator(".findings article");
+    const findings = page.locator(".finding-item");
     if ((await findings.count()) > 0) {
       await findings.first().scrollIntoViewIfNeeded();
       await page.waitForTimeout(4000);
-
-      const revealBtn = page.locator('button:has-text("Reveal")').first();
-      if (await revealBtn.isVisible()) {
-        await revealBtn.click();
-        await page.waitForTimeout(6000);
-      }
+      await findings.first().click();
+      await page.waitForTimeout(6000);
     }
   });
 
@@ -181,7 +177,13 @@ try {
       // Scroll to dual player to highlight SVG bounding box and red shaded margins
       const workbench = page.locator(".workbench");
       await workbench.scrollIntoViewIfNeeded();
-      await page.waitForTimeout(8000);
+      await page.waitForTimeout(6000);
+
+      const cropCard = page.locator(".crop-analysis-card");
+      if (await cropCard.isVisible()) {
+        await cropCard.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(6000);
+      }
     } else {
       await page.waitForTimeout(10000);
     }
@@ -201,6 +203,22 @@ try {
     }
     await page.waitForTimeout(10000);
   });
+
+  // Chapter 5: attribution_wrap (15s)
+  // Meta model attribution, honest failure boundaries & open source wrap
+  if (story[5]) {
+    await record(story[5], async (page) => {
+      await page.goto("/");
+      await page.waitForSelector("header");
+      await page.waitForTimeout(2000);
+
+      const footer = page.locator("footer");
+      if (await footer.isVisible()) {
+        await footer.scrollIntoViewIfNeeded();
+      }
+      await page.waitForTimeout(8000);
+    });
+  }
 
   await writeFile(
     assets + "capture-report.json",
