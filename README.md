@@ -120,16 +120,16 @@ To independently reproduce the evaluation benchmarks:
 
 ```sh
 # Run Friday 10-edit baseline
-.venv/bin/python scripts/execution_eval.py --subset friday
+PYTHONPATH=backend .venv/bin/python scripts/execution_eval.py friday
 
 # Run full 30-edit evaluation suite
-.venv/bin/python scripts/execution_eval.py
+PYTHONPATH=backend .venv/bin/python scripts/execution_eval.py full
 
 # Replay SAM 3.1 crop gate benchmark
-.venv/bin/python scripts/execution_sam_gate.py --replay
+PYTHONPATH=backend .venv/bin/python scripts/execution_sam_gate.py replay
 
-# Run full test suite (131 tests)
-.venv/bin/pytest
+# Run full test suite (132 tests)
+.venv/bin/pytest -q
 ```
 
 ## Local Development
@@ -167,7 +167,7 @@ Frontend development: `npm run dev --prefix web` alongside the API. Vite proxies
 ## Verification
 
 ```sh
-# Run full test suite (131 tests)
+# Run full test suite (132 tests)
 .venv/bin/pytest -q
 
 # Build frontend and verify formatting
@@ -207,5 +207,5 @@ CONTEXT strictly separates deterministic measurement from language model reasoni
 
 - **Event**: Meta Global AI Developer Hackathon 2026
 - **Track**: Solo / Indie Track
-- **Submission Deadline**: November 4, 2026, 12:00 PM ET (22:30 IST)
+- **Submission Deadline**: November 4, 2026, 9:00 PM ET (November 5, 7:30 AM IST)
 - **Primary Artifact**: 3-minute video demonstration (`docs/demo-script.md`) backed by reproducible benchmarks.

@@ -275,7 +275,7 @@ def evaluate(full=False, output=None):
         if output
         else BASE / ("full-results" if full else "friday-results")
     )
-    output.mkdir(parents=True, exist_ok=False)
+    output.mkdir(parents=True, exist_ok=True)
     rows = []
     selected = (
         manifest["cases"]

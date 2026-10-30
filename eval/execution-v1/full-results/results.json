@@ -1,5 +1,5 @@
 {
-  "manifest_sha256": "33557039642371028510892d43b1a7d22bae75f0e45e5c848d7f077a2df1129a",
+  "manifest_sha256": "bb58b2c4be1e13c2219072f98ad03e3377ecb1a5ff48276b8bb5b30be5701159",
   "scope": "Three CC0 browser recordings of actual JavaScript microbenchmarks, authored by automation for this evaluation. These are controlled benchmark demos, not builder-recorded hero clips or field footage. No speech, people, politics or fabricated model results. Soundtrack is a disclosed synthetic diagnostic signal, not narration. Transform labels measure deleted media, not whether a deletion changes meaning.",
   "interval_recall": 1.0,
   "boundary_error_seconds": 0.0,

@@ -92,7 +92,7 @@ def evaluate(replay=False):
     load_dotenv(ROOT / ".env")
     manifest = json.loads((BASE / "manifest.json").read_text())
     output = BASE / ("rescored-results" if replay else "results")
-    output.mkdir(exist_ok=False)
+    output.mkdir(parents=True, exist_ok=True)
     rows = []
     with httpx.Client(timeout=120) as client:
         for case in manifest["cases"]:
