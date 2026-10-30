@@ -94,6 +94,7 @@ export type Evidence = {
   findings: Finding[];
   limitations: string[];
   crop_analysis?: CropAnalysis;
+  recorded_response?: { label: string; note: string; review: Review };
   audio_alignment?: {
     status: "analyzed" | "unavailable";
     segments: Segment[];

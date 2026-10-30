@@ -26,6 +26,7 @@ from .domain_policy import (
 )
 from .dossier_api import router as dossier_router
 from .fixtures import generate
+from .hero import router as hero_router
 from .library import add_source, list_sources, rank_sources
 from .media import playback_file, save_evidence
 from .meta import evidence_signature, interpret, require_grounded_omission
@@ -188,54 +189,6 @@ async def demo():
             await run_in_threadpool(generate, directory)
         shutil.copyfile(directory / "omission.mp4", directory / "edited.mp4")
         return await run_in_threadpool(investigation, directory)
-    finally:
-        lock.release()
-
-
-@app.post("/api/demo/benchmark")
-async def benchmark_demo():
-    source = ROOT / "eval/execution-v1/sources/sort.mp4"
-    edited = ROOT / "data/execution-v1/edits/sort-omission.mp4"
-    if not source.is_file() or not edited.is_file():
-        raise HTTPException(404, "Restore the frozen execution fixtures first")
-    if not lock.acquire(blocking=False):
-        raise HTTPException(429, "An analysis is already running")
-    directory = DATA / "execution-benchmark"
-    directory.mkdir(exist_ok=True)
-    try:
-        shutil.copyfile(source, directory / "original.mp4")
-        shutil.copyfile(edited, directory / "edited.mp4")
-        result = await run_in_threadpool(
-            investigation,
-            directory,
-            "Controlled JavaScript sort benchmark (CC0)",
-            "Scripted benchmark omission",
-        )
-        return result
-    finally:
-        lock.release()
-
-
-@app.post("/api/demo/crop")
-async def crop_demo():
-    source = ROOT / "eval/execution-v1/sources/cache.mp4"
-    edited = ROOT / "data/execution-v1/edits/cache-crop_omission.mp4"
-    if not source.is_file() or not edited.is_file():
-        raise HTTPException(404, "Restore the frozen execution fixtures first")
-    if not lock.acquire(blocking=False):
-        raise HTTPException(429, "An analysis is already running")
-    directory = DATA / "execution-crop-demo"
-    directory.mkdir(exist_ok=True)
-    try:
-        shutil.copyfile(source, directory / "original.mp4")
-        shutil.copyfile(edited, directory / "edited.mp4")
-        result = await run_in_threadpool(
-            investigation,
-            directory,
-            "Controlled JavaScript cache benchmark (CC0)",
-            "Spatial crop & peripheral context omission",
-        )
-        return result
     finally:
         lock.release()
 
@@ -563,6 +516,7 @@ async def investigate_prelude(
 
 
 app.include_router(dossier_router(lambda: DATA, lock))
+app.include_router(hero_router)
 
 if (ROOT / "web/dist").exists():
     app.mount("/", StaticFiles(directory=ROOT / "web/dist", html=True), name="web")

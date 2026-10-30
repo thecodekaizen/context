@@ -26,11 +26,7 @@ const matches = (c: BenchmarkCase, filter: Filter) =>
       ? !c.benign
       : c.id.endsWith(`-${filter}`));
 
-export function BenchmarkHub({
-  onLoadDemo,
-}: {
-  onLoadDemo: (kind: "benchmark" | "crop") => void;
-}) {
+export function BenchmarkHub() {
   const [data, setData] = useState<BenchmarkReport | null>(null);
   const [filter, setFilter] = useState<Filter>("all");
   const [loading, setLoading] = useState(true);
@@ -235,12 +231,6 @@ export function BenchmarkHub({
                       c.boundary_errors_seconds.length
                     ).toFixed(3) + "s"
                   : "—";
-                const replay =
-                  c.id === "sort-omission"
-                    ? "benchmark"
-                    : c.id === "cache-crop_omission"
-                      ? "crop"
-                      : null;
                 return (
                   <tr
                     key={c.id}
@@ -265,26 +255,15 @@ export function BenchmarkHub({
                       </span>
                     </td>
                     <td>
-                      {replay ? (
-                        <button
-                          className="quiet matrix-replay"
-                          onClick={() => onLoadDemo(replay)}
-                        >
-                          Replay evidence ↗
-                        </button>
-                      ) : (
-                        <button
-                          className="quiet"
-                          aria-expanded={expanded === c.id}
-                          onClick={() =>
-                            setExpanded(expanded === c.id ? null : c.id)
-                          }
-                        >
-                          {expanded === c.id
-                            ? "Close trace −"
-                            : "Inspect trace +"}
-                        </button>
-                      )}
+                      <button
+                        className="quiet"
+                        aria-expanded={expanded === c.id}
+                        onClick={() =>
+                          setExpanded(expanded === c.id ? null : c.id)
+                        }
+                      >
+                        {expanded === c.id ? "Close trace −" : "Inspect trace +"}
+                      </button>
                       {expanded === c.id && (
                         <div className="case-trace">
                           Predicted: {c.predicted} · Expected: {c.expected} ·

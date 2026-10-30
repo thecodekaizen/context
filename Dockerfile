@@ -23,6 +23,11 @@ RUN pip install --no-cache-dir -r backend/requirements.txt
 # Copy backend application and static assets
 COPY backend/ ./backend/
 COPY --from=frontend-builder /app/web/dist ./web/dist
+# Hero demo bundle and the benchmark table only; not the rest of eval/
+COPY eval/hero-v1/results.json eval/hero-v1/manifest.json ./eval/hero-v1/
+COPY eval/hero-v1/muse/response.json ./eval/hero-v1/muse/
+COPY eval/hero-v1/media ./eval/hero-v1/media
+COPY eval/execution-v1/full-results/results.json ./eval/execution-v1/full-results/
 
 # Setup default runtime environment
 COPY .env.example .env

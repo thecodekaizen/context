@@ -250,7 +250,7 @@ function App() {
   const source = useRef<HTMLVideoElement>(null);
   const published = useRef<HTMLVideoElement>(null);
 
-  async function analyze(demo: false | true | "benchmark" | "crop" = false) {
+  async function analyze(demo: false | true | "hero" = false) {
     setReview(null);
     setReviewError("");
     setBusy(true);
@@ -264,18 +264,18 @@ function App() {
         body.append("edited", edited);
       }
       const r = await fetch(
-        demo === "benchmark"
-          ? "/api/demo/benchmark"
-          : demo === "crop"
-            ? "/api/demo/crop"
-            : demo
-              ? "/api/demo"
-              : "/api/analyze",
+        demo === "hero"
+          ? "/api/demo/hero"
+          : demo
+            ? "/api/demo"
+            : "/api/analyze",
         { method: "POST", ...(!demo ? { body } : {}) },
       );
       const data = await r.json();
       if (!r.ok) throw Error(data.detail || "Analysis failed");
       acceptEvidence(data);
+      if (data.recorded_response)
+        setReview({ ...data.recorded_response.review, cached: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Analysis failed");
     } finally {
@@ -428,13 +428,7 @@ function App() {
       </div>
 
       {activeView === "benchmark" && (
-        <BenchmarkHub
-          onLoadDemo={(kind) => {
-            setActiveView("workbench");
-            setAppMode("comparator");
-            analyze(kind);
-          }}
-        />
+        <BenchmarkHub />
       )}
 
       {activeView === "workbench" && (
@@ -770,16 +764,9 @@ function App() {
                       <button
                         className="quiet"
                         disabled={busy || collectionBusy || reviewBusy !== null}
-                        onClick={() => analyze("benchmark")}
+                        onClick={() => analyze("hero")}
                       >
-                        Try benchmark omission →
-                      </button>
-                      <button
-                        className="quiet"
-                        disabled={busy || collectionBusy || reviewBusy !== null}
-                        onClick={() => analyze("crop")}
-                      >
-                        Try spatial crop demo →
+                        Try hero demo (recorded response) →
                       </button>
                     </div>
                     <details className="content-policy-note">
@@ -1202,6 +1189,12 @@ function App() {
                       )}
                     />
                     <h3>Bounded semantic review</h3>
+                    {e?.recorded_response && (
+                      <p>
+                        <strong>{e.recorded_response.label}</strong> ·{" "}
+                        {e.recorded_response.note}
+                      </p>
+                    )}
                     <p>
                       <strong>Possible Effect:</strong>{" "}
                       {review.interpretation.possible_effect}
