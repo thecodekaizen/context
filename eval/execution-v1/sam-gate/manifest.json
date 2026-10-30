@@ -1,0 +1,80 @@
+{
+  "model": "sam-3.1",
+  "prompt": "green vertical bars in the bar chart",
+  "minimum_pixel_recall": 0.7,
+  "minimum_iou": 0.5,
+  "minimum_successful_crop_fraction": 0.7,
+  "scope": "10 screen-content crops across three controlled JavaScript benchmark recordings, not natural tutorial footage. Color-derived masks from known authored chart bars, frozen before API calls. No boxes or truth masks sent to model. Passing this narrow gate does not validate occlusion or identity tracking.",
+  "cases": [
+    {
+      "image": "crop-00.png",
+      "sha256": "aa5642906b8f9446991529fc7ce9b96bb28b12cfc1de1e0ab5f1b22da3c23110",
+      "truth": "crop-00-truth.png",
+      "truth_sha256": "48b44f393b4c96d7c045e5093bd09122c0b6c34ad8b70de544098bcf893cb81d",
+      "source_sha256": "d77ac16b591bf5a58a3921ec8f31a74fe82b8f226eb2925b52637ef088166608"
+    },
+    {
+      "image": "crop-01.png",
+      "sha256": "4ade9f4d7ce07b71f92fa87a1392d0ba74654bfdc9a3975171e24c36eb994a88",
+      "truth": "crop-01-truth.png",
+      "truth_sha256": "c244c0d9441e21d707e944871e5d48d9b60459b5bf29162d08a788eb114038ed",
+      "source_sha256": "1529b8430ca728562ff11b0b1d2dfc452584492a42ee46e8e4dd0b3ab7862c3f"
+    },
+    {
+      "image": "crop-02.png",
+      "sha256": "8dfb5529b9c18350301d159a2800b83493ba6ad3c94e8fd6ea88cc7d60ade2b7",
+      "truth": "crop-02-truth.png",
+      "truth_sha256": "dd11db2479416ef6576fb224f9689a9bc4b606e2ea6a348f590bd14f295bb042",
+      "source_sha256": "ad793c55f527506b4c8ed64b0e0b3abc14718430c27d7e4b83eab547c1018003"
+    },
+    {
+      "image": "crop-03.png",
+      "sha256": "b554cd28a4b09c5e57dce1ab400dff6fb9d05a5c8f11afad0fcbc2a82297c897",
+      "truth": "crop-03-truth.png",
+      "truth_sha256": "73631f846f4330734d15b71714bedc1f514eb34848bf9c54a085a44d42ebb139",
+      "source_sha256": "d77ac16b591bf5a58a3921ec8f31a74fe82b8f226eb2925b52637ef088166608"
+    },
+    {
+      "image": "crop-04.png",
+      "sha256": "33346310ff9c4de036129860de97065086df3147d267c6de5fec9824419dc039",
+      "truth": "crop-04-truth.png",
+      "truth_sha256": "df52978ae46ec2efff70409e53a8714e2d2f9c21cf238e4cfb06a8604a62736b",
+      "source_sha256": "1529b8430ca728562ff11b0b1d2dfc452584492a42ee46e8e4dd0b3ab7862c3f"
+    },
+    {
+      "image": "crop-05.png",
+      "sha256": "821c0fc4bee7cc5818378423e4e02f5eccdfc3032a5447d52fa7d5c3568bf858",
+      "truth": "crop-05-truth.png",
+      "truth_sha256": "bd8acb8f3fc6233e53d579838c0c35574c90250ef7a094abd3aca7deb4bdde71",
+      "source_sha256": "ad793c55f527506b4c8ed64b0e0b3abc14718430c27d7e4b83eab547c1018003"
+    },
+    {
+      "image": "crop-06.png",
+      "sha256": "1d7de0f5ce629708853bdbff5facfb5bc39529eab6a649504f25453b5a1ba0ad",
+      "truth": "crop-06-truth.png",
+      "truth_sha256": "b613ab069d36970f577985546f4c39bc84a9273c5597c956f3f7346aa376a1ed",
+      "source_sha256": "d77ac16b591bf5a58a3921ec8f31a74fe82b8f226eb2925b52637ef088166608"
+    },
+    {
+      "image": "crop-07.png",
+      "sha256": "327d006a90e8b892854b136a853871b1d3b840ca94efcf1315d71e94b28f523b",
+      "truth": "crop-07-truth.png",
+      "truth_sha256": "c15a384345eb602a007d758dd541b0fb6ab4367232e1012ed2cf24c2024cea7b",
+      "source_sha256": "1529b8430ca728562ff11b0b1d2dfc452584492a42ee46e8e4dd0b3ab7862c3f"
+    },
+    {
+      "image": "crop-08.png",
+      "sha256": "3f88ea059faea81ae014e5dfbc26ff71eab806184f0f3d5429d5eb01bc25e236",
+      "truth": "crop-08-truth.png",
+      "truth_sha256": "765e6a455431939ebc26834027b52b5539ade42a5e9cf416ef92ca3dc73df94f",
+      "source_sha256": "ad793c55f527506b4c8ed64b0e0b3abc14718430c27d7e4b83eab547c1018003"
+    },
+    {
+      "image": "crop-09.png",
+      "sha256": "a829aa07349149da3da0e0cbd9723a8e46e0dca3b0b058efb33242f4f955d706",
+      "truth": "crop-09-truth.png",
+      "truth_sha256": "ec1eaee8c5adb6ca738fbb882431e95a1e486a5d9593a7639bbd6d2eced3c619",
+      "source_sha256": "d77ac16b591bf5a58a3921ec8f31a74fe82b8f226eb2925b52637ef088166608"
+    }
+  ]
+}

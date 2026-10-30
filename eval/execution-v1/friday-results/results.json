@@ -1,0 +1,106 @@
+{
+  "manifest_sha256": "33557039642371028510892d43b1a7d22bae75f0e45e5c848d7f077a2df1129a",
+  "scope": "Three CC0 browser recordings of actual JavaScript microbenchmarks, authored by automation for this evaluation. These are controlled benchmark demos, not builder-recorded hero clips or field footage. No speech, people, politics or fabricated model results. Soundtrack is a disclosed synthetic diagnostic signal, not narration. Transform labels measure deleted media, not whether a deletion changes meaning.",
+  "interval_recall": 1.0,
+  "boundary_error_seconds": 0.0,
+  "benign_false_alarm_rate": 0.0,
+  "kill_switch": false,
+  "passed": true,
+  "cases": [
+    {
+      "id": "sort-omission",
+      "benign": false,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "cache-omission",
+      "benign": false,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "serialize-omission",
+      "benign": false,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "sort-reorder",
+      "benign": true,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "cache-speed_1_25",
+      "benign": true,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "serialize-trim_intro",
+      "benign": true,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "sort-reencode",
+      "benign": true,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "cache-subtitles",
+      "benign": true,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "serialize-audio_only",
+      "benign": false,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "cache-crop_omission",
+      "benign": false,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}

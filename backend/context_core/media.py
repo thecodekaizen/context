@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import math
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
@@ -44,10 +45,39 @@ def probe(path):
     if not stream:
         raise ValueError("A video stream is required")
     duration = float(raw["format"].get("duration", stream.get("duration", 0)))
-    if not 0 < duration <= MAX_DURATION:
+    if duration == 0:
+        # Browser MediaRecorder WebM has no finalized duration header. Inspect
+        # packet timestamps instead of treating a valid recording as empty.
+        packets = run(
+            [
+                "ffprobe",
+                "-v",
+                "error",
+                "-select_streams",
+                "v:0",
+                "-show_entries",
+                "packet=pts_time,duration_time",
+                "-of",
+                "csv=p=0",
+                str(path),
+            ]
+        )
+        for row in packets.decode().splitlines():
+            parts = row.split(",")
+            try:
+                end = float(parts[0]) + (
+                    float(parts[1]) if len(parts) > 1 and parts[1] != "N/A" else 0
+                )
+                if math.isfinite(end):
+                    duration = max(duration, end)
+            except ValueError:
+                continue
+    if not math.isfinite(duration) or not 0 < duration <= MAX_DURATION:
         raise ValueError(f"Video must be between 0 and {MAX_DURATION} seconds")
     return {
         "duration": duration,
+        "video_duration": float(stream.get("duration", duration)),
+        "frame_rate": stream.get("avg_frame_rate", "0/1"),
         "width": stream["width"],
         "height": stream["height"],
         "codec": stream["codec_name"],
@@ -160,15 +190,16 @@ def playback_file(path, target):
 
 
 def save_evidence(directory, result):
+    from .grounded_omissions import grounded_omissions
+
     directory = Path(directory)
+    result["omission_evidence"] = grounded_omissions(result)
     result["id"] = directory.name
     result["media"] = {}
     for kind, filename in [("source", "original"), ("edited", "edited")]:
         source_path = directory / f"{filename}.mp4"
         if source_path.exists():
-            playback = playback_file(
-                source_path, directory / f"{filename}-preview.mp4"
-            )
+            playback = playback_file(source_path, directory / f"{filename}-preview.mp4")
             result["media"][kind] = f"/api/media/{directory.name}/{playback.name}"
     temporary = directory / "evidence.tmp"
     temporary.write_text(json.dumps(result, indent=2))

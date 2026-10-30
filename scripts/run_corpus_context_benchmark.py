@@ -12,9 +12,9 @@ Measures:
 import asyncio
 import hashlib
 import json
-import os
 import sys
 import time
+from datetime import UTC, datetime
 from pathlib import Path
 from uuid import uuid4
 
@@ -62,11 +62,11 @@ CASES = [
     },
     {
         "name": "case_5_unrelated_unknown_negative",
-        "video": ROOT / "data/evaluation/blender.mp4",
-        "caption": "Open movie creative project scene",
+        "video": ROOT / "data/demo/unknown.mp4",
+        "caption": "Generated color-bar negative control",
         "expected_source_name": None,  # Ground truth: NOT in corpus
         "expected_verdict": "inconclusive",
-        "category": "unknown_source_negative",
+        "category": "synthetic_unrelated_negative",
     },
 ]
 
@@ -76,11 +76,11 @@ async def run_single_case(spec, output_dir):
     video_path = spec["video"]
     caption = spec["caption"]
 
-    print(f"\n========================================================")
+    print("\n========================================================")
     print(f"RUNNING BENCHMARK: {case_name}")
     print(f"Input: {video_path.name} ({probe(video_path)['duration']:.1f}s)")
-    print(f"Caption: \"{caption}\"")
-    print(f"========================================================")
+    print(f'Caption: "{caption}"')
+    print("========================================================")
 
     job_dir = output_dir / case_name
     job_dir.mkdir(parents=True, exist_ok=True)
@@ -105,12 +105,11 @@ async def run_single_case(spec, output_dir):
     margin = matched.get("margin", 0.0)
 
     if spec["expected_source_name"] is None:
-        retrieval_pass = (retrieval_status == "no_match")
+        retrieval_pass = retrieval_status == "no_match"
     else:
-        retrieval_pass = (
-            retrieval_status == "matched"
-            and spec["expected_source_name"] in (retrieved_name or "")
-        )
+        retrieval_pass = retrieval_status == "matched" and spec[
+            "expected_source_name"
+        ] in (retrieved_name or "")
 
     # Evaluate Observations & Claims
     analysis = dossier.get("analysis", {})
@@ -123,8 +122,29 @@ async def run_single_case(spec, output_dir):
     contradicted = [f for f in findings if f.get("verdict") == "contradicted"]
     supported = [f for f in findings if f.get("verdict") == "supported"]
 
+    semantics = [
+        x.get("interpretation", {}).get("classification")
+        for x in dossier.get("comparison", {}).get("reviews", [])
+        if x.get("status") == "complete"
+    ]
+    expected_semantic = {
+        "not_misleading": "harmless_edit",
+        "misleading": "meaning_changed",
+        "inconclusive": "inconclusive",
+    }[spec["expected_verdict"]]
+    semantic_pass = (
+        expected_semantic in semantics
+        if expected_semantic != "inconclusive"
+        else not semantics or all(x == "inconclusive" for x in semantics)
+    )
     result = {
         "case": case_name,
+        "semantic_check": {
+            "expected": expected_semantic,
+            "returned": semantics,
+            "correct": semantic_pass,
+        },
+        "operational_complete": dossier.get("status") == "complete",
         "input_video": video_path.name,
         "category": spec["category"],
         "elapsed_seconds": round(elapsed, 2),
@@ -153,8 +173,12 @@ async def run_single_case(spec, output_dir):
     }
 
     print(f"Result for {case_name}:")
-    print(f"  Retrieval: {retrieval_status} -> {retrieved_name} (cov={coverage}, margin={margin}) -> {'PASS' if retrieval_pass else 'FAIL'}")
-    print(f"  Observations: {obs_count}, Claims: {claims_count}, Findings: {len(findings)}")
+    print(
+        f"  Retrieval: {retrieval_status} -> {retrieved_name} (cov={coverage}, margin={margin}) -> {'PASS' if retrieval_pass else 'FAIL'}"
+    )
+    print(
+        f"  Observations: {obs_count}, Claims: {claims_count}, Findings: {len(findings)}"
+    )
     print(f"  Contradicted: {len(contradicted)}, Supported: {len(supported)}")
     print(f"  Elapsed: {elapsed:.1f}s")
 
@@ -164,11 +188,14 @@ async def run_single_case(spec, output_dir):
 async def main():
     load_dotenv(ROOT / ".env")
     lib_sources = list_sources(ROOT / "data/library")
-    print(f"Initialized benchmark with {len(lib_sources)} indexed corpus sources in data/library:")
+    print(
+        f"Initialized benchmark with {len(lib_sources)} indexed corpus sources in data/library:"
+    )
     for s in lib_sources:
         print(f" - [{s['id'][:10]}] {s['name']} ({s.get('duration', 0)}s)")
 
-    output_dir = ROOT / "data/corpus_benchmark_results"
+    run_id = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid4().hex[:8]
+    output_dir = ROOT / "data/corpus_benchmark_results" / run_id
     output_dir.mkdir(parents=True, exist_ok=True)
 
     results = []
@@ -176,20 +203,45 @@ async def main():
         try:
             res = await run_single_case(spec, output_dir)
             results.append(res)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 — retain every attempted case
             print(f"ERROR on {spec['name']}: {type(e).__name__}: {e}")
-            results.append({
-                "case": spec["name"],
-                "error": str(e),
-                "correct": False,
-            })
+            results.append(
+                {
+                    "case": spec["name"],
+                    "error": str(e),
+                    "correct": False,
+                }
+            )
 
     report_path = output_dir / "benchmark_report.json"
     report_path.write_text(json.dumps(results, indent=2))
-    print(f"\n========================================================")
+    summary = {
+        "run_id": run_id,
+        "scope": "Development regression, not EVID or independent held-out accuracy",
+        "attempted": len(CASES),
+        "completed": sum(x.get("operational_complete", False) for x in results),
+        "service_or_pipeline_failures": sum(
+            bool(x.get("error")) or not x.get("operational_complete", False)
+            for x in results
+        ),
+        "retrieval_correct": sum(
+            x.get("retrieval", {}).get("correct", False) for x in results
+        ),
+        "semantic_correct": sum(
+            x.get("semantic_check", {}).get("correct", False) for x in results
+        ),
+        "cases": results,
+    }
+    (output_dir / "summary.json").write_text(json.dumps(summary, indent=2))
+    print("\n========================================================")
     print(f"BENCHMARK COMPLETED. Saved full report to {report_path}")
-    print(f"========================================================")
+    print("========================================================")
+    return (
+        summary["completed"] == len(CASES)
+        and summary["retrieval_correct"] == len(CASES)
+        and summary["semantic_correct"] == len(CASES)
+    )
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    sys.exit(0 if asyncio.run(main()) else 1)

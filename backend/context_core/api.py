@@ -8,8 +8,8 @@ from typing import Annotated
 from uuid import uuid4
 
 import httpx
-from fastapi import FastAPI, File, HTTPException, UploadFile
-from fastapi.responses import FileResponse
+from fastapi import FastAPI, File, HTTPException, Request, UploadFile
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.concurrency import run_in_threadpool
 
@@ -19,14 +19,35 @@ from .dossier_api import router as dossier_router
 from .fixtures import generate
 from .library import add_source, list_sources, rank_sources
 from .media import playback_file, save_evidence
-from .meta import evidence_signature, interpret
+from .meta import evidence_signature, interpret, require_grounded_omission
 from .prelude import run_prelude_investigation
+from .providers import configured
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data"
 DATA.mkdir(exist_ok=True)
-app = FastAPI(title="CONTEXT", version="0.2.0")
+app = FastAPI(title="CONTEXT", version="0.3.0")
 lock = threading.Lock()
+
+
+@app.middleware("http")
+async def local_origin(request: Request, call_next):
+    if request.method in {
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+    } and request.url.path.startswith("/api/"):
+        origin = request.headers.get("origin")
+        allowed = {str(request.base_url).rstrip("/")}
+        if request.client and request.client.host in {"127.0.0.1", "::1", "testclient"}:
+            allowed.update({"http://127.0.0.1:5173", "http://localhost:5173"})
+        if origin and origin.rstrip("/") not in allowed:
+            return JSONResponse(
+                {"detail": "Cross-origin engine requests are not allowed"},
+                status_code=403,
+            )
+    return await call_next(request)
 
 
 def investigation(directory, source_name=None, edited_name=None):
@@ -56,6 +77,9 @@ def health():
     return {
         "status": "ok",
         "meta_configured": bool(os.getenv("MODEL_API_KEY")),
+        "semantic_example_id": "83767ad0f4c44a6e93cac7b7eea7dc48"
+        if (DATA / "83767ad0f4c44a6e93cac7b7eea7dc48/dossier.json").is_file()
+        else None,
         "film_demo_available": (DATA / "evaluation/source.mp4").is_file()
         and (DATA / "evaluation/omission.mp4").is_file(),
     }
@@ -138,6 +162,54 @@ async def film_demo():
         lock.release()
 
 
+@app.post("/api/demo/benchmark")
+async def benchmark_demo():
+    source = ROOT / "eval/execution-v1/sources/sort.mp4"
+    edited = ROOT / "data/execution-v1/edits/sort-omission.mp4"
+    if not source.is_file() or not edited.is_file():
+        raise HTTPException(404, "Restore the frozen execution fixtures first")
+    if not lock.acquire(blocking=False):
+        raise HTTPException(429, "An analysis is already running")
+    directory = DATA / "execution-benchmark"
+    directory.mkdir(exist_ok=True)
+    try:
+        shutil.copyfile(source, directory / "original.mp4")
+        shutil.copyfile(edited, directory / "edited.mp4")
+        result = await run_in_threadpool(
+            investigation,
+            directory,
+            "Controlled JavaScript sort benchmark (CC0)",
+            "Scripted benchmark omission",
+        )
+        return result
+    finally:
+        lock.release()
+
+
+@app.post("/api/demo/crop")
+async def crop_demo():
+    source = ROOT / "eval/execution-v1/sources/cache.mp4"
+    edited = ROOT / "data/execution-v1/edits/cache-crop_omission.mp4"
+    if not source.is_file() or not edited.is_file():
+        raise HTTPException(404, "Restore the frozen execution fixtures first")
+    if not lock.acquire(blocking=False):
+        raise HTTPException(429, "An analysis is already running")
+    directory = DATA / "execution-crop-demo"
+    directory.mkdir(exist_ok=True)
+    try:
+        shutil.copyfile(source, directory / "original.mp4")
+        shutil.copyfile(edited, directory / "edited.mp4")
+        result = await run_in_threadpool(
+            investigation,
+            directory,
+            "Controlled JavaScript cache benchmark (CC0)",
+            "Spatial crop & peripheral context omission",
+        )
+        return result
+    finally:
+        lock.release()
+
+
 @app.get("/api/media/{identifier}/{filename}")
 def media(identifier: str, filename: str):
     if not valid_identifier(identifier) or filename not in {
@@ -165,13 +237,14 @@ async def review(identifier: str, finding_id: str):
         raise HTTPException(429, "An analysis is already running")
     try:
         evidence = json.loads((directory / "evidence.json").read_text())
+        require_grounded_omission(evidence, finding_id)
         signature = evidence_signature(evidence, finding_id)
         cached = directory / f"interpretation-{finding_id}.json"
         if cached.is_file():
             previous = json.loads(cached.read_text())
             if previous.get("evidence_signature") == signature:
                 return {**previous, "cached": True}
-        if not os.getenv("MODEL_API_KEY"):
+        if not configured():
             raise HTTPException(
                 503,
                 "Meta analysis unavailable: configure MODEL_API_KEY in the server environment.",
@@ -355,11 +428,13 @@ async def list_prelude_samples():
     items = []
     for sid, meta in PRELUDE_SAMPLES.items():
         vpath = PRELUDE_BENCHMARK_DIR / meta["filename"]
-        items.append({
-            **meta,
-            "available": vpath.exists(),
-            "media_url": f"/api/prelude/samples/{sid}/media",
-        })
+        items.append(
+            {
+                **meta,
+                "available": vpath.exists(),
+                "media_url": f"/api/prelude/samples/{sid}/media",
+            }
+        )
     return items
 
 
@@ -393,7 +468,9 @@ async def investigate_prelude(
                 raise HTTPException(404, f"Sample '{sample_id}' not found")
             vpath = PRELUDE_BENCHMARK_DIR / sample["filename"]
             if not vpath.exists():
-                raise HTTPException(404, f"Sample video file '{sample['filename']}' not found on disk")
+                raise HTTPException(
+                    404, f"Sample video file '{sample['filename']}' not found on disk"
+                )
             cutoff = t_cutoff if t_cutoff is not None else sample["t_cutoff"]
             incident = t_incident if t_incident is not None else sample["t_incident"]
             dossier = await run_prelude_investigation(
@@ -406,7 +483,9 @@ async def investigate_prelude(
             return dossier_dict
 
         if video is None:
-            raise HTTPException(400, "Either sample_id or video upload must be provided")
+            raise HTTPException(
+                400, "Either sample_id or video upload must be provided"
+            )
 
         upload_dir = DATA / f"prelude_upload_{uuid4().hex[:12]}"
         upload_dir.mkdir(parents=True, exist_ok=True)

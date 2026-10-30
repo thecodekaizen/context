@@ -1,0 +1,355 @@
+{
+  "alignment": {
+    "schema_version": "1.0",
+    "method": {
+      "name": "spatial-color-sequence-v2",
+      "sample_rate": 4,
+      "threshold": 0.075,
+      "timestamp_tolerance_seconds": 0.5
+    },
+    "source": {
+      "duration": 18.0,
+      "video_duration": 18.0,
+      "frame_rate": "24/1",
+      "width": 960,
+      "height": 640,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "container": "mov,mp4,m4a,3gp,3g2,mj2",
+      "audio_codec": "aac",
+      "has_audio": true,
+      "sha256": "1529b8430ca728562ff11b0b1d2dfc452584492a42ee46e8e4dd0b3ab7862c3f"
+    },
+    "edited": {
+      "duration": 12.0,
+      "video_duration": 12.0,
+      "frame_rate": "24/1",
+      "width": 960,
+      "height": 640,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "container": "mov,mp4,m4a,3gp,3g2,mj2",
+      "audio_codec": "aac",
+      "has_audio": true,
+      "sha256": "a4f367f3f431b1c42d221f2b1568bba8d9da51fa585f35601715ec9031da5302"
+    },
+    "diagnostics": {
+      "timing_rejected_fraction": 0.0,
+      "ambiguous_frame_fraction": 0.812
+    },
+    "status": "insufficient_evidence",
+    "coverage": 0.188,
+    "segments": [
+      {
+        "id": "s0",
+        "kind": "match",
+        "edited_start": 0.0,
+        "edited_end": 2.25,
+        "source_start": 0.0,
+        "source_end": 2.25,
+        "confidence": 0.998
+      },
+      {
+        "id": "s1",
+        "kind": "unmatched",
+        "edited_start": 2.25,
+        "edited_end": 12.0,
+        "source_start": null,
+        "source_end": null,
+        "confidence": 0
+      }
+    ],
+    "findings": [],
+    "limitations": [
+      "Visual coverage and findings describe images only. Separate audio correspondences locate sound; neither establishes speaker intent.",
+      "Repeated/static scenes may be rejected as ambiguous.",
+      "Cropping, overlays, speed changes and large color changes are not reliably supported.",
+      "Omissions require a supported cut or aligned boundary; unresolved source ranges are not labeled omitted. An edit alone does not establish misleading intent."
+    ],
+    "audio_alignment": {
+      "status": "analyzed",
+      "method": "normalized-waveform-correlation-v1",
+      "sample_rate": 2000,
+      "window_seconds": 1.0,
+      "hop_seconds": 0.5,
+      "minimum_correlation": 0.82,
+      "minimum_uniqueness_margin": 0.1,
+      "segments": [
+        {
+          "id": "audio-0",
+          "kind": "match",
+          "evidence": "audio",
+          "edited_start": 0.0,
+          "edited_end": 4.0,
+          "source_start": 0.0,
+          "source_end": 4.0,
+          "confidence": 1.0
+        },
+        {
+          "id": "audio-1",
+          "kind": "match",
+          "evidence": "audio",
+          "edited_start": 4.0,
+          "edited_end": 8.0,
+          "source_start": 7.0,
+          "source_end": 11.0,
+          "confidence": 1.0
+        },
+        {
+          "id": "audio-2",
+          "kind": "match",
+          "evidence": "audio",
+          "edited_start": 8.0,
+          "edited_end": 12.0,
+          "source_start": 14.0,
+          "source_end": 18.0,
+          "confidence": 0.9999
+        }
+      ],
+      "anchors": [
+        {
+          "edited_start": 0.0,
+          "edited_end": 1.0,
+          "source_start": 0.0,
+          "source_end": 1.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.99
+        },
+        {
+          "edited_start": 0.5,
+          "edited_end": 1.5,
+          "source_start": 0.5,
+          "source_end": 1.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.995
+        },
+        {
+          "edited_start": 1.0,
+          "edited_end": 2.0,
+          "source_start": 1.0,
+          "source_end": 2.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9905
+        },
+        {
+          "edited_start": 1.5,
+          "edited_end": 2.5,
+          "source_start": 1.5,
+          "source_end": 2.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9938
+        },
+        {
+          "edited_start": 2.0,
+          "edited_end": 3.0,
+          "source_start": 2.0,
+          "source_end": 3.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9908
+        },
+        {
+          "edited_start": 2.5,
+          "edited_end": 3.5,
+          "source_start": 2.5,
+          "source_end": 3.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9931
+        },
+        {
+          "edited_start": 3.0,
+          "edited_end": 4.0,
+          "source_start": 3.0,
+          "source_end": 4.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.99
+        },
+        {
+          "edited_start": 4.0,
+          "edited_end": 5.0,
+          "source_start": 7.0,
+          "source_end": 8.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9933
+        },
+        {
+          "edited_start": 4.5,
+          "edited_end": 5.5,
+          "source_start": 7.5,
+          "source_end": 8.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.99
+        },
+        {
+          "edited_start": 5.0,
+          "edited_end": 6.0,
+          "source_start": 8.0,
+          "source_end": 9.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9907
+        },
+        {
+          "edited_start": 5.5,
+          "edited_end": 6.5,
+          "source_start": 8.5,
+          "source_end": 9.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9905
+        },
+        {
+          "edited_start": 6.0,
+          "edited_end": 7.0,
+          "source_start": 9.0,
+          "source_end": 10.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9901
+        },
+        {
+          "edited_start": 6.5,
+          "edited_end": 7.5,
+          "source_start": 9.5,
+          "source_end": 10.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9928
+        },
+        {
+          "edited_start": 7.0,
+          "edited_end": 8.0,
+          "source_start": 10.0,
+          "source_end": 11.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9908
+        },
+        {
+          "edited_start": 8.0,
+          "edited_end": 9.0,
+          "source_start": 14.0,
+          "source_end": 15.0,
+          "correlation": 0.9999,
+          "uniqueness_margin": 0.9932
+        },
+        {
+          "edited_start": 8.5,
+          "edited_end": 9.5,
+          "source_start": 14.5,
+          "source_end": 15.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9907
+        },
+        {
+          "edited_start": 9.0,
+          "edited_end": 10.0,
+          "source_start": 15.0,
+          "source_end": 16.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9942
+        },
+        {
+          "edited_start": 9.5,
+          "edited_end": 10.5,
+          "source_start": 15.5,
+          "source_end": 16.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.99
+        },
+        {
+          "edited_start": 10.0,
+          "edited_end": 11.0,
+          "source_start": 16.0,
+          "source_end": 17.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9936
+        },
+        {
+          "edited_start": 10.5,
+          "edited_end": 11.5,
+          "source_start": 16.5,
+          "source_end": 17.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.989
+        },
+        {
+          "edited_start": 11.0,
+          "edited_end": 12.0,
+          "source_start": 17.0,
+          "source_end": 18.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9919
+        }
+      ],
+      "limitations": [
+        "Matching sound does not establish matching images or speaker intent.",
+        "Silence and repeated sound are rejected; dubbing, music replacement and speed changes may remain unresolved."
+      ]
+    }
+  },
+  "prediction": {
+    "status": "matched omissions",
+    "limitations": "Matched media deletion only; material effect on meaning remains unassessed. Boundary trims are not internal omissions. No match is an abstention, not proof of a faithful edit.",
+    "omissions": [
+      {
+        "source_start": 4.0,
+        "source_end": 7.0,
+        "edit_position": 4.0,
+        "confidence": 1.0,
+        "matched_evidence": {
+          "modality": "audio",
+          "before": {
+            "id": "audio-0",
+            "kind": "match",
+            "evidence": "audio",
+            "edited_start": 0.0,
+            "edited_end": 4.0,
+            "source_start": 0.0,
+            "source_end": 4.0,
+            "confidence": 1.0
+          },
+          "after": {
+            "id": "audio-1",
+            "kind": "match",
+            "evidence": "audio",
+            "edited_start": 4.0,
+            "edited_end": 8.0,
+            "source_start": 7.0,
+            "source_end": 11.0,
+            "confidence": 1.0
+          },
+          "source_sha256": "1529b8430ca728562ff11b0b1d2dfc452584492a42ee46e8e4dd0b3ab7862c3f",
+          "edited_sha256": "a4f367f3f431b1c42d221f2b1568bba8d9da51fa585f35601715ec9031da5302"
+        },
+        "explanation": null
+      },
+      {
+        "source_start": 11.0,
+        "source_end": 14.0,
+        "edit_position": 8.0,
+        "confidence": 0.9999,
+        "matched_evidence": {
+          "modality": "audio",
+          "before": {
+            "id": "audio-1",
+            "kind": "match",
+            "evidence": "audio",
+            "edited_start": 4.0,
+            "edited_end": 8.0,
+            "source_start": 7.0,
+            "source_end": 11.0,
+            "confidence": 1.0
+          },
+          "after": {
+            "id": "audio-2",
+            "kind": "match",
+            "evidence": "audio",
+            "edited_start": 8.0,
+            "edited_end": 12.0,
+            "source_start": 14.0,
+            "source_end": 18.0,
+            "confidence": 0.9999
+          },
+          "source_sha256": "1529b8430ca728562ff11b0b1d2dfc452584492a42ee46e8e4dd0b3ab7862c3f",
+          "edited_sha256": "a4f367f3f431b1c42d221f2b1568bba8d9da51fa585f35601715ec9031da5302"
+        },
+        "explanation": null
+      }
+    ]
+  }
+}

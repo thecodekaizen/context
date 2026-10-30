@@ -16,20 +16,29 @@ function App() {
   // Top-level product mode
   const [appMode, setAppMode] = useState<
     "investigation" | "prelude" | "comparator"
-  >("investigation");
+  >("comparator");
 
   // Single-video investigation state
   const [dossier, setDossier] = useState<Dossier | null>(null);
+  const [semanticExample, setSemanticExample] = useState<string | null>(null);
   const [dossierInputMode, setDossierInputMode] = useState<"upload" | "url">(
     "upload",
   );
   const [dossierFile, setDossierFile] = useState<File | null>(null);
+  const [referenceFile, setReferenceFile] = useState<File | null>(null);
   const [dossierUrl, setDossierUrl] = useState<string>("");
   const [dossierCaption, setDossierCaption] = useState<string>("");
   const [dossierBusy, setDossierBusy] = useState<boolean>(false);
   const [dossierStage, setDossierStage] = useState<string>("queued");
   const [dossierError, setDossierError] = useState<string>("");
   const [recentDossiers, setRecentDossiers] = useState<Dossier[]>([]);
+  const pollTimer = useRef<number | null>(null);
+  useEffect(
+    () => () => {
+      if (pollTimer.current !== null) window.clearInterval(pollTimer.current);
+    },
+    [],
+  );
 
   // Two-video comparator state (supporting capability)
   const [e, setE] = useState<Evidence | null>(null),
@@ -62,7 +71,10 @@ function App() {
     const controller = new AbortController();
     fetch("/api/health", { signal: controller.signal })
       .then((r) => r.json())
-      .then((data) => setFilmAvailable(Boolean(data.film_demo_available)))
+      .then((data) => {
+        setFilmAvailable(Boolean(data.film_demo_available));
+        setSemanticExample(data.semantic_example_id || null);
+      })
       .catch(() => {});
 
     loadRecentDossiers();
@@ -120,6 +132,7 @@ function App() {
 
     try {
       const formData = new FormData();
+      if (referenceFile) formData.append("reference", referenceFile);
       const targetUrl =
         presetTarget?.url !== undefined
           ? presetTarget.url
@@ -159,16 +172,20 @@ function App() {
         throw new Error(init.detail || "Failed to initiate investigation");
 
       const id = init.id;
-      // Start polling
+      const startedPolling = Date.now();
+      // Poll bounded jobs; stop rather than silently waiting forever.
+      if (pollTimer.current !== null) window.clearInterval(pollTimer.current);
       const pollInterval = window.setInterval(async () => {
         try {
           const pollRes = await fetch(
             `/api/dossiers/${encodeURIComponent(id)}`,
           );
+          if (!pollRes.ok) throw new Error("Job polling failed");
           if (pollRes.ok) {
             const data: Dossier = await pollRes.json();
             setDossierStage(data.stage);
-            if (data.status === "complete") {
+            setDossier(data);
+            if (data.status === "complete" || data.status === "partial") {
               window.clearInterval(pollInterval);
               setDossier(data);
               setDossierBusy(false);
@@ -185,9 +202,17 @@ function App() {
             }
           }
         } catch {
+          if (Date.now() - startedPolling > 10 * 60 * 1000) {
+            window.clearInterval(pollInterval);
+            setDossierBusy(false);
+            setDossierError(
+              "Stopped waiting after ten minutes. Reload this saved job to inspect retained evidence.",
+            );
+          }
           // ignore transient poll error
         }
       }, 2500);
+      pollTimer.current = pollInterval;
     } catch (err) {
       setDossierBusy(false);
       setDossierError(
@@ -256,7 +281,9 @@ function App() {
   const source = useRef<HTMLVideoElement>(null);
   const published = useRef<HTMLVideoElement>(null);
 
-  async function analyze(demo: false | true | "film" = false) {
+  async function analyze(
+    demo: false | true | "film" | "benchmark" | "crop" = false,
+  ) {
     setReview(null);
     setReviewError("");
     setBusy(true);
@@ -270,11 +297,15 @@ function App() {
         body.append("edited", edited);
       }
       const r = await fetch(
-        demo === "film"
-          ? "/api/demo/film"
-          : demo
-            ? "/api/demo"
-            : "/api/analyze",
+        demo === "benchmark"
+          ? "/api/demo/benchmark"
+          : demo === "crop"
+            ? "/api/demo/crop"
+            : demo === "film"
+              ? "/api/demo/film"
+              : demo
+                ? "/api/demo"
+                : "/api/analyze",
         { method: "POST", ...(!demo ? { body } : {}) },
       );
       const data = await r.json();
@@ -377,12 +408,12 @@ function App() {
           C<span className="brand-eye">◉</span>NTEXT
           <span className="brand-dot">.</span>
         </a>
-        <span className="tagline">MULTIMODAL VIDEO EVIDENCE INVESTIGATION</span>
+        <span className="tagline">SEE WHAT THE EDIT CUT OUT</span>
         <span className="local">● META GLOBAL HACKATHON 2026</span>
       </header>
 
       {/* Primary vs Supporting Mode Navigation */}
-      <nav className="mode-nav">
+      <nav className="mode-nav" hidden>
         <button
           className={`mode-tab-btn ${appMode === "investigation" ? "active" : ""}`}
           onClick={() => setAppMode("investigation")}
@@ -410,139 +441,202 @@ function App() {
       {appMode === "investigation" && (
         <section className="single-investigation-flow">
           {/* Launch Box if no active dossier or user wants to submit another */}
-          <div className="single-launch-grid">
-            <div className="single-launch-left">
-              <div className="eyebrow">MULTIMODAL VIDEO EVIDENCE DOSSIER</div>
-              <h1>
-                Investigate footage from <span>ONE input.</span>
-              </h1>
-              <p>
-                Submit any real-world video or public media URL. CONTEXT
-                autonomously understands visual events and speech using Meta
-                models, searches the live web for verified records, validates
-                cited excerpts, and exposes epistemic boundaries.
-              </p>
+          <details className="intake-details" open={!dossier}>
+            <summary>Start a new investigation</summary>
+            <div className="single-launch-grid">
+              <div className="single-launch-left">
+                <div className="eyebrow">MULTIMODAL VIDEO EVIDENCE DOSSIER</div>
+                <h1>
+                  Investigate footage from <span>ONE input.</span>
+                </h1>
+                <p>
+                  Upload a video, or use a supported direct NASA/Wikimedia media
+                  URL. CONTEXT extracts observations, searches documents and the
+                  NASA video catalog, and compares accessible source candidates
+                  using Meta models and your supplied sources. The first 180
+                  seconds are analyzed. Unproven evidence remains uncertain.
+                </p>
 
-              <div className="preset-banner">
-                <div className="preset-info">
-                  <span className="preset-title">
-                    Real-World Benchmark: Artemis I Moon Launch
-                  </span>
-                  <span className="preset-desc">
-                    Tests counterfactual claim "Artemis I carried astronauts"
-                    against live NASA records
-                  </span>
+                {semanticExample && (
+                  <div className="preset-banner semantic-example">
+                    <div className="preset-info">
+                      <span className="preset-title">
+                        See a consequential edit
+                      </span>
+                      <span className="preset-desc">
+                        “No humans are on board” becomes “humans are on board.”
+                        Inspect the saved model assessment and actual source
+                        footage.
+                      </span>
+                    </div>
+                    <button
+                      className="btn-preset"
+                      disabled={dossierBusy}
+                      onClick={() => void fetchDossier(semanticExample)}
+                    >
+                      Inspect saved semantic reversal ↗
+                    </button>
+                  </div>
+                )}
+                <div className="preset-banner">
+                  <div className="preset-info">
+                    <span className="preset-title">
+                      Real-World Benchmark: Artemis I Moon Launch
+                    </span>
+                    <span className="preset-desc">
+                      Tests counterfactual claim "Artemis I carried astronauts"
+                      against live NASA records
+                    </span>
+                  </div>
+                  <button
+                    className="btn-preset"
+                    disabled={dossierBusy}
+                    onClick={loadBenchmarkPreset}
+                  >
+                    Open Saved Investigation ↗
+                  </button>
                 </div>
-                <button
-                  className="btn-preset"
-                  disabled={dossierBusy}
-                  onClick={loadBenchmarkPreset}
-                >
-                  Open Saved Investigation ↗
-                </button>
+
+                {recentDossiers.length > 0 && (
+                  <div
+                    className="recent-dossiers-box"
+                    style={{ marginTop: 20 }}
+                  >
+                    <div className="card-eyebrow" style={{ marginBottom: 8 }}>
+                      PREVIOUS INVESTIGATIONS
+                    </div>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                      {recentDossiers.slice(0, 4).map((d) => (
+                        <button
+                          key={d.id}
+                          className="mode-tab-btn"
+                          style={{ fontSize: 10, padding: "5px 10px" }}
+                          onClick={() => fetchDossier(d.id)}
+                        >
+                          {d.caption
+                            ? `“${d.caption.slice(0, 28)}...”`
+                            : d.id.slice(0, 8)}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {recentDossiers.length > 0 && (
-                <div className="recent-dossiers-box" style={{ marginTop: 20 }}>
-                  <div className="card-eyebrow" style={{ marginBottom: 8 }}>
-                    PREVIOUS INVESTIGATIONS
-                  </div>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                    {recentDossiers.slice(0, 4).map((d) => (
-                      <button
-                        key={d.id}
-                        className="mode-tab-btn"
-                        style={{ fontSize: 10, padding: "5px 10px" }}
-                        onClick={() => fetchDossier(d.id)}
-                      >
-                        {d.caption
-                          ? `“${d.caption.slice(0, 28)}...”`
-                          : d.id.slice(0, 8)}
-                      </button>
-                    ))}
-                  </div>
+              <div className="launch-form-box">
+                <div className="input-mode-tabs">
+                  <button
+                    className={`input-mode-tab ${dossierInputMode === "upload" ? "active" : ""}`}
+                    onClick={() => setDossierInputMode("upload")}
+                    disabled={dossierBusy}
+                  >
+                    Upload Video
+                  </button>
+                  <button
+                    className={`input-mode-tab ${dossierInputMode === "url" ? "active" : ""}`}
+                    onClick={() => setDossierInputMode("url")}
+                    disabled={dossierBusy}
+                  >
+                    Public Media URL
+                  </button>
                 </div>
-              )}
-            </div>
 
-            <div className="launch-form-box">
-              <div className="input-mode-tabs">
-                <button
-                  className={`input-mode-tab ${dossierInputMode === "upload" ? "active" : ""}`}
-                  onClick={() => setDossierInputMode("upload")}
-                  disabled={dossierBusy}
-                >
-                  Upload Video
-                </button>
-                <button
-                  className={`input-mode-tab ${dossierInputMode === "url" ? "active" : ""}`}
-                  onClick={() => setDossierInputMode("url")}
-                  disabled={dossierBusy}
-                >
-                  Public Media URL
-                </button>
-              </div>
+                {dossierInputMode === "upload" ? (
+                  <div className="launch-field">
+                    <label>01 SELECT VIDEO (MP4, WEBM, MOV)</label>
+                    <input
+                      type="file"
+                      accept="video/*"
+                      disabled={dossierBusy}
+                      onChange={(e) => {
+                        setDossierFile(e.target.files?.[0] || null);
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div className="launch-field">
+                    <label>01 PUBLIC MEDIA URL (NASA, WIKIMEDIA COMMONS)</label>
+                    <input
+                      type="url"
+                      className="launch-input-text"
+                      placeholder="https://images-assets.nasa.gov/... or upload.wikimedia.org/..."
+                      value={dossierUrl}
+                      disabled={dossierBusy}
+                      onChange={(e) => setDossierUrl(e.target.value)}
+                    />
+                  </div>
+                )}
 
-              {dossierInputMode === "upload" ? (
+                {dossierFile && (
+                  <p role="status">Attached: {dossierFile.name}</p>
+                )}
                 <div className="launch-field">
-                  <label>01 SELECT VIDEO (MP4, WEBM, MOV)</label>
+                  <label htmlFor="reference-video">
+                    SOURCE RECORDING (OPTIONAL)
+                  </label>
                   <input
+                    id="reference-video"
                     type="file"
                     accept="video/*"
                     disabled={dossierBusy}
-                    onChange={(e) =>
-                      setDossierFile(e.target.files?.[0] || null)
+                    onChange={(event) =>
+                      setReferenceFile(event.target.files?.[0] || null)
                     }
                   />
+                  <p>
+                    Provide a source for direct correspondence and context
+                    review, or let CONTEXT search available sources.
+                  </p>
                 </div>
-              ) : (
                 <div className="launch-field">
-                  <label>01 PUBLIC MEDIA URL (NASA, WIKIMEDIA COMMONS)</label>
-                  <input
-                    type="url"
-                    className="launch-input-text"
-                    placeholder="https://images-assets.nasa.gov/... or upload.wikimedia.org/..."
-                    value={dossierUrl}
+                  <label>02 ACCOMPANYING CLAIM / CAPTION (OPTIONAL)</label>
+                  <textarea
+                    className="launch-input-textarea"
+                    placeholder="e.g. Artemis I carried astronauts to the Moon."
+                    value={dossierCaption}
                     disabled={dossierBusy}
-                    onChange={(e) => setDossierUrl(e.target.value)}
+                    onChange={(e) => setDossierCaption(e.target.value)}
                   />
                 </div>
-              )}
 
-              <div className="launch-field">
-                <label>02 ACCOMPANYING CLAIM / CAPTION (OPTIONAL)</label>
-                <textarea
-                  className="launch-input-textarea"
-                  placeholder="e.g. Artemis I carried astronauts to the Moon."
-                  value={dossierCaption}
-                  disabled={dossierBusy}
-                  onChange={(e) => setDossierCaption(e.target.value)}
-                />
-              </div>
-
-              <div className="launch-actions">
-                <button
-                  className="btn-primary-launch"
-                  disabled={
-                    dossierBusy ||
-                    (dossierInputMode === "upload"
-                      ? !dossierFile
-                      : !dossierUrl.trim())
-                  }
-                  onClick={() => startInvestigation()}
-                >
-                  {dossierBusy ? "Investigating..." : "Launch Investigation ↗"}
-                </button>
+                <div className="launch-actions">
+                  <button
+                    className="btn-primary-launch"
+                    disabled={
+                      dossierBusy ||
+                      (dossierInputMode === "upload"
+                        ? !dossierFile
+                        : !dossierUrl.trim())
+                    }
+                    onClick={() => startInvestigation()}
+                  >
+                    {dossierBusy
+                      ? "Investigating..."
+                      : "Launch Investigation ↗"}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-
+          </details>
           {/* Running Progress Card */}
           {dossierBusy && (
             <div className="progress-box">
               <div className="progress-header">
                 <div className="spinner" />
                 <strong>AUTONOMOUS INVESTIGATION IN PROGRESS</strong>
+                <button
+                  className="quiet"
+                  onClick={() => {
+                    if (pollTimer.current !== null)
+                      window.clearInterval(pollTimer.current);
+                    setDossierBusy(false);
+                    setDossierError(
+                      "Stopped waiting in this view. Server analysis may continue; open the saved investigation to inspect its result.",
+                    );
+                  }}
+                >
+                  Stop waiting
+                </button>
               </div>
               <div className="pipeline-steps">
                 <div
@@ -552,27 +646,33 @@ function App() {
                   <span>Prepare & Frames</span>
                 </div>
                 <div
-                  className={`pipeline-step ${dossierStage === "analyzing" ? "active" : dossierStage === "retrieving" || dossierStage === "verifying" || dossierStage === "complete" ? "done" : ""}`}
+                  className={`pipeline-step ${dossierStage === "analyzing" ? "active" : dossierStage === "comparing" || dossierStage === "retrieving" || dossierStage === "verifying" || dossierStage === "complete" ? "done" : ""}`}
                 >
                   <div className="step-num">2</div>
                   <span>Meta Video Model</span>
                 </div>
                 <div
-                  className={`pipeline-step ${dossierStage === "retrieving" ? "active" : dossierStage === "verifying" || dossierStage === "complete" ? "done" : ""}`}
+                  className={`pipeline-step ${dossierStage === "comparing" ? "active" : ["retrieving", "verifying", "complete"].includes(dossierStage) ? "done" : ""}`}
                 >
                   <div className="step-num">3</div>
+                  <span>Source Video & Comparison</span>
+                </div>
+                <div
+                  className={`pipeline-step ${dossierStage === "retrieving" ? "active" : dossierStage === "verifying" || dossierStage === "complete" ? "done" : ""}`}
+                >
+                  <div className="step-num">4</div>
                   <span>Live Web Search</span>
                 </div>
                 <div
                   className={`pipeline-step ${dossierStage === "verifying" ? "active" : dossierStage === "complete" ? "done" : ""}`}
                 >
-                  <div className="step-num">4</div>
+                  <div className="step-num">5</div>
                   <span>Document Fact-Check</span>
                 </div>
                 <div
                   className={`pipeline-step ${dossierStage === "complete" ? "done" : ""}`}
                 >
-                  <div className="step-num">5</div>
+                  <div className="step-num">6</div>
                   <span>Evidence Dossier</span>
                 </div>
               </div>
@@ -590,8 +690,9 @@ function App() {
           )}
 
           {/* Dossier Output Component */}
-          {dossier && !dossierBusy && (
+          {dossier && (
             <InvestigationDossier
+              key={dossier.id}
               dossier={dossier}
               onOpenComparator={openComparatorForCase}
             />
@@ -607,7 +708,7 @@ function App() {
       {/* MODE 3: TWO-VIDEO COMPARISON (SUPPORTING CAPABILITY) */}
       {appMode === "comparator" && (
         <section className="comparator-flow">
-          <div style={{ marginBottom: 16 }}>
+          <div style={{ marginBottom: 16 }} hidden>
             <button
               type="button"
               className="chip active"
@@ -622,17 +723,17 @@ function App() {
           <section className="intro">
             <div>
               <div className="eyebrow">
-                SUPPORTING DRILL-DOWN / WORKSPACE 002
+                CONTEXT / DEVELOPER TUTORIALS & BENCHMARK DEMOS
               </div>
               <h1>
-                Frame-level temporal
+                See what the edit
                 <br />
-                <span>alignment & omissions.</span>
+                <span>cut out.</span>
               </h1>
               <p>
-                When a matching original source is located, use our
-                deterministic alignment engine to inspect exact cuts, reordered
-                sequences, and omitted intervals.
+                Compare an edited tutorial or benchmark demo with its source.
+                Inspect the missing passage side by side. Meta can explain only
+                an omission supported by matched source intervals.
               </p>
             </div>
             <aside className="upload">
@@ -673,12 +774,19 @@ function App() {
                 <button
                   className="quiet"
                   disabled={busy || collectionBusy || reviewBusy !== null}
-                  onClick={() => analyze(true)}
+                  onClick={() => analyze("benchmark")}
                 >
-                  Try generated case →
+                  Try benchmark omission →
+                </button>
+                <button
+                  className="quiet"
+                  disabled={busy || collectionBusy || reviewBusy !== null}
+                  onClick={() => analyze("crop")}
+                >
+                  Try spatial crop demo →
                 </button>
               </div>
-              {filmAvailable && (
+              {false && filmAvailable && (
                 <button
                   className="quiet film-example"
                   disabled={busy || collectionBusy || reviewBusy !== null}
@@ -697,6 +805,16 @@ function App() {
             <div className="error" role="alert">
               {error}
             </div>
+          )}
+
+          {e?.omission_evidence && (
+            <p role="status">
+              {e.omission_evidence.status === "no material omission"
+                ? "no material omission"
+                : `${e.omission_evidence.omissions.length} matched internal omission(s)`}
+              {" · "}Matched media deletion does not establish changed meaning.
+              No match means insufficient evidence.
+            </p>
           )}
 
           {busy && (
@@ -909,7 +1027,15 @@ function App() {
                         <button
                           className="quiet"
                           style={{ fontSize: 10, padding: "4px 8px" }}
-                          disabled={reviewBusy === f.id}
+                          disabled={
+                            reviewBusy === f.id ||
+                            !e.omission_evidence?.omissions.some(
+                              (item) =>
+                                Math.abs(item.source_start - f.source_start) <=
+                                  0.5 &&
+                                Math.abs(item.source_end - f.source_end) <= 0.5,
+                            )
+                          }
                           onClick={(ev) => {
                             ev.stopPropagation();
                             reviewFinding(f);
@@ -937,7 +1063,7 @@ function App() {
                   border: "1px solid #364855",
                 }}
               >
-                <h3>Meta Multimodal Review ({review.model})</h3>
+                <h3>Model Review ({review.model})</h3>
                 <p>
                   <strong>Possible Effect:</strong>{" "}
                   {review.interpretation.possible_effect}

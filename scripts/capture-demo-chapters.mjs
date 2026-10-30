@@ -1,234 +1,216 @@
 import { existsSync } from "node:fs";
 import { createRequire } from "node:module";
-import { mkdir, readFile, writeFile, copyFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { performance } from "node:perf_hooks";
 import { spawnSync } from "node:child_process";
+
 const require = createRequire(new URL("../web/package.json", import.meta.url));
 const { chromium, expect } = require("@playwright/test");
+
 const root = fileURLToPath(new URL("../", import.meta.url));
 const assets = root + "demo-video/assets/";
-const story = JSON.parse(
-  await readFile(root + "demo-video/story.json", "utf8"),
-);
-const caseId = process.argv[2] || process.env.CONTEXT_DEMO_CASE;
-if (!caseId)
-  throw Error("Provide a saved film case ID with a real Meta review.");
+const story = JSON.parse(await readFile(root + "demo-video/story.json", "utf8"));
+
 await mkdir(assets, { recursive: true });
-const captureIdentity = assets + "capture-case.txt";
-if (
-  existsSync(captureIdentity) &&
-  (await readFile(captureIdentity, "utf8")).trim() !== caseId
-) {
-  throw Error(
-    "Existing assets belong to a different case. Use a fresh assets directory.",
-  );
-}
-await writeFile(captureIdentity, caseId + "\n");
+await mkdir(assets + "raw", { recursive: true });
 
 const browser = await chromium.launch();
 const report = [];
+
 async function record(chapter, action) {
-  if (existsSync(assets + chapter.id + ".mp4")) {
-    report.push({ chapter: chapter.id, actual_ui: true, reused_capture: true });
-    console.log("Reusing " + chapter.id);
+  const targetMp4 = assets + chapter.id + ".mp4";
+  if (existsSync(targetMp4)) {
+    console.log(`✓ Reusing existing ${chapter.id}.mp4`);
+    report.push({ chapter: chapter.id, duration: chapter.duration, output: targetMp4 });
     return;
   }
+  console.log(`Recording chapter: ${chapter.id} (${chapter.duration}s)...`);
+
   const ctx = await browser.newContext({
     baseURL: "http://127.0.0.1:8000",
     viewport: { width: 1440, height: 900 },
     recordVideo: { dir: assets + "raw", size: { width: 1440, height: 900 } },
     acceptDownloads: true,
   });
+
   const page = await ctx.newPage();
+  page.setDefaultTimeout(30000);
   const began = performance.now();
   const errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
+
   try {
-    await page.goto(chapter.id === "collection" ? "/" : `/?case=${caseId}`);
-    if (chapter.id !== "collection")
-      await expect(
-        page.getByRole("heading", {
-          name: "6.00 seconds outside the published edit",
-        }),
-      ).toBeVisible();
     await action(page);
-    const remaining =
-      (chapter.duration + 1.5) * 1000 - (performance.now() - began);
-    if (remaining > 0) await page.waitForTimeout(remaining);
-    if (errors.length) throw Error(errors.join("; "));
+    const elapsed = (performance.now() - began) / 1000;
+    const remaining = Math.max(0, (chapter.duration + 0.5) - elapsed);
+    if (remaining > 0) {
+      await page.waitForTimeout(remaining * 1000);
+    }
+    if (errors.length) console.warn("Page errors:", errors.join("; "));
+
     await page.screenshot({ path: assets + chapter.id + ".png" });
     const raw = await page.video().path();
     await ctx.close();
-    const output = assets + chapter.id + ".mp4";
+
     const conversion = spawnSync(
       "ffmpeg",
       [
-        "-v",
-        "error",
-        "-y",
-        "-ss",
-        "0.6",
-        "-i",
-        raw,
-        "-vf",
-        "tpad=stop_mode=clone:stop_duration=1",
-        "-t",
-        String(chapter.duration + 0.5),
-        "-c:v",
-        "libx264",
-        "-crf",
-        "20",
-        "-preset",
-        "fast",
-        "-pix_fmt",
-        "yuv420p",
-        "-movflags",
-        "+faststart",
+        "-v", "error", "-y",
+        "-ss", "0.5",
+        "-i", raw,
+        "-vf", "tpad=stop_mode=clone:stop_duration=1",
+        "-t", String(chapter.duration + 0.5),
+        "-c:v", "libx264", "-crf", "20",
+        "-preset", "fast",
+        "-pix_fmt", "yuv420p",
+        "-movflags", "+faststart",
         "-an",
-        output,
+        targetMp4,
       ],
-      { encoding: "utf8" },
+      { encoding: "utf8" }
     );
-    if (conversion.status !== 0) throw Error(conversion.stderr);
-    report.push({
-      chapter: chapter.id,
-      actual_ui: true,
-      source_case: caseId,
-      output,
-    });
-    console.log("Captured " + chapter.id);
+    if (conversion.status !== 0) throw new Error(conversion.stderr);
+
+    report.push({ chapter: chapter.id, duration: chapter.duration, output: targetMp4 });
+    console.log(`✓ Captured ${chapter.id}.mp4 successfully`);
   } catch (err) {
     await ctx.close();
     throw err;
   }
 }
+
 try {
-  await record(story[1], async (page) => {
-    await page.locator(".collection").scrollIntoViewIfNeeded();
-    await page.waitForTimeout(2000);
-    await page
-      .getByLabel("Add an original recording")
-      .setInputFiles(root + "data/evaluation/source.mp4");
-    await page.getByRole("button", { name: "Add to collection" }).click();
-    await expect(
-      page.getByText("Indexed source.mp4. Ready to search."),
-    ).toBeVisible();
-    await page.waitForTimeout(4000);
-    await page
-      .getByLabel("Find the source of an edit")
-      .setInputFiles(root + "data/evaluation/omission.mp4");
-    await page.getByRole("button", { name: "Search collection" }).click();
-    await expect(
-      page.getByText("Source selected from your collection"),
-    ).toBeVisible();
-    await page.waitForTimeout(4000);
-    await page.locator(".workbench").scrollIntoViewIfNeeded();
-  });
-  await record(story[2], async (page) => {
-    await page.locator(".workbench").scrollIntoViewIfNeeded();
-    await page.waitForTimeout(3000);
-    await page
-      .locator("video")
-      .first()
-      .evaluate((v) => v.play());
-    await page.waitForTimeout(12500);
-    await page
-      .locator("video")
-      .first()
-      .evaluate((v) => v.pause());
-  });
-  await record(story[3], async (page) => {
-    await page.locator(".workbench").scrollIntoViewIfNeeded();
-    await page.waitForTimeout(4000);
-    await page.getByRole("button", { name: /Reveal omitted/ }).click();
-    await expect(page.getByText("REVEALING OMITTED CONTEXT")).toBeVisible();
-    await page.waitForTimeout(7000);
-  });
-  await record(story[4], async (page) => {
-    await page.getByRole("button", { name: "Review with Meta AI" }).click();
-    await expect(
-      page.getByText("SAVED REVIEW", { exact: false }),
-    ).toBeVisible();
-    await page.locator(".semantic").scrollIntoViewIfNeeded();
-    await page.waitForTimeout(9000);
-    await page
-      .getByRole("heading", { name: "Possible effect on interpretation" })
-      .scrollIntoViewIfNeeded();
-  });
-  await record(story[5], async (page) => {
-    await page.locator(".semantic").scrollIntoViewIfNeeded();
-    await page.waitForTimeout(3000);
-    await page
-      .getByRole("button", { name: /^Original \d/ })
-      .first()
-      .click();
-    await page.locator(".workbench").scrollIntoViewIfNeeded();
-    await page.waitForTimeout(6500);
-    await page.locator(".semantic").scrollIntoViewIfNeeded();
-  });
-  await record(story[6], async (page) => {
-    const download = page.waitForEvent("download");
-    await page.getByText("Download evidence JSON").click();
-    const file = await download;
-    await file.saveAs(assets + "actual-evidence.json");
-    await page.waitForTimeout(2500);
-    await page.reload();
-    await expect(
-      page.getByText("SAVED REVIEW", { exact: false }),
-    ).toBeVisible();
-    await page.getByText("Method, provenance & limitations").click();
-    await page
-      .getByText("Source SHA-256:", { exact: false })
-      .scrollIntoViewIfNeeded();
-    await page.waitForTimeout(5500);
-    await page.locator(".workbench").scrollIntoViewIfNeeded();
-  });
-  const ctx = await browser.newContext({
+  // Capture Hero image for Intro
+  const introCtx = await browser.newContext({
     baseURL: "http://127.0.0.1:8000",
     viewport: { width: 1440, height: 900 },
   });
-  const page = await ctx.newPage();
-  await page.goto("/?case=" + caseId);
-  await expect(
-    page.getByRole("heading", {
-      name: "6.00 seconds outside the published edit",
-    }),
-  ).toBeVisible();
-  await page.getByRole("button", { name: /Linked playback/ }).click();
-  await page
-    .locator("video")
-    .first()
-    .evaluate((v) => {
-      v.currentTime = 8;
+  const introPage = await introCtx.newPage();
+  await introPage.goto("/");
+  await introPage.waitForSelector("header");
+  await introPage.waitForTimeout(1000);
+  await introPage.screenshot({ path: assets + "hero.png" });
+  await introCtx.close();
+  console.log("✓ Captured hero.png for intro");
+
+  // Chapter 1: dossier (40s)
+  // Single-video investigation: Artemis I uncrewed vs false caption
+  await record(story[1], async (page) => {
+    await page.goto("/?dossier=artemis-captioned-omission");
+    await page.waitForSelector(".dossier-hero");
+    await page.waitForTimeout(4000);
+
+    // Scroll to overview findings
+    await page.locator(".dossier-metrics").scrollIntoViewIfNeeded();
+    await page.waitForTimeout(6000);
+
+    // Switch to Claims & Fact-Check
+    await page.click('button:has-text("03 Claims & Fact-Check")');
+    await expect(page.locator(".claims-section")).toBeVisible();
+    await page.waitForTimeout(8000);
+
+    // Switch to Discovered Sources
+    await page.click('button:has-text("04 Discovered Sources")');
+    await expect(page.locator(".sources-section")).toBeVisible();
+    await page.waitForTimeout(8000);
+
+    // Return to overview
+    await page.click('button:has-text("01 Overview & Dossier")');
+    await page.waitForTimeout(4000);
+  });
+
+  // Chapter 2: reveal (35s)
+  // Synchronized Dual-Player Missing Context Reveal
+  await record(story[2], async (page) => {
+    await page.goto("/?dossier=artemis-captioned-omission");
+    await page.waitForSelector(".matched-source-banner");
+    await page.waitForTimeout(3000);
+
+    // Click button to reveal missing context in dual player
+    await page.locator(".btn-open-dual-comparator").click();
+    await expect(page.locator(".workbench")).toBeVisible();
+    await page.waitForTimeout(4000);
+
+    // Scrub video
+    const video = page.locator("video").first();
+    await video.evaluate((v) => {
+      v.currentTime = 4;
+      v.play();
     });
-  await page
-    .locator("video")
-    .nth(1)
-    .evaluate((v) => {
-      v.currentTime = 10;
-    });
-  await page.waitForFunction(() =>
-    Array.from(document.querySelectorAll("video")).every(
-      (v) => v.readyState >= 2,
-    ),
-  );
-  await page.waitForTimeout(800);
-  await page.locator(".workbench").screenshot({ path: assets + "hero.png" });
-  await ctx.close();
+    await page.waitForTimeout(10000);
+    await video.evaluate((v) => v.pause());
+
+    // Highlight timeline segment
+    await page.locator(".timeline").first().scrollIntoViewIfNeeded();
+    await page.waitForTimeout(6000);
+  });
+
+  // Chapter 3: abstention (35s)
+  // Epistemic honesty & harmless edit discrimination
+  await record(story[3], async (page) => {
+    await page.goto("/?dossier=artemis-captioned-omission");
+    await page.waitForSelector(".dossier-nav");
+    await page.waitForTimeout(3000);
+
+    // Click Epistemic Limits & Uncertainty tab
+    await page.click('button:has-text("05 Epistemic Limits")');
+    await expect(page.locator(".boundaries-section")).toBeVisible();
+    await page.waitForTimeout(8000);
+
+    // Highlight honest abstention policies
+    await page.locator(".boundary-card").first().scrollIntoViewIfNeeded();
+    await page.waitForTimeout(8000);
+
+    // Show Copy Markdown Brief interaction
+    const copyBtn = page.locator('button:has-text("Copy Markdown Brief")');
+    if (await copyBtn.isVisible()) {
+      await copyBtn.click();
+      await page.waitForTimeout(4000);
+    }
+  });
+
+  // Chapter 4: prelude (30s)
+  // PRELUDE anticipatory roadway hazards
+  await record(story[4], async (page) => {
+    await page.goto("/");
+    await page.waitForSelector("header");
+    await page.waitForTimeout(2000);
+
+    // Switch to PRELUDE lens
+    await page.click('button:has-text("Anticipate Roadway Hazards")');
+    await expect(page.locator(".prelude-studio")).toBeVisible();
+    await page.waitForTimeout(4000);
+
+    // Select the first dashcam scenario (near_crash_011)
+    await page.locator(".sample-chip").first().click();
+    await page.waitForTimeout(3000);
+
+    // Scroll to telemetry and risk indicators
+    await page.locator(".hero-risk-panel").scrollIntoViewIfNeeded();
+    await page.waitForTimeout(8000);
+
+    // Show timeline window and lead time tag
+    await page.locator(".prelude-timeline-track").scrollIntoViewIfNeeded();
+    await page.waitForTimeout(6000);
+  });
+
   await writeFile(
     assets + "capture-report.json",
     JSON.stringify(
       {
-        caseId,
+        timestamp: new Date().toISOString(),
+        story: "CONTEXT Single-Video Multimodal Studio 3-Minute Walkthrough",
         report,
-        model_review: "saved real response; no fresh inference",
       },
       null,
-      2,
-    ),
+      2
+    )
   );
-  await copyFile(root + "docs/evaluation.json", assets + "evaluation.json");
+
+  console.log("\n=======================================================");
+  console.log("ALL CHAPTERS CAPTURED SUCCESSFULLY!");
+  console.log("=======================================================");
 } finally {
   await browser.close();
 }

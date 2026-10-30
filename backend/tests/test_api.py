@@ -175,7 +175,9 @@ def test_prelude_samples_endpoint():
 
 
 def test_prelude_sample_media_endpoint():
-    r = client.get("/api/prelude/samples/near_crash_011/media", headers={"Range": "bytes=0-99"})
+    r = client.get(
+        "/api/prelude/samples/near_crash_011/media", headers={"Range": "bytes=0-99"}
+    )
     assert r.status_code in (200, 206)
     assert len(r.content) > 0
 
@@ -197,7 +199,9 @@ def test_prelude_investigate_sample_endpoint(monkeypatch):
 
     monkeypatch.setattr(prelude, "analyze_pre_incident_with_meta", mock_meta)
 
-    r = client.post("/api/prelude/investigate?sample_id=near_crash_011&t_cutoff=7.1&t_incident=7.8")
+    r = client.post(
+        "/api/prelude/investigate?sample_id=near_crash_011&t_cutoff=7.1&t_incident=7.8"
+    )
     assert r.status_code == 200, r.text
     dossier = r.json()
     assert dossier["hazard_detected"] is True
@@ -206,4 +210,3 @@ def test_prelude_investigate_sample_endpoint(monkeypatch):
     assert dossier["lead_time"] == 1.2
     assert "media_url" in dossier
     assert "disclaimer" in dossier
-

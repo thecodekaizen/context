@@ -1,0 +1,9 @@
+The benchmark.html fixture, its three automated browser recordings, measurement
+logs, and authored edit recipes in this directory are dedicated to the public
+domain under CC0 1.0 Universal: https://creativecommons.org/publicdomain/zero/1.0/
+
+These are controlled recordings of actual browser microbenchmarks. They contain
+no third-party video, speech, people or product performance claims. Their added
+diagnostic soundtrack is synthetic, not a human voice. They are not the builder's
+hero clips. Machine timing varies; rerun scoring on the frozen MP4s rather than
+re-recording them and treating a different source as the same evaluation.

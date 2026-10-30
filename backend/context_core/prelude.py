@@ -7,6 +7,7 @@ do not represent metric physical ground truth. Not for real-time driving safety.
 import base64
 import hashlib
 import json
+import math
 import os
 import subprocess
 from pathlib import Path
@@ -28,8 +29,12 @@ DISCLAIMER = (
 
 class TrajectoryPoint(BaseModel):
     time: float
-    box: list[float] = Field(description="[ymin, xmin, ymax, xmax] normalized to [0, 1]")
-    velocity: list[float] = Field(description="[vx, vy] normalized frame velocity per second")
+    box: list[float] = Field(
+        description="[ymin, xmin, ymax, xmax] normalized to [0, 1]"
+    )
+    velocity: list[float] = Field(
+        description="[vx, vy] normalized frame velocity per second"
+    )
     area: float = Field(description="Normalized bounding box area")
 
 
@@ -44,7 +49,9 @@ class ActorTrack(BaseModel):
 
 class PreludeFinding(BaseModel):
     hazard_detected: bool
-    risk_level: str = Field(description="'nominal' | 'low' | 'medium' | 'high' | 'critical'")
+    risk_level: str = Field(
+        description="'nominal' | 'low' | 'medium' | 'high' | 'critical'"
+    )
     t_cue_seconds: float | None = None
     t_incident_seconds: float | None = None
     lead_time_seconds: float | None = None
@@ -83,6 +90,12 @@ def extract_pre_incident_frames(
 
     Hard leak-proof cutoff: frames with t > t_cutoff NEVER reach downstream processing.
     """
+    if (
+        type(t_cutoff) not in (int, float)
+        or not math.isfinite(t_cutoff)
+        or t_cutoff <= 0
+    ):
+        raise ValueError("Cutoff must be finite and positive")
     video_path = Path(video_path).resolve()
     if not video_path.exists():
         raise FileNotFoundError(f"Video file not found: {video_path}")
@@ -167,7 +180,7 @@ def compute_actor_tracks(
 
         # Cross product of velocity with radial unit vector = perpendicular/lateral flow
         perp_flow = np.abs(roi_u * ry - roi_v * rx)
-        peak_lateral = float(np.percentile(perp_flow, 98))
+        peak_lateral = float(np.percentile(perp_flow, 98)) / dt
         lateral_flows.append(peak_lateral)
 
         # Detect moving foreground regions
@@ -180,7 +193,9 @@ def compute_actor_tracks(
         cleaned = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
         cleaned = cv2.morphologyEx(cleaned, cv2.MORPH_OPEN, kernel)
 
-        contours, _ = cv2.findContours(cleaned, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        contours, _ = cv2.findContours(
+            cleaned, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+        )
         frame_boxes = []
 
         for c in contours:
@@ -188,22 +203,29 @@ def compute_actor_tracks(
             if area > 450:  # significant actor size
                 x, y, w, h = cv2.boundingRect(c)
                 # normalized box [ymin, xmin, ymax, xmax]
-                norm_box = [round(y / height, 4), round(x / width, 4), round((y + h) / height, 4), round((x + w) / width, 4)]
+                norm_box = [
+                    round(y / height, 4),
+                    round(x / width, 4),
+                    round((y + h) / height, 4),
+                    round((x + w) / width, 4),
+                ]
                 norm_area = round((w * h) / (width * height), 5)
 
                 # Mean flow inside box
-                box_u = float(np.mean(flow[y:y+h, x:x+w, 0])) / width
-                box_v = float(np.mean(flow[y:y+h, x:x+w, 1])) / height
+                box_u = float(np.mean(flow[y : y + h, x : x + w, 0])) / width
+                box_v = float(np.mean(flow[y : y + h, x : x + w, 1])) / height
                 vel = [round(box_u / dt, 4), round(box_v / dt, 4)]
 
-                frame_boxes.append({
-                    "time": t,
-                    "box": norm_box,
-                    "velocity": vel,
-                    "area": norm_area,
-                    "cx": (x + w / 2) / width,
-                    "cy": (y + h / 2) / height,
-                })
+                frame_boxes.append(
+                    {
+                        "time": t,
+                        "box": norm_box,
+                        "velocity": vel,
+                        "area": norm_area,
+                        "cx": (x + w / 2) / width,
+                        "cy": (y + h / 2) / height,
+                    }
+                )
 
         active_boxes.append({"time": t, "boxes": frame_boxes})
         prev_gray = curr_gray
@@ -245,7 +267,11 @@ def compute_actor_tracks(
             a_init = history[0]["area"]
             a_final = history[-1]["area"]
             total_dt = history[-1]["time"] - history[0]["time"]
-            looming = float((a_final - a_init) / (a_init * total_dt)) if a_init > 0 and total_dt > 0 else 0.0
+            looming = (
+                float((a_final - a_init) / (a_init * total_dt))
+                if a_init > 0 and total_dt > 0
+                else 0.0
+            )
             looming_rates.append(looming)
 
             # Lateral crossing velocity (absolute horizontal motion toward center)
@@ -267,9 +293,15 @@ def compute_actor_tracks(
             )
 
     kinematics_summary = {
-        "peak_lateral_flow": round(float(np.max(lateral_flows)) if lateral_flows else 0.0, 3),
-        "mean_lateral_flow": round(float(np.mean(lateral_flows)) if lateral_flows else 0.0, 3),
-        "peak_looming_rate": round(float(np.max(looming_rates)) if looming_rates else 0.0, 3),
+        "peak_lateral_flow": round(
+            float(np.max(lateral_flows)) if lateral_flows else 0.0, 3
+        ),
+        "mean_lateral_flow": round(
+            float(np.mean(lateral_flows)) if lateral_flows else 0.0, 3
+        ),
+        "peak_looming_rate": round(
+            float(np.max(looming_rates)) if looming_rates else 0.0, 3
+        ),
         "active_tracks_count": len(tracks),
     }
 
@@ -295,7 +327,9 @@ async def analyze_pre_incident_with_meta(
             "risk_cue_seconds": None,
             "hazard_actor": None,
             "conflict_type": "api_key_not_configured",
-            "observations": ["Meta API key not configured; relying strictly on deterministic kinematics."],
+            "observations": [
+                "Meta API key not configured; relying strictly on deterministic kinematics."
+            ],
             "uncertainty": "Model verification omitted due to missing API key.",
         }
 
@@ -354,8 +388,12 @@ async def analyze_pre_incident_with_meta(
         # Encode JPEG
         _, buf = cv2.imencode(".jpg", frame, [cv2.IMWRITE_JPEG_QUALITY, 85])
         b64 = base64.b64encode(buf.tobytes()).decode("utf-8")
-        content.append({"type": "input_text", "text": f"Pre-incident frame at t={t:.2f}s:"})
-        content.append({"type": "input_image", "image_url": f"data:image/jpeg;base64,{b64}"})
+        content.append(
+            {"type": "input_text", "text": f"Pre-incident frame at t={t:.2f}s:"}
+        )
+        content.append(
+            {"type": "input_image", "image_url": f"data:image/jpeg;base64,{b64}"}
+        )
 
     async with httpx.AsyncClient(timeout=90, transport=transport) as client:
         response = await client.post(
@@ -398,6 +436,31 @@ async def analyze_pre_incident_with_meta(
         }
 
 
+def validate_risk_result(result, cutoff):
+    """Quarantine invalid model risk instead of interpreting unknown as safe."""
+    allowed = {"nominal", "low", "medium", "high", "critical", "unverified"}
+    hazard = result.get("hazard_detected")
+    level = result.get("risk_level")
+    cue = result.get("risk_cue_seconds")
+    valid_cue = type(cue) in (float, int) and math.isfinite(cue) and 0 <= cue <= cutoff
+    valid = type(hazard) is bool and level in allowed
+    valid = valid and (
+        not hazard or (valid_cue and level not in {"nominal", "unverified"})
+    )
+    valid = valid and (hazard or (cue is None and level not in {"high", "critical"}))
+    if not valid:
+        return {
+            "hazard_detected": False,
+            "risk_level": "unverified",
+            "risk_cue_seconds": None,
+            "conflict_type": "invalid_model_evidence",
+            "hazard_actor": None,
+            "observations": [],
+            "uncertainty": "Model risk evidence failed type, time or consistency validation; no safety conclusion is available.",
+        }
+    return result
+
+
 async def run_prelude_investigation(
     video_path: Path | str,
     t_cutoff: float | None = None,
@@ -420,8 +483,19 @@ async def run_prelude_investigation(
         else:
             t_cutoff = total_duration
 
-    # Strictly enforce bounds
-    t_cutoff = min(total_duration, max(0.2, t_cutoff))
+    # Reject invalid requested horizons; do not silently rewrite evidence time.
+    if (
+        type(t_cutoff) not in (float, int)
+        or not math.isfinite(t_cutoff)
+        or not 0 < t_cutoff <= total_duration
+    ):
+        raise ValueError("Cutoff must be finite and within video duration")
+    if t_incident is not None and (
+        type(t_incident) not in (float, int)
+        or not math.isfinite(t_incident)
+        or not t_cutoff < t_incident <= total_duration
+    ):
+        raise ValueError("Incident time must be within video and strictly after cutoff")
 
     # Hard leak-proof frame extraction (strictly <= t_cutoff)
     frames, timestamps = extract_pre_incident_frames(path, t_cutoff, fps=5)
@@ -438,8 +512,8 @@ async def run_prelude_investigation(
         # Deterministic kinematic-only fallback
         has_hz_track = any(tr.is_hazard for tr in tracks)
         model_result = {
-            "hazard_detected": has_hz_track or kinematics.get("peak_lateral_flow", 0) > 3.0,
-            "risk_level": "high" if has_hz_track else "low",
+            "hazard_detected": has_hz_track,
+            "risk_level": "high" if has_hz_track else "unverified",
             "risk_cue_seconds": t_cutoff if has_hz_track else None,
             "hazard_actor": "kinematic_crossing_actor" if has_hz_track else None,
             "conflict_type": "lateral_crossing" if has_hz_track else "nominal_flow",
@@ -449,8 +523,11 @@ async def run_prelude_investigation(
             "uncertainty": "Offline kinematic heuristic without model inference.",
         }
 
-    hazard_detected = bool(model_result.get("hazard_detected", False))
-    risk_level = model_result.get("risk_level", "low" if not hazard_detected else "high")
+    model_result = validate_risk_result(model_result, t_cutoff)
+    hazard_detected = model_result["hazard_detected"]
+    risk_level = model_result.get(
+        "risk_level", "low" if not hazard_detected else "high"
+    )
     t_cue = model_result.get("risk_cue_seconds")
     if t_cue is not None:
         t_cue = round(float(t_cue), 2)
@@ -472,13 +549,19 @@ async def run_prelude_investigation(
             else (
                 f"Early hazard cue identified at t={t_cue}s prior to cutoff t={t_cutoff}s."
                 if hazard_detected
-                else f"No imminent collision hazard detected prior to cutoff t={t_cutoff}s; traffic dynamics nominal."
+                else (
+                    "Risk assessment unavailable; no conclusion about safe traffic is established."
+                    if risk_level == "unverified"
+                    else f"No imminent collision hazard detected prior to cutoff t={t_cutoff}s; traffic dynamics nominal."
+                )
             )
         ),
         hazard_actor=model_result.get("hazard_actor"),
         kinematic_signals=kinematics,
         observations=model_result.get("observations", []),
-        uncertainty=model_result.get("uncertainty", "Monocular camera lacks metric ground truth."),
+        uncertainty=model_result.get(
+            "uncertainty", "Monocular camera lacks metric ground truth."
+        ),
     )
 
     # Timeline events
@@ -492,30 +575,36 @@ async def run_prelude_investigation(
     ]
 
     for tr in tracks:
-        timeline_events.append({
-            "time": tr.trajectory[0].time,
-            "kind": "actor_track",
-            "label": f"Track: {tr.track_id} ({tr.label})",
-            "detail": f"Looming rate: {tr.looming_rate}, lateral velocity: {tr.lateral_crossing_velocity}",
-            "is_hazard": tr.is_hazard,
-        })
+        timeline_events.append(
+            {
+                "time": tr.trajectory[0].time,
+                "kind": "actor_track",
+                "label": f"Track: {tr.track_id} ({tr.label})",
+                "detail": f"Looming rate: {tr.looming_rate}, lateral velocity: {tr.lateral_crossing_velocity}",
+                "is_hazard": tr.is_hazard,
+            }
+        )
 
     if hazard_detected and t_cue is not None:
-        timeline_events.append({
-            "time": t_cue,
-            "kind": "early_warning",
-            "label": "Early Hazard Cue Flagged",
-            "detail": f"Conflict type: {finding.conflict_type} ({finding.hazard_actor})",
-            "risk_level": risk_level,
-        })
+        timeline_events.append(
+            {
+                "time": t_cue,
+                "kind": "early_warning",
+                "label": "Early Hazard Cue Flagged",
+                "detail": f"Conflict type: {finding.conflict_type} ({finding.hazard_actor})",
+                "risk_level": risk_level,
+            }
+        )
 
     if t_incident is not None:
-        timeline_events.append({
-            "time": t_incident,
-            "kind": "incident_ground_truth",
-            "label": "Ground Truth Incident Moment",
-            "detail": f"Replay outcome verification; occurred {lead_time}s after early cue",
-        })
+        timeline_events.append(
+            {
+                "time": t_incident,
+                "kind": "incident_ground_truth",
+                "label": "Ground Truth Incident Moment",
+                "detail": f"Replay outcome verification; occurred {lead_time}s after early cue",
+            }
+        )
 
     dossier_id = hashlib.sha256(f"{path.name}_{t_cutoff}".encode()).hexdigest()[:16]
 

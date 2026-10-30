@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """PRELUDE Benchmark Evaluation Runner.
 
 Evaluates anticipatory hazard analysis on real Australian Roads Dashcam clips:
@@ -16,7 +15,10 @@ import asyncio
 import json
 import os
 import sys
+from datetime import UTC, datetime
 from pathlib import Path
+from uuid import uuid4
+
 from dotenv import load_dotenv
 
 # Ensure backend modules are on sys.path
@@ -29,7 +31,11 @@ load_dotenv()
 from context_core.prelude import run_prelude_investigation
 
 BENCHMARK_DIR = Path(__file__).resolve().parents[1] / "data/prelude_benchmark"
-RESULTS_DIR = Path(__file__).resolve().parents[1] / "data/prelude_benchmark_results"
+RESULTS_DIR = (
+    Path(__file__).resolve().parents[1]
+    / "data/prelude_benchmark_results"
+    / (datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid4().hex[:8])
+)
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 CASES = [
@@ -83,11 +89,16 @@ async def run_benchmark():
     for case in CASES:
         print(f"\n--- Running Case: {case['case_id']} ---")
         print(f"Description: {case['description']}")
-        print(f"File: {case['video_file']} | t_cutoff={case['t_cutoff']}s | t_incident={case['t_incident']}")
+        print(
+            f"File: {case['video_file']} | t_cutoff={case['t_cutoff']}s | t_incident={case['t_incident']}"
+        )
 
         video_path = BENCHMARK_DIR / case["video_file"]
         if not video_path.exists():
             print(f"SKIPPED: Video file {video_path} not found.")
+            results.append(
+                {"case_id": case["case_id"], "status": "missing_media", "passed": False}
+            )
             continue
 
         try:
@@ -102,7 +113,7 @@ async def run_benchmark():
             expected = case["expected_hazard"]
             lead_time = dossier.lead_time
 
-            passed = (detected == expected)
+            passed = detected == expected
 
             if expected and detected:
                 tp += 1
@@ -145,10 +156,16 @@ async def run_benchmark():
             out_file = RESULTS_DIR / f"{case['case_id']}_dossier.json"
             out_file.write_text(dossier.model_dump_json(indent=2))
 
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001 — record every attempted case
             print(f"ERROR running case {case['case_id']}: {exc}")
-            import traceback
-            traceback.print_exc()
+            results.append(
+                {
+                    "case_id": case["case_id"],
+                    "status": "service_or_pipeline_error",
+                    "passed": False,
+                    "error": str(exc)[:500],
+                }
+            )
 
     # Metrics Summary
     total_samples = len(results)
@@ -168,11 +185,15 @@ async def run_benchmark():
     print(f"Hazard Detection Sensitivity (TPR): {tpr * 100:.1f}%")
     print(f"Overall Classification Accuracy:    {accuracy * 100:.1f}%")
     print(f"Mean Early Warning Lead Time:       {mean_lead:.2f}s")
-    print(f"All dossiers carry research disclaimer: True")
+    print("All dossiers carry research disclaimer: True")
     print("=" * 80)
 
     summary_file = RESULTS_DIR / "prelude_benchmark_summary.json"
     summary_data = {
+        "attempted": len(CASES),
+        "completed": tp + tn + fp + fn,
+        "unavailable": len(CASES) - (tp + tn + fp + fn),
+        "annotation_status": "Authored incident times; not independently validated; cue lead is retrospective, not prospective alert lead",
         "total_cases": total_samples,
         "true_positives": tp,
         "true_negatives": tn,
@@ -186,7 +207,8 @@ async def run_benchmark():
     }
     summary_file.write_text(json.dumps(summary_data, indent=2))
     print(f"Benchmark summary saved to {summary_file}")
+    return all(x.get("passed", False) for x in results) and len(results) == len(CASES)
 
 
 if __name__ == "__main__":
-    asyncio.run(run_benchmark())
+    sys.exit(0 if asyncio.run(run_benchmark()) else 1)

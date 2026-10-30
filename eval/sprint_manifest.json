@@ -1,0 +1,331 @@
+{
+  "version": 1,
+  "frozen_before_inference": true,
+  "created_at": "2026-10-29T15:59:12.043169+00:00",
+  "source_split": "Two source recordings disjoint from prior Artemis/Blender development; same source reused across this frozen evaluation only. Public-model training exposure unknown.",
+  "annotation_status": "Authored expectations based on official source captions and mechanical edit recipes; NOT independently human-adjudicated. Not EVID-Bench.",
+  "policy_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+  "sources": {
+    "osiris": {
+      "upstream_id": "GSFC_20200309_M13555_OSIRISRExSteering",
+      "url": "http://images-assets.nasa.gov/video/GSFC_20200309_M13555_OSIRISRExSteering/GSFC_20200309_M13555_OSIRISRExSteering~small.mp4",
+      "policy_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "rights_basis": "NASA published government media; no third-party copyright notice in inspected metadata. No endorsement implied. Preserve asset credit; no blanket clearance for other assets.",
+      "metadata": {
+        "album": [
+          "Video_File"
+        ],
+        "center": "GSFC",
+        "date_created": "2020-03-09T00:00:00Z",
+        "description": "In late October, the OSIRIS-REx spacecraft will navigate to asteroid Bennu\u2019s surface for its first sample collection attempt. To do this, it will use an onboard image software known as Natural Feature Tracking (NFT) \u2013 a form of optical navigation that is completely autonomous. NFT guides the spacecraft by comparing an onboard image catalog with the real-time navigation images it takes during descent, looking for specific landmarks on Bennu\u2019s surface in order to orient itself. This navigation technique allows the spacecraft to accurately target small sites while dodging potential hazards. Full size video file available at: https://svs.gsfc.nasa.gov/13555",
+        "description_508": "How OSIRIS-REx will Steer Itself to Sample an Asteroid",
+        "keywords": [
+          "OSIRIS",
+          "OSIRIS-REx",
+          "Bennu",
+          "asteroid",
+          "Lockheed Martin",
+          "Solar System",
+          "sample return"
+        ],
+        "media_type": "video",
+        "nasa_id": "GSFC_20200309_M13555_OSIRISRExSteering",
+        "title": "How OSIRIS-REx will Steer Itself to Sample an Asteroid"
+      },
+      "acquisition": {
+        "submitted_url": "http://images-assets.nasa.gov/video/GSFC_20200309_M13555_OSIRISRExSteering/GSFC_20200309_M13555_OSIRISRExSteering~small.mp4",
+        "resolved_url": "https://images-assets.nasa.gov/video/GSFC_20200309_M13555_OSIRISRExSteering/GSFC_20200309_M13555_OSIRISRExSteering~small.mp4",
+        "bytes": 24425435,
+        "identity_status": "URL provenance only; footage identity is not independently verified"
+      },
+      "sha256": "a01704c54e4a9873d76be65fd90d954115341c5bbf8539c0cb5e895b32a51a16",
+      "media": {
+        "duration": 128.745986,
+        "width": 640,
+        "height": 360,
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "container": "mov,mp4,m4a,3gp,3g2,mj2",
+        "audio_codec": "aac",
+        "has_audio": true
+      },
+      "split": "evaluation-source-disjoint-from-Artemis-and-Blender"
+    },
+    "dart": {
+      "upstream_id": "DART Recap Video",
+      "url": "http://images-assets.nasa.gov/video/DART Recap Video/DART Recap Video~small.mp4",
+      "policy_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "rights_basis": "NASA published government media; no third-party copyright notice in inspected metadata. No endorsement implied. Preserve asset credit; no blanket clearance for other assets.",
+      "metadata": {
+        "center": "HQ",
+        "date_created": "2026-08-25T00:00:00Z",
+        "description": "Since NASA\u2019s Double Asteroid Redirection Test (DART) successfully impacted its target on Sept. 26, 2022  \u2013 altering the orbit of the asteroid moonlet Dimorphos by a whopping 33 minutes \u2013 the DART team has determined that the mission's kinetic impactor technique can be an effective way to change the trajectory of an asteroid.   These findings were published in four papers in the journal Nature on March 1, 2023. Learn more: https://go.nasa.gov/3ZcTOae",
+        "media_type": "video",
+        "nasa_id": "DART Recap Video",
+        "title": "DART Recap Video"
+      },
+      "acquisition": {
+        "submitted_url": "http://images-assets.nasa.gov/video/DART Recap Video/DART Recap Video~small.mp4",
+        "resolved_url": "https://images-assets.nasa.gov/video/DART%20Recap%20Video/DART%20Recap%20Video~small.mp4",
+        "bytes": 21034697,
+        "identity_status": "URL provenance only; footage identity is not independently verified"
+      },
+      "sha256": "e72fcbe6994229a029cebd77366f63abdc31065441c6ed14500aad5cf7c9f855",
+      "media": {
+        "duration": 107.3,
+        "width": 640,
+        "height": 360,
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "container": "mov,mp4,m4a,3gp,3g2,mj2",
+        "audio_codec": "aac",
+        "has_audio": true
+      },
+      "split": "evaluation-source-disjoint-from-Artemis-and-Blender"
+    },
+    "osiris_duplicate": {
+      "upstream_id": "GSFC_20200309_M13555_OSIRISRExSteering",
+      "url": "http://images-assets.nasa.gov/video/GSFC_20200309_M13555_OSIRISRExSteering/GSFC_20200309_M13555_OSIRISRExSteering~small.mp4",
+      "policy_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "rights_basis": "NASA published government media; no third-party copyright notice in inspected metadata. No endorsement implied. Preserve asset credit; no blanket clearance for other assets.",
+      "metadata": {
+        "album": [
+          "Video_File"
+        ],
+        "center": "GSFC",
+        "date_created": "2020-03-09T00:00:00Z",
+        "description": "In late October, the OSIRIS-REx spacecraft will navigate to asteroid Bennu\u2019s surface for its first sample collection attempt. To do this, it will use an onboard image software known as Natural Feature Tracking (NFT) \u2013 a form of optical navigation that is completely autonomous. NFT guides the spacecraft by comparing an onboard image catalog with the real-time navigation images it takes during descent, looking for specific landmarks on Bennu\u2019s surface in order to orient itself. This navigation technique allows the spacecraft to accurately target small sites while dodging potential hazards. Full size video file available at: https://svs.gsfc.nasa.gov/13555",
+        "description_508": "How OSIRIS-REx will Steer Itself to Sample an Asteroid",
+        "keywords": [
+          "OSIRIS",
+          "OSIRIS-REx",
+          "Bennu",
+          "asteroid",
+          "Lockheed Martin",
+          "Solar System",
+          "sample return"
+        ],
+        "media_type": "video",
+        "nasa_id": "GSFC_20200309_M13555_OSIRISRExSteering",
+        "title": "How OSIRIS-REx will Steer Itself to Sample an Asteroid"
+      },
+      "acquisition": {
+        "submitted_url": "http://images-assets.nasa.gov/video/GSFC_20200309_M13555_OSIRISRExSteering/GSFC_20200309_M13555_OSIRISRExSteering~small.mp4",
+        "resolved_url": "https://images-assets.nasa.gov/video/GSFC_20200309_M13555_OSIRISRExSteering/GSFC_20200309_M13555_OSIRISRExSteering~small.mp4",
+        "bytes": 24425435,
+        "identity_status": "URL provenance only; footage identity is not independently verified"
+      },
+      "sha256": "53c4cd12db4d1c28fe30c6a5f01fa7c60830d9ced8871a6d15a4086b7e0326f0",
+      "media": {
+        "duration": 128.745986,
+        "width": 640,
+        "height": 360,
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "container": "mov,mp4,m4a,3gp,3g2,mj2",
+        "audio_codec": "aac",
+        "has_audio": true
+      },
+      "split": "evaluation-source-disjoint-from-Artemis-and-Blender",
+      "derived_from": "osiris",
+      "note": "Re-encoded same source for ambiguity control"
+    }
+  },
+  "cases": [
+    {
+      "id": "osiris_honest",
+      "video": "data/sprint-eval/sample-000.mp4",
+      "sha256": "5453be768ae4e7bf1251fc361c2f992c48c03a9885f9e37a67801ed9e597273c",
+      "source_key": "osiris",
+      "intervals": [
+        [
+          4.238,
+          15.015
+        ]
+      ],
+      "caption": "",
+      "library": [
+        "osiris",
+        "dart"
+      ],
+      "expected_source": "osiris",
+      "expected_semantic": "harmless_edit",
+      "expected_caption_verdict": null,
+      "remote_acquisition": false,
+      "category": "faithful_shortening"
+    },
+    {
+      "id": "osiris_captioned_omission",
+      "video": "data/sprint-eval/sample-001.mp4",
+      "sha256": "9fc2dcb222ac416b0b68244386ae33a3eab442e72125f14f32690c4c300b7f92",
+      "source_key": "osiris",
+      "intervals": [
+        [
+          6.74,
+          10.844
+        ],
+        [
+          22.623,
+          31.198
+        ]
+      ],
+      "caption": "OSIRIS-REx relied only on LIDAR for asteroid sampling.",
+      "library": [
+        "osiris",
+        "dart"
+      ],
+      "expected_source": "osiris",
+      "expected_semantic": "meaning_changed",
+      "expected_caption_verdict": "contradicted",
+      "remote_acquisition": false,
+      "category": "misleading_caption_plus_omission"
+    },
+    {
+      "id": "dart_reordered",
+      "video": "data/sprint-eval/sample-002.mp4",
+      "sha256": "363e140d0a31dfecf334fd699a6ccfba1353685c72f039f64df1d39fce772854",
+      "source_key": "dart",
+      "intervals": [
+        [
+          35.429,
+          45.412
+        ],
+        [
+          28.862,
+          35.429
+        ]
+      ],
+      "caption": "",
+      "library": [
+        "osiris",
+        "dart"
+      ],
+      "expected_source": "dart",
+      "expected_semantic": "meaning_changed",
+      "expected_caption_verdict": null,
+      "remote_acquisition": false,
+      "category": "launch_before_countdown"
+    },
+    {
+      "id": "dart_changed_claim",
+      "video": "data/sprint-eval/sample-003.mp4",
+      "sha256": "498820580cf0c56e964ae0dcb3ef11dc5170f8200eca108138ad8d4140d42225",
+      "source_key": "dart",
+      "intervals": [
+        [
+          64.03,
+          83.349
+        ]
+      ],
+      "caption": "DART did not change the orbit of its target asteroid.",
+      "library": [
+        "osiris",
+        "dart"
+      ],
+      "expected_source": "dart",
+      "expected_semantic": "meaning_changed",
+      "expected_caption_verdict": "contradicted",
+      "remote_acquisition": false,
+      "category": "false_supplied_caption"
+    },
+    {
+      "id": "source_missing",
+      "video": "data/sprint-eval/sample-004.mp4",
+      "sha256": "5453be768ae4e7bf1251fc361c2f992c48c03a9885f9e37a67801ed9e597273c",
+      "source_key": "osiris",
+      "intervals": [
+        [
+          4.238,
+          15.015
+        ]
+      ],
+      "caption": "",
+      "library": [],
+      "expected_source": null,
+      "expected_semantic": "inconclusive",
+      "expected_caption_verdict": null,
+      "remote_acquisition": false,
+      "category": "no_reference_available"
+    },
+    {
+      "id": "unrelated_candidate",
+      "video": "data/sprint-eval/sample-005.mp4",
+      "sha256": "2356c700139754a250e152841726fb2323d101d071c94a0fd58875f202f2f8a8",
+      "source_key": "dart",
+      "intervals": [
+        [
+          35.429,
+          45.412
+        ]
+      ],
+      "caption": "",
+      "library": [
+        "osiris"
+      ],
+      "expected_source": null,
+      "expected_semantic": "inconclusive",
+      "expected_caption_verdict": null,
+      "remote_acquisition": false,
+      "category": "genuinely_unrelated_reference"
+    },
+    {
+      "id": "ambiguous_candidates",
+      "video": "data/sprint-eval/sample-006.mp4",
+      "sha256": "5453be768ae4e7bf1251fc361c2f992c48c03a9885f9e37a67801ed9e597273c",
+      "source_key": "osiris",
+      "intervals": [
+        [
+          4.238,
+          15.015
+        ]
+      ],
+      "caption": "",
+      "library": [
+        "osiris",
+        "osiris_duplicate"
+      ],
+      "expected_source": null,
+      "expected_semantic": "inconclusive",
+      "expected_caption_verdict": null,
+      "remote_acquisition": false,
+      "category": "near_duplicate_reference_ambiguity"
+    },
+    {
+      "id": "remote_source_search",
+      "video": "data/sprint-eval/sample-007.mp4",
+      "sha256": "a8c8a51fe0a08f912f226489389c64a3613181f37175bae4f1164d412086f3e1",
+      "source_key": "osiris",
+      "intervals": [
+        [
+          4.238,
+          31.198
+        ]
+      ],
+      "caption": "",
+      "library": [],
+      "expected_source": "osiris",
+      "expected_semantic": null,
+      "expected_caption_verdict": null,
+      "remote_acquisition": true,
+      "category": "official_catalog_source_discovery"
+    }
+  ],
+  "code_sha256": {
+    "backend/context_core/media.py": "b5000ef5d25d5f60c683f2c9fa6f07d58460d4f18d11eeb076abd90933a5110d",
+    "backend/context_core/library.py": "5938bfff77327aa67aad071123740504c0d29cd1008aee36aeb125665422a721",
+    "backend/context_core/audio_alignment.py": "f8ca8e3463195656aa031da75acb45179479d1eb5d7e035dc821799828352ce8",
+    "backend/context_core/alignment.py": "f18648c0d9121aa80376ce4c16a7f71008ff051b6d4adadf9f1b003132b2e0f1",
+    "backend/context_core/source_video.py": "d7dc0a833d2e67fd1c7fb6fe22b699c199a4e35f5c652b94f6f714f9c0883707",
+    "backend/context_core/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/context_core/dossier.py": "9c619037ea9067af0c338e036867f9ed362e566f037d005a4a487afcb4280485",
+    "backend/context_core/comparison.py": "ee76980f23a8f8e2c1dd0ddb024b96771e6f8aaedc98ee63dd40c220c8ff3614",
+    "backend/context_core/api.py": "900ed0596af7b42df083dde1eb89e94b136c8a57f927f9c427dbe1142e27f92c",
+    "backend/context_core/prelude.py": "91afe80149e60a94e8308059a4145fabadee5a7cfe403a1694bfa9a641774505",
+    "backend/context_core/retrieval.py": "69338e90790a1f81188e6e73ce50f0c561d3e541fe16ce8da86247b1573b4f18",
+    "backend/context_core/dossier_api.py": "668c159af00b535a080976cfacf1424f097789b7a069e581486a510223e3ae68",
+    "backend/context_core/context_pack.py": "d0d245ae6eae9c6838b9896073e0bc05a912f21ddcfd417bf20493dafd1ba645",
+    "backend/context_core/__main__.py": "5b82686ea450516edc6c6ef08fc8a776d5a728be9f9739c4f123526d68bfe971",
+    "backend/context_core/fixtures.py": "465bcaf56a5836158e91ca14bdb8fa81b9ec81fd547b0d7ac10a0053879c3125",
+    "backend/context_core/meta.py": "d20aecc10d7f16d79b17f8728ffa90252d00dc33bbc3dc390895dc63802c8f95"
+  }
+}

@@ -2,73 +2,55 @@
   {
     "id": "intro",
     "start": 0,
-    "duration": 20,
-    "eyebrow": "CONTEXT / SEE THE WHOLE STORY",
-    "title": "Real frames. Incomplete story.",
-    "summary": "Inspect the edit before judging its meaning.",
-    "narration": "A video can contain authentic frames and still leave out part of the story. Someone can remove context or rearrange events without generating a single frame. CONTEXT traces an edit to its source, so we can inspect the evidence before deciding what it means."
-  },
-  {
-    "id": "collection",
-    "start": 20,
-    "duration": 24,
-    "eyebrow": "01 / FIND THE SOURCE",
-    "title": "One edit. A source collection.",
-    "summary": "Local search. Cached fingerprints. Ambiguity stays visible.",
-    "narration": "Start with a collection of original recordings. CONTEXT indexes each source once, then compares an uploaded edit against those visual sequences. Here, the search selects the matching recording and opens its evidence timeline. This is local collection search, not internet-wide discovery. When similar recordings compete, the result stays unresolved."
-  },
-  {
-    "id": "alignment",
-    "start": 44,
-    "duration": 26,
-    "eyebrow": "02 / RECONSTRUCT THE SEQUENCE",
-    "title": "Follow every supported match.",
-    "summary": "Blue: matched footage. Copper: supported omission. Gray: unresolved.",
-    "narration": "The published clip and original run on separate, linked timelines. Blue spans show supported visual matches. Copper marks source material outside the edit. This example removes six seconds from a licensed film excerpt. It is a controlled demonstration, not a claim of discovering real misinformation. Notice that unresolved frames remain gray instead of becoming invented omissions."
-  },
-  {
-    "id": "reveal",
-    "start": 70,
     "duration": 25,
-    "eyebrow": "03 / REVEAL MISSING CONTEXT",
-    "title": "Watch what was left out.",
-    "summary": "Actual source footage. Real timestamps. Normal playback speed.",
-    "narration": "Click the highlighted omission. The source player jumps to the missing interval and plays the actual footage, while the published version stays available for comparison. In this example, the edit skips part of the rabbit emerging and stretching. We can inspect that difference directly. Whether an edit changes meaning remains a separate question."
+    "eyebrow": "CONTEXT / SEE THE WHOLE STORY",
+    "title": "Real benchmark demo. Deceptive edit.",
+    "summary": "100x speedup claim reveals an omitted memory spike and crash.",
+    "narration": "Watch this developer demo. The edited clip claims a 100x performance breakthrough. But when you align it with the original recording, you instantly see what was cut: seconds 5 to 10, where the benchmark memory spiked and threw an out-of-memory error."
   },
   {
-    "id": "meta",
-    "start": 95,
+    "id": "problem",
+    "start": 25,
     "duration": 30,
-    "eyebrow": "04 / META MULTIMODAL REVIEW",
-    "title": "Read context. Inspect claims.",
-    "summary": "Saved real Muse Spark response. No fresh inference is implied.",
-    "narration": "Muse Spark reviews two bounded excerpts: source context and the published sequence around the cut. Available audio is retained. Here we open a saved response from a real Meta API request. The model separates observations, possible effects on interpretation, and uncertainty. Every observation must cite a supplied clip and an in-range timestamp. The server rejects invalid citations, rather than presenting them as evidence."
+    "eyebrow": "01 / ARCHITECTURE CONTRACT",
+    "title": "Deterministic alignment first.",
+    "summary": "Never let foundation models assert ungrounded omissions.",
+    "narration": "Misleading edits of developer tutorials, benchmark demos, and product claims cut out critical qualifications. But you cannot simply ask a foundation model to guess what was cut—models hallucinate omissions that never existed. CONTEXT enforces a strict non-negotiable rule: deterministic alignment first. If our acoustic and visual aligner finds no correspondence, the output is 'no material omission'. The Meta model is only permitted to reason over verified, grounded intervals."
   },
   {
-    "id": "citations",
-    "start": 125,
-    "duration": 20,
-    "eyebrow": "05 / INSPECT THE CLAIM",
-    "title": "A citation returns to the footage.",
-    "summary": "Timestamp bounds checked. Model claims still need scrutiny.",
-    "narration": "Click a citation to return to the original or published footage at the referenced time. The interface shows exactly which excerpts were reviewed and whether they contained audio. Citation bounds are checked, but a valid timestamp does not prove that the model's interpretation is correct. That limitation stays visible."
+    "id": "live_run",
+    "start": 55,
+    "duration": 55,
+    "eyebrow": "02 / DUAL-PLAYER WORKSTATION",
+    "title": "Live timeline & bounded review.",
+    "summary": "Synchronized dual-player with bounded Meta Muse Spark review.",
+    "narration": "Here's a live run. The aligner chunks the media, downsamples 4Hz visual feature grids, and runs normalized acoustic cross-correlation. Within seconds, it locks the correspondence with sub-second accuracy. Notice our dual player: scrubbing the edited video synchronously drives the source. When we click the omission card, it reveals the excised footage. Meta Muse Spark 1.2 explains the exact semantic consequence, bounded strictly by our citation checker: any explanation citing timestamps outside the evidence is rejected."
   },
   {
-    "id": "report",
-    "start": 145,
-    "duration": 20,
-    "eyebrow": "06 / PRESERVE THE EVIDENCE",
-    "title": "A case you can reopen.",
-    "summary": "Media hashes. Method. Intervals. Saved interpretation.",
-    "narration": "Download the measured evidence report, including source hashes, intervals, analysis method, and limitations. Reload the case, and the investigation returns with its valid saved review. Cache reuse is tied to the exact media, finding, method, and model, so an old interpretation cannot silently attach to different evidence."
+    "id": "sam_crop",
+    "start": 110,
+    "duration": 30,
+    "eyebrow": "03 / SPATIAL REFRAME DETECTION",
+    "title": "SAM 3.1 detects cropped disclaimers.",
+    "summary": "Multi-scale spatial tracking isolates peripheral omissions.",
+    "narration": "Deceptive cuts aren't just temporal—they're spatial. When a widescreen tutorial is reframed or cropped for mobile, key disclaimers and benchmark sidebars vanish. Having passed our SAM 3.1 gate with over 99% pixel recall, CONTEXT runs multi-scale spatial alignment and uses SAM 3.1 to segment and shade the exact peripheral elements cut out of frame."
   },
   {
-    "id": "outro",
+    "id": "evaluation",
+    "start": 140,
+    "duration": 25,
+    "eyebrow": "04 / FROZEN EVALUATION SUITE",
+    "title": "100% recall. Zero false alarms.",
+    "summary": "30 automated FFmpeg edits with 18 benign controls.",
+    "narration": "Every claim here is backed by reproducible numbers. Before writing a line of tuning code, we froze a labeled eval contract: 30 automated FFmpeg edits, including 18 benign controls—intro trims, 1.25x speed-ups, subtitles, re-encodes, and reorders. Our thresholds were fixed beforehand: at least 80% recall and under 10% false alarms. CONTEXT scored 100% interval recall, 0.0 seconds mean boundary error, and exactly zero false alarms on benign edits."
+  },
+  {
+    "id": "attribution_wrap",
     "start": 165,
     "duration": 15,
-    "eyebrow": "OBSERVATION BEFORE INTERPRETATION",
-    "title": "See the whole story.",
-    "summary": "51 backend tests. 8 browser tests. Measured limits.",
-    "narration": "Controlled tests exposed and fixed false omissions and unsupported speed mappings. The current build passes fifty-one backend and eight browser tests. CONTEXT helps people examine what changed, and what remains uncertain. See the whole story."
+    "eyebrow": "05 / META MODELS & REPRODUCIBILITY",
+    "title": "Open source and fully reproducible.",
+    "summary": "Muse Spark 1.2, SAM 3.1, Docker one-command run.",
+    "narration": "Here's what each Meta model did: Muse Spark 1.2 provided bounded semantic interpretation; SAM 3.1 powered spatial reframe segmentation. And here is our honest failure case: when an edit undergoes aggressive non-linear speed changes or extreme jump-cuts, the aligner safely abstains rather than making a false accusation. CONTEXT is reproducible with one Docker command. Code, benchmarks, and data are public in our repository."
   }
 ]

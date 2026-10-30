@@ -10,14 +10,14 @@ Verifies:
 
 import asyncio
 from pathlib import Path
-import pytest
-import httpx
 
+import httpx
+import pytest
 from context_core.prelude import (
-    extract_pre_incident_frames,
-    compute_actor_tracks,
-    run_prelude_investigation,
     DISCLAIMER,
+    compute_actor_tracks,
+    extract_pre_incident_frames,
+    run_prelude_investigation,
 )
 
 BENCHMARK_DIR = Path(__file__).resolve().parents[2] / "data/prelude_benchmark"
@@ -31,7 +31,9 @@ def test_leak_proof_cutoff_enforcement():
 
     t_cutoff = 3.5
     fps = 5
-    frames, timestamps = extract_pre_incident_frames(video_path, t_cutoff=t_cutoff, fps=fps)
+    frames, timestamps = extract_pre_incident_frames(
+        video_path, t_cutoff=t_cutoff, fps=fps
+    )
 
     assert len(frames) == len(timestamps)
     # Expected number of frames: at 5 fps for 3.5s is around 17-18 frames
@@ -40,7 +42,7 @@ def test_leak_proof_cutoff_enforcement():
     # Verify exact frame dimensions
     assert frames.shape[1] == 360  # height
     assert frames.shape[2] == 640  # width
-    assert frames.shape[3] == 3    # BGR channels
+    assert frames.shape[3] == 3  # BGR channels
 
 
 def test_leak_proof_cutoff_zero_or_negative_raises():
@@ -48,7 +50,7 @@ def test_leak_proof_cutoff_zero_or_negative_raises():
     if not video_path.exists():
         pytest.skip("Benchmark video not present")
 
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError):
         extract_pre_incident_frames(video_path, t_cutoff=0.0)
 
 
@@ -59,7 +61,7 @@ def test_kinematic_tracking_computes_tracks():
         pytest.skip("Benchmark video not present")
 
     frames, timestamps = extract_pre_incident_frames(video_path, t_cutoff=4.0, fps=5)
-    tracks, kinematics = compute_actor_tracks(frames, timestamps)
+    _tracks, kinematics = compute_actor_tracks(frames, timestamps)
 
     assert "peak_lateral_flow" in kinematics
     assert "peak_looming_rate" in kinematics
@@ -82,7 +84,7 @@ def test_prelude_mocked_model_schema():
                     {
                         "type": "output_text",
                         "text": (
-                            '{\n'
+                            "{\n"
                             '  "hazard_detected": true,\n'
                             '  "risk_level": "high",\n'
                             '  "risk_cue_seconds": 3.8,\n'
@@ -90,7 +92,7 @@ def test_prelude_mocked_model_schema():
                             '  "conflict_type": "lateral_encroachment",\n'
                             '  "observations": ["At t=3.8s, silver pickup enters carriageway from right"],\n'
                             '  "uncertainty": "Offline monocular replay only."\n'
-                            '}'
+                            "}"
                         ),
                     }
                 ],
@@ -135,7 +137,7 @@ def test_prelude_safe_control_negative_mocked():
                     {
                         "type": "output_text",
                         "text": (
-                            '{\n'
+                            "{\n"
                             '  "hazard_detected": false,\n'
                             '  "risk_level": "nominal",\n'
                             '  "risk_cue_seconds": null,\n'
@@ -143,7 +145,7 @@ def test_prelude_safe_control_negative_mocked():
                             '  "conflict_type": "nominal_flow",\n'
                             '  "observations": ["Steady forward driving with clear lane ahead"],\n'
                             '  "uncertainty": "No hazard detected prior to cutoff."\n'
-                            '}'
+                            "}"
                         ),
                     }
                 ],
@@ -192,3 +194,30 @@ def test_prelude_deterministic_kinematics_only():
     assert dossier.duration > 7.0
     assert len(dossier.timeline_events) > 0
     assert "Offline research/replay only" in dossier.disclaimer
+
+
+def test_cutoff_rejects_future_pixels_not_only_generated_timestamps(tmp_path):
+    """A red sentinel starts at 1s; no red may reach the 1s inference prefix."""
+    from context_core.media import run
+
+    video = tmp_path / "future-sentinel.mp4"
+    run(
+        [
+            "ffmpeg",
+            "-v",
+            "error",
+            "-y",
+            "-f",
+            "lavfi",
+            "-i",
+            "color=c=green:s=640x360:r=10:d=2,drawbox=x=0:y=0:w=iw:h=ih:color=red:t=fill:enable='gte(t,1)'",
+            "-c:v",
+            "libx264",
+            str(video),
+        ]
+    )
+    frames, times = extract_pre_incident_frames(video, t_cutoff=1, fps=5)
+    assert max(times) < 1
+    assert all(
+        float(frame[:, :, 1].mean()) > float(frame[:, :, 2].mean()) for frame in frames
+    )

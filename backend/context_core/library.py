@@ -100,36 +100,78 @@ def rank_sources(root, edited):
         if top["coverage"] >= MIN_COVERAGE
         else "no_match"
     )
-    if status == "no_match" and top["coverage"] >= 0.25 and margin >= MIN_MARGIN:
-        meta = next((m for m in sources if m["id"] == top["id"]), None)
-        if meta and meta.get("has_audio") and edited_samples.info.get("has_audio"):
-            try:
-                from .audio_alignment import analyze_audio
-                audio_res = analyze_audio(Path(root) / top["id"] / "original.mp4", edited)
-                audio_segs = audio_res.get("segments", [])
-                audio_dur = sum(s["edited_end"] - s["edited_start"] for s in audio_segs if s.get("kind") == "match")
-                total_dur = edited_samples.info.get("duration") or 1.0
-                if (audio_dur / total_dur) >= MIN_COVERAGE:
-                    status = "matched"
-                    results[top["id"]]["audio_alignment"] = {"status": "analyzed", **audio_res}
-                    results[top["id"]]["multimodal_coverage"] = round(max(top["coverage"], audio_dur / total_dur), 3)
-            except Exception:
-                pass
+    # Low visual coverage is common in static speaking shots. Compare soundtrack
+    # evidence independently across candidates rather than suppressing it behind
+    # an arbitrary minimum visual score. Ties remain ambiguous; images stay unverified.
+    audio_candidates = []
+    if status != "matched" and edited_samples.info.get("has_audio"):
+        from .audio_alignment import analyze_audio
 
-    if status == "matched" and "audio_alignment" not in results[top["id"]]:
-        meta = next((m for m in sources if m["id"] == top["id"]), None)
-        if meta and meta.get("has_audio") and edited_samples.info.get("has_audio"):
+        for candidate in candidates[:3]:
+            meta = next(m for m in sources if m["id"] == candidate["id"])
+            if not meta.get("has_audio"):
+                continue
             try:
-                from .audio_alignment import analyze_audio
+                audio_result = analyze_audio(
+                    Path(root) / meta["id"] / "original.mp4", edited
+                )
+                intervals = sorted(
+                    (x["edited_start"], x["edited_end"])
+                    for x in audio_result["segments"]
+                )
+                duration = 0.0
+                right = 0.0
+                for left, end in intervals:
+                    duration += max(0.0, end - max(left, right))
+                    right = max(right, end)
+                audio_cov = duration / edited_samples.info["duration"]
+                audio_candidates.append((audio_cov, candidate))
+                results[candidate["id"]]["audio_alignment"] = {
+                    "status": "analyzed",
+                    **audio_result,
+                }
+            except (ValueError, OSError) as exc:
+                results[candidate["id"]]["audio_alignment"] = {
+                    "status": "unavailable",
+                    "segments": [],
+                    "reason": str(exc)[:300],
+                }
+        audio_candidates.sort(key=lambda x: x[0], reverse=True)
+        if audio_candidates and audio_candidates[0][0] >= MIN_COVERAGE:
+            audio_cov, audio_top = audio_candidates[0]
+            audio_margin = audio_cov - (
+                audio_candidates[1][0] if len(audio_candidates) > 1 else 0
+            )
+            if audio_margin >= MIN_MARGIN:
+                top = audio_top
+                candidates = [top] + [x for x in candidates if x["id"] != top["id"]]
+                margin = audio_margin
+                status = "matched"
+                results[top["id"]]["multimodal_coverage"] = round(audio_cov, 3)
+            else:
+                status = "ambiguous"
+    if status == "matched" and "audio_alignment" not in results[top["id"]]:
+        meta = next(m for m in sources if m["id"] == top["id"])
+        if meta.get("has_audio") and edited_samples.info.get("has_audio"):
+            from .audio_alignment import analyze_audio
+
+            try:
                 results[top["id"]]["audio_alignment"] = {
                     "status": "analyzed",
                     **analyze_audio(Path(root) / top["id"] / "original.mp4", edited),
                 }
-            except Exception:
-                pass
+            except (ValueError, OSError) as exc:
+                results[top["id"]]["audio_alignment"] = {
+                    "status": "unavailable",
+                    "segments": [],
+                    "reason": str(exc)[:300],
+                }
     report = {
         "status": status,
         "scope": "provided_local_collection",
+        "selection_basis": "audio_correspondence"
+        if results[top["id"]].get("multimodal_coverage")
+        else "visual_correspondence",
         "candidates": candidates,
         "margin": round(margin, 4),
         "minimum_margin": MIN_MARGIN,

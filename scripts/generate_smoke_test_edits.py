@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT / "backend"))
 
 from context_core.alignment import analyze
 from context_core.media import run
+
 SOURCE = ROOT / "data/real-investigation-input/download.mp4"
 OUT_DIR = ROOT / "data/smoke_test"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -64,15 +65,31 @@ def build_edit(name, spec):
     v_inputs = "".join(f"[v{i}]" for i in range(len(parts)))
     a_inputs = "".join(f"[a{i}]" for i in range(len(parts)))
     graph += f";{v_inputs}concat=n={len(parts)}:v=1:a=0[vout];{a_inputs}concat=n={len(parts)}:v=0:a=1[aout]"
-    run([
-        "ffmpeg", "-v", "error", "-y",
-        "-i", str(SOURCE),
-        "-filter_complex", graph,
-        "-map", "[vout]", "-map", "[aout]",
-        "-c:v", "libx264", "-crf", "20",
-        "-c:a", "aac", "-b:a", "128k",
-        str(target),
-    ])
+    run(
+        [
+            "ffmpeg",
+            "-v",
+            "error",
+            "-y",
+            "-i",
+            str(SOURCE),
+            "-filter_complex",
+            graph,
+            "-map",
+            "[vout]",
+            "-map",
+            "[aout]",
+            "-c:v",
+            "libx264",
+            "-crf",
+            "20",
+            "-c:a",
+            "aac",
+            "-b:a",
+            "128k",
+            str(target),
+        ]
+    )
     return target
 
 
@@ -97,7 +114,11 @@ def run_benchmark():
 
         # Measure temporal error against known ground truth cut points
         first_interval = spec["intervals"][0]
-        match_segments = [s for s in segments if s.get("kind") == "match" and s.get("source_start") is not None]
+        match_segments = [
+            s
+            for s in segments
+            if s.get("kind") == "match" and s.get("source_start") is not None
+        ]
         if match_segments:
             detected_source_start = match_segments[0]["source_start"]
             expected_source_start = first_interval[0]
@@ -106,7 +127,9 @@ def run_benchmark():
             temporal_error = 999.0
 
         print(f"Alignment coverage: {coverage:.1%}")
-        print(f"Detected initial source start: {detected_source_start}s (Expected: {first_interval[0]}s, Error: {temporal_error:.2f}s)")
+        print(
+            f"Detected initial source start: {detected_source_start}s (Expected: {first_interval[0]}s, Error: {temporal_error:.2f}s)"
+        )
         print(f"Detected omissions/intervals: {len(findings)}")
 
         results[name] = {

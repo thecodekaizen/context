@@ -1,0 +1,945 @@
+{
+  "contract": {
+    "version": "execution-v1",
+    "frozen_before_inference": true,
+    "minimum_interval_recall": 0.8,
+    "maximum_benign_false_alarm_rate_exclusive": 0.1,
+    "kill_below_interval_recall": 0.5,
+    "minimum_interval_iou": 0.5,
+    "maximum_edit_position_error_seconds": 1.0,
+    "boundary_error": "Mean absolute start/end error of one-to-one matched omissions, in source seconds; null when none recovered. Misses remain in recall denominator.",
+    "interval_recall": "Recovered expected omission intervals divided by all expected omission intervals. Temporal IoU >= 0.5 and edit-position error <= 1 second, one-to-one matching. Audiovisual deletions may be recovered through either lane; audio-only deletions require audio matches.",
+    "benign_false_alarm_rate": "Benign edits with at least one predicted internal omission divided by all benign edits. Boundary-only trims are recorded separately and never called material omissions.",
+    "scope": "Three CC0 browser recordings of actual JavaScript microbenchmarks, authored by automation for this evaluation. These are controlled benchmark demos, not builder-recorded hero clips or field footage. No speech, people, politics or fabricated model results. Soundtrack is a disclosed synthetic diagnostic signal, not narration. Transform labels measure deleted media, not whether a deletion changes meaning.",
+    "sources": [
+      "sort",
+      "cache",
+      "serialize"
+    ],
+    "duration_seconds": 18,
+    "recipes": [
+      {
+        "name": "omission",
+        "intervals": [
+          [
+            0,
+            5
+          ],
+          [
+            10,
+            18
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      {
+        "name": "trim_intro",
+        "intervals": [
+          [
+            2,
+            18
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      {
+        "name": "reencode",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "reencode",
+        "benign": true
+      },
+      {
+        "name": "subtitles",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "subtitles",
+        "benign": true
+      },
+      {
+        "name": "speed_1_25",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "speed",
+        "benign": true
+      },
+      {
+        "name": "reorder",
+        "intervals": [
+          [
+            10,
+            18
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            5,
+            10
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      {
+        "name": "audio_only",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "audio_omission",
+        "benign": false
+      },
+      {
+        "name": "crop_omission",
+        "intervals": [
+          [
+            0,
+            5
+          ],
+          [
+            10,
+            18
+          ]
+        ],
+        "transform": "crop",
+        "benign": false
+      },
+      {
+        "name": "two_omissions",
+        "intervals": [
+          [
+            0,
+            4
+          ],
+          [
+            7,
+            11
+          ],
+          [
+            14,
+            18
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      {
+        "name": "crop_benign",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "crop",
+        "benign": true
+      }
+    ],
+    "friday_cases": [
+      "sort-omission",
+      "cache-omission",
+      "serialize-omission",
+      "sort-reorder",
+      "cache-speed_1_25",
+      "serialize-trim_intro",
+      "sort-reencode",
+      "cache-subtitles",
+      "serialize-audio_only",
+      "cache-crop_omission"
+    ],
+    "hero_status": "Builder must choose three real hero clips; these controlled recordings are evaluation fixtures only.",
+    "narration": "Builder's actual recorded voice only. Never synthesize or clone narration."
+  },
+  "contract_sha256": "5fd3bbf9107a9df6305cb48849afbad22e57d86b8396f4372afe0b0e03f00740",
+  "sources": {
+    "sort": {
+      "path": "sources/sort.mp4",
+      "sha256": "d77ac16b591bf5a58a3921ec8f31a74fe82b8f226eb2925b52637ef088166608",
+      "license": "CC0-1.0"
+    },
+    "cache": {
+      "path": "sources/cache.mp4",
+      "sha256": "1529b8430ca728562ff11b0b1d2dfc452584492a42ee46e8e4dd0b3ab7862c3f",
+      "license": "CC0-1.0"
+    },
+    "serialize": {
+      "path": "sources/serialize.mp4",
+      "sha256": "ad793c55f527506b4c8ed64b0e0b3abc14718430c27d7e4b83eab547c1018003",
+      "license": "CC0-1.0"
+    }
+  },
+  "cases": [
+    {
+      "id": "sort-omission",
+      "source": "sort",
+      "recipe": {
+        "name": "omission",
+        "intervals": [
+          [
+            0,
+            5
+          ],
+          [
+            10,
+            18
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/execution-v1/edits/sort-omission.mp4",
+      "sha256": "b46aa975930f8bb6c42d28b34990a01b9f6d078dadfdc036adfdcc08289832b5",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 5,
+          "source_end": 10,
+          "edit_position": 5.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "sort-trim_intro",
+      "source": "sort",
+      "recipe": {
+        "name": "trim_intro",
+        "intervals": [
+          [
+            2,
+            18
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/sort-trim_intro.mp4",
+      "sha256": "b2bb03e4ce6591cbaf67a53316f2bae86144f3f625bcc9bb666c7b4d6025f468",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "sort-reencode",
+      "source": "sort",
+      "recipe": {
+        "name": "reencode",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "reencode",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/sort-reencode.mp4",
+      "sha256": "25f66f36df50c34643180d46bccd221771fefd66040f9d4429d29344e16a170e",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "sort-subtitles",
+      "source": "sort",
+      "recipe": {
+        "name": "subtitles",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "subtitles",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/sort-subtitles.mp4",
+      "sha256": "d4db4895420185ee723735b67e27c359c2f3cfa0da292490fc9f338e6fe49a1a",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "sort-speed_1_25",
+      "source": "sort",
+      "recipe": {
+        "name": "speed_1_25",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "speed",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/sort-speed_1_25.mp4",
+      "sha256": "a19de34e8159b4a335f70e92c7af46b8cf818a5cef1446117da8a6fa7978d8ea",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "sort-reorder",
+      "source": "sort",
+      "recipe": {
+        "name": "reorder",
+        "intervals": [
+          [
+            10,
+            18
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            5,
+            10
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/sort-reorder.mp4",
+      "sha256": "43f1f2639c5429334c5e4d751ee53cf26c0a97076f7905c45d9d9ffe441f7899",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "sort-audio_only",
+      "source": "sort",
+      "recipe": {
+        "name": "audio_only",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "audio_omission",
+        "benign": false
+      },
+      "video": "data/execution-v1/edits/sort-audio_only.mp4",
+      "sha256": "a9591c1480a0ca94b3bacb493e2fbf32708fece1908842f7a5ada6265d1ef133",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 5,
+          "source_end": 10,
+          "edit_position": 5,
+          "modality": "audio"
+        }
+      ]
+    },
+    {
+      "id": "sort-crop_omission",
+      "source": "sort",
+      "recipe": {
+        "name": "crop_omission",
+        "intervals": [
+          [
+            0,
+            5
+          ],
+          [
+            10,
+            18
+          ]
+        ],
+        "transform": "crop",
+        "benign": false
+      },
+      "video": "data/execution-v1/edits/sort-crop_omission.mp4",
+      "sha256": "6ad1951012e828a248c5b921e574b9eed49027eb259fdd19671e6daaadbd563d",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 5,
+          "source_end": 10,
+          "edit_position": 5.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "sort-two_omissions",
+      "source": "sort",
+      "recipe": {
+        "name": "two_omissions",
+        "intervals": [
+          [
+            0,
+            4
+          ],
+          [
+            7,
+            11
+          ],
+          [
+            14,
+            18
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/execution-v1/edits/sort-two_omissions.mp4",
+      "sha256": "45fbc3b99e7e9c389250eaae328714a8c89060688c7a0a7b77e4cc77995cba51",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 4,
+          "source_end": 7,
+          "edit_position": 4.0,
+          "modality": "visual"
+        },
+        {
+          "source_start": 11,
+          "source_end": 14,
+          "edit_position": 8.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "sort-crop_benign",
+      "source": "sort",
+      "recipe": {
+        "name": "crop_benign",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "crop",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/sort-crop_benign.mp4",
+      "sha256": "f9c0a16cf9668317546f485cbeb251e77cc1094d4ab4b749b928a0e0fad8dd28",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "cache-omission",
+      "source": "cache",
+      "recipe": {
+        "name": "omission",
+        "intervals": [
+          [
+            0,
+            5
+          ],
+          [
+            10,
+            18
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/execution-v1/edits/cache-omission.mp4",
+      "sha256": "82f3746be0747736c2bd41fd47586d5b12b4d4ecc45bf62f67cf596d5aa1bc16",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 5,
+          "source_end": 10,
+          "edit_position": 5.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "cache-trim_intro",
+      "source": "cache",
+      "recipe": {
+        "name": "trim_intro",
+        "intervals": [
+          [
+            2,
+            18
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/cache-trim_intro.mp4",
+      "sha256": "3227b74e6a20416c42849c7c668b74429c59f4e2171a41683642df2d567a0589",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "cache-reencode",
+      "source": "cache",
+      "recipe": {
+        "name": "reencode",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "reencode",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/cache-reencode.mp4",
+      "sha256": "24c6f18eefc60d2b9cc8032893702e3120dd7ea607ffeaef78ea48a2df8494e6",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "cache-subtitles",
+      "source": "cache",
+      "recipe": {
+        "name": "subtitles",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "subtitles",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/cache-subtitles.mp4",
+      "sha256": "2712aaf6ca4c6f3398dca42209efe4516395f3073d82f58bc587948ceee07129",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "cache-speed_1_25",
+      "source": "cache",
+      "recipe": {
+        "name": "speed_1_25",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "speed",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/cache-speed_1_25.mp4",
+      "sha256": "3db0806ff8ca29432fe39fd5f484f5cec9ba8ba8e9b2f0b3182606e9c43b6485",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "cache-reorder",
+      "source": "cache",
+      "recipe": {
+        "name": "reorder",
+        "intervals": [
+          [
+            10,
+            18
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            5,
+            10
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/cache-reorder.mp4",
+      "sha256": "0e736b907dfabd7ac11ae55142a44cbe8a1943fe470f9921b67cd51709412a39",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "cache-audio_only",
+      "source": "cache",
+      "recipe": {
+        "name": "audio_only",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "audio_omission",
+        "benign": false
+      },
+      "video": "data/execution-v1/edits/cache-audio_only.mp4",
+      "sha256": "0f206266ba9384184b586ad15894089f4f544db0d6838d456113171a69175243",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 5,
+          "source_end": 10,
+          "edit_position": 5,
+          "modality": "audio"
+        }
+      ]
+    },
+    {
+      "id": "cache-crop_omission",
+      "source": "cache",
+      "recipe": {
+        "name": "crop_omission",
+        "intervals": [
+          [
+            0,
+            5
+          ],
+          [
+            10,
+            18
+          ]
+        ],
+        "transform": "crop",
+        "benign": false
+      },
+      "video": "data/execution-v1/edits/cache-crop_omission.mp4",
+      "sha256": "a18c5fd1b3462fa69e759687eb0951d058859a08ddbbb51bccddc373677c4888",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 5,
+          "source_end": 10,
+          "edit_position": 5.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "cache-two_omissions",
+      "source": "cache",
+      "recipe": {
+        "name": "two_omissions",
+        "intervals": [
+          [
+            0,
+            4
+          ],
+          [
+            7,
+            11
+          ],
+          [
+            14,
+            18
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/execution-v1/edits/cache-two_omissions.mp4",
+      "sha256": "a4f367f3f431b1c42d221f2b1568bba8d9da51fa585f35601715ec9031da5302",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 4,
+          "source_end": 7,
+          "edit_position": 4.0,
+          "modality": "visual"
+        },
+        {
+          "source_start": 11,
+          "source_end": 14,
+          "edit_position": 8.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "cache-crop_benign",
+      "source": "cache",
+      "recipe": {
+        "name": "crop_benign",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "crop",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/cache-crop_benign.mp4",
+      "sha256": "e66018e5c5bad562e78e10546f072204715075156073c05103d6e7fe7abbfcf6",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "serialize-omission",
+      "source": "serialize",
+      "recipe": {
+        "name": "omission",
+        "intervals": [
+          [
+            0,
+            5
+          ],
+          [
+            10,
+            18
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/execution-v1/edits/serialize-omission.mp4",
+      "sha256": "025c2c4465840bc4452d880bdb27c00219921049c60621c5b29cbb79efd1b74b",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 5,
+          "source_end": 10,
+          "edit_position": 5.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "serialize-trim_intro",
+      "source": "serialize",
+      "recipe": {
+        "name": "trim_intro",
+        "intervals": [
+          [
+            2,
+            18
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/serialize-trim_intro.mp4",
+      "sha256": "7ca7767fb97733f6fbe78df0ddbbd5740601c93045ee9a27d1a2d713a981186a",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "serialize-reencode",
+      "source": "serialize",
+      "recipe": {
+        "name": "reencode",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "reencode",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/serialize-reencode.mp4",
+      "sha256": "8f761fcb37ffedaccfba1f9f355c3f371ce27d666197a1d7a8099ee3ab6bb181",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "serialize-subtitles",
+      "source": "serialize",
+      "recipe": {
+        "name": "subtitles",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "subtitles",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/serialize-subtitles.mp4",
+      "sha256": "92c85f6910cd09ead7c7f44b12f65c02242bd0ba006fca4e23d0c4b203583dae",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "serialize-speed_1_25",
+      "source": "serialize",
+      "recipe": {
+        "name": "speed_1_25",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "speed",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/serialize-speed_1_25.mp4",
+      "sha256": "4141741d0fcf1df3ffe34d28a09f3688111e762627c2136ead75b506c7ff8ef0",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "serialize-reorder",
+      "source": "serialize",
+      "recipe": {
+        "name": "reorder",
+        "intervals": [
+          [
+            10,
+            18
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            5,
+            10
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/serialize-reorder.mp4",
+      "sha256": "334b32d072a3ae7b61fa9fc4026b65580c39a52d7a338e9ac2c3615318e48b80",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "serialize-audio_only",
+      "source": "serialize",
+      "recipe": {
+        "name": "audio_only",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "audio_omission",
+        "benign": false
+      },
+      "video": "data/execution-v1/edits/serialize-audio_only.mp4",
+      "sha256": "0ba2e4ad785a1c3fddc6dd84ec3045d3f3bdb02b416fd1d36d66f779663a582e",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 5,
+          "source_end": 10,
+          "edit_position": 5,
+          "modality": "audio"
+        }
+      ]
+    },
+    {
+      "id": "serialize-crop_omission",
+      "source": "serialize",
+      "recipe": {
+        "name": "crop_omission",
+        "intervals": [
+          [
+            0,
+            5
+          ],
+          [
+            10,
+            18
+          ]
+        ],
+        "transform": "crop",
+        "benign": false
+      },
+      "video": "data/execution-v1/edits/serialize-crop_omission.mp4",
+      "sha256": "29e2210086330f3e8df87ff37b3df365de7b3a958e180c2bf49e111478a3c0d8",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 5,
+          "source_end": 10,
+          "edit_position": 5.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "serialize-two_omissions",
+      "source": "serialize",
+      "recipe": {
+        "name": "two_omissions",
+        "intervals": [
+          [
+            0,
+            4
+          ],
+          [
+            7,
+            11
+          ],
+          [
+            14,
+            18
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/execution-v1/edits/serialize-two_omissions.mp4",
+      "sha256": "4e0d07f4c8ad2843682eb6e42363b9e6946fd953f91e3adc0f0bf6bd67e72761",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 4,
+          "source_end": 7,
+          "edit_position": 4.0,
+          "modality": "visual"
+        },
+        {
+          "source_start": 11,
+          "source_end": 14,
+          "edit_position": 8.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "serialize-crop_benign",
+      "source": "serialize",
+      "recipe": {
+        "name": "crop_benign",
+        "intervals": [
+          [
+            0,
+            18
+          ]
+        ],
+        "transform": "crop",
+        "benign": true
+      },
+      "video": "data/execution-v1/edits/serialize-crop_benign.mp4",
+      "sha256": "c6e9a965a11c7ce90561f2602f423478f307db187604926a16969bab3af70f0d",
+      "benign": true,
+      "expected": []
+    }
+  ],
+  "code_sha256": {
+    "engine/context_core/grounded_omissions.py": "ed6d5acab39af25edece347e0fc83a9c9e898802a30d4394fb44c11a8a0d5608",
+    "engine/context_core/media.py": "33fb5233fe5a7026f61eeec75c9418801d8bb2ddf43eefa4dd61165d359cd27c",
+    "engine/context_core/audio_alignment.py": "f8ca8e3463195656aa031da75acb45179479d1eb5d7e035dc821799828352ce8",
+    "engine/context_core/alignment.py": "f18648c0d9121aa80376ce4c16a7f71008ff051b6d4adadf9f1b003132b2e0f1",
+    "engine/context_core/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "../../scripts/execution_eval.py": "7ef9fb2909a64df715bc8557f1c2e3cfa3bdc57d78900c47492297d2a31bf445"
+  },
+  "python": "3.15.0",
+  "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers"
+}

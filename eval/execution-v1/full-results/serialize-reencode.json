@@ -1,0 +1,454 @@
+{
+  "alignment": {
+    "schema_version": "1.0",
+    "method": {
+      "name": "spatial-color-sequence-v2",
+      "sample_rate": 4,
+      "threshold": 0.075,
+      "timestamp_tolerance_seconds": 0.5
+    },
+    "source": {
+      "duration": 18.0,
+      "video_duration": 18.0,
+      "frame_rate": "24/1",
+      "width": 960,
+      "height": 640,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "container": "mov,mp4,m4a,3gp,3g2,mj2",
+      "audio_codec": "aac",
+      "has_audio": true,
+      "sha256": "ad793c55f527506b4c8ed64b0e0b3abc14718430c27d7e4b83eab547c1018003"
+    },
+    "edited": {
+      "duration": 18.0,
+      "video_duration": 18.0,
+      "frame_rate": "24/1",
+      "width": 960,
+      "height": 640,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "container": "mov,mp4,m4a,3gp,3g2,mj2",
+      "audio_codec": "aac",
+      "has_audio": true,
+      "sha256": "8f761fcb37ffedaccfba1f9f355c3f371ce27d666197a1d7a8099ee3ab6bb181"
+    },
+    "diagnostics": {
+      "timing_rejected_fraction": 0.0,
+      "ambiguous_frame_fraction": 0.806
+    },
+    "status": "insufficient_evidence",
+    "coverage": 0.167,
+    "segments": [
+      {
+        "id": "s0",
+        "kind": "match",
+        "edited_start": 0.0,
+        "edited_end": 1.5,
+        "source_start": 0.0,
+        "source_end": 1.5,
+        "confidence": 0.994
+      },
+      {
+        "id": "s1",
+        "kind": "unmatched",
+        "edited_start": 1.5,
+        "edited_end": 1.75,
+        "source_start": null,
+        "source_end": null,
+        "confidence": 0
+      },
+      {
+        "id": "s2",
+        "kind": "match",
+        "edited_start": 1.75,
+        "edited_end": 2.75,
+        "source_start": 1.75,
+        "source_end": 2.75,
+        "confidence": 0.993
+      },
+      {
+        "id": "s3",
+        "kind": "unmatched",
+        "edited_start": 2.75,
+        "edited_end": 3.0,
+        "source_start": null,
+        "source_end": null,
+        "confidence": 0
+      },
+      {
+        "id": "s4",
+        "kind": "unmatched",
+        "edited_start": 3.0,
+        "edited_end": 3.25,
+        "source_start": null,
+        "source_end": null,
+        "confidence": 0
+      },
+      {
+        "id": "s5",
+        "kind": "unmatched",
+        "edited_start": 3.25,
+        "edited_end": 3.75,
+        "source_start": null,
+        "source_end": null,
+        "confidence": 0
+      },
+      {
+        "id": "s6",
+        "kind": "match",
+        "edited_start": 3.75,
+        "edited_end": 4.25,
+        "source_start": 3.75,
+        "source_end": 4.25,
+        "confidence": 0.992
+      },
+      {
+        "id": "s7",
+        "kind": "unmatched",
+        "edited_start": 4.25,
+        "edited_end": 5.25,
+        "source_start": null,
+        "source_end": null,
+        "confidence": 0
+      },
+      {
+        "id": "s8",
+        "kind": "unmatched",
+        "edited_start": 5.25,
+        "edited_end": 5.5,
+        "source_start": null,
+        "source_end": null,
+        "confidence": 0
+      },
+      {
+        "id": "s9",
+        "kind": "unmatched",
+        "edited_start": 5.5,
+        "edited_end": 18.0,
+        "source_start": null,
+        "source_end": null,
+        "confidence": 0
+      }
+    ],
+    "findings": [],
+    "limitations": [
+      "Visual coverage and findings describe images only. Separate audio correspondences locate sound; neither establishes speaker intent.",
+      "Repeated/static scenes may be rejected as ambiguous.",
+      "Cropping, overlays, speed changes and large color changes are not reliably supported.",
+      "Omissions require a supported cut or aligned boundary; unresolved source ranges are not labeled omitted. An edit alone does not establish misleading intent."
+    ],
+    "audio_alignment": {
+      "status": "analyzed",
+      "method": "normalized-waveform-correlation-v1",
+      "sample_rate": 2000,
+      "window_seconds": 1.0,
+      "hop_seconds": 0.5,
+      "minimum_correlation": 0.82,
+      "minimum_uniqueness_margin": 0.1,
+      "segments": [
+        {
+          "id": "audio-0",
+          "kind": "match",
+          "evidence": "audio",
+          "edited_start": 0.0,
+          "edited_end": 18.0,
+          "source_start": 0.0,
+          "source_end": 18.0,
+          "confidence": 1.0
+        }
+      ],
+      "anchors": [
+        {
+          "edited_start": 0.0,
+          "edited_end": 1.0,
+          "source_start": 0.0,
+          "source_end": 1.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.99
+        },
+        {
+          "edited_start": 0.5,
+          "edited_end": 1.5,
+          "source_start": 0.5,
+          "source_end": 1.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.995
+        },
+        {
+          "edited_start": 1.0,
+          "edited_end": 2.0,
+          "source_start": 1.0,
+          "source_end": 2.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9905
+        },
+        {
+          "edited_start": 1.5,
+          "edited_end": 2.5,
+          "source_start": 1.5,
+          "source_end": 2.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9938
+        },
+        {
+          "edited_start": 2.0,
+          "edited_end": 3.0,
+          "source_start": 2.0,
+          "source_end": 3.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9908
+        },
+        {
+          "edited_start": 2.5,
+          "edited_end": 3.5,
+          "source_start": 2.5,
+          "source_end": 3.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9931
+        },
+        {
+          "edited_start": 3.0,
+          "edited_end": 4.0,
+          "source_start": 3.0,
+          "source_end": 4.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9899
+        },
+        {
+          "edited_start": 3.5,
+          "edited_end": 4.5,
+          "source_start": 3.5,
+          "source_end": 4.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9914
+        },
+        {
+          "edited_start": 4.0,
+          "edited_end": 5.0,
+          "source_start": 4.0,
+          "source_end": 5.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9904
+        },
+        {
+          "edited_start": 4.5,
+          "edited_end": 5.5,
+          "source_start": 4.5,
+          "source_end": 5.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9902
+        },
+        {
+          "edited_start": 5.0,
+          "edited_end": 6.0,
+          "source_start": 5.0,
+          "source_end": 6.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9921
+        },
+        {
+          "edited_start": 5.5,
+          "edited_end": 6.5,
+          "source_start": 5.5,
+          "source_end": 6.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.991
+        },
+        {
+          "edited_start": 6.0,
+          "edited_end": 7.0,
+          "source_start": 6.0,
+          "source_end": 7.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9941
+        },
+        {
+          "edited_start": 6.5,
+          "edited_end": 7.5,
+          "source_start": 6.5,
+          "source_end": 7.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9911
+        },
+        {
+          "edited_start": 7.0,
+          "edited_end": 8.0,
+          "source_start": 7.0,
+          "source_end": 8.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9933
+        },
+        {
+          "edited_start": 7.5,
+          "edited_end": 8.5,
+          "source_start": 7.5,
+          "source_end": 8.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9901
+        },
+        {
+          "edited_start": 8.0,
+          "edited_end": 9.0,
+          "source_start": 8.0,
+          "source_end": 9.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9907
+        },
+        {
+          "edited_start": 8.5,
+          "edited_end": 9.5,
+          "source_start": 8.5,
+          "source_end": 9.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9905
+        },
+        {
+          "edited_start": 9.0,
+          "edited_end": 10.0,
+          "source_start": 9.0,
+          "source_end": 10.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9901
+        },
+        {
+          "edited_start": 9.5,
+          "edited_end": 10.5,
+          "source_start": 9.5,
+          "source_end": 10.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9928
+        },
+        {
+          "edited_start": 10.0,
+          "edited_end": 11.0,
+          "source_start": 10.0,
+          "source_end": 11.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9908
+        },
+        {
+          "edited_start": 10.5,
+          "edited_end": 11.5,
+          "source_start": 10.5,
+          "source_end": 11.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9938
+        },
+        {
+          "edited_start": 11.0,
+          "edited_end": 12.0,
+          "source_start": 11.0,
+          "source_end": 12.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9913
+        },
+        {
+          "edited_start": 11.5,
+          "edited_end": 12.5,
+          "source_start": 11.5,
+          "source_end": 12.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9921
+        },
+        {
+          "edited_start": 12.0,
+          "edited_end": 13.0,
+          "source_start": 12.0,
+          "source_end": 13.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9907
+        },
+        {
+          "edited_start": 12.5,
+          "edited_end": 13.5,
+          "source_start": 12.5,
+          "source_end": 13.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9909
+        },
+        {
+          "edited_start": 13.0,
+          "edited_end": 14.0,
+          "source_start": 13.0,
+          "source_end": 14.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.991
+        },
+        {
+          "edited_start": 13.5,
+          "edited_end": 14.5,
+          "source_start": 13.5,
+          "source_end": 14.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.99
+        },
+        {
+          "edited_start": 14.0,
+          "edited_end": 15.0,
+          "source_start": 14.0,
+          "source_end": 15.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9934
+        },
+        {
+          "edited_start": 14.5,
+          "edited_end": 15.5,
+          "source_start": 14.5,
+          "source_end": 15.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9908
+        },
+        {
+          "edited_start": 15.0,
+          "edited_end": 16.0,
+          "source_start": 15.0,
+          "source_end": 16.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9942
+        },
+        {
+          "edited_start": 15.5,
+          "edited_end": 16.5,
+          "source_start": 15.5,
+          "source_end": 16.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.99
+        },
+        {
+          "edited_start": 16.0,
+          "edited_end": 17.0,
+          "source_start": 16.0,
+          "source_end": 17.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9937
+        },
+        {
+          "edited_start": 16.5,
+          "edited_end": 17.5,
+          "source_start": 16.5,
+          "source_end": 17.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.989
+        },
+        {
+          "edited_start": 17.0,
+          "edited_end": 18.0,
+          "source_start": 17.0,
+          "source_end": 18.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.992
+        }
+      ],
+      "limitations": [
+        "Matching sound does not establish matching images or speaker intent.",
+        "Silence and repeated sound are rejected; dubbing, music replacement and speed changes may remain unresolved."
+      ]
+    }
+  },
+  "prediction": {
+    "status": "no material omission",
+    "limitations": "Matched media deletion only; material effect on meaning remains unassessed. Boundary trims are not internal omissions. No match is an abstention, not proof of a faithful edit.",
+    "omissions": []
+  }
+}

@@ -1,3 +1,21 @@
+export type CropAnalysis = {
+  detected: boolean;
+  confidence: number;
+  crop_box?: { x: number; y: number; width: number; height: number };
+  source_resolution?: [number, number];
+  edited_resolution?: [number, number];
+  area_retained_fraction?: number;
+  area_omitted_fraction?: number;
+  omitted_margins?: {
+    name: string;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  }[];
+  explanation?: string;
+};
+
 export type Segment = {
   id: string;
   kind: string;
@@ -15,6 +33,17 @@ export type Finding = {
   edited_start?: number;
 };
 export type Evidence = {
+  omission_evidence?: {
+    status: string;
+    omissions: {
+      source_start: number;
+      source_end: number;
+      edit_position: number;
+      confidence: number;
+      matched_evidence: { modality: string };
+      explanation: unknown;
+    }[];
+  };
   id: string;
   status: string;
   coverage: number;
@@ -34,6 +63,7 @@ export type Evidence = {
   segments: Segment[];
   findings: Finding[];
   limitations: string[];
+  crop_analysis?: CropAnalysis;
   audio_alignment?: {
     status: "analyzed" | "unavailable";
     segments: Segment[];
@@ -61,6 +91,7 @@ export type Review = {
         clip_id: string;
       }[];
     }[];
+    classification?: "harmless_edit" | "meaning_changed" | "inconclusive";
     possible_effect: string;
     uncertainty: string;
   };
@@ -130,10 +161,23 @@ export type DossierMedia = {
 export type Dossier = {
   id: string;
   schema_version?: string;
+  model_configuration?: {
+    provider: string;
+    video_model: string;
+    capabilities: { audio: boolean; web_search: boolean };
+    media_destination: string;
+  };
   mode: "single_video";
-  status: "running" | "complete" | "error";
+  status: "running" | "complete" | "partial" | "error";
   stage:
-    "queued" | "analyzing" | "retrieving" | "verifying" | "complete" | "error";
+    | "queued"
+    | "analyzing"
+    | "comparing"
+    | "retrieving"
+    | "verifying"
+    | "complete"
+    | "partial"
+    | "error";
   created_at: string;
   caption?: string;
   input_provenance?: {
@@ -171,10 +215,32 @@ export type Dossier = {
     status: string;
     reason: string;
   };
+  comparison?: {
+    status: string;
+    basis?: string;
+    scope: string;
+    crop_analysis?: CropAnalysis;
+    reviews: (Partial<Review> & {
+      status: string;
+      error?: string;
+      finding: Finding & { modality?: string };
+    })[];
+  };
+  source_video_retrieval?: {
+    status: string;
+    scope: string;
+    candidates?: { title: string; status: string; reason?: string }[];
+  };
   matched_source?: {
     status: "matched" | "no_match" | "ambiguous" | "unindexed";
     source_id?: string;
     source_name?: string;
+    audio_coverage?: number;
+    basis?: string;
+    discovery?: string;
+    source_url?: string;
+    crop_analysis?: CropAnalysis;
+    media?: { source: string; edited: string };
     coverage?: number;
     margin?: number;
     investigation_id?: string;
@@ -185,7 +251,12 @@ export type Dossier = {
       status: "analyzed" | "unavailable";
       segments: Segment[];
     };
-    candidates?: { id: string; name: string; coverage: number; score: number }[];
+    candidates?: {
+      id: string;
+      name: string;
+      coverage: number;
+      score: number;
+    }[];
   };
   failure_log?: string[];
   error?: string;

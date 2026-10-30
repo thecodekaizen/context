@@ -56,3 +56,61 @@ def test_collection_end_to_end(clips, tmp_path, monkeypatch):
     evidence = client.get(f"/api/media/{body['evidence']['id']}/evidence.json").json()
     assert evidence["source_selection"] == body["search"]
     assert client.get(body["evidence"]["media"]["source"]).status_code == 200
+
+
+def test_low_visual_coverage_does_not_suppress_independent_audio(monkeypatch, tmp_path):
+    import numpy as np
+    from context_core import audio_alignment, library
+    from context_core.media import VideoSamples
+
+    root = tmp_path / "index"
+    (root / "a").mkdir(parents=True)
+    meta = {
+        "id": "a",
+        "name": "reference",
+        "sha256": "a",
+        "duration": 10,
+        "has_audio": True,
+    }
+    (root / "a/metadata.json").write_text(__import__("json").dumps(meta))
+    np.savez(root / "a/features.npz", times=np.array([0]), frames=np.zeros((1, 1152)))
+    monkeypatch.setattr(
+        library,
+        "sample",
+        lambda _: VideoSamples(
+            {"duration": 10, "has_audio": True},
+            np.array([0]),
+            np.zeros((1, 1152)),
+            "query",
+        ),
+    )
+    monkeypatch.setattr(
+        library,
+        "align_samples",
+        lambda *_: {
+            "status": "insufficient_evidence",
+            "coverage": 0.1,
+            "segments": [],
+            "findings": [],
+        },
+    )
+    monkeypatch.setattr(
+        audio_alignment,
+        "analyze_audio",
+        lambda *_: {
+            "segments": [
+                {
+                    "kind": "match",
+                    "edited_start": 0,
+                    "edited_end": 9,
+                    "source_start": 0,
+                    "source_end": 9,
+                }
+            ]
+        },
+    )
+    report, evidence = library.rank_sources(root, "query")
+    assert report["status"] == "matched"
+    assert report["selection_basis"] == "audio_correspondence"
+    assert evidence["coverage"] == 0.1
+    assert evidence["status"] == "insufficient_evidence"

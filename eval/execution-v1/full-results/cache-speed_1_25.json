@@ -1,0 +1,90 @@
+{
+  "alignment": {
+    "schema_version": "1.0",
+    "method": {
+      "name": "spatial-color-sequence-v2",
+      "sample_rate": 4,
+      "threshold": 0.075,
+      "timestamp_tolerance_seconds": 0.5
+    },
+    "source": {
+      "duration": 18.0,
+      "video_duration": 18.0,
+      "frame_rate": "24/1",
+      "width": 960,
+      "height": 640,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "container": "mov,mp4,m4a,3gp,3g2,mj2",
+      "audio_codec": "aac",
+      "has_audio": true,
+      "sha256": "1529b8430ca728562ff11b0b1d2dfc452584492a42ee46e8e4dd0b3ab7862c3f"
+    },
+    "edited": {
+      "duration": 14.458333,
+      "video_duration": 14.458333,
+      "frame_rate": "24/1",
+      "width": 960,
+      "height": 640,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "container": "mov,mp4,m4a,3gp,3g2,mj2",
+      "audio_codec": "aac",
+      "has_audio": true,
+      "sha256": "3db0806ff8ca29432fe39fd5f484f5cec9ba8ba8e9b2f0b3182606e9c43b6485"
+    },
+    "diagnostics": {
+      "timing_rejected_fraction": 0.0,
+      "ambiguous_frame_fraction": 0.879
+    },
+    "status": "insufficient_evidence",
+    "coverage": 0.121,
+    "segments": [
+      {
+        "id": "s0",
+        "kind": "match",
+        "edited_start": 0.0,
+        "edited_end": 1.75,
+        "source_start": 0.0,
+        "source_end": 2.0,
+        "confidence": 0.998
+      },
+      {
+        "id": "s1",
+        "kind": "unmatched",
+        "edited_start": 1.75,
+        "edited_end": 14.458333,
+        "source_start": null,
+        "source_end": null,
+        "confidence": 0
+      }
+    ],
+    "findings": [],
+    "limitations": [
+      "Visual coverage and findings describe images only. Separate audio correspondences locate sound; neither establishes speaker intent.",
+      "Repeated/static scenes may be rejected as ambiguous.",
+      "Cropping, overlays, speed changes and large color changes are not reliably supported.",
+      "Omissions require a supported cut or aligned boundary; unresolved source ranges are not labeled omitted. An edit alone does not establish misleading intent."
+    ],
+    "audio_alignment": {
+      "status": "analyzed",
+      "method": "normalized-waveform-correlation-v1",
+      "sample_rate": 2000,
+      "window_seconds": 1.0,
+      "hop_seconds": 0.5,
+      "minimum_correlation": 0.82,
+      "minimum_uniqueness_margin": 0.1,
+      "segments": [],
+      "anchors": [],
+      "limitations": [
+        "Matching sound does not establish matching images or speaker intent.",
+        "Silence and repeated sound are rejected; dubbing, music replacement and speed changes may remain unresolved."
+      ]
+    }
+  },
+  "prediction": {
+    "status": "no material omission",
+    "limitations": "Matched media deletion only; material effect on meaning remains unassessed. Boundary trims are not internal omissions. No match is an abstention, not proof of a faithful edit.",
+    "omissions": []
+  }
+}

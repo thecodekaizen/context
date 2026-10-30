@@ -9,23 +9,28 @@ MAX_CLIP_BYTES = 8 * 1024 * 1024
 
 
 def plan_clips(evidence, finding_id):
-    if evidence["status"] != "matched":
+    if (
+        evidence["status"] != "matched"
+        and evidence.get("selection_status") != "matched"
+    ):
         raise ValueError("Context review requires a supported source alignment")
     finding = next((f for f in evidence["findings"] if f["id"] == finding_id), None)
     if finding is None:
         raise ValueError("Finding does not exist")
     start, end = finding["source_start"], finding["source_end"]
-    if end - start > MAX_CLIP_SECONDS - 4:
-        raise ValueError(
-            "This interval is too long for bounded review; inspect it manually"
-        )
     source_start = max(0, start - 2)
-    source_end = min(evidence["source"]["duration"], end + 2)
+    source_end = min(
+        evidence["source"]["duration"], end + 2, source_start + MAX_CLIP_SECONDS
+    )
     if finding.get("edited_start") is not None:
         anchor = finding["edited_start"]
     else:
         # Choose the edit boundary nearest the omitted source interval.
-        matches = [s for s in evidence["segments"] if s["kind"] == "match"]
+        matches = [
+            s
+            for s in evidence.get("comparison_segments", evidence["segments"])
+            if s["kind"] == "match"
+        ]
         adjacent = min(
             matches,
             key=lambda s: min(
@@ -37,14 +42,19 @@ def plan_clips(evidence, finding_id):
             if abs(adjacent["source_start"] - end) < abs(adjacent["source_end"] - start)
             else adjacent["edited_end"]
         )
-    edit_start = max(0, anchor - 4)
-    edit_end = min(evidence["edited"]["duration"], anchor + 4)
+    if finding.get("kind") == "matched_excerpt":
+        edit_start = max(0, anchor)
+        edit_end = min(evidence["edited"]["duration"], finding["edited_end"])
+    else:
+        edit_start = max(0, anchor - 4)
+        edit_end = min(evidence["edited"]["duration"], anchor + 4)
     return [
         {
             "id": "source_context",
             "media": "source",
             "start": source_start,
             "end": source_end,
+            "omitted_interval_fully_included": source_end >= end,
         },
         {
             "id": "published_context",

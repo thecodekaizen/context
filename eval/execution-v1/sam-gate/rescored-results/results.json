@@ -1,0 +1,78 @@
+{
+  "manifest_sha256": "70e7525f2393fdbfd5e80b49bf8cb918ba98abbfd275018733451f8c9ebc8970",
+  "scope": "10 screen-content crops across three controlled JavaScript benchmark recordings, not natural tutorial footage. Color-derived masks from known authored chart bars, frozen before API calls. No boxes or truth masks sent to model. Passing this narrow gate does not validate occlusion or identity tracking.",
+  "cases": [
+    {
+      "image": "crop-00.png",
+      "passed": true,
+      "pixel_recall": 0.9992400060799513,
+      "iou": 0.8822976781640048,
+      "mask_count": 8
+    },
+    {
+      "image": "crop-01.png",
+      "passed": true,
+      "pixel_recall": 0.9992706053975201,
+      "iou": 0.8683710120431016,
+      "mask_count": 13
+    },
+    {
+      "image": "crop-02.png",
+      "passed": true,
+      "pixel_recall": 0.9995683227376188,
+      "iou": 0.8584765756656555,
+      "mask_count": 17
+    },
+    {
+      "image": "crop-03.png",
+      "passed": true,
+      "pixel_recall": 0.9996612048786497,
+      "iou": 0.8451243327691706,
+      "mask_count": 20
+    },
+    {
+      "image": "crop-04.png",
+      "passed": true,
+      "pixel_recall": 0.9994107613583502,
+      "iou": 0.8519762062128222,
+      "mask_count": 25
+    },
+    {
+      "image": "crop-05.png",
+      "passed": true,
+      "pixel_recall": 0.9996012317508142,
+      "iou": 0.8411976360483976,
+      "mask_count": 29
+    },
+    {
+      "image": "crop-06.png",
+      "passed": true,
+      "pixel_recall": 0.999554650718921,
+      "iou": 0.8293245121672268,
+      "mask_count": 32
+    },
+    {
+      "image": "crop-07.png",
+      "passed": true,
+      "pixel_recall": 0.9995153609507353,
+      "iou": 0.8272584583188002,
+      "mask_count": 37
+    },
+    {
+      "image": "crop-08.png",
+      "passed": true,
+      "pixel_recall": 0.9994383464920726,
+      "iou": 0.8165322844968863,
+      "mask_count": 40
+    },
+    {
+      "image": "crop-09.png",
+      "passed": true,
+      "pixel_recall": 0.9993854607237104,
+      "iou": 0.815600430722936,
+      "mask_count": 40
+    }
+  ],
+  "successful_crop_fraction": 1.0,
+  "passed": true
+}

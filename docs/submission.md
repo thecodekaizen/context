@@ -1,3 +1,5 @@
+> Historical pre-audit draft. Not a verified current capability statement. Unsupported accuracy, 16kHz/millisecond alignment and fixed PRELUDE lead-time claims are withdrawn; use docs/model-card.md and docs/sprint results. Public release/submission still requires owner approval.
+
 # CONTEXT — See the whole story
 
 ## Short description

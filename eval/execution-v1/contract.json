@@ -1,0 +1,30 @@
+{
+  "version": "execution-v1",
+  "frozen_before_inference": true,
+  "minimum_interval_recall": 0.8,
+  "maximum_benign_false_alarm_rate_exclusive": 0.1,
+  "kill_below_interval_recall": 0.5,
+  "minimum_interval_iou": 0.5,
+  "maximum_edit_position_error_seconds": 1.0,
+  "boundary_error": "Mean absolute start/end error of one-to-one matched omissions, in source seconds; null when none recovered. Misses remain in recall denominator.",
+  "interval_recall": "Recovered expected omission intervals divided by all expected omission intervals. Temporal IoU >= 0.5 and edit-position error <= 1 second, one-to-one matching. Audiovisual deletions may be recovered through either lane; audio-only deletions require audio matches.",
+  "benign_false_alarm_rate": "Benign edits with at least one predicted internal omission divided by all benign edits. Boundary-only trims are recorded separately and never called material omissions.",
+  "scope": "Three CC0 browser recordings of actual JavaScript microbenchmarks, authored by automation for this evaluation. These are controlled benchmark demos, not builder-recorded hero clips or field footage. No speech, people, politics or fabricated model results. Soundtrack is a disclosed synthetic diagnostic signal, not narration. Transform labels measure deleted media, not whether a deletion changes meaning.",
+  "sources": ["sort", "cache", "serialize"],
+  "duration_seconds": 18,
+  "recipes": [
+    {"name": "omission", "intervals": [[0, 5], [10, 18]], "transform": "none", "benign": false},
+    {"name": "trim_intro", "intervals": [[2, 18]], "transform": "none", "benign": true},
+    {"name": "reencode", "intervals": [[0, 18]], "transform": "reencode", "benign": true},
+    {"name": "subtitles", "intervals": [[0, 18]], "transform": "subtitles", "benign": true},
+    {"name": "speed_1_25", "intervals": [[0, 18]], "transform": "speed", "benign": true},
+    {"name": "reorder", "intervals": [[10, 18], [0, 5], [5, 10]], "transform": "none", "benign": true},
+    {"name": "audio_only", "intervals": [[0, 18]], "transform": "audio_omission", "benign": false},
+    {"name": "crop_omission", "intervals": [[0, 5], [10, 18]], "transform": "crop", "benign": false},
+    {"name": "two_omissions", "intervals": [[0, 4], [7, 11], [14, 18]], "transform": "none", "benign": false},
+    {"name": "crop_benign", "intervals": [[0, 18]], "transform": "crop", "benign": true}
+  ],
+  "friday_cases": ["sort-omission", "cache-omission", "serialize-omission", "sort-reorder", "cache-speed_1_25", "serialize-trim_intro", "sort-reencode", "cache-subtitles", "serialize-audio_only", "cache-crop_omission"],
+  "hero_status": "Builder must choose three real hero clips; these controlled recordings are evaluation fixtures only.",
+  "narration": "Builder's actual recorded voice only. Never synthesize or clone narration."
+}

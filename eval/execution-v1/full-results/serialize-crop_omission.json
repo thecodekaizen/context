@@ -1,0 +1,337 @@
+{
+  "alignment": {
+    "schema_version": "1.0",
+    "method": {
+      "name": "spatial-color-sequence-v2",
+      "sample_rate": 4,
+      "threshold": 0.075,
+      "timestamp_tolerance_seconds": 0.5
+    },
+    "source": {
+      "duration": 18.0,
+      "video_duration": 18.0,
+      "frame_rate": "24/1",
+      "width": 960,
+      "height": 640,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "container": "mov,mp4,m4a,3gp,3g2,mj2",
+      "audio_codec": "aac",
+      "has_audio": true,
+      "sha256": "ad793c55f527506b4c8ed64b0e0b3abc14718430c27d7e4b83eab547c1018003"
+    },
+    "edited": {
+      "duration": 13.0,
+      "video_duration": 13.0,
+      "frame_rate": "24/1",
+      "width": 960,
+      "height": 640,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "container": "mov,mp4,m4a,3gp,3g2,mj2",
+      "audio_codec": "aac",
+      "has_audio": true,
+      "sha256": "29e2210086330f3e8df87ff37b3df365de7b3a958e180c2bf49e111478a3c0d8"
+    },
+    "diagnostics": {
+      "timing_rejected_fraction": 0.0,
+      "ambiguous_frame_fraction": 0.962
+    },
+    "status": "insufficient_evidence",
+    "coverage": 0.0,
+    "segments": [
+      {
+        "id": "s0",
+        "kind": "unmatched",
+        "edited_start": 0.0,
+        "edited_end": 0.5,
+        "source_start": null,
+        "source_end": null,
+        "confidence": 0
+      },
+      {
+        "id": "s1",
+        "kind": "unmatched",
+        "edited_start": 0.5,
+        "edited_end": 13.0,
+        "source_start": null,
+        "source_end": null,
+        "confidence": 0
+      }
+    ],
+    "findings": [],
+    "limitations": [
+      "Visual coverage and findings describe images only. Separate audio correspondences locate sound; neither establishes speaker intent.",
+      "Repeated/static scenes may be rejected as ambiguous.",
+      "Cropping, overlays, speed changes and large color changes are not reliably supported.",
+      "Omissions require a supported cut or aligned boundary; unresolved source ranges are not labeled omitted. An edit alone does not establish misleading intent."
+    ],
+    "audio_alignment": {
+      "status": "analyzed",
+      "method": "normalized-waveform-correlation-v1",
+      "sample_rate": 2000,
+      "window_seconds": 1.0,
+      "hop_seconds": 0.5,
+      "minimum_correlation": 0.82,
+      "minimum_uniqueness_margin": 0.1,
+      "segments": [
+        {
+          "id": "audio-0",
+          "kind": "match",
+          "evidence": "audio",
+          "edited_start": 0.0,
+          "edited_end": 5.0,
+          "source_start": 0.0,
+          "source_end": 5.0,
+          "confidence": 1.0
+        },
+        {
+          "id": "audio-1",
+          "kind": "match",
+          "evidence": "audio",
+          "edited_start": 5.0,
+          "edited_end": 13.0,
+          "source_start": 10.0,
+          "source_end": 18.0,
+          "confidence": 1.0
+        }
+      ],
+      "anchors": [
+        {
+          "edited_start": 0.0,
+          "edited_end": 1.0,
+          "source_start": 0.0,
+          "source_end": 1.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.99
+        },
+        {
+          "edited_start": 0.5,
+          "edited_end": 1.5,
+          "source_start": 0.5,
+          "source_end": 1.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.995
+        },
+        {
+          "edited_start": 1.0,
+          "edited_end": 2.0,
+          "source_start": 1.0,
+          "source_end": 2.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9905
+        },
+        {
+          "edited_start": 1.5,
+          "edited_end": 2.5,
+          "source_start": 1.5,
+          "source_end": 2.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9938
+        },
+        {
+          "edited_start": 2.0,
+          "edited_end": 3.0,
+          "source_start": 2.0,
+          "source_end": 3.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9908
+        },
+        {
+          "edited_start": 2.5,
+          "edited_end": 3.5,
+          "source_start": 2.5,
+          "source_end": 3.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9931
+        },
+        {
+          "edited_start": 3.0,
+          "edited_end": 4.0,
+          "source_start": 3.0,
+          "source_end": 4.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9899
+        },
+        {
+          "edited_start": 3.5,
+          "edited_end": 4.5,
+          "source_start": 3.5,
+          "source_end": 4.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9914
+        },
+        {
+          "edited_start": 4.0,
+          "edited_end": 5.0,
+          "source_start": 4.0,
+          "source_end": 5.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9906
+        },
+        {
+          "edited_start": 5.0,
+          "edited_end": 6.0,
+          "source_start": 10.0,
+          "source_end": 11.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9906
+        },
+        {
+          "edited_start": 5.5,
+          "edited_end": 6.5,
+          "source_start": 10.5,
+          "source_end": 11.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9938
+        },
+        {
+          "edited_start": 6.0,
+          "edited_end": 7.0,
+          "source_start": 11.0,
+          "source_end": 12.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9914
+        },
+        {
+          "edited_start": 6.5,
+          "edited_end": 7.5,
+          "source_start": 11.5,
+          "source_end": 12.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.992
+        },
+        {
+          "edited_start": 7.0,
+          "edited_end": 8.0,
+          "source_start": 12.0,
+          "source_end": 13.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9907
+        },
+        {
+          "edited_start": 7.5,
+          "edited_end": 8.5,
+          "source_start": 12.5,
+          "source_end": 13.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9909
+        },
+        {
+          "edited_start": 8.0,
+          "edited_end": 9.0,
+          "source_start": 13.0,
+          "source_end": 14.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.991
+        },
+        {
+          "edited_start": 8.5,
+          "edited_end": 9.5,
+          "source_start": 13.5,
+          "source_end": 14.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9901
+        },
+        {
+          "edited_start": 9.0,
+          "edited_end": 10.0,
+          "source_start": 14.0,
+          "source_end": 15.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9933
+        },
+        {
+          "edited_start": 9.5,
+          "edited_end": 10.5,
+          "source_start": 14.5,
+          "source_end": 15.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9907
+        },
+        {
+          "edited_start": 10.0,
+          "edited_end": 11.0,
+          "source_start": 15.0,
+          "source_end": 16.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9942
+        },
+        {
+          "edited_start": 10.5,
+          "edited_end": 11.5,
+          "source_start": 15.5,
+          "source_end": 16.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9899
+        },
+        {
+          "edited_start": 11.0,
+          "edited_end": 12.0,
+          "source_start": 16.0,
+          "source_end": 17.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9937
+        },
+        {
+          "edited_start": 11.5,
+          "edited_end": 12.5,
+          "source_start": 16.5,
+          "source_end": 17.5,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9891
+        },
+        {
+          "edited_start": 12.0,
+          "edited_end": 13.0,
+          "source_start": 17.0,
+          "source_end": 18.0,
+          "correlation": 1.0,
+          "uniqueness_margin": 0.9919
+        }
+      ],
+      "limitations": [
+        "Matching sound does not establish matching images or speaker intent.",
+        "Silence and repeated sound are rejected; dubbing, music replacement and speed changes may remain unresolved."
+      ]
+    }
+  },
+  "prediction": {
+    "status": "matched omissions",
+    "limitations": "Matched media deletion only; material effect on meaning remains unassessed. Boundary trims are not internal omissions. No match is an abstention, not proof of a faithful edit.",
+    "omissions": [
+      {
+        "source_start": 5.0,
+        "source_end": 10.0,
+        "edit_position": 5.0,
+        "confidence": 1.0,
+        "matched_evidence": {
+          "modality": "audio",
+          "before": {
+            "id": "audio-0",
+            "kind": "match",
+            "evidence": "audio",
+            "edited_start": 0.0,
+            "edited_end": 5.0,
+            "source_start": 0.0,
+            "source_end": 5.0,
+            "confidence": 1.0
+          },
+          "after": {
+            "id": "audio-1",
+            "kind": "match",
+            "evidence": "audio",
+            "edited_start": 5.0,
+            "edited_end": 13.0,
+            "source_start": 10.0,
+            "source_end": 18.0,
+            "confidence": 1.0
+          },
+          "source_sha256": "ad793c55f527506b4c8ed64b0e0b3abc14718430c27d7e4b83eab547c1018003",
+          "edited_sha256": "29e2210086330f3e8df87ff37b3df365de7b3a958e180c2bf49e111478a3c0d8"
+        },
+        "explanation": null
+      }
+    ]
+  }
+}

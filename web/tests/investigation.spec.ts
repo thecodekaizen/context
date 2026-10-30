@@ -106,7 +106,9 @@ test("matched corpus source reveals missing context in synchronized dual player"
   await expect(page.locator(".matched-source-banner h4")).toContainText(
     "NASA Artemis I Mission Journey",
   );
-  await expect(page.locator(".source-coverage-pill")).toContainText("86% Match");
+  await expect(page.locator(".source-coverage-pill")).toContainText(
+    "86% visual coverage",
+  );
 
   // Click button to reveal missing context in dual player
   await page.locator(".btn-open-dual-comparator").click();
@@ -143,7 +145,8 @@ test("prelude anticipatory roadway hazard lens displays telemetry, tracks, and l
           t_incident_seconds: 7.8,
           lead_time_seconds: 1.2,
           conflict_type: "lateral_encroachment",
-          summary: "Pre-incident hazard detected at t=6.6s (1.2s lead time before incident at t=7.8s).",
+          summary:
+            "Pre-incident hazard detected at t=6.6s (1.2s lead time before incident at t=7.8s).",
           hazard_actor: "silver hatchback crossing ego lane",
           kinematic_signals: {
             peak_lateral_flow: 19.6,
@@ -152,14 +155,20 @@ test("prelude anticipatory roadway hazard lens displays telemetry, tracks, and l
           },
           observations: ["At t=6.6s, silver hatchback enters ego travel lane."],
           uncertainty: "Offline monocular replay only.",
-          disclaimer: "Offline research/replay only. Not for real-time driving safety.",
+          disclaimer:
+            "Offline research/replay only. Not for real-time driving safety.",
         },
         actors: [
           {
             track_id: "actor_1",
             label: "vehicle",
             trajectory: [
-              { time: 6.6, box: [0.3, 0.4, 0.6, 0.7], velocity: [-0.15, 0.05], area: 0.09 },
+              {
+                time: 6.6,
+                box: [0.3, 0.4, 0.6, 0.7],
+                velocity: [-0.15, 0.05],
+                area: 0.09,
+              },
             ],
             is_hazard: true,
             looming_rate: 86.2,
@@ -167,10 +176,21 @@ test("prelude anticipatory roadway hazard lens displays telemetry, tracks, and l
           },
         ],
         timeline_events: [
-          { time: 0.0, kind: "intake", label: "Dashcam Ingestion", detail: "Duration 7.8s" },
-          { time: 6.6, kind: "early_warning", label: "Hazard Flagged", detail: "Early warning" },
+          {
+            time: 0.0,
+            kind: "intake",
+            label: "Dashcam Ingestion",
+            detail: "Duration 7.8s",
+          },
+          {
+            time: 6.6,
+            kind: "early_warning",
+            label: "Hazard Flagged",
+            detail: "Early warning",
+          },
         ],
-        disclaimer: "Offline research/replay only. Not for real-time driving safety.",
+        disclaimer:
+          "Offline research/replay only. Not for real-time driving safety.",
       }),
     });
   });
@@ -191,7 +211,9 @@ test("prelude anticipatory roadway hazard lens displays telemetry, tracks, and l
   await expect(page.locator(".prelude-timeline-track")).toBeVisible();
   await expect(page.locator(".timeline-window.pre-incident")).toBeVisible();
   await expect(page.locator(".timeline-window.withheld")).toBeVisible();
-  await expect(page.locator(".lead-time-tag")).toContainText("+1.20s Lead Time");
+  await expect(page.locator(".lead-time-tag")).toContainText(
+    "+1.20s Lead Time",
+  );
 
   // Verify disclaimer
   await expect(page.locator(".prelude-disclaimer-pill")).toContainText(
@@ -205,4 +227,86 @@ test("prelude anticipatory roadway hazard lens displays telemetry, tracks, and l
   ).toBeVisible();
 
   expect(errors).toEqual([]);
+});
+
+test("loaded dossier remains within mobile and tablet widths", async ({
+  page,
+}) => {
+  await page.goto("/?dossier=test-artemis-investigation");
+  await expect(page.locator(".dossier-hero")).toBeVisible();
+  for (const width of [375, 768, 1280, 1600]) {
+    await page.setViewportSize({ width, height: 1000 });
+    for (const tab of [
+      "01 Overview",
+      "02 Visual Player",
+      "03 Claims",
+      "04 Discovered Sources",
+    ]) {
+      await page.getByRole("button", { name: new RegExp(tab) }).click();
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth),
+      ).toBeLessThanOrEqual(width);
+    }
+  }
+});
+
+test("validated dossier export uses current evidence guards", async ({
+  request,
+}) => {
+  const result = await request.get(
+    "/api/dossiers/test-artemis-investigation/media/dossier.json",
+  );
+  expect(result.ok()).toBeTruthy();
+  expect((await result.json()).validation_version).toBe(3);
+});
+
+// UI contract fixture only: this does not test or claim real model inference.
+test("comparison link control stays clickable above the video panels", async ({
+  page,
+}) => {
+  const media = "/api/dossiers/test-artemis-investigation/media/video.mp4";
+  await page.route("**/api/dossiers/layout-contract", (route) =>
+    route.fulfill({
+      json: {
+        id: "layout-contract",
+        status: "complete",
+        stage: "complete",
+        mode: "single_video",
+        sources: [],
+        analysis: {
+          summary: "UI-only fixture",
+          observations: [],
+          claims: [],
+          search_queries: [],
+          unknowns: [],
+        },
+        comparison: {
+          status: "complete",
+          scope:
+            "UI-only contract fixture with a deliberately long explanation of bounded source and submitted evidence, timestamp limitations and uncertainty; not an inference result.",
+          reviews: [],
+        },
+        matched_source: {
+          status: "matched",
+          source_name: "Layout fixture",
+          basis: "visual",
+          coverage: 1,
+          segments: [],
+          media: { source: media, edited: media },
+        },
+      },
+    }),
+  );
+  await page.goto("/?dossier=layout-contract");
+  await expect(page.locator(".source-comparison")).toBeVisible();
+  for (const width of [375, 768, 1440]) {
+    await page.setViewportSize({ width, height: 1000 });
+    const link = page.getByRole("checkbox", {
+      name: /Link matched video timing/,
+    });
+    await link.uncheck();
+    await expect(link).not.toBeChecked();
+    await link.check();
+    await expect(link).toBeChecked();
+  }
 });

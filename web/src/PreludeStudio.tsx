@@ -7,7 +7,8 @@ interface PreludeStudioProps {
 
 export function PreludeStudio({ onBackToContext }: PreludeStudioProps) {
   const [samples, setSamples] = useState<PreludeSample[]>([]);
-  const [selectedSample, setSelectedSample] = useState<string>("near_crash_011");
+  const [selectedSample, setSelectedSample] =
+    useState<string>("near_crash_011");
   const [dossier, setDossier] = useState<PreludeDossier | null>(null);
   const [busy, setBusy] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -102,9 +103,7 @@ export function PreludeStudio({ onBackToContext }: PreludeStudioProps) {
     // Find active actors at currentTime
     const t = currentTime;
     for (const actor of dossier.actors) {
-      const pt = actor.trajectory.find(
-        (p) => Math.abs(p.time - t) < 0.25
-      );
+      const pt = actor.trajectory.find((p) => Math.abs(p.time - t) < 0.25);
       if (pt) {
         const [ymin, xmin, ymax, xmax] = pt.box;
         const x = xmin * canvas.width;
@@ -118,14 +117,19 @@ export function PreludeStudio({ onBackToContext }: PreludeStudioProps) {
         ctx.strokeRect(x, y, w, h);
 
         // Fill subtle translucent box
-        ctx.fillStyle = isHazard ? "rgba(244, 63, 94, 0.15)" : "rgba(6, 182, 212, 0.1)";
+        ctx.fillStyle = isHazard
+          ? "rgba(244, 63, 94, 0.15)"
+          : "rgba(6, 182, 212, 0.1)";
         ctx.fillRect(x, y, w, h);
 
         // Velocity arrow
         const [vx, vy] = pt.velocity;
         ctx.beginPath();
         ctx.moveTo(x + w / 2, y + h / 2);
-        ctx.lineTo(x + w / 2 + vx * canvas.width * 0.4, y + h / 2 + vy * canvas.height * 0.4);
+        ctx.lineTo(
+          x + w / 2 + vx * canvas.width * 0.4,
+          y + h / 2 + vy * canvas.height * 0.4,
+        );
         ctx.strokeStyle = isHazard ? "#fb7185" : "#38bdf8";
         ctx.lineWidth = 2;
         ctx.stroke();
@@ -136,7 +140,7 @@ export function PreludeStudio({ onBackToContext }: PreludeStudioProps) {
         ctx.fillText(
           `${actor.track_id} ${isHazard ? "[HAZARD CUE]" : ""}`,
           x,
-          Math.max(12, y - 4)
+          Math.max(12, y - 4),
         );
       }
     }
@@ -149,6 +153,8 @@ export function PreludeStudio({ onBackToContext }: PreludeStudioProps) {
         return "badge-critical";
       case "medium":
         return "badge-medium";
+      case "unverified":
+        return "badge-unverified";
       default:
         return "badge-nominal";
     }
@@ -162,7 +168,9 @@ export function PreludeStudio({ onBackToContext }: PreludeStudioProps) {
             ← Back to CONTEXT Studio
           </button>
           <div className="prelude-lens-tag">LENS: PRELUDE</div>
-          <h1 className="prelude-title">Anticipatory Roadway Hazard Intelligence</h1>
+          <h1 className="prelude-title">
+            Anticipatory Roadway Hazard Intelligence
+          </h1>
         </div>
         <div className="prelude-disclaimer-pill">
           Offline Replay Only • Not Real-Time Safety Assistance
@@ -171,7 +179,9 @@ export function PreludeStudio({ onBackToContext }: PreludeStudioProps) {
 
       {/* Benchmark Sample Selector */}
       <section className="prelude-samples-bar">
-        <span className="samples-bar-label">Ground-Truth Dashcam Scenarios:</span>
+        <span className="samples-bar-label">
+          Ground-Truth Dashcam Scenarios:
+        </span>
         <div className="samples-chips">
           {samples.map((s) => (
             <button
@@ -180,7 +190,9 @@ export function PreludeStudio({ onBackToContext }: PreludeStudioProps) {
               onClick={() => loadSample(s.id)}
               disabled={busy}
             >
-              <span className={`chip-dot ${s.expected_hazard ? "hazard" : "safe"}`} />
+              <span
+                className={`chip-dot ${s.expected_hazard ? "hazard" : "safe"}`}
+              />
               {s.title}
             </button>
           ))}
@@ -198,7 +210,8 @@ export function PreludeStudio({ onBackToContext }: PreludeStudioProps) {
               src={dossier?.media_url}
               controls
               onTimeUpdate={() => {
-                if (videoRef.current) setCurrentTime(videoRef.current.currentTime);
+                if (videoRef.current)
+                  setCurrentTime(videoRef.current.currentTime);
               }}
               className="prelude-video"
             />
@@ -208,20 +221,25 @@ export function PreludeStudio({ onBackToContext }: PreludeStudioProps) {
               height={360}
               className="prelude-overlay-canvas"
             />
-            {dossier?.hazard_detected && currentTime >= (dossier.finding.t_cue_seconds || 0) && (
-              <div className="prelude-hazard-hud">
-                ⚠️ EARLY RISK CUE DETECTED ({dossier.finding.conflict_type})
-              </div>
-            )}
+            {dossier?.hazard_detected &&
+              currentTime >= (dossier.finding.t_cue_seconds || 0) && (
+                <div className="prelude-hazard-hud">
+                  ⚠️ EARLY RISK CUE DETECTED ({dossier.finding.conflict_type})
+                </div>
+              )}
           </div>
 
           {/* Timeline and Cutoff Explorer */}
           {dossier && (
             <div className="prelude-timeline-card">
               <div className="timeline-header">
-                <span className="timeline-title">Temporal Analysis & Hard Cutoff Horizon</span>
+                <span className="timeline-title">
+                  Temporal Analysis & Hard Cutoff Horizon
+                </span>
                 <span className="timeline-status">
-                  Current: {currentTime.toFixed(2)}s / Cutoff: {dossier.t_cutoff.toFixed(2)}s / Total: {dossier.duration.toFixed(2)}s
+                  Current: {currentTime.toFixed(2)}s / Cutoff:{" "}
+                  {dossier.t_cutoff.toFixed(2)}s / Total:{" "}
+                  {dossier.duration.toFixed(2)}s
                 </span>
               </div>
 
@@ -229,30 +247,42 @@ export function PreludeStudio({ onBackToContext }: PreludeStudioProps) {
                 {/* Pre-incident analysis window */}
                 <div
                   className="timeline-window pre-incident"
-                  style={{ width: `${(dossier.t_cutoff / dossier.duration) * 100}%` }}
+                  style={{
+                    width: `${(dossier.t_cutoff / dossier.duration) * 100}%`,
+                  }}
                   title="Frames strictly analyzed prior to cutoff"
                 >
-                  <span className="window-label">Analyzed Horizon (t ≤ {dossier.t_cutoff}s)</span>
+                  <span className="window-label">
+                    Analyzed Horizon (t ≤ {dossier.t_cutoff}s)
+                  </span>
                 </div>
 
                 {/* Withheld future window */}
                 <div
                   className="timeline-window withheld"
-                  style={{ width: `${((dossier.duration - dossier.t_cutoff) / dossier.duration) * 100}%` }}
+                  style={{
+                    width: `${((dossier.duration - dossier.t_cutoff) / dossier.duration) * 100}%`,
+                  }}
                   title="Future frames deliberately withheld from model"
                 >
-                  <span className="window-label">Withheld During Inference</span>
+                  <span className="window-label">
+                    Withheld During Inference
+                  </span>
                 </div>
 
                 {/* Marker for Early Hazard Cue */}
                 {dossier.finding.t_cue_seconds && (
                   <div
                     className="timeline-marker cue-marker"
-                    style={{ left: `${(dossier.finding.t_cue_seconds / dossier.duration) * 100}%` }}
+                    style={{
+                      left: `${(dossier.finding.t_cue_seconds / dossier.duration) * 100}%`,
+                    }}
                     title={`Early Warning Flagged at t=${dossier.finding.t_cue_seconds}s`}
                   >
                     <div className="marker-pin" />
-                    <span className="marker-text">Warning ({dossier.finding.t_cue_seconds}s)</span>
+                    <span className="marker-text">
+                      Warning ({dossier.finding.t_cue_seconds}s)
+                    </span>
                   </div>
                 )}
 
@@ -260,11 +290,15 @@ export function PreludeStudio({ onBackToContext }: PreludeStudioProps) {
                 {dossier.t_incident && (
                   <div
                     className="timeline-marker incident-marker"
-                    style={{ left: `${(dossier.t_incident / dossier.duration) * 100}%` }}
+                    style={{
+                      left: `${(dossier.t_incident / dossier.duration) * 100}%`,
+                    }}
                     title={`Ground Truth Incident at t=${dossier.t_incident}s`}
                   >
                     <div className="marker-pin" />
-                    <span className="marker-text">Incident ({dossier.t_incident}s)</span>
+                    <span className="marker-text">
+                      Incident ({dossier.t_incident}s)
+                    </span>
                   </div>
                 )}
 
@@ -285,7 +319,11 @@ export function PreludeStudio({ onBackToContext }: PreludeStudioProps) {
                     min="1.0"
                     max={dossier.duration}
                     value={userCutoff}
-                    onChange={(e) => setUserCutoff(e.target.value === "" ? "" : parseFloat(e.target.value))}
+                    onChange={(e) =>
+                      setUserCutoff(
+                        e.target.value === "" ? "" : parseFloat(e.target.value),
+                      )
+                    }
                     className="cutoff-input"
                   />
                 </label>
@@ -311,28 +349,37 @@ export function PreludeStudio({ onBackToContext }: PreludeStudioProps) {
             <div className="prelude-loading-card">
               <div className="spinner" />
               <h3>Evaluating Kinematic Trajectories & Scene Conflict...</h3>
-              <p>Strictly bounded to pre-incident frames (t ≤ {userCutoff || "cutoff"}s)</p>
+              <p>
+                Strictly bounded to pre-incident frames (t ≤{" "}
+                {userCutoff || "cutoff"}s)
+              </p>
             </div>
           )}
 
           {!busy && dossier && (
             <div className="prelude-dossier-card">
               {/* Finding Hero Badge */}
-              <div className={`hero-risk-panel ${riskBadgeClass(dossier.risk_level)}`}>
+              <div
+                className={`hero-risk-panel ${riskBadgeClass(dossier.risk_level)}`}
+              >
                 <div className="hero-risk-top">
                   <span className="risk-level-tag">
                     RISK LEVEL: {dossier.risk_level.toUpperCase()}
                   </span>
-                  {dossier.lead_time !== null && dossier.lead_time !== undefined && (
-                    <span className="lead-time-tag">
-                      +{dossier.lead_time.toFixed(2)}s Lead Time
-                    </span>
-                  )}
+                  {dossier.lead_time !== null &&
+                    dossier.lead_time !== undefined && (
+                      <span className="lead-time-tag">
+                        +{dossier.lead_time.toFixed(2)}s Lead Time
+                      </span>
+                    )}
                 </div>
-                <div className="hero-summary-text">{dossier.finding.summary}</div>
+                <div className="hero-summary-text">
+                  {dossier.finding.summary}
+                </div>
                 {dossier.finding.hazard_actor && (
                   <div className="hero-actor-text">
-                    <strong>Salient Actor:</strong> {dossier.finding.hazard_actor}
+                    <strong>Salient Actor:</strong>{" "}
+                    {dossier.finding.hazard_actor}
                   </div>
                 )}
               </div>
@@ -342,27 +389,44 @@ export function PreludeStudio({ onBackToContext }: PreludeStudioProps) {
                 <div className="telemetry-box">
                   <span className="telemetry-label">Peak Lateral Flow</span>
                   <span className="telemetry-value">
-                    {dossier.finding.kinematic_signals.peak_lateral_flow ?? "0.0"} px/s
+                    {dossier.finding.kinematic_signals.peak_lateral_flow ??
+                      "0.0"}{" "}
+                    px/s
                   </span>
-                  <span className="telemetry-sub">Crossing trajectory anomaly</span>
+                  <span className="telemetry-sub">
+                    Crossing trajectory anomaly
+                  </span>
                 </div>
                 <div className="telemetry-box">
-                  <span className="telemetry-label">Peak Looming Rate (τ)</span>
+                  <span className="telemetry-label">
+                    Relative Region Area Growth (s⁻¹)
+                  </span>
                   <span className="telemetry-value">
-                    {dossier.finding.kinematic_signals.peak_looming_rate ?? "0.0"}
+                    {dossier.finding.kinematic_signals.peak_looming_rate ??
+                      "0.0"}
                   </span>
-                  <span className="telemetry-sub">Optical expansion dA/dt</span>
+                  <span className="telemetry-sub">
+                    Finite area-change proxy; not time to collision
+                  </span>
                 </div>
                 <div className="telemetry-box">
-                  <span className="telemetry-label">Tracked Road Actors</span>
-                  <span className="telemetry-value">{dossier.actors.length}</span>
-                  <span className="telemetry-sub">Persistent 2D trajectories</span>
+                  <span className="telemetry-label">
+                    Tracked Motion Regions
+                  </span>
+                  <span className="telemetry-value">
+                    {dossier.actors.length}
+                  </span>
+                  <span className="telemetry-sub">
+                    Unvalidated motion blobs; not detected vehicles
+                  </span>
                 </div>
               </div>
 
               {/* Grounded Second-by-Second Observations */}
               <div className="observations-section">
-                <h4 className="section-title">Grounded Second-by-Second Evidence</h4>
+                <h4 className="section-title">
+                  Grounded Second-by-Second Evidence
+                </h4>
                 <ul className="observations-list">
                   {dossier.finding.observations.map((obs, idx) => (
                     <li key={idx} className="observation-item">
@@ -375,8 +439,12 @@ export function PreludeStudio({ onBackToContext }: PreludeStudioProps) {
 
               {/* Epistemic Boundaries & Uncertainty */}
               <div className="uncertainty-section">
-                <h4 className="section-title">Epistemic Uncertainty & Limitations</h4>
-                <p className="uncertainty-text">{dossier.finding.uncertainty}</p>
+                <h4 className="section-title">
+                  Epistemic Uncertainty & Limitations
+                </h4>
+                <p className="uncertainty-text">
+                  {dossier.finding.uncertainty}
+                </p>
                 <div className="disclaimer-callout">
                   <strong>Notice:</strong> {dossier.disclaimer}
                 </div>

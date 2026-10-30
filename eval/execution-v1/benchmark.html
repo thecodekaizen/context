@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>CONTEXT controlled benchmark source</title>
+<style>
+  body { margin: 32px; background: #121922; color: #d8e4ed; font: 20px monospace; }
+  h1 { font-size: 28px; } p { color: #b2c7d7; } pre { line-height: 1.5; }
+  #bars { display: flex; align-items: end; gap: 3px; height: 170px; }
+  #bars div { background: #6cbea5; width: 12px; }
+</style>
+<h1 id="title"></h1>
+<p>Actual browser measurements. Controlled demo; results vary by machine.</p>
+<p id="qualification">Warmup and setup cost are included. This is not a product performance claim.</p>
+<div id="bars"></div><pre id="output"></pre>
+<script>
+  const benchmark = new URLSearchParams(location.search).get('benchmark') || 'sort';
+  document.querySelector('#title').textContent = `JavaScript ${benchmark} benchmark`;
+  const measurements = [];
+  const data = Array.from({ length: 12000 }, (_, index) => Math.sin(index * 17.3));
+  const cache = new Map();
+  function work() {
+    const started = performance.now();
+    for (let repetition = 0; repetition < 20; repetition++) {
+      if (benchmark === 'sort') data.toSorted((left, right) => left - right);
+      else if (benchmark === 'cache') {
+        for (let index = 0; index < data.length; index++) {
+          if (!cache.has(index)) cache.set(index, Math.sqrt(Math.abs(data[index])));
+          cache.get(index);
+        }
+      } else JSON.parse(JSON.stringify(data));
+    }
+    const elapsed = performance.now() - started;
+    measurements.push(elapsed);
+    const visible = measurements.slice(-40);
+    const scale = Math.max(...visible, 1);
+    document.querySelector('#bars').replaceChildren(...visible.map(value => {
+      const bar = document.createElement('div');
+      bar.style.height = `${Math.max(2, value / scale * 160)}px`;
+      return bar;
+    }));
+    document.querySelector('#output').textContent = measurements.slice(-6).map((value, index) =>
+      `Measured batch ${Math.max(0, measurements.length - 6) + index + 1}: ${value.toFixed(3)} ms`).join('\n');
+  }
+  window.measurements = measurements;
+  window.timer = setInterval(work, 250);
+  work();
+</script>
+</html>

@@ -1,15 +1,17 @@
 """Single-input jobs, persistence, and media; comparison API stays separate."""
 
+import csv
+import io
 import json
-import os
 import re
 from pathlib import Path
 from threading import Lock
-from typing import Annotated
+from typing import Annotated, Literal
 from uuid import uuid4
 
 from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, UploadFile
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse, Response
+from starlette.concurrency import run_in_threadpool
 
 from .dossier import (
     investigate,
@@ -18,6 +20,8 @@ from .dossier import (
     validate_assessment,
     write,
 )
+from .library import add_source
+from .providers import configured
 from .retrieval import download_video
 
 
@@ -34,7 +38,14 @@ def router(data_root, lock: Lock):
 
     async def process(target, caption, provenance):
         try:
-            await investigate(target, caption, provenance)
+            await investigate(
+                target,
+                caption,
+                provenance,
+                library_root=target / "reference-library"
+                if (target / "reference-library").is_dir()
+                else None,
+            )
         finally:
             lock.release()
 
@@ -44,20 +55,23 @@ def router(data_root, lock: Lock):
         video: Annotated[UploadFile | None, File()] = None,
         url: Annotated[str, Form()] = "",
         caption: Annotated[str, Form(max_length=4000)] = "",
+        reference: Annotated[UploadFile | None, File()] = None,
+        input_kind: Annotated[Literal["upload", "camera", "screen"], Form()] = "upload",
     ):
         if bool(video) == bool(url.strip()):
             raise HTTPException(
                 422, "Submit one video upload OR one supported direct-media URL"
             )
-        if not os.getenv("MODEL_API_KEY"):
+        if not configured():
             raise HTTPException(
-                503, "Meta credentials are unavailable; investigation cannot start"
+                503,
+                "Meta credentials are unavailable; configure MODEL_API_KEY",
             )
         if not lock.acquire(blocking=False):
             raise HTTPException(429, "An investigation is already running")
         target = data_root() / uuid4().hex
-        target.mkdir(parents=True)
         try:
+            target.mkdir(parents=True)
             if video:
                 size = 0
                 with (target / "video.mp4").open("wb") as out:
@@ -74,6 +88,27 @@ def router(data_root, lock: Lock):
                 }
             else:
                 provenance = await download_video(url.strip(), target / "video.mp4")
+            provenance["input_kind"] = "url" if url.strip() else input_kind
+            if reference:
+                source_path = target / "supplied-source.mp4"
+                try:
+                    size = 0
+                    with source_path.open("wb") as out:
+                        while block := await reference.read(1024 * 1024):
+                            size += len(block)
+                            if size > 200 * 1024 * 1024:
+                                raise ValueError("Source recording exceeds 200 MB")
+                            out.write(block)
+                    await run_in_threadpool(
+                        add_source,
+                        target / "reference-library",
+                        source_path,
+                        reference.filename or "Supplied source",
+                    )
+                    provenance["original_recording_supplied"] = True
+                finally:
+                    await reference.close()
+                    source_path.unlink(missing_ok=True)
             write(
                 target,
                 {
@@ -99,7 +134,7 @@ def router(data_root, lock: Lock):
 
     def validated_report(target):
         report = json.loads((target / "dossier.json").read_text())
-        if report.get("status") == "complete":
+        if report.get("status") in {"complete", "partial"}:
             observation = target / "observation-response.json"
             verification = target / "verification-response.json"
             analysis_text = (
@@ -110,15 +145,21 @@ def router(data_root, lock: Lock):
             assessment_text = (
                 text_output(json.loads(verification.read_text()))
                 if verification.exists()
-                else json.dumps(report["assessment"])
+                else json.dumps(report.get("assessment", {"findings": []}))
             )
             report["analysis"] = validate_analysis(
                 analysis_text, report["media"], report.get("caption", "")
             )
             report["assessment"] = validate_assessment(
-                assessment_text, report["analysis"], report["sources"]
+                assessment_text, report["analysis"], report.get("sources", [])
             )
-            report["validation_version"] = 2
+            if not report["analysis"]["observations"]:
+                report.update(
+                    status="partial",
+                    stage="partial",
+                    error="No validated video observations are available; retained claims are limited to available evidence.",
+                )
+            report["validation_version"] = 3
         return report
 
     def read_report(target):
@@ -149,6 +190,56 @@ def router(data_root, lock: Lock):
     def get(identifier: str):
         return read_report(directory(identifier))
 
+    @api.get("/{identifier}/markers.csv")
+    def markers(identifier: str):
+        report = read_report(directory(identifier))
+        output = io.StringIO()
+        writer = csv.writer(output)
+        writer.writerow(
+            [
+                "media",
+                "start_seconds",
+                "end_seconds",
+                "classification",
+                "observation",
+                "model",
+                "review_status",
+            ]
+        )
+        for review in report.get("comparison", {}).get("reviews", []):
+            if review.get("status") != "complete":
+                continue
+            interpretation = review.get("interpretation", {})
+            for observation in interpretation.get("observations", []):
+                for cite in observation.get("citations", []):
+                    # Spreadsheet formula escapes preserve text without executing model output.
+                    def safe(value):
+                        text = str(value)
+                        return (
+                            "'" + text
+                            if text.lstrip().startswith(("=", "+", "-", "@"))
+                            else text
+                        )
+
+                    writer.writerow(
+                        [
+                            safe(cite["media"]),
+                            cite["media_start"],
+                            cite["media_end"],
+                            safe(interpretation.get("classification", "inconclusive")),
+                            safe(observation["text"]),
+                            safe(review.get("model", "")),
+                            "model_assessment",
+                        ]
+                    )
+        return Response(
+            output.getvalue(),
+            media_type="text/csv",
+            headers={
+                "Content-Disposition": f'attachment; filename="{identifier}-review-markers.csv"'
+            },
+        )
+
     @api.get("/{identifier}/media/{filename}")
     def media(identifier: str, filename: str):
         if filename not in {
@@ -161,6 +252,13 @@ def router(data_root, lock: Lock):
         path = directory(identifier) / filename
         if not path.is_file():
             raise HTTPException(404)
+        if filename == "dossier.json":
+            return JSONResponse(
+                read_report(path.parent),
+                headers={
+                    "Content-Disposition": f'attachment; filename="{identifier}-dossier.json"'
+                },
+            )
         return FileResponse(path)
 
     return api
