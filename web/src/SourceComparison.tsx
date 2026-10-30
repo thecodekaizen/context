@@ -1,4 +1,7 @@
 import { useRef, useState } from "react";
+import { ForensicPlayer } from "./ForensicPlayer";
+import { GroundingBadge } from "./AuditArtifacts";
+import type { Review } from "./types";
 import type { Dossier } from "./types";
 
 export function SourceComparison({ dossier }: { dossier: Dossier }) {
@@ -6,7 +9,6 @@ export function SourceComparison({ dossier }: { dossier: Dossier }) {
   const edited = useRef<HTMLVideoElement>(null);
   const pending = useRef<{ source?: number; edited?: number }>({});
   const [linked, setLinked] = useState(true);
-  const [showCropOverlay, setShowCropOverlay] = useState(true);
   const [mediaErrors, setMediaErrors] = useState<{
     source?: string;
     edited?: string;
@@ -79,16 +81,6 @@ export function SourceComparison({ dossier }: { dossier: Dossier }) {
           <p>{comparison.scope}</p>
         </div>
         <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-          {cropAnalysis?.detected && (
-            <label>
-              <input
-                type="checkbox"
-                checked={showCropOverlay}
-                onChange={(e) => setShowCropOverlay(e.target.checked)}
-              />{" "}
-              Show spatial crop overlay
-            </label>
-          )}
           <label>
             <input
               type="checkbox"
@@ -103,9 +95,7 @@ export function SourceComparison({ dossier }: { dossier: Dossier }) {
       </header>
       <p className="comparison-provenance">
         Source: {matched.source_name} ·{" "}
-        {matched.discovery === "NASA_catalog_search"
-          ? "Discovered through NASA catalog search"
-          : "Matched in provided local collection"}
+        {matched.discovery === "registered_technical_catalog" ? "Retrieved from registered technical source catalog" : matched.discovery === "NASA_catalog_search" ? "Legacy catalog provenance (historical record)" : "Matched in provided local collection"}
         .{" "}
         {matched.basis === "audio_only"
           ? "Audio match only: matching sound does not authenticate the images."
@@ -131,125 +121,31 @@ export function SourceComparison({ dossier }: { dossier: Dossier }) {
           </p>
         </div>
       )}
-      <div className="comparison-players">
-        <div>
-          <h3>Submitted footage</h3>
-          <video
-            ref={edited}
-            src={matched.media.edited}
-            controls
-            playsInline
-            preload="metadata"
-            onLoadedMetadata={() => {
-              apply("edited");
-              setMediaErrors((x) => ({ ...x, edited: undefined }));
-            }}
-            onError={() =>
-              setMediaErrors((x) => ({
-                ...x,
-                edited: "Submitted video could not be loaded.",
-              }))
-            }
-            onTimeUpdate={synchronize}
-            onSeeked={synchronize}
-            onPlay={synchronize}
-            onPause={() => {
-              if (linked) source.current?.pause();
-            }}
-          />
-        </div>
-        <div style={{ position: "relative" }}>
-          <h3>Candidate source · {matched.source_name}</h3>
-          <div
-            style={{ position: "relative", width: "100%", overflow: "hidden" }}
-          >
-            <video
-              ref={source}
-              src={matched.media.source}
-              controls
-              playsInline
-              preload="metadata"
-              muted={linked}
-              onLoadedMetadata={() => {
-                apply("source");
-                setMediaErrors((x) => ({ ...x, source: undefined }));
-              }}
-              onError={() => {
-                setLinked(false);
-                setMediaErrors((x) => ({
-                  ...x,
-                  source: "Source video could not be loaded.",
-                }));
-              }}
-            />
-            {cropAnalysis?.detected &&
-              showCropOverlay &&
-              cropAnalysis.crop_box &&
-              cropAnalysis.source_resolution && (
-                <svg
-                  viewBox={`0 0 ${cropAnalysis.source_resolution[0]} ${cropAnalysis.source_resolution[1]}`}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    pointerEvents: "none",
-                  }}
-                  aria-hidden="true"
-                >
-                  <rect
-                    x={cropAnalysis.crop_box.x}
-                    y={cropAnalysis.crop_box.y}
-                    width={cropAnalysis.crop_box.width}
-                    height={cropAnalysis.crop_box.height}
-                    fill="none"
-                    stroke="#22c55e"
-                    strokeWidth={4}
-                    strokeDasharray="8 6"
-                  />
-                  <text
-                    x={cropAnalysis.crop_box.x + 12}
-                    y={cropAnalysis.crop_box.y + 28}
-                    fill="#22c55e"
-                    fontSize="22"
-                    fontWeight="bold"
-                    style={{ textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}
-                  >
-                    RETAINED IN EDIT (
-                    {((cropAnalysis.area_retained_fraction || 0) * 100).toFixed(
-                      0,
-                    )}
-                    %)
-                  </text>
-                  {cropAnalysis.omitted_margins?.map((m, idx) => (
-                    <g key={idx}>
-                      <rect
-                        x={m.x}
-                        y={m.y}
-                        width={m.width}
-                        height={m.height}
-                        fill="rgba(239, 68, 68, 0.35)"
-                        stroke="rgba(239, 68, 68, 0.75)"
-                        strokeWidth={2}
-                      />
-                      <text
-                        x={m.x + 8}
-                        y={m.y + 24}
-                        fill="#fca5a5"
-                        fontSize="18"
-                        fontWeight="600"
-                        style={{ textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}
-                      >
-                        CUT OUT: {m.name.toUpperCase()}
-                      </text>
-                    </g>
-                  ))}
-                </svg>
-              )}
-          </div>
-        </div>
-      </div>
+      <ForensicPlayer
+        key={dossier.id}
+        media={matched.media}
+        sourceRef={source}
+        editedRef={edited}
+        segments={segments || []}
+        findings={matched.findings || []}
+        editedDuration={dossier.media?.duration || 0}
+        linked={linked}
+        onLink={setLinked}
+        onEditedUpdate={synchronize}
+        onLoaded={(kind) => {
+          apply(kind);
+          setMediaErrors((x) => ({ ...x, [kind]: undefined }));
+        }}
+        onError={(kind) => {
+          setLinked(false);
+          setMediaErrors((x) => ({
+            ...x,
+            [kind]: `${kind === "source" ? "Source" : "Submitted"} video could not be loaded.`,
+          }));
+        }}
+        onReveal={(finding) => seek("source", finding.source_start)}
+        crop={cropAnalysis}
+      />
       {matched.source_url && (
         <a href={matched.source_url} target="_blank" rel="noreferrer">
           Open acquired source recording ↗
@@ -289,13 +185,23 @@ export function SourceComparison({ dossier }: { dossier: Dossier }) {
               ))}
             </div>
             <p className="comparison-uncertainty" style={{ marginTop: "12px" }}>
-              SAM 3.1 & spatial reframe detector verified. Peripheral elements
-              outside the crop window are omitted in submitted clip.
+              Measured spatial geometry. Peripheral elements outside the crop
+              window are omitted in submitted clip.
             </p>
           </article>
         )}
         {comparison.reviews.map((review, index) => (
           <article className="card-box" key={review.finding_id || index}>
+            {review.interpretation && review.model && (
+              <GroundingBadge
+                review={review as Review}
+                finding={review.finding}
+                grounded={
+                  review.status === "complete" &&
+                  review.finding.kind === "omission"
+                }
+              />
+            )}
             <span className="verdict-pill">
               {review.interpretation?.classification?.replaceAll("_", " ") ||
                 "Comparison unavailable"}

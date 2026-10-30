@@ -2,7 +2,10 @@ import csv
 import io
 import json
 
+import pytest
 from fastapi.testclient import TestClient
+
+pytestmark = pytest.mark.usefixtures("reviewed_clips")
 
 
 def test_supplied_source_is_private_to_job_and_capture_provenance_preserved(

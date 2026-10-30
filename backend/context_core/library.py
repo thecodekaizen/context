@@ -50,8 +50,24 @@ def add_source(root, path, name):
         raise
 
 
-def rank_sources(root, edited):
+def rank_sources(root, edited, *, admitted_only=False):
     sources = list_sources(root)
+    if admitted_only:
+        from .domain_policy import DomainAdmissionError, require_files
+
+        require_files({"edited": Path(edited)})
+        eligible = []
+        for source in sources:
+            try:
+                admission = require_files(
+                    {"source": Path(root) / source["id"] / "original.mp4"}
+                )
+                if admission["source"]["sha256"] != source["sha256"]:
+                    continue
+            except (DomainAdmissionError, OSError):
+                continue
+            eligible.append(source)
+        sources = eligible
     if not sources:
         raise ValueError("Add an original recording to the local collection first")
     edited_samples = sample(edited)

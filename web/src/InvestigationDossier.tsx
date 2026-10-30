@@ -1,4 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
+import { ArtifactExport } from "./AuditArtifacts";
+import { timecode } from "./ForensicPlayer";
 import { SourceComparison } from "./SourceComparison";
 import type { Dossier, DossierEvent, DossierFinding } from "./types";
 
@@ -8,11 +10,7 @@ interface Props {
   onOpenComparator?: (investigationId: string) => void;
 }
 
-const fmtTime = (s: number) => {
-  const m = Math.floor(s / 60);
-  const sec = (s % 60).toFixed(1);
-  return `${m.toString().padStart(2, "0")}:${sec.padStart(4, "0")}`;
-};
+const fmtTime = timecode;
 
 export function InvestigationDossier({
   dossier,
@@ -139,6 +137,9 @@ export function InvestigationDossier({
     <div className="dossier-container">
       {/* Dossier Header Banner */}
       <section className="dossier-hero">
+        <div className="dossier-export">
+          <ArtifactExport dossier={dossier} />
+        </div>
         <div className="dossier-hero-badge">
           <span className="live-dot" />
           <span>INVESTIGATION DOSSIER</span>

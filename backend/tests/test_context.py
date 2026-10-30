@@ -8,6 +8,8 @@ from context_core.context_pack import build_pack, plan_clips
 from context_core.media import probe
 from context_core.meta import interpret, validate_interpretation
 
+pytestmark = pytest.mark.usefixtures("reviewed_clips")
+
 
 @pytest.fixture
 def evidence(clips):

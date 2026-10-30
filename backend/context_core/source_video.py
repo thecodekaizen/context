@@ -1,23 +1,20 @@
-"""Bounded source acquisition from the official NASA catalog, with actual match tests.
+"""Retrieve reviewed technical candidates, then independently test correspondence.
 
-Catalog hits are candidates, never established originals. No gated datasets or
-social sites are scraped. The NASA government-media policy excludes third-party
-copyrighted assets; preserve credits and exclude explicit third-party notices.
+The registered catalog is bounded and operator-managed. This is not web-wide
+reverse-video search. Titles and captions select candidates, never prove identity.
 """
 
 import json
 import re
+import shutil
 from pathlib import Path
-from urllib.parse import urlsplit
 
-import httpx
 from starlette.concurrency import run_in_threadpool
 
-from .library import add_source, rank_sources
-from .retrieval import download_video, public_url
+from . import source_catalog
+from .domain_policy import DomainAdmissionError, require_files
+from .library import MAX_SOURCES, add_source, list_sources, rank_sources
 
-NASA_API = "https://images-api.nasa.gov"
-POLICY = "https://www.nasa.gov/nasa-brand-center/images-and-media/"
 MAX_CANDIDATES = 4
 
 
@@ -32,149 +29,116 @@ def candidate_queries(analysis):
     )[:2]
 
 
-def eligible_metadata(meta):
-    if (
-        meta.get("media_type") != "video"
-        or not meta.get("nasa_id")
-        or not meta.get("center")
-    ):
-        return False
-    notice = " ".join(
-        str(meta.get(k, "")) for k in ("copyright", "description", "secondary_creator")
-    )
-    return not re.search(
-        r"©|copyright|all rights reserved|courtesy of|licensed (?:by|from)",
-        notice,
-        re.IGNORECASE,
-    )
-
-
-async def discover_source_videos(directory, analysis, *, transport=None):
-    """Acquire <=4 small NASA videos from <=2 actual catalog queries.
-
-    The candidate index is per-job, never the development library. Labels,
-    expected source IDs and benchmark metadata are not accepted as inputs.
-    """
+async def discover_source_videos(
+    directory, analysis, *, library_root=None, catalog_root=None
+):
     directory = Path(directory)
     index = directory / "retrieved-library"
-    trace = {
-        "provider": "NASA Image and Video Library",
-        "scope": "NASA public catalog only",
-        "queries": candidate_queries(analysis),
-        "actual_queries": [],
-        "candidates": [],
-        "status": "no_candidates",
-    }
-    seen = set()
-    async with httpx.AsyncClient(
-        timeout=25, transport=transport, follow_redirects=False
-    ) as client:
-        for query in trace["queries"]:
-            try:
-                response = await client.get(
-                    NASA_API + "/search",
-                    params={"q": query, "media_type": "video", "page_size": 6},
-                )
-                response.raise_for_status()
-                trace["actual_queries"].append(query)
-                items = response.json().get("collection", {}).get("items", [])
-                if not items and len(query.split()) > 2:
-                    relaxed = " ".join(query.split()[:2])
-                    response = await client.get(
-                        NASA_API + "/search",
-                        params={"q": relaxed, "media_type": "video", "page_size": 6},
-                    )
-                    response.raise_for_status()
-                    trace["actual_queries"].append(relaxed)
-                    items = response.json().get("collection", {}).get("items", [])
-            except (httpx.HTTPError, ValueError) as exc:
-                trace.setdefault("errors", []).append(str(exc)[:300])
-                continue
-            for item in items:
-                meta = (item.get("data") or [{}])[0]
-                identity = meta.get("nasa_id")
-                if identity in seen or len(seen) >= MAX_CANDIDATES:
-                    continue
-                seen.add(identity)
-                record = {
-                    "catalog_id": identity,
-                    "title": meta.get("title", ""),
-                    "query": query,
-                    "metadata": meta,
-                    "policy_url": POLICY,
-                    "status": "unavailable",
-                }
-                trace["candidates"].append(record)
-                if not eligible_metadata(meta):
-                    record.update(
-                        status="excluded",
-                        reason="Unsupported metadata or third-party rights notice; not acquired",
-                    )
-                    continue
-                try:
-                    response = await client.get(
-                        NASA_API + "/asset/" + str(identity), params={}
-                    )
-                    response.raise_for_status()
-                    urls = [
-                        x.get("href", "")
-                        for x in response.json().get("collection", {}).get("items", [])
-                    ]
-                    urls = [
-                        u
-                        for u in urls
-                        if urlsplit(u).hostname == "images-assets.nasa.gov"
-                        and urlsplit(u).path.lower().endswith(".mp4")
-                    ]
-                    urls.sort(
-                        key=lambda u: (
-                            "~small.mp4" not in u,
-                            "~mobile.mp4" not in u,
-                            len(u),
-                        )
-                    )
-                    if not urls:
-                        raise ValueError(
-                            "No supported MP4 rendition in catalog asset response"
-                        )
-                    record["asset_url"] = public_url(urls[0], media=True)
-                    target = directory / f"candidate-{len(trace['candidates'])}.mp4"
-                    record["acquisition"] = await download_video(
-                        record["asset_url"], target, max_bytes=50 * 1024 * 1024
-                    )
-                    meta_index = await run_in_threadpool(
-                        add_source, index, target, meta["title"]
-                    )
-                    record.update(
-                        status="indexed_candidate",
-                        sha256=meta_index["sha256"],
-                        source_id=meta_index["id"],
-                        duration=meta_index["duration"],
-                    )
-                except (httpx.HTTPError, ValueError, OSError) as exc:
-                    record.update(status="unavailable", reason=str(exc)[:300])
-    trace["status"] = (
-        "candidates_acquired"
-        if any(c["status"] == "indexed_candidate" for c in trace["candidates"])
-        else "source_unavailable"
+    catalog_root = (
+        Path(catalog_root) if catalog_root is not None else source_catalog.CATALOG_ROOT
     )
-    (directory / "source-video-retrieval.json").write_text(json.dumps(trace, indent=2))
-    if trace["status"] != "candidates_acquired":
+    trace = {
+        "provider": "Reviewed technical source catalog and local collection",
+        "scope": "At most four registered technical candidates plus admitted local references, capped at twenty indexed sources. No internet-wide search or model-generated identity claims.",
+        "queries": candidate_queries(analysis),
+        "candidates": [],
+        "status": "source_unavailable",
+        "selection_method": "Untrusted caption words rank catalog titles and tags; deterministic correspondence independently selects media.",
+    }
+    selected_records = {}
+
+    def persist():
+        (directory / "source-video-retrieval.json").write_text(
+            json.dumps(trace, indent=2)
+        )
+
+    # User-provided references participate in the same index/margin decision.
+    # Do not choose winners independently and then conceal a cross-index tie.
+    if library_root is not None:
+        for meta in list_sources(library_root):
+            record = {
+                "title": meta["name"],
+                "source_id": meta["id"],
+                "discovery": "local_collection",
+                "status": "unavailable",
+            }
+            trace["candidates"].append(record)
+            try:
+                if not re.fullmatch(r"[a-f0-9]{64}", meta["id"]):
+                    raise ValueError("Invalid local source identity")
+                path = Path(library_root) / meta["id"] / "original.mp4"
+                admission = await run_in_threadpool(require_files, {"source": path})
+                if (
+                    admission["source"]["sha256"] != meta["sha256"]
+                    or meta["id"] != meta["sha256"]
+                ):
+                    raise ValueError("Local source bytes changed; rebuild its index")
+                destination = index / meta["id"]
+                destination.mkdir(parents=True, exist_ok=True)
+                for name in ("original.mp4", "metadata.json", "features.npz"):
+                    shutil.copyfile(
+                        Path(library_root) / meta["id"] / name, destination / name
+                    )
+                record.update(
+                    status="indexed_candidate",
+                    sha256=meta["sha256"],
+                    domain_admission=admission,
+                )
+                selected_records[meta["id"]] = record
+            except (DomainAdmissionError, ValueError, OSError) as exc:
+                record.update(status="excluded_or_unavailable", reason=str(exc)[:400])
+    try:
+        entries = source_catalog.rank_records(
+            source_catalog.records(catalog_root), trace["queries"], MAX_CANDIDATES
+        )
+    except (ValueError, OSError) as exc:
+        entries = []
+        trace["catalog_error"] = str(exc)[:300]
+    for entry in entries:
+        record = {
+            **entry.model_dump(),
+            "asset_url": entry.origin_url,
+            "discovery": "registered_technical_catalog",
+            "status": "unavailable",
+        }
+        trace["candidates"].append(record)
+        if entry.sha256 in selected_records:
+            record.update(
+                status="duplicate_bytes",
+                reason="Same bytes already participate through the local collection",
+            )
+            continue
+        if len(selected_records) >= MAX_SOURCES:
+            record.update(
+                status="budget_exhausted",
+                reason="Twenty-source deterministic comparison budget reached",
+            )
+            continue
+        try:
+            path = catalog_root / "media" / f"{entry.sha256}.mp4"
+            admission = await run_in_threadpool(require_files, {"candidate": path})
+            if admission["candidate"]["sha256"] != entry.sha256:
+                raise ValueError(
+                    "Catalog bytes do not match the registered fingerprint"
+                )
+            meta = await run_in_threadpool(add_source, index, path, entry.title)
+            record.update(
+                status="indexed_candidate",
+                source_id=meta["id"],
+                domain_admission=admission,
+            )
+            selected_records[meta["id"]] = record
+        except (DomainAdmissionError, ValueError, OSError) as exc:
+            record.update(status="excluded_or_unavailable", reason=str(exc)[:400])
+    persist()
+    if not selected_records:
         return trace, None, None, None
     report, evidence = await run_in_threadpool(
-        rank_sources, index, directory / "video.mp4"
+        rank_sources, index, directory / "video.mp4", admitted_only=True
     )
-    trace["alignment_selection"] = report
-    trace["status"] = report["status"]
-    selected = None
-    if evidence:
-        selected = next(
-            c
-            for c in trace["candidates"]
-            if c.get("source_id") == report["candidates"][0]["id"]
-        )
-        selected_path = index / selected["source_id"] / "original.mp4"
-    else:
-        selected_path = None
-    (directory / "source-video-retrieval.json").write_text(json.dumps(trace, indent=2))
-    return trace, evidence, selected_path, selected
+    trace.update(status=report["status"], alignment_selection=report)
+    persist()
+    if evidence is None:
+        return trace, None, None, None
+    selected = selected_records[report["candidates"][0]["id"]]
+    return trace, evidence, index / selected["source_id"] / "original.mp4", selected

@@ -1,3 +1,20 @@
+export type DomainAdmission = Record<
+  string,
+  {
+    policy_version: string;
+    sha256: string;
+    status: "eligible" | "excluded" | "insufficient_evidence";
+    reason: string;
+    review?: {
+      category: string;
+      basis: "operator_review" | "frozen_fixture" | "user_declaration";
+      reviewer: string;
+      rationale: string;
+      reviewed_at: string;
+    } | null;
+  }
+>;
+
 export type CropAnalysis = {
   detected: boolean;
   confidence: number;
@@ -45,6 +62,7 @@ export type Finding = {
   explanation?: string;
 };
 export type Evidence = {
+  domain_admission?: DomainAdmission;
   omission_evidence?: {
     status: string;
     omissions: {
@@ -70,7 +88,7 @@ export type Evidence = {
       transformations: string;
     };
   };
-  edited: { duration: number };
+  edited: { duration: number; sha256?: string };
   media: { source: string; edited: string };
   segments: Segment[];
   findings: Finding[];
@@ -171,8 +189,10 @@ export type DossierMedia = {
 };
 
 export type Dossier = {
+  domain_admission?: DomainAdmission;
   id: string;
   schema_version?: string;
+  pipeline?: "deterministic_first";
   model_configuration?: {
     provider: string;
     video_model: string;

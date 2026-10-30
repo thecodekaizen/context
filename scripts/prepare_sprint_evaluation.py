@@ -14,7 +14,26 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
 from context_core.media import digest, run
 from context_core.retrieval import download_video
-from context_core.source_video import eligible_metadata
+
+
+def eligible_metadata(meta):
+    """Legacy archival fixture check; not CONTEXT content admission."""
+    import re
+
+    if (
+        meta.get("media_type") != "video"
+        or not meta.get("nasa_id")
+        or not meta.get("center")
+    ):
+        return False
+    notice = " ".join(
+        str(meta.get(k, "")) for k in ("copyright", "description", "secondary_creator")
+    )
+    return not re.search(
+        r"©|copyright|all rights reserved|courtesy of|licensed (?:by|from)",
+        notice,
+        re.IGNORECASE,
+    )
 
 
 async def prepare(manifest_path):

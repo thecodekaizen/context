@@ -9,6 +9,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from .domain_policy import require_hashes
 from .grounded_omissions import grounded_omissions
 from .providers import configured, request, settings
 
@@ -103,6 +104,9 @@ def validate_interpretation(text, clips):
 
 async def interpret(evidence, finding_id, clips, *, transport=None, caption=""):
     omission = require_grounded_omission(evidence, finding_id)
+    admission = require_hashes(
+        {"source": evidence["source"]["sha256"], "edited": evidence["edited"]["sha256"]}
+    )
     if not configured():
         raise ValueError(
             "MODEL_API_KEY is not configured. Measured evidence remains available."
@@ -155,6 +159,7 @@ async def interpret(evidence, finding_id, clips, *, transport=None, caption=""):
         if c.get("type") == "output_text"
     )
     return {
+        "domain_admission": admission,
         "omission_evidence": omission,
         "elapsed_seconds": round(time.monotonic() - started, 3),
         "usage": payload.get("usage"),

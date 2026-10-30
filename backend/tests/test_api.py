@@ -4,6 +4,9 @@ import pytest
 from context_core.api import app
 from fastapi.testclient import TestClient
 
+pytestmark = pytest.mark.usefixtures("reviewed_clips")
+
+
 client = TestClient(app)
 
 
@@ -131,7 +134,9 @@ def test_film_example_unavailable(tmp_path, monkeypatch):
     assert client.post("/api/demo/film").status_code == 404
 
 
-def test_incompatible_container_upload_serves_preview(clips, tmp_path, monkeypatch):
+def test_incompatible_container_upload_serves_preview(
+    clips, tmp_path, monkeypatch, reviewed_clips
+):
     from context_core import api
     from context_core.media import digest, run
 
@@ -150,6 +155,7 @@ def test_incompatible_container_upload_serves_preview(clips, tmp_path, monkeypat
             str(original),
         ]
     )
+    reviewed_clips(original)
     with original.open("rb") as a, (clips / "omission.mp4").open("rb") as b:
         r = client.post(
             "/api/analyze",
@@ -183,33 +189,17 @@ def test_prelude_sample_media_endpoint():
 
 
 def test_prelude_investigate_sample_endpoint(monkeypatch):
-    # Mock model call so test does not require live external API call
-    from context_core import prelude
+    from context_core import api
 
-    async def mock_meta(frames, timestamps, t_cutoff, kinematics, **kwargs):
-        return {
-            "hazard_detected": True,
-            "risk_level": "critical",
-            "risk_cue_seconds": 6.6,
-            "hazard_actor": "silver hatchback",
-            "conflict_type": "lateral_encroachment",
-            "observations": ["At t=6.6s, silver hatchback enters ego lane"],
-            "uncertainty": "Offline monocular replay only.",
-        }
+    async def forbidden(*args, **kwargs):
+        pytest.fail("Excluded workflow must not call a model")
 
-    monkeypatch.setattr(prelude, "analyze_pre_incident_with_meta", mock_meta)
-
+    monkeypatch.setattr(api, "run_prelude_investigation", forbidden)
     r = client.post(
         "/api/prelude/investigate?sample_id=near_crash_011&t_cutoff=7.1&t_incident=7.8"
     )
-    assert r.status_code == 200, r.text
-    dossier = r.json()
-    assert dossier["hazard_detected"] is True
-    assert dossier["risk_level"] == "critical"
-    assert dossier["finding"]["t_cue_seconds"] == 6.6
-    assert dossier["lead_time"] == 1.2
-    assert "media_url" in dossier
-    assert "disclaimer" in dossier
+    assert r.status_code == 403
+    assert r.json()["domain_admission"]["status"] == "excluded"
 
 
 def test_crop_demo_endpoint():

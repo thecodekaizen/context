@@ -10,6 +10,7 @@ from starlette.concurrency import run_in_threadpool
 
 from .context_pack import build_pack
 from .crop_detector import detect_video_crop
+from .grounded_omissions import grounded_omissions
 from .media import save_evidence
 from .meta import interpret
 
@@ -75,26 +76,30 @@ def comparison_evidence(evidence):
         if audio_cov >= 0.6
         else []
     )
-    matches = [s for s in lane if s["kind"] == "match"]
-    review_targets = sorted(
-        changes,
-        key=lambda f: (f.get("edited_start") is None, f["kind"] != "reordering"),
-    )
-    # A faithful excerpt also deserves review; no edit finding is required.
-    if not review_targets and matches:
-        s = max(matches, key=lambda m: m["edited_end"] - m["edited_start"])
-        length = min(24, s["edited_end"] - s["edited_start"])
-        review_targets = [
-            {
-                "id": "matched-excerpt",
-                "kind": "matched_excerpt",
-                "modality": "visual" if evidence["coverage"] >= 0.6 else "audio",
-                "source_start": s["source_start"],
-                "source_end": s["source_start"] + length,
-                "edited_start": s["edited_start"],
-                "edited_end": s["edited_start"] + length,
+    grounded = grounded_omissions(evidence)["omissions"]
+    review_targets = []
+    for index, interval in enumerate(grounded):
+        finding = next(
+            (
+                f
+                for f in changes
+                if f["kind"] == "omission"
+                and abs(f["source_start"] - interval["source_start"]) <= 0.5
+                and abs(f["source_end"] - interval["source_end"]) <= 0.5
+            ),
+            None,
+        )
+        if finding is None:
+            finding = {
+                "id": f"grounded-omission-{index}",
+                "kind": "omission",
+                "modality": interval["matched_evidence"]["modality"],
+                "source_start": interval["source_start"],
+                "source_end": interval["source_end"],
+                "edited_start": interval["edit_position"],
             }
-        ]
+            changes.append(finding)
+        review_targets.append(finding)
     return {
         **evidence,
         "findings": changes,
@@ -109,7 +114,13 @@ async def attach_comparison(
     directory, data, evidence, source_path, source_record, *, caption=""
 ):
     directory = Path(directory)
+    from .domain_policy import require_files
+
+    admission = await run_in_threadpool(
+        require_files, {"source": Path(source_path), "edited": directory / "video.mp4"}
+    )
     evidence = comparison_evidence(evidence)
+    evidence["domain_admission"] = admission
     evidence["selection_status"] = "matched"
     evidence["source"].update(name=source_record["title"], provenance=source_record)
     if Path(source_path).resolve() != (directory / "original.mp4").resolve():
@@ -167,6 +178,9 @@ async def attach_comparison(
         "basis": evidence["comparison_basis"],
         "scope": "At most two source/edit windows (each ≤30 seconds); long omitted intervals may be only partly inspected. Not a whole-video truth or authenticity verdict.",
         "reviews": [],
+        "semantic_status": "requested"
+        if evidence["review_targets"]
+        else "not_requested_no_grounded_omission",
         "measured_findings": evidence["findings"],
         "crop_analysis": crop_analysis,
     }
@@ -197,8 +211,8 @@ async def attach_comparison(
             )
     data["comparison"]["status"] = (
         "complete"
-        if data["comparison"]["reviews"]
-        and all(x["status"] == "complete" for x in data["comparison"]["reviews"])
+        if not evidence["review_targets"]
+        or all(x["status"] == "complete" for x in data["comparison"]["reviews"])
         else "partial"
     )
     (directory / "comparison.json").write_text(json.dumps(data["comparison"], indent=2))

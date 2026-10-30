@@ -16,6 +16,14 @@ from starlette.concurrency import run_in_threadpool
 from .alignment import analyze
 from .context_pack import build_pack
 from .crop_detector import detect_video_crop
+from .domain_policy import (
+    ALLOWED_CATEGORIES,
+    EXCLUSIONS,
+    POLICY_VERSION,
+    DomainAdmissionError,
+    require_evidence_files,
+    require_files,
+)
 from .dossier_api import router as dossier_router
 from .fixtures import generate
 from .library import add_source, list_sources, rank_sources
@@ -31,8 +39,24 @@ app = FastAPI(title="CONTEXT", version="0.3.0")
 lock = threading.Lock()
 
 
+@app.exception_handler(DomainAdmissionError)
+async def domain_denied(_request: Request, exc: DomainAdmissionError):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"detail": str(exc), "domain_admission": exc.report()},
+    )
+
+
 @app.middleware("http")
 async def local_origin(request: Request, call_next):
+    if request.method == "POST" and request.url.path == "/api/prelude/investigate":
+        return JSONResponse(
+            status_code=403,
+            content={
+                "detail": "Roadway hazard analysis is outside CONTEXT's tutorial, software benchmark and product-demo domain.",
+                "domain_admission": {"status": "excluded"},
+            },
+        )
     if request.method in {
         "POST",
         "PUT",
@@ -54,7 +78,9 @@ async def local_origin(request: Request, call_next):
 def investigation(directory, source_name=None, edited_name=None):
     orig = directory / "original.mp4"
     edit = directory / "edited.mp4"
+    admission = require_files({"source": orig, "edited": edit})
     result = analyze(orig, edit)
+    result["domain_admission"] = admission
     try:
         crop_res = detect_video_crop(orig, edit)
         result["crop_analysis"] = crop_res
@@ -103,6 +129,18 @@ async def save_upload(file, target):
                 out.write(block)
     finally:
         await file.close()
+
+
+@app.get("/api/domain-policy")
+def domain_policy_contract():
+    return {
+        "policy_version": POLICY_VERSION,
+        "allowed_categories": sorted(ALLOWED_CATEGORIES),
+        "exclusions": EXCLUSIONS,
+        "unknown_action": "block",
+        "review_basis": "Pinned controlled fixture or server-local operator review of exact SHA-256 media bytes",
+        "automatic_content_classification": False,
+    }
 
 
 @app.get("/api/health")
@@ -166,6 +204,12 @@ async def film_demo():
             404,
             "Optional film example is not installed. Run the evaluation download first.",
         )
+    require_files(
+        {
+            "source": DATA / "evaluation/source.mp4",
+            "edited": DATA / "evaluation/omission.mp4",
+        }
+    )
     if not lock.acquire(blocking=False):
         raise HTTPException(429, "An analysis is already running")
     directory = DATA / uuid4().hex
@@ -278,6 +322,7 @@ async def review(identifier: str, finding_id: str):
         raise HTTPException(429, "An analysis is already running")
     try:
         evidence = json.loads((directory / "evidence.json").read_text())
+        await run_in_threadpool(require_evidence_files, directory, evidence)
         require_grounded_omission(evidence, finding_id)
         signature = evidence_signature(evidence, finding_id)
         cached = directory / f"interpretation-{finding_id}.json"
@@ -375,7 +420,9 @@ async def index_source(original: Annotated[UploadFile, File()]):
     try:
         name = original.filename or "Untitled source"
         await save_upload(original, temporary)
-        return await run_in_threadpool(add_source, DATA / "library", temporary, name)
+        admission = await run_in_threadpool(require_files, {"source": temporary})
+        result = await run_in_threadpool(add_source, DATA / "library", temporary, name)
+        return {**result, "domain_admission": admission}
     except ValueError as exc:
         raise HTTPException(422, str(exc)) from exc
     finally:
@@ -391,8 +438,11 @@ async def search_collection(edited: Annotated[UploadFile, File()]):
     directory.mkdir()
     try:
         await save_upload(edited, directory / "edited.mp4")
+        admission = await run_in_threadpool(
+            require_files, {"edited": directory / "edited.mp4"}
+        )
         report, evidence = await run_in_threadpool(
-            rank_sources, DATA / "library", directory / "edited.mp4"
+            rank_sources, DATA / "library", directory / "edited.mp4", admitted_only=True
         )
         if evidence is None:
             shutil.rmtree(directory, ignore_errors=True)
@@ -402,6 +452,12 @@ async def search_collection(edited: Annotated[UploadFile, File()]):
             DATA / "library" / selected["id"] / "original.mp4",
             directory / "original.mp4",
         )
+        evidence["domain_admission"] = {
+            **admission,
+            **await run_in_threadpool(
+                require_files, {"source": directory / "original.mp4"}
+            ),
+        }
         evidence["source_selection"] = report
         evidence["source"]["name"] = selected["name"]
         return {

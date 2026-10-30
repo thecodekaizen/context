@@ -6,7 +6,7 @@ import pytest
 from context_core.comparison import comparison_evidence, interval_coverage
 from context_core.dossier import model_request
 from context_core.meta import validate_interpretation
-from context_core.source_video import candidate_queries, eligible_metadata
+from context_core.source_video import candidate_queries
 
 
 def test_audio_discontinuity_is_not_labeled_visual_authentication():
@@ -76,20 +76,13 @@ def test_semantic_verdict_requires_both_source_and_edit_evidence():
     assert "Definitely" not in result["possible_effect"]
 
 
-def test_source_catalog_scope_and_rights_filter():
-    assert eligible_metadata({"nasa_id": "x", "center": "JSC", "media_type": "video"})
-    assert not eligible_metadata(
-        {
-            "nasa_id": "x",
-            "center": "JSC",
-            "media_type": "video",
-            "description": "Copyright third party",
-        }
-    )
-    assert not eligible_metadata({"nasa_id": "x", "media_type": "video"})
-    assert (
-        len(candidate_queries({"source_video_queries": ["one", "two", "three"]})) == 2
-    )
+def test_source_catalog_queries_are_bounded_and_deduplicated():
+    assert candidate_queries(
+        {"source_video_queries": ["one", "one", "two", "three"]}
+    ) == ["one", "two"]
+    assert candidate_queries({"search_queries": ["  ", 123, " benchmark "]}) == [
+        "benchmark"
+    ]
 
 
 def test_provider_retry_is_bounded_and_failure_recorded(tmp_path, monkeypatch):

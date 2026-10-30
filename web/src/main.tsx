@@ -6,12 +6,11 @@ import { SourceCollection } from "./SourceCollection";
 import { RecentInvestigations } from "./RecentInvestigations";
 import { InvestigationDossier } from "./InvestigationDossier";
 import { PreludeStudio } from "./PreludeStudio";
+import { ForensicPlayer, timecode } from "./ForensicPlayer";
+import { ArtifactExport, GroundingBadge } from "./AuditArtifacts";
 import { BenchmarkHub } from "./BenchmarkHub";
 
-const time = (n: number) =>
-  `${Math.floor(n / 60)
-    .toString()
-    .padStart(2, "0")}:${(n % 60).toFixed(2).padStart(5, "0")}`;
+const time = timecode;
 
 function App() {
   // Top-level product view & mode
@@ -225,36 +224,6 @@ function App() {
     }
   };
 
-  const loadBenchmarkPreset = async () => {
-    // If test-artemis-investigation exists, fetch it directly!
-    try {
-      setDossierBusy(true);
-      setDossierError("");
-      const res = await fetch("/api/dossiers/test-artemis-investigation");
-      if (res.ok) {
-        const data = await res.json();
-        setDossier(data);
-        setDossierBusy(false);
-        const url = new URL(window.location.href);
-        url.searchParams.set("dossier", "test-artemis-investigation");
-        window.history.replaceState(null, "", url);
-        return;
-      }
-    } catch {
-      // fallback to launch
-    }
-    // Otherwise launch via URL
-    setDossierInputMode("url");
-    setDossierUrl(
-      "http://images-assets.nasa.gov/video/Artemis I Launches to the Moon (Official NASA Recap)/Artemis I Launches to the Moon (Official NASA Recap)~small.mp4",
-    );
-    setDossierCaption("Artemis I carried astronauts to the Moon.");
-    await startInvestigation({
-      url: "http://images-assets.nasa.gov/video/Artemis I Launches to the Moon (Official NASA Recap)/Artemis I Launches to the Moon (Official NASA Recap)~small.mp4",
-      caption: "Artemis I carried astronauts to the Moon.",
-    });
-  };
-
   // Comparator handlers
   function resetInvestigation() {
     const url = new URL(window.location.href);
@@ -413,7 +382,10 @@ function App() {
           <span className="brand-dot">.</span>
         </a>
         <span className="tagline">SEE WHAT THE EDIT CUT OUT</span>
-        <span className="local">● META GLOBAL HACKATHON 2026</span>
+        <span className="local">
+          <span className="precision-dot" /> LOCAL EVIDENCE WORKSPACE
+        </span>
+        <ArtifactExport evidence={e} dossier={dossier} />
       </header>
 
       {/* Top Product Navigation: Workbench vs Benchmark Suite */}
@@ -444,8 +416,23 @@ function App() {
           onClick={() => setActiveView("benchmark")}
         >
           <span className="mode-badge-primary">02 EVALUATION</span>
-          Frozen 30-Edit Benchmark Suite
+          Frozen 30-Case Verification
         </button>
+      </div>
+
+      <div className="global-telemetry">
+        <span>
+          <i /> DETERMINISTIC FIRST
+        </span>
+        <span>VISUAL / 4 Hz FEATURE GRIDS</span>
+        <span>ACOUSTIC / CROSS-CORRELATION</span>
+        <span className="telemetry-state">
+          {busy
+            ? "ALIGNING MEDIA"
+            : e
+              ? `CASE ${e.id.slice(0, 12)}`
+              : "READY FOR EVIDENCE"}
+        </span>
       </div>
 
       {activeView === "benchmark" && (
@@ -461,856 +448,800 @@ function App() {
       {activeView === "workbench" && (
         <>
           {/* MODE 1: SINGLE-VIDEO INVESTIGATION (PRIMARY WORKFLOW) */}
-      {appMode === "investigation" && (
-        <section className="single-investigation-flow">
-          {/* Launch Box if no active dossier or user wants to submit another */}
-          <details className="intake-details" open={!dossier}>
-            <summary>Start a new investigation</summary>
-            <div className="single-launch-grid">
-              <div className="single-launch-left">
-                <div className="eyebrow">MULTIMODAL VIDEO EVIDENCE DOSSIER</div>
-                <h1>
-                  Investigate footage from <span>ONE input.</span>
-                </h1>
-                <p>
-                  Upload a video, or use a supported direct NASA/Wikimedia media
-                  URL. CONTEXT extracts observations, searches documents and the
-                  NASA video catalog, and compares accessible source candidates
-                  using Meta models and your supplied sources. The first 180
-                  seconds are analyzed. Unproven evidence remains uncertain.
-                </p>
-
-                {semanticExample && (
-                  <div className="preset-banner semantic-example">
-                    <div className="preset-info">
-                      <span className="preset-title">
-                        See a consequential edit
-                      </span>
-                      <span className="preset-desc">
-                        “No humans are on board” becomes “humans are on board.”
-                        Inspect the saved model assessment and actual source
-                        footage.
-                      </span>
+          {appMode === "investigation" && (
+            <section className="single-investigation-flow">
+              {/* Launch Box if no active dossier or user wants to submit another */}
+              <details className="intake-details" open={!dossier}>
+                <summary>Start a new investigation</summary>
+                <div className="single-launch-grid">
+                  <div className="single-launch-left">
+                    <div className="eyebrow">
+                      MULTIMODAL VIDEO EVIDENCE DOSSIER
                     </div>
+                    <h1>
+                      Investigate footage from <span>ONE input.</span>
+                    </h1>
+                    <p>
+                      Upload a reviewed technical demo. CONTEXT searches your registered
+                      source catalog and local references, tests correspondence, and
+                      asks Meta to explain only grounded omissions. A missing match
+                      remains unresolved; this is not an internet-wide video search.
+                    </p>
+
+                    {recentDossiers.length > 0 && (
+                      <div
+                        className="recent-dossiers-box"
+                        style={{ marginTop: 20 }}
+                      >
+                        <div
+                          className="card-eyebrow"
+                          style={{ marginBottom: 8 }}
+                        >
+                          PREVIOUS INVESTIGATIONS
+                        </div>
+                        <div
+                          style={{ display: "flex", flexWrap: "wrap", gap: 8 }}
+                        >
+                          {recentDossiers.slice(0, 4).map((d) => (
+                            <button
+                              key={d.id}
+                              className="mode-tab-btn"
+                              style={{ fontSize: 10, padding: "5px 10px" }}
+                              onClick={() => fetchDossier(d.id)}
+                            >
+                              {d.caption
+                                ? `“${d.caption.slice(0, 28)}...”`
+                                : d.id.slice(0, 8)}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="launch-form-box">
+                    <div className="input-mode-tabs">
+                      <button
+                        className={`input-mode-tab ${dossierInputMode === "upload" ? "active" : ""}`}
+                        onClick={() => setDossierInputMode("upload")}
+                        disabled={dossierBusy}
+                      >
+                        Upload Video
+                      </button>
+                      <button
+                        className={`input-mode-tab ${dossierInputMode === "url" ? "active" : ""}`}
+                        onClick={() => setDossierInputMode("url")}
+                        disabled={dossierBusy}
+                      >
+                        Public Media URL
+                      </button>
+                    </div>
+
+                    {dossierInputMode === "upload" ? (
+                      <div className="launch-field">
+                        <label>01 SELECT VIDEO (MP4, WEBM, MOV)</label>
+                        <input
+                          type="file"
+                          accept="video/*"
+                          disabled={dossierBusy}
+                          onChange={(e) => {
+                            setDossierFile(e.target.files?.[0] || null);
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="launch-field">
+                        <label>
+                          01 SUPPORTED DIRECT MEDIA URL
+                        </label>
+                        <input
+                          type="url"
+                          className="launch-input-text"
+                          placeholder="Direct MP4/WebM/MOV URL on a supported host"
+                          value={dossierUrl}
+                          disabled={dossierBusy}
+                          onChange={(e) => setDossierUrl(e.target.value)}
+                        />
+                      </div>
+                    )}
+
+                    {dossierFile && (
+                      <p role="status">Attached: {dossierFile.name}</p>
+                    )}
+                    <div className="launch-field">
+                      <label htmlFor="reference-video">
+                        SOURCE RECORDING (OPTIONAL)
+                      </label>
+                      <input
+                        id="reference-video"
+                        type="file"
+                        accept="video/*"
+                        disabled={dossierBusy}
+                        onChange={(event) =>
+                          setReferenceFile(event.target.files?.[0] || null)
+                        }
+                      />
+                      <p>
+                        Provide a source for direct correspondence and context
+                        review, or let CONTEXT search available sources.
+                      </p>
+                    </div>
+                    <div className="launch-field">
+                      <label>02 ACCOMPANYING CLAIM / CAPTION (OPTIONAL)</label>
+                      <textarea
+                        className="launch-input-textarea"
+                        placeholder="e.g. This benchmark claims the faster command has no setup cost."
+                        value={dossierCaption}
+                        disabled={dossierBusy}
+                        onChange={(e) => setDossierCaption(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="launch-actions">
+                      <button
+                        className="btn-primary-launch"
+                        disabled={
+                          dossierBusy ||
+                          (dossierInputMode === "upload"
+                            ? !dossierFile
+                            : !dossierUrl.trim())
+                        }
+                        onClick={() => startInvestigation()}
+                      >
+                        {dossierBusy
+                          ? "Investigating..."
+                          : "Launch Investigation ↗"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </details>
+              {/* Running Progress Card */}
+              {dossierBusy && (
+                <div className="progress-box">
+                  <div className="progress-header">
+                    <div className="spinner" />
+                    <strong>AUTONOMOUS INVESTIGATION IN PROGRESS</strong>
                     <button
-                      className="btn-preset"
-                      disabled={dossierBusy}
-                      onClick={() => void fetchDossier(semanticExample)}
+                      className="quiet"
+                      onClick={() => {
+                        if (pollTimer.current !== null)
+                          window.clearInterval(pollTimer.current);
+                        setDossierBusy(false);
+                        setDossierError(
+                          "Stopped waiting in this view. Server analysis may continue; open the saved investigation to inspect its result.",
+                        );
+                      }}
                     >
-                      Inspect saved semantic reversal ↗
+                      Stop waiting
                     </button>
                   </div>
-                )}
-                <div className="preset-banner">
-                  <div className="preset-info">
-                    <span className="preset-title">
-                      Real-World Benchmark: Artemis I Moon Launch
-                    </span>
-                    <span className="preset-desc">
-                      Tests counterfactual claim "Artemis I carried astronauts"
-                      against live NASA records
-                    </span>
+                  <div className="pipeline-steps">
+                    <div
+                      className={`pipeline-step ${dossierStage === "queued" || dossierStage === "analyzing" ? "active" : "done"}`}
+                    >
+                      <div className="step-num">1</div>
+                      <span>Prepare & Frames</span>
+                    </div>
+                    <div
+                      className={`pipeline-step ${dossierStage === "analyzing" ? "active" : dossierStage === "comparing" || dossierStage === "retrieving" || dossierStage === "verifying" || dossierStage === "complete" ? "done" : ""}`}
+                    >
+                      <div className="step-num">2</div>
+                      <span>Reviewed source catalog</span>
+                    </div>
+                    <div
+                      className={`pipeline-step ${dossierStage === "comparing" ? "active" : ["retrieving", "verifying", "complete"].includes(dossierStage) ? "done" : ""}`}
+                    >
+                      <div className="step-num">3</div>
+                      <span>Source Video & Comparison</span>
+                    </div>
+                    <div
+                      className={`pipeline-step ${dossierStage === "retrieving" ? "active" : dossierStage === "verifying" || dossierStage === "complete" ? "done" : ""}`}
+                    >
+                      <div className="step-num">4</div>
+                      <span>Live Web Search</span>
+                    </div>
+                    <div
+                      className={`pipeline-step ${dossierStage === "verifying" ? "active" : dossierStage === "complete" ? "done" : ""}`}
+                    >
+                      <div className="step-num">5</div>
+                      <span>Bounded omission review</span>
+                    </div>
+                    <div
+                      className={`pipeline-step ${dossierStage === "complete" ? "done" : ""}`}
+                    >
+                      <div className="step-num">6</div>
+                      <span>Evidence Dossier</span>
+                    </div>
                   </div>
-                  <button
-                    className="btn-preset"
-                    disabled={dossierBusy}
-                    onClick={loadBenchmarkPreset}
+                  <p style={{ color: "#8fa1ae", fontSize: 11, margin: 0 }}>
+                    Matching source candidates and checking omission intervals before model review...
+                  </p>
+                </div>
+              )}
+
+              {dossierError && (
+                <div
+                  className="error"
+                  role="alert"
+                  style={{ marginBottom: 24 }}
+                >
+                  {dossierError}
+                </div>
+              )}
+
+              {/* Dossier Output Component */}
+              {dossier && (
+                <InvestigationDossier
+                  key={dossier.id}
+                  dossier={dossier}
+                  onOpenComparator={openComparatorForCase}
+                />
+              )}
+            </section>
+          )}
+
+          {/* MODE 2: PRELUDE ANTICIPATORY ROADWAY HAZARD LENS */}
+          {appMode === "prelude" && (
+            <PreludeStudio
+              onBackToContext={() => setAppMode("investigation")}
+            />
+          )}
+
+          {/* MODE 3: TWO-VIDEO COMPARISON (SUPPORTING CAPABILITY) */}
+          {appMode === "comparator" && (
+            <section className="comparator-flow">
+              <div style={{ marginBottom: 16 }} hidden>
+                <button
+                  type="button"
+                  className="chip active"
+                  onClick={() => {
+                    setAppMode("investigation");
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                >
+                  &larr; Back to Single-Video Investigation Dossier
+                </button>
+              </div>
+              <details className="media-intake" open={!e}>
+                <summary>
+                  <span>＋ MEDIA INTAKE</span>
+                  <span>
+                    {e
+                      ? "Change source or published edit"
+                      : "Configure evidence pair"}
+                  </span>
+                </summary>
+                <section className="intro">
+                  <div>
+                    <div className="eyebrow">
+                      CONTEXT / DEVELOPER TUTORIALS & BENCHMARK DEMOS
+                    </div>
+                    <h1>
+                      See what the edit
+                      <br />
+                      <span>cut out.</span>
+                    </h1>
+                    <p>
+                      Compare an edited tutorial or benchmark demo with its
+                      source. Inspect the missing passage side by side. Meta can
+                      explain only an omission supported by matched source
+                      intervals.
+                    </p>
+                  </div>
+                  <aside className="upload">
+                    <div className="eyebrow">COMPARE TWO FOOTAGES</div><button className="quiet single-input-entry" onClick={() => setAppMode("investigation")}>Investigate a single edit ↗</button>
+                    <label>
+                      01 <span>Original source</span>
+                      <input
+                        aria-label="Original source"
+                        type="file"
+                        accept="video/*"
+                        disabled={busy || collectionBusy || reviewBusy !== null}
+                        onChange={(x) =>
+                          setOriginal(x.target.files?.[0] || null)
+                        }
+                      />
+                    </label>
+                    <label>
+                      02 <span>Published edit</span>
+                      <input
+                        aria-label="Published edit"
+                        type="file"
+                        accept="video/*"
+                        disabled={busy || collectionBusy || reviewBusy !== null}
+                        onChange={(x) => setEdited(x.target.files?.[0] || null)}
+                      />
+                    </label>
+                    <div className="actions">
+                      <button
+                        disabled={
+                          busy ||
+                          collectionBusy ||
+                          reviewBusy !== null ||
+                          !original ||
+                          !edited
+                        }
+                        onClick={() => analyze()}
+                      >
+                        {busy ? "Analyzing frames…" : "Trace the edit ↗"}
+                      </button>
+                      <button
+                        className="quiet"
+                        disabled={busy || collectionBusy || reviewBusy !== null}
+                        onClick={() => analyze("benchmark")}
+                      >
+                        Try benchmark omission →
+                      </button>
+                      <button
+                        className="quiet"
+                        disabled={busy || collectionBusy || reviewBusy !== null}
+                        onClick={() => analyze("crop")}
+                      >
+                        Try spatial crop demo →
+                      </button>
+                    </div>
+                    {false && filmAvailable && (
+                      <button
+                        className="quiet film-example"
+                        disabled={busy || collectionBusy || reviewBusy !== null}
+                        onClick={() => analyze("film")}
+                      >
+                        Explore licensed film case ↗
+                      </button>
+                    )}
+                    <details className="content-policy-note">
+                      <summary>
+                        Content admission · technical footage only
+                      </summary>
+                      <p>
+                        Developer tutorials, software benchmarks and product
+                        demos. Politics, elections, news, wartime footage and
+                        real public figures are excluded. Unfamiliar files need
+                        a full local operator review before analysis; selecting
+                        a category does not approve a file.
+                      </p>
+                    </details>
+                    <small>
+                      Deterministic local processing · up to 10 min / 200 MB per
+                      video
+                    </small>
+                  </aside>
+                </section>
+              </details>
+
+              {error && (
+                <div className="error" role="alert">
+                  {error}
+                </div>
+              )}
+
+              {e?.omission_evidence && (
+                <p role="status">
+                  {e.omission_evidence.status === "no material omission"
+                    ? "no material omission"
+                    : `${e.omission_evidence.omissions.length} matched internal omission(s)`}
+                  {" · "}Matched media deletion does not establish changed
+                  meaning. No match means insufficient evidence.
+                </p>
+              )}
+
+              {busy && (
+                <div role="status" className="progress">
+                  PROBING MEDIA <span>→</span> EXTRACTING FRAMES <span>→</span>{" "}
+                  RECONSTRUCTING SEQUENCE
+                </div>
+              )}
+
+              <RecentInvestigations
+                currentId={e?.id}
+                disabled={busy || collectionBusy || reviewBusy !== null}
+                onRestore={restoreEvidence}
+                onBusy={setCollectionBusy}
+              />
+              <details className="collection-drawer" open={!e}>
+                <summary>
+                  <span>◫ REFERENCE LIBRARY</span>
+                  <span>Index and match your source recordings</span>
+                </summary>
+                <SourceCollection
+                  disabled={busy || reviewBusy !== null}
+                  onBusy={setCollectionBusy}
+                  onReset={resetInvestigation}
+                  onEvidence={acceptEvidence}
+                />
+              </details>
+
+              <section className="workbench">
+                <div className="section-top">
+                  <span className="eyebrow">
+                    {e ? "EVIDENCE EXPLORER" : "AWAITING EVIDENCE"}
+                  </span>
+                  <div
+                    style={{ display: "flex", gap: 8, alignItems: "center" }}
                   >
-                    Open Saved Investigation ↗
-                  </button>
+                    <span className="chip">
+                      {e
+                        ? `${Math.round(e.coverage * 100)}% VISUAL COVERAGE`
+                        : "NO ANALYSIS LOADED"}
+                    </span>
+                    {e?.crop_analysis?.detected && (
+                      <span
+                        className="chip"
+                        style={{
+                          background: "rgba(34, 197, 94, 0.15)",
+                          border: "1px solid rgba(34, 197, 94, 0.4)",
+                          color: "#86efac",
+                        }}
+                      >
+                        SPATIAL CROP (
+                        {(
+                          (e.crop_analysis.area_omitted_fraction || 0) * 100
+                        ).toFixed(0)}
+                        % CUT)
+                      </span>
+                    )}
+                  </div>
+                </div>
+                {e?.audio_alignment && (
+                  <details className="audio-evidence">
+                    <summary>
+                      Separate audio timing evidence ·{" "}
+                      {e.audio_alignment.segments.length} matched passages
+                    </summary>
+                    <p>
+                      These passages match the sound. Visual coverage above
+                      describes images separately; matching sound does not
+                      authenticate the footage.
+                    </p>
+                    {e.audio_alignment.reason && (
+                      <p>{e.audio_alignment.reason}</p>
+                    )}
+                    {e.audio_alignment.segments.map((segment) => (
+                      <p key={segment.id}>
+                        Edit {time(segment.edited_start)}–
+                        {time(segment.edited_end)} → Source{" "}
+                        {time(segment.source_start ?? 0)}–
+                        {time(segment.source_end ?? 0)}
+                      </p>
+                    ))}
+                  </details>
+                )}
+                {e ? (
+                  <ForensicPlayer
+                    key={e.id}
+                    media={e.media}
+                    sourceRef={source}
+                    editedRef={published}
+                    segments={e.segments}
+                    findings={e.findings}
+                    groundedOmissions={e.omission_evidence}
+                    editedDuration={e.edited.duration}
+                    linked={sync}
+                    onLink={(value) => {
+                      setSelected(null);
+                      setSync(value);
+                    }}
+                    onEditedUpdate={update}
+                    onSourceUpdate={() => {
+                      if (
+                        selected &&
+                        source.current &&
+                        source.current.currentTime >= selected.source_end
+                      )
+                        source.current.pause();
+                    }}
+                    onReveal={reveal}
+                    crop={e.crop_analysis}
+                  />
+                ) : (
+                  <div className="empty-workstation">
+                    <div className="empty-reticle">⌗</div>
+                    <span className="micro-label">
+                      EVIDENCE CHANNELS / OFFLINE
+                    </span>
+                    <h2>The full picture starts here.</h2>
+                    <p>
+                      Load a published edit and its source to inspect temporal
+                      cuts and spatial reframing.
+                    </p>
+                    <div>
+                      <span>01 / PUBLISHED EDIT</span>
+                      <span>02 / ORIGINAL SOURCE</span>
+                    </div>
+                  </div>
+                )}
+
+                {e?.source.provenance && (
+                  <div className="source-credit">
+                    {e.source.provenance.attribution} ·{" "}
+                    {e.source.provenance.license} · Controlled edit
+                  </div>
+                )}
+
+                <div className="timeline">
+                  <div className="section-top">
+                    <h2>Reconstruct the sequence</h2>
+                    <button
+                      className="quiet"
+                      disabled={!e}
+                      onClick={() => {
+                        setSelected(null);
+                        setSync(!sync);
+                      }}
+                    >
+                      {sync ? "⇄ Linked playback" : "↔ Independent playback"}
+                    </button>
+                  </div>
+                  <div className="legend">
+                    <span className="blue">■ Matched footage</span>
+                    <span className="orange">■ Omitted from edit</span>
+                    <span>■ Unresolved</span>
+                  </div>
+                  {e ? (
+                    <>
+                      <div className="track-row">
+                        <span>ORIGINAL</span>
+                        <div className="track">
+                          {e.findings.map((f) => (
+                            <div
+                              key={f.id}
+                              className={`finding-span ${f.kind} ${selected?.id === f.id ? "selected" : ""}`}
+                              style={{
+                                left: `${(f.source_start / e.source.duration) * 100}%`,
+                                width: `${Math.max(0.5, ((f.source_end - f.source_start) / e.source.duration) * 100)}%`,
+                              }}
+                              onClick={() => reveal(f)}
+                              title={`${f.kind} from ${f.source_start.toFixed(1)}s to ${f.source_end.toFixed(1)}s`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <div className="track-row">
+                        <span>EDITED</span>
+                        <div className="track">
+                          {e.segments.map((s) => (
+                            <div
+                              key={s.id}
+                              className={`segment-span ${s.kind}`}
+                              style={{
+                                left: `${(s.edited_start / e.edited.duration) * 100}%`,
+                                width: `${Math.max(0.5, ((s.edited_end - s.edited_start) / e.edited.duration) * 100)}%`,
+                              }}
+                              onClick={() => seek(s)}
+                              title={`${s.kind} at ${s.edited_start.toFixed(1)}s`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <p className="no-tracks">
+                      Load two videos to visualize the sequence diff.
+                    </p>
+                  )}
                 </div>
 
-                {recentDossiers.length > 0 && (
+                {/* Spatial Crop Analysis Card */}
+                {e?.crop_analysis?.detected && (
                   <div
-                    className="recent-dossiers-box"
-                    style={{ marginTop: 20 }}
+                    className="crop-analysis-card"
+                    style={{
+                      marginTop: 24,
+                      padding: 20,
+                      borderRadius: 6,
+                      background: "#162028",
+                      border: "1px solid #22c55e",
+                    }}
                   >
-                    <div className="card-eyebrow" style={{ marginBottom: 8 }}>
-                      PREVIOUS INVESTIGATIONS
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 10,
+                        marginBottom: 8,
+                      }}
+                    >
+                      <span
+                        style={{
+                          background: "#22c55e",
+                          color: "#0f172a",
+                          fontSize: 10,
+                          fontWeight: 800,
+                          padding: "2px 8px",
+                          borderRadius: 4,
+                          letterSpacing: "0.05em",
+                        }}
+                      >
+                        SPATIAL CROP DETECTED
+                      </span>
+                      <span style={{ fontSize: 13, color: "#94a3b8" }}>
+                        Multi-scale spatial geometry · measured bounds
+                      </span>
                     </div>
+                    <h3
+                      style={{
+                        margin: "4px 0 8px 0",
+                        fontSize: 16,
+                        color: "#f8fafc",
+                      }}
+                    >
+                      Visual reframe ·{" "}
+                      {(
+                        (e.crop_analysis.area_omitted_fraction || 0) * 100
+                      ).toFixed(0)}
+                      % peripheral context omitted
+                    </h3>
+                    <p
+                      style={{
+                        margin: "0 0 10px 0",
+                        fontSize: 13,
+                        color: "#cbd5e1",
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      {e.crop_analysis.explanation}
+                    </p>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                      {recentDossiers.slice(0, 4).map((d) => (
-                        <button
-                          key={d.id}
-                          className="mode-tab-btn"
-                          style={{ fontSize: 10, padding: "5px 10px" }}
-                          onClick={() => fetchDossier(d.id)}
+                      {e.crop_analysis.omitted_margins?.map((m, idx) => (
+                        <span
+                          key={idx}
+                          style={{
+                            padding: "3px 8px",
+                            background: "rgba(239, 68, 68, 0.15)",
+                            border: "1px solid rgba(239, 68, 68, 0.4)",
+                            color: "#fca5a5",
+                            borderRadius: "4px",
+                            fontSize: "12px",
+                          }}
                         >
-                          {d.caption
-                            ? `“${d.caption.slice(0, 28)}...”`
-                            : d.id.slice(0, 8)}
-                        </button>
+                          Omitted {m.name} margin ({m.width}×{m.height}px)
+                        </span>
                       ))}
                     </div>
                   </div>
                 )}
-              </div>
 
-              <div className="launch-form-box">
-                <div className="input-mode-tabs">
-                  <button
-                    className={`input-mode-tab ${dossierInputMode === "upload" ? "active" : ""}`}
-                    onClick={() => setDossierInputMode("upload")}
-                    disabled={dossierBusy}
-                  >
-                    Upload Video
-                  </button>
-                  <button
-                    className={`input-mode-tab ${dossierInputMode === "url" ? "active" : ""}`}
-                    onClick={() => setDossierInputMode("url")}
-                    disabled={dossierBusy}
-                  >
-                    Public Media URL
-                  </button>
-                </div>
-
-                {dossierInputMode === "upload" ? (
-                  <div className="launch-field">
-                    <label>01 SELECT VIDEO (MP4, WEBM, MOV)</label>
-                    <input
-                      type="file"
-                      accept="video/*"
-                      disabled={dossierBusy}
-                      onChange={(e) => {
-                        setDossierFile(e.target.files?.[0] || null);
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <div className="launch-field">
-                    <label>01 PUBLIC MEDIA URL (NASA, WIKIMEDIA COMMONS)</label>
-                    <input
-                      type="url"
-                      className="launch-input-text"
-                      placeholder="https://images-assets.nasa.gov/... or upload.wikimedia.org/..."
-                      value={dossierUrl}
-                      disabled={dossierBusy}
-                      onChange={(e) => setDossierUrl(e.target.value)}
-                    />
-                  </div>
-                )}
-
-                {dossierFile && (
-                  <p role="status">Attached: {dossierFile.name}</p>
-                )}
-                <div className="launch-field">
-                  <label htmlFor="reference-video">
-                    SOURCE RECORDING (OPTIONAL)
-                  </label>
-                  <input
-                    id="reference-video"
-                    type="file"
-                    accept="video/*"
-                    disabled={dossierBusy}
-                    onChange={(event) =>
-                      setReferenceFile(event.target.files?.[0] || null)
-                    }
-                  />
-                  <p>
-                    Provide a source for direct correspondence and context
-                    review, or let CONTEXT search available sources.
-                  </p>
-                </div>
-                <div className="launch-field">
-                  <label>02 ACCOMPANYING CLAIM / CAPTION (OPTIONAL)</label>
-                  <textarea
-                    className="launch-input-textarea"
-                    placeholder="e.g. Artemis I carried astronauts to the Moon."
-                    value={dossierCaption}
-                    disabled={dossierBusy}
-                    onChange={(e) => setDossierCaption(e.target.value)}
-                  />
-                </div>
-
-                <div className="launch-actions">
-                  <button
-                    className="btn-primary-launch"
-                    disabled={
-                      dossierBusy ||
-                      (dossierInputMode === "upload"
-                        ? !dossierFile
-                        : !dossierUrl.trim())
-                    }
-                    onClick={() => startInvestigation()}
-                  >
-                    {dossierBusy
-                      ? "Investigating..."
-                      : "Launch Investigation ↗"}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </details>
-          {/* Running Progress Card */}
-          {dossierBusy && (
-            <div className="progress-box">
-              <div className="progress-header">
-                <div className="spinner" />
-                <strong>AUTONOMOUS INVESTIGATION IN PROGRESS</strong>
-                <button
-                  className="quiet"
-                  onClick={() => {
-                    if (pollTimer.current !== null)
-                      window.clearInterval(pollTimer.current);
-                    setDossierBusy(false);
-                    setDossierError(
-                      "Stopped waiting in this view. Server analysis may continue; open the saved investigation to inspect its result.",
-                    );
-                  }}
-                >
-                  Stop waiting
-                </button>
-              </div>
-              <div className="pipeline-steps">
-                <div
-                  className={`pipeline-step ${dossierStage === "queued" || dossierStage === "analyzing" ? "active" : "done"}`}
-                >
-                  <div className="step-num">1</div>
-                  <span>Prepare & Frames</span>
-                </div>
-                <div
-                  className={`pipeline-step ${dossierStage === "analyzing" ? "active" : dossierStage === "comparing" || dossierStage === "retrieving" || dossierStage === "verifying" || dossierStage === "complete" ? "done" : ""}`}
-                >
-                  <div className="step-num">2</div>
-                  <span>Meta Video Model</span>
-                </div>
-                <div
-                  className={`pipeline-step ${dossierStage === "comparing" ? "active" : ["retrieving", "verifying", "complete"].includes(dossierStage) ? "done" : ""}`}
-                >
-                  <div className="step-num">3</div>
-                  <span>Source Video & Comparison</span>
-                </div>
-                <div
-                  className={`pipeline-step ${dossierStage === "retrieving" ? "active" : dossierStage === "verifying" || dossierStage === "complete" ? "done" : ""}`}
-                >
-                  <div className="step-num">4</div>
-                  <span>Live Web Search</span>
-                </div>
-                <div
-                  className={`pipeline-step ${dossierStage === "verifying" ? "active" : dossierStage === "complete" ? "done" : ""}`}
-                >
-                  <div className="step-num">5</div>
-                  <span>Document Fact-Check</span>
-                </div>
-                <div
-                  className={`pipeline-step ${dossierStage === "complete" ? "done" : ""}`}
-                >
-                  <div className="step-num">6</div>
-                  <span>Evidence Dossier</span>
-                </div>
-              </div>
-              <p style={{ color: "#8fa1ae", fontSize: 11, margin: 0 }}>
-                Extracting events, searching external repositories, and
-                verifying quotes...
-              </p>
-            </div>
-          )}
-
-          {dossierError && (
-            <div className="error" role="alert" style={{ marginBottom: 24 }}>
-              {dossierError}
-            </div>
-          )}
-
-          {/* Dossier Output Component */}
-          {dossier && (
-            <InvestigationDossier
-              key={dossier.id}
-              dossier={dossier}
-              onOpenComparator={openComparatorForCase}
-            />
-          )}
-        </section>
-      )}
-
-      {/* MODE 2: PRELUDE ANTICIPATORY ROADWAY HAZARD LENS */}
-      {appMode === "prelude" && (
-        <PreludeStudio onBackToContext={() => setAppMode("investigation")} />
-      )}
-
-      {/* MODE 3: TWO-VIDEO COMPARISON (SUPPORTING CAPABILITY) */}
-      {appMode === "comparator" && (
-        <section className="comparator-flow">
-          <div style={{ marginBottom: 16 }} hidden>
-            <button
-              type="button"
-              className="chip active"
-              onClick={() => {
-                setAppMode("investigation");
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              &larr; Back to Single-Video Investigation Dossier
-            </button>
-          </div>
-          <section className="intro">
-            <div>
-              <div className="eyebrow">
-                CONTEXT / DEVELOPER TUTORIALS & BENCHMARK DEMOS
-              </div>
-              <h1>
-                See what the edit
-                <br />
-                <span>cut out.</span>
-              </h1>
-              <p>
-                Compare an edited tutorial or benchmark demo with its source.
-                Inspect the missing passage side by side. Meta can explain only
-                an omission supported by matched source intervals.
-              </p>
-            </div>
-            <aside className="upload">
-              <div className="eyebrow">COMPARE TWO FOOTAGES</div>
-              <label>
-                01 <span>Original source</span>
-                <input
-                  aria-label="Original source"
-                  type="file"
-                  accept="video/*"
-                  disabled={busy || collectionBusy || reviewBusy !== null}
-                  onChange={(x) => setOriginal(x.target.files?.[0] || null)}
-                />
-              </label>
-              <label>
-                02 <span>Published edit</span>
-                <input
-                  aria-label="Published edit"
-                  type="file"
-                  accept="video/*"
-                  disabled={busy || collectionBusy || reviewBusy !== null}
-                  onChange={(x) => setEdited(x.target.files?.[0] || null)}
-                />
-              </label>
-              <div className="actions">
-                <button
-                  disabled={
-                    busy ||
-                    collectionBusy ||
-                    reviewBusy !== null ||
-                    !original ||
-                    !edited
-                  }
-                  onClick={() => analyze()}
-                >
-                  {busy ? "Analyzing frames…" : "Trace the edit ↗"}
-                </button>
-                <button
-                  className="quiet"
-                  disabled={busy || collectionBusy || reviewBusy !== null}
-                  onClick={() => analyze("benchmark")}
-                >
-                  Try benchmark omission →
-                </button>
-                <button
-                  className="quiet"
-                  disabled={busy || collectionBusy || reviewBusy !== null}
-                  onClick={() => analyze("crop")}
-                >
-                  Try spatial crop demo →
-                </button>
-              </div>
-              {false && filmAvailable && (
-                <button
-                  className="quiet film-example"
-                  disabled={busy || collectionBusy || reviewBusy !== null}
-                  onClick={() => analyze("film")}
-                >
-                  Explore licensed film case ↗
-                </button>
-              )}
-              <small>
-                Deterministic local processing · up to 10 min / 200 MB per video
-              </small>
-            </aside>
-          </section>
-
-          {error && (
-            <div className="error" role="alert">
-              {error}
-            </div>
-          )}
-
-          {e?.omission_evidence && (
-            <p role="status">
-              {e.omission_evidence.status === "no material omission"
-                ? "no material omission"
-                : `${e.omission_evidence.omissions.length} matched internal omission(s)`}
-              {" · "}Matched media deletion does not establish changed meaning.
-              No match means insufficient evidence.
-            </p>
-          )}
-
-          {busy && (
-            <div role="status" className="progress">
-              PROBING MEDIA <span>→</span> EXTRACTING FRAMES <span>→</span>{" "}
-              RECONSTRUCTING SEQUENCE
-            </div>
-          )}
-
-          <RecentInvestigations
-            currentId={e?.id}
-            disabled={busy || collectionBusy || reviewBusy !== null}
-            onRestore={restoreEvidence}
-            onBusy={setCollectionBusy}
-          />
-          <SourceCollection
-            disabled={busy || reviewBusy !== null}
-            onBusy={setCollectionBusy}
-            onReset={resetInvestigation}
-            onEvidence={acceptEvidence}
-          />
-
-          <section className="workbench">
-            <div className="section-top">
-              <span className="eyebrow">
-                {e ? "EVIDENCE EXPLORER" : "AWAITING EVIDENCE"}
-              </span>
-              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                <span className="chip">
-                  {e
-                    ? `${Math.round(e.coverage * 100)}% VISUAL COVERAGE`
-                    : "NO ANALYSIS LOADED"}
-                </span>
-                {e?.crop_analysis?.detected && (
-                  <span
-                    className="chip"
-                    style={{
-                      background: "rgba(34, 197, 94, 0.15)",
-                      border: "1px solid rgba(34, 197, 94, 0.4)",
-                      color: "#86efac",
-                    }}
-                  >
-                    SPATIAL CROP (
-                    {(
-                      (e.crop_analysis.area_omitted_fraction || 0) * 100
-                    ).toFixed(0)}
-                    % CUT)
-                  </span>
-                )}
-              </div>
-            </div>
-            {e?.audio_alignment && (
-              <details className="audio-evidence">
-                <summary>
-                  Separate audio timing evidence ·{" "}
-                  {e.audio_alignment.segments.length} matched passages
-                </summary>
-                <p>
-                  These passages match the sound. Visual coverage above
-                  describes images separately; matching sound does not
-                  authenticate the footage.
-                </p>
-                {e.audio_alignment.reason && <p>{e.audio_alignment.reason}</p>}
-                {e.audio_alignment.segments.map((segment) => (
-                  <p key={segment.id}>
-                    Edit {time(segment.edited_start)}–{time(segment.edited_end)}{" "}
-                    → Source {time(segment.source_start ?? 0)}–
-                    {time(segment.source_end ?? 0)}
-                  </p>
-                ))}
-              </details>
-            )}
-            <div className="players">
-              {(["edited", "source"] as const).map((kind, i) => (
-                <div className="player" key={kind}>
-                  <div className="player-title">
-                    <span>
-                      <b>0{i + 1}</b> {i ? "ORIGINAL SOURCE" : "PUBLISHED EDIT"}
-                    </span>
-                    <span>{e ? time(e[kind].duration) : "—"}</span>
-                  </div>
-                  {e ? (
-                    <div style={{ position: "relative", width: "100%" }}>
-                      <video
-                        key={e.id + kind}
-                        ref={i ? source : published}
-                        src={e.media[kind]}
-                        controls
-                        playsInline
-                        muted={i === 1 && sync}
-                        onTimeUpdate={
-                          i
-                            ? () => {
-                                if (
-                                  selected &&
-                                  source.current &&
-                                  source.current.currentTime >=
-                                    selected.source_end
-                                )
-                                  source.current.pause();
-                              }
-                            : update
-                        }
-                        onPause={
-                          i
-                            ? undefined
-                            : () => {
-                                if (sync) source.current?.pause();
-                              }
-                        }
-                        onSeeked={i ? undefined : update}
-                        onPlay={i ? undefined : update}
-                      />
-                      {i === 1 &&
-                        e.crop_analysis?.detected &&
-                        e.crop_analysis.crop_box &&
-                        e.crop_analysis.source_resolution && (
-                          <svg
-                            viewBox={`0 0 ${e.crop_analysis.source_resolution[0]} ${e.crop_analysis.source_resolution[1]}`}
-                            style={{
-                              position: "absolute",
-                              top: 0,
-                              left: 0,
-                              width: "100%",
-                              height: "100%",
-                              pointerEvents: "none",
-                            }}
-                            aria-hidden="true"
-                          >
-                            <rect
-                              x={e.crop_analysis.crop_box.x}
-                              y={e.crop_analysis.crop_box.y}
-                              width={e.crop_analysis.crop_box.width}
-                              height={e.crop_analysis.crop_box.height}
-                              fill="none"
-                              stroke="#22c55e"
-                              strokeWidth={4}
-                              strokeDasharray="8 6"
-                            />
-                            <text
-                              x={e.crop_analysis.crop_box.x + 12}
-                              y={e.crop_analysis.crop_box.y + 28}
-                              fill="#22c55e"
-                              fontSize="22"
-                              fontWeight="bold"
-                              style={{
-                                textShadow: "0 1px 3px rgba(0,0,0,0.8)",
-                              }}
-                            >
-                              RETAINED IN EDIT (
-                              {(
-                                (e.crop_analysis.area_retained_fraction || 0) *
-                                100
-                              ).toFixed(0)}
-                              %)
-                            </text>
-                            {e.crop_analysis.omitted_margins?.map((m, idx) => (
-                              <g key={idx}>
-                                <rect
-                                  x={m.x}
-                                  y={m.y}
-                                  width={m.width}
-                                  height={m.height}
-                                  fill="rgba(239, 68, 68, 0.35)"
-                                  stroke="rgba(239, 68, 68, 0.75)"
-                                  strokeWidth={2}
-                                />
-                                <text
-                                  x={m.x + 8}
-                                  y={m.y + 24}
-                                  fill="#fca5a5"
-                                  fontSize="18"
-                                  fontWeight="600"
-                                  style={{
-                                    textShadow: "0 1px 3px rgba(0,0,0,0.8)",
-                                  }}
-                                >
-                                  CUT OUT: {m.name.toUpperCase()}
-                                </text>
-                              </g>
-                            ))}
-                          </svg>
-                        )}
+                {/* Findings list */}
+                {e && e.findings.length > 0 && (
+                  <div className="findings-section" style={{ marginTop: 24 }}>
+                    <div className="section-top">
+                      <h2>Detected intervals ({e.findings.length})</h2>
                     </div>
-                  ) : (
-                    <div className="placeholder">
-                      <span>{i ? "◫" : "▷"}</span>
-                      <p>
-                        {i
-                          ? "The source holds the wider picture."
-                          : "Begin with a video. Follow the evidence."}
-                      </p>
-                    </div>
-                  )}
-                  <div className="player-foot">
-                    {i
-                      ? selected
-                        ? "REVEALING OMITTED CONTEXT"
-                        : sync
-                          ? "FOLLOWS PUBLISHED PLAYHEAD"
-                          : "INDEPENDENT PLAYBACK"
-                      : "EDITED CHRONOLOGY"}
-                    <span className={i ? "blue" : "orange"}>●</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {e?.source.provenance && (
-              <div className="source-credit">
-                {e.source.provenance.attribution} ·{" "}
-                {e.source.provenance.license} · Controlled edit
-              </div>
-            )}
-
-            <div className="timeline">
-              <div className="section-top">
-                <h2>Reconstruct the sequence</h2>
-                <button
-                  className="quiet"
-                  disabled={!e}
-                  onClick={() => {
-                    setSelected(null);
-                    setSync(!sync);
-                  }}
-                >
-                  {sync ? "⇄ Linked playback" : "↔ Independent playback"}
-                </button>
-              </div>
-              <div className="legend">
-                <span className="blue">■ Matched footage</span>
-                <span className="orange">■ Omitted from edit</span>
-                <span>■ Unresolved</span>
-              </div>
-              {e ? (
-                <>
-                  <div className="track-row">
-                    <span>ORIGINAL</span>
-                    <div className="track">
+                    <div className="findings-grid">
                       {e.findings.map((f) => (
                         <div
                           key={f.id}
-                          className={`finding-span ${f.kind} ${selected?.id === f.id ? "selected" : ""}`}
-                          style={{
-                            left: `${(f.source_start / e.source.duration) * 100}%`,
-                            width: `${Math.max(0.5, ((f.source_end - f.source_start) / e.source.duration) * 100)}%`,
-                          }}
+                          className={`finding-item ${selected?.id === f.id ? "active" : ""}`}
                           onClick={() => reveal(f)}
-                          title={`${f.kind} from ${f.source_start.toFixed(1)}s to ${f.source_end.toFixed(1)}s`}
-                        />
+                        >
+                          <div className="finding-kind">
+                            {f.kind === "spatial_crop_reframe"
+                              ? "SPATIAL CROP / REFRAME"
+                              : f.kind.toUpperCase()}
+                          </div>
+                          <div className="finding-time">
+                            {f.kind === "spatial_crop_reframe"
+                              ? `Peripheral context omitted: ${((f.area_omitted_fraction || e.crop_analysis?.area_omitted_fraction || 0) * 100).toFixed(0)}% cut`
+                              : `Source: ${time(f.source_start)} – ${time(f.source_end)}`}
+                          </div>
+                          <div
+                            className="finding-action-row"
+                            style={{ marginTop: 8 }}
+                          >
+                            {f.kind === "spatial_crop_reframe" ? (
+                              <span
+                                style={{
+                                  fontSize: 10,
+                                  color: "#86efac",
+                                  background: "rgba(34, 197, 94, 0.15)",
+                                  padding: "3px 6px",
+                                  borderRadius: 3,
+                                }}
+                              >
+                                Spatial geometry measured
+                              </span>
+                            ) : (
+                              <button
+                                className="quiet"
+                                style={{ fontSize: 10, padding: "4px 8px" }}
+                                disabled={
+                                  reviewBusy === f.id ||
+                                  !e.omission_evidence?.omissions.some(
+                                    (item) =>
+                                      Math.abs(
+                                        item.source_start - f.source_start,
+                                      ) <= 0.5 &&
+                                      Math.abs(
+                                        item.source_end - f.source_end,
+                                      ) <= 0.5,
+                                  )
+                                }
+                                onClick={(ev) => {
+                                  ev.stopPropagation();
+                                  reviewFinding(f);
+                                }}
+                              >
+                                {reviewBusy === f.id
+                                  ? "Reviewing..."
+                                  : "Semantic Review ↗"}
+                              </button>
+                            )}
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </div>
-                  <div className="track-row">
-                    <span>EDITED</span>
-                    <div className="track">
-                      {e.segments.map((s) => (
-                        <div
-                          key={s.id}
-                          className={`segment-span ${s.kind}`}
-                          style={{
-                            left: `${(s.edited_start / e.edited.duration) * 100}%`,
-                            width: `${Math.max(0.5, ((s.edited_end - s.edited_start) / e.edited.duration) * 100)}%`,
-                          }}
-                          onClick={() => seek(s)}
-                          title={`${s.kind} at ${s.edited_start.toFixed(1)}s`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <p className="no-tracks">
-                  Load two videos to visualize the sequence diff.
-                </p>
-              )}
-            </div>
+                )}
 
-            {/* Spatial Crop Analysis Card */}
-            {e?.crop_analysis?.detected && (
-              <div
-                className="crop-analysis-card"
-                style={{
-                  marginTop: 24,
-                  padding: 20,
-                  borderRadius: 6,
-                  background: "#162028",
-                  border: "1px solid #22c55e",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 10,
-                    marginBottom: 8,
-                  }}
-                >
-                  <span
+                {reviewError && (
+                  <p className="error" role="alert">
+                    {reviewError}
+                  </p>
+                )}
+
+                {review && (
+                  <div
+                    className="semantic-review-card"
                     style={{
-                      background: "#22c55e",
-                      color: "#0f172a",
-                      fontSize: 10,
-                      fontWeight: 800,
-                      padding: "2px 8px",
-                      borderRadius: 4,
-                      letterSpacing: "0.05em",
+                      marginTop: 24,
+                      background: "#1a2126",
+                      padding: 20,
+                      borderRadius: 6,
+                      border: "1px solid #364855",
                     }}
                   >
-                    SPATIAL CROP DETECTED
-                  </span>
-                  <span style={{ fontSize: 13, color: "#94a3b8" }}>
-                    SAM 3.1 & Multi-Scale Template Matching Verified
-                  </span>
-                </div>
-                <h3
-                  style={{
-                    margin: "4px 0 8px 0",
-                    fontSize: 16,
-                    color: "#f8fafc",
-                  }}
-                >
-                  Visual reframe ·{" "}
-                  {((e.crop_analysis.area_omitted_fraction || 0) * 100).toFixed(
-                    0,
-                  )}
-                  % peripheral context omitted
-                </h3>
-                <p
-                  style={{
-                    margin: "0 0 10px 0",
-                    fontSize: 13,
-                    color: "#cbd5e1",
-                    lineHeight: 1.5,
-                  }}
-                >
-                  {e.crop_analysis.explanation}
-                </p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {e.crop_analysis.omitted_margins?.map((m, idx) => (
-                    <span
-                      key={idx}
-                      style={{
-                        padding: "3px 8px",
-                        background: "rgba(239, 68, 68, 0.15)",
-                        border: "1px solid rgba(239, 68, 68, 0.4)",
-                        color: "#fca5a5",
-                        borderRadius: "4px",
-                        fontSize: "12px",
-                      }}
-                    >
-                      Omitted {m.name} margin ({m.width}×{m.height}px)
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Findings list */}
-            {e && e.findings.length > 0 && (
-              <div className="findings-section" style={{ marginTop: 24 }}>
-                <div className="section-top">
-                  <h2>Detected intervals ({e.findings.length})</h2>
-                </div>
-                <div className="findings-grid">
-                  {e.findings.map((f) => (
-                    <div
-                      key={f.id}
-                      className={`finding-item ${selected?.id === f.id ? "active" : ""}`}
-                      onClick={() => reveal(f)}
-                    >
-                      <div className="finding-kind">
-                        {f.kind === "spatial_crop_reframe"
-                          ? "SPATIAL CROP / REFRAME"
-                          : f.kind.toUpperCase()}
-                      </div>
-                      <div className="finding-time">
-                        {f.kind === "spatial_crop_reframe"
-                          ? `Peripheral context omitted: ${((f.area_omitted_fraction || e.crop_analysis?.area_omitted_fraction || 0) * 100).toFixed(0)}% cut`
-                          : `Source: ${time(f.source_start)} – ${time(f.source_end)}`}
-                      </div>
-                      <div
-                        className="finding-action-row"
-                        style={{ marginTop: 8 }}
-                      >
-                        {f.kind === "spatial_crop_reframe" ? (
-                          <span
-                            style={{
-                              fontSize: 10,
-                              color: "#86efac",
-                              background: "rgba(34, 197, 94, 0.15)",
-                              padding: "3px 6px",
-                              borderRadius: 3,
-                            }}
-                          >
-                            SAM 3.1 & Spatial Geometry Verified
-                          </span>
-                        ) : (
+                    <GroundingBadge
+                      review={review}
+                      finding={e?.findings.find(
+                        (f) => f.id === review.finding_id,
+                      )}
+                      grounded={Boolean(
+                        e?.omission_evidence?.omissions.some((o) => {
+                          const f = e.findings.find(
+                            (item) => item.id === review.finding_id,
+                          );
+                          return (
+                            f &&
+                            Math.abs(o.source_start - f.source_start) <= 0.5 &&
+                            Math.abs(o.source_end - f.source_end) <= 0.5
+                          );
+                        }),
+                      )}
+                    />
+                    <h3>Bounded semantic review</h3>
+                    <p>
+                      <strong>Possible Effect:</strong>{" "}
+                      {review.interpretation.possible_effect}
+                    </p>
+                    <p>
+                      <strong>Uncertainty:</strong>{" "}
+                      {review.interpretation.uncertainty}
+                    </p>
+                    {review.interpretation.observations.map((obs, i) => (
+                      <div key={i} style={{ marginTop: 8, fontSize: 12 }}>
+                        <span>• {obs.text}</span>
+                        {obs.citations.map((c, j) => (
                           <button
+                            key={j}
                             className="quiet"
-                            style={{ fontSize: 10, padding: "4px 8px" }}
-                            disabled={
-                              reviewBusy === f.id ||
-                              !e.omission_evidence?.omissions.some(
-                                (item) =>
-                                  Math.abs(
-                                    item.source_start - f.source_start,
-                                  ) <= 0.5 &&
-                                  Math.abs(item.source_end - f.source_end) <=
-                                    0.5,
-                              )
-                            }
-                            onClick={(ev) => {
-                              ev.stopPropagation();
-                              reviewFinding(f);
+                            style={{
+                              fontSize: 9,
+                              marginLeft: 8,
+                              padding: "2px 6px",
                             }}
+                            onClick={() => inspectCitation(c)}
                           >
-                            {reviewBusy === f.id
-                              ? "Reviewing..."
-                              : "Semantic Review ↗"}
+                            Seek {c.media} @ {time(c.media_start)}
                           </button>
-                        )}
+                        ))}
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {review && (
-              <div
-                className="semantic-review-card"
-                style={{
-                  marginTop: 24,
-                  background: "#1a2126",
-                  padding: 20,
-                  borderRadius: 6,
-                  border: "1px solid #364855",
-                }}
-              >
-                <h3>Model Review ({review.model})</h3>
-                <p>
-                  <strong>Possible Effect:</strong>{" "}
-                  {review.interpretation.possible_effect}
-                </p>
-                <p>
-                  <strong>Uncertainty:</strong>{" "}
-                  {review.interpretation.uncertainty}
-                </p>
-                {review.interpretation.observations.map((obs, i) => (
-                  <div key={i} style={{ marginTop: 8, fontSize: 12 }}>
-                    <span>• {obs.text}</span>
-                    {obs.citations.map((c, j) => (
-                      <button
-                        key={j}
-                        className="quiet"
-                        style={{
-                          fontSize: 9,
-                          marginLeft: 8,
-                          padding: "2px 6px",
-                        }}
-                        onClick={() => inspectCitation(c)}
-                      >
-                        Seek {c.media} @ {time(c.media_start)}
-                      </button>
                     ))}
                   </div>
-                ))}
-              </div>
-            )}
-          </section>
-        </section>
-      )}
+                )}
+              </section>
+            </section>
+          )}
         </>
       )}
 

@@ -15,7 +15,7 @@ reveal missing footage, and inspect timestamped Meta AI interpretation.
 > - **Direct Download (Release v1.0.0):** [context-demo-3min.mp4](https://github.com/thecodekaizen/context/releases/download/v1.0.0/context-demo-3min.mp4)  
 > - **Narration Script:** [`docs/demo-script.md`](docs/demo-script.md)
 
-![Actual film investigation](docs/film-workstation.png)
+![CONTEXT Dual-Player Evidence Workstation](docs/screenshots/02-dual-player-omission.png)
 
 ## Architecture
 
@@ -70,6 +70,52 @@ flowchart TD
         CitationGuard --> Cards
     end
 ```
+
+## Interface Walkthrough & Real Use Cases
+
+### 1. Synchronized Dual-Player Workbench (`01 WORKBENCH`)
+![Dual-Player Omission Scrubber](docs/screenshots/02-dual-player-omission.png)
+
+- **Purpose:** Primary forensic evidence workspace. Synchronizes the candidate published edit alongside the unedited source recording into a sub-second aligned timeline with an interactive 4Hz visual confidence strip, audio waveforms, and omission markers.
+- **Real Run / Real Use Case:** **JavaScript Sort Benchmark (5-Second OOM Crash Omission)**
+  - *The Claim:* A published tutorial claims a "100x speedup" running a sort algorithm without errors.
+  - *The Deception:* Spliced out seconds `00:05.000` to `00:10.000` where the terminal threw an Out-Of-Memory exception and restarted the process.
+  - *The Detection:* As the user scrubs across second 3.5, the source player exposes the spliced-out footage in full context, while the bounded **Meta Muse Spark 1.2** review card flags the omission with exact timecodes: `"VERIFIED GROUNDED TO TIME 00:05.000 – 00:10.000"`.
+
+---
+
+### 2. Spatial Forensics & Meta SAM 3.1 Margin Inspector
+![Spatial Crop & SAM 3.1 Inspector](docs/screenshots/03-spatial-crop-sam.png)
+
+- **Purpose:** Detects spatial reframing, mobile aspect-ratio crops (e.g. 16:9 widescreen to 9:16 vertical), and peripheral disclaimer erasure.
+- **Real Run / Real Use Case:** **Mobile Reframe Disclaimer Shave (0.80x Zoom)**
+  - *The Claim:* A 16:9 widescreen benchmark is reframed into a 9:16 mobile clip.
+  - *The Deception:* The reframe zoomed in by `0.80x`, shaving off the outer `20.0%` margin containing crucial test hardware specifications and non-standard compiler flags.
+  - *The Detection:* CONTEXT's deterministic crop detector matches the spatial coordinates (`1536×864 @ 0.80x`), draws calipers around the retained area, and deploys **Meta SAM 3.1** to segment the cropped perimeter margins in red.
+
+---
+
+### 3. Frozen Benchmark & Evaluation Matrix Hub (`02 EVALUATION`)
+![Evaluation Matrix Hub](docs/screenshots/04-evaluation-matrix.png)
+
+- **Purpose:** Enterprise-grade transparency and reproducibility scorecard. Allows judges, auditors, and engineering teams to inspect empirical test runs across all frozen benchmark fixtures.
+- **Real Run / Real Use Case:** **30-Edit Benchmark Suite & 18 Benign Controls**
+  - Evaluates 30 scripted FFmpeg deceptive edits across 3 CC0 benchmark videos (`sort.mp4`, `cache.mp4`, `serialize.mp4`) spanning 10 edit recipes.
+  - **Empirical Results:** `100% Interval Recall` (30/30 edits recovered), `0.0s Boundary Error`, `0.0% Benign False Alarms` across 18 benign controls (speedups, trims, subtitles), and `10/10` SAM 3.1 Spatial Gate passes.
+  - Filter chips allow filtering by individual failure modes (`False Speedup`, `Silent Cut`, `Benign Controls`).
+
+---
+
+### 4. Verification Intake & Library Ingestion
+![Workbench Intake Surface](docs/screenshots/01-workbench-intake.png)
+
+- **Purpose:** Drag-and-drop intake for candidate published edits and source recordings, local media library search, and domain policy enforcement.
+- **Real Run / Real Use Case:** **Pre-Publish Developer QA**
+  - Developers or DevRel teams drop their edited video alongside the raw recording.
+  - Real-time SHA-256 fingerprinting ensures media provenance.
+  - Built-in quick presets (`Try benchmark omission →` and `Try spatial crop demo →`) allow instant single-click demonstration of verified forensic cases.
+
+---
 
 ## Gates (Friday Oct 30)
 
@@ -134,7 +180,7 @@ PYTHONPATH=backend .venv/bin/python scripts/execution_eval.py full
 # Replay SAM 3.1 crop gate benchmark
 PYTHONPATH=backend .venv/bin/python scripts/execution_sam_gate.py replay
 
-# Run full test suite (133 tests)
+# Run full test suite (171 tests)
 .venv/bin/pytest -q
 ```
 
@@ -173,7 +219,7 @@ Frontend development: `npm run dev --prefix web` alongside the API. Vite proxies
 ## Verification
 
 ```sh
-# Run full test suite (133 tests)
+# Run full test suite (171 tests)
 .venv/bin/pytest -q
 
 # Build frontend and verify formatting

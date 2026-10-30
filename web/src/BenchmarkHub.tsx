@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface BenchmarkCase {
   id: string;
@@ -8,15 +8,23 @@ interface BenchmarkCase {
   predicted: number;
   boundary_errors_seconds: number[];
 }
-
 interface BenchmarkReport {
   scope: string;
   interval_recall: number;
   boundary_error_seconds: number;
   benign_false_alarm_rate: number;
   passed: boolean;
+  manifest_sha256?: string;
   cases: BenchmarkCase[];
 }
+type Filter = "all" | "omissions" | "audio_only" | "speed_1_25" | "benign";
+const matches = (c: BenchmarkCase, filter: Filter) =>
+  filter === "all" ||
+  (filter === "benign"
+    ? c.benign
+    : filter === "omissions"
+      ? !c.benign
+      : c.id.endsWith(`-${filter}`));
 
 export function BenchmarkHub({
   onLoadDemo,
@@ -24,249 +32,284 @@ export function BenchmarkHub({
   onLoadDemo: (kind: "benchmark" | "crop") => void;
 }) {
   const [data, setData] = useState<BenchmarkReport | null>(null);
-  const [filter, setFilter] = useState<"all" | "omissions" | "benign">("all");
+  const [filter, setFilter] = useState<Filter>("all");
   const [loading, setLoading] = useState(true);
-
+  const [error, setError] = useState("");
+  const [attempt, setAttempt] = useState(0);
+  const [expanded, setExpanded] = useState<string | null>(null);
   useEffect(() => {
-    fetch("/api/benchmark/results")
-      .then((r) => r.json())
-      .then((d) => {
+    const controller = new AbortController();
+    setLoading(true);
+    setError("");
+    setData(null);
+    fetch("/api/benchmark/results", { signal: controller.signal })
+      .then(async (r) => {
+        if (!r.ok) throw new Error(`Evaluation unavailable (HTTP ${r.status})`);
+        const d = await r.json();
+        if (
+          !Array.isArray(d.cases) ||
+          ![
+            d.interval_recall,
+            d.boundary_error_seconds,
+            d.benign_false_alarm_rate,
+          ].every(Number.isFinite)
+        )
+          throw new Error("Evaluation response is incomplete");
         setData(d);
-        setLoading(false);
       })
       .catch((err) => {
-        console.error("Failed to load benchmark results", err);
-        setLoading(false);
+        if (!controller.signal.aborted)
+          setError(
+            err instanceof Error
+              ? err.message
+              : "Evaluation could not be loaded",
+          );
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
       });
-  }, []);
-
+    return () => controller.abort();
+  }, [attempt]);
   const cases = data?.cases || [];
-  const filtered = cases.filter((c) => {
-    if (filter === "omissions") return !c.benign;
-    if (filter === "benign") return c.benign;
-    return true;
-  });
-
+  const filters: [Filter, string][] = [
+    ["all", "All cases"],
+    ["omissions", "Omission cases"],
+    ["speed_1_25", "Speed controls"],
+    ["audio_only", "Audio-only cuts"],
+    ["benign", "Benign controls"],
+  ];
+  const metrics = [
+    {
+      label: "Interval recall",
+      value: data ? `${(data.interval_recall * 100).toFixed(0)}%` : "—",
+      note: "Acceptance threshold ≥ 80%",
+      tone: "blue",
+    },
+    {
+      label: "Mean boundary delta",
+      value: data ? `${data.boundary_error_seconds.toFixed(1)}s` : "—",
+      note: "Error against frozen interval labels",
+      tone: "",
+    },
+    {
+      label: "Benign false alarms",
+      value: data ? `${(data.benign_false_alarm_rate * 100).toFixed(1)}%` : "—",
+      note: `${cases.filter((c) => c.benign).length} benign transformation controls`,
+      tone: "green",
+    },
+    {
+      label: "Recovered intervals",
+      value: data
+        ? `${cases.reduce((n, c) => n + c.recovered, 0)} / ${cases.reduce((n, c) => n + c.expected, 0)}`
+        : "—",
+      note: `${cases.filter((c) => !c.benign).length} positive cases · ${cases.length} total cases`,
+      tone: "",
+    },
+  ];
   return (
-    <section className="benchmark-hub-section" style={{ marginTop: 12 }}>
-      <div className="benchmark-hero">
-        <div className="eyebrow">FROZEN BENCHMARK SUITE · 30 EDIT LABELS</div>
-        <h1 style={{ fontSize: 38, lineHeight: 1.1, margin: "10px 0" }}>
-          100% Interval Recall. <span>Zero False Alarms.</span>
-        </h1>
-        <p style={{ maxWidth: 860, color: "#9cb2c0", fontSize: 15, lineHeight: 1.5 }}>
-          Before tuning, we froze a labeled eval contract on three CC0 browser benchmark recordings.
-          CONTEXT measures deleted footage without hallucination. Crucially, across 18 benign controls
-          (1.25x speedups, subtitle overlays, re-encodes, and intro trims), the aligner produces exactly
-          zero false accusations.
-        </p>
+    <section className="benchmark-hub-section">
+      <div className="evaluation-heading">
+        <div>
+          <div className="eyebrow">VALIDATION / EXECUTION V1</div>
+          <h1>Evidence under examination.</h1>
+          <p>
+            A frozen contract. Inspectable outcomes. Every interval accounted
+            for.
+          </p>
+        </div>
+        <span className={`validation-status ${data?.passed ? "passed" : ""}`}>
+          {loading
+            ? "◌ LOADING RESULTS"
+            : error
+              ? "RESULTS UNAVAILABLE"
+              : data?.passed
+                ? "● GATE PASSED"
+                : "● GATE NOT PASSED"}
+        </span>
       </div>
-
-      <div className="benchmark-metrics-grid" style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-        gap: 16,
-        margin: "24px 0"
-      }}>
-        <div className="benchmark-metric-card" style={{
-          background: "#182026",
-          border: "1px solid #2d3b45",
-          borderRadius: 6,
-          padding: 16
-        }}>
-          <div style={{ fontSize: 11, color: "#7992a3", letterSpacing: 1 }}>INTERVAL RECALL</div>
-          <div style={{ fontSize: 36, fontWeight: 700, color: "#e6a06c", marginTop: 4 }}>
-            {data ? `${Math.round(data.interval_recall * 100)}%` : "100%"}
-          </div>
-          <div style={{ fontSize: 11, color: "#61a87b", marginTop: 4 }}>Target: &ge;80% · PASSED</div>
+      {error && (
+        <div className="error" role="alert">
+          {error}{" "}
+          <button className="quiet" onClick={() => setAttempt((n) => n + 1)}>
+            Retry results
+          </button>
         </div>
-
-        <div className="benchmark-metric-card" style={{
-          background: "#182026",
-          border: "1px solid #2d3b45",
-          borderRadius: 6,
-          padding: 16
-        }}>
-          <div style={{ fontSize: 11, color: "#7992a3", letterSpacing: 1 }}>MEAN BOUNDARY ERROR</div>
-          <div style={{ fontSize: 36, fontWeight: 700, color: "#e6a06c", marginTop: 4 }}>
-            {data ? `${data.boundary_error_seconds.toFixed(1)}s` : "0.0s"}
-          </div>
-          <div style={{ fontSize: 11, color: "#61a87b", marginTop: 4 }}>Sub-second · PASSED</div>
-        </div>
-
-        <div className="benchmark-metric-card" style={{
-          background: "#182026",
-          border: "1px solid #2d3b45",
-          borderRadius: 6,
-          padding: 16
-        }}>
-          <div style={{ fontSize: 11, color: "#7992a3", letterSpacing: 1 }}>BENIGN FALSE ALARMS</div>
-          <div style={{ fontSize: 36, fontWeight: 700, color: "#e6a06c", marginTop: 4 }}>
-            {data ? `${Math.round(data.benign_false_alarm_rate * 100)}%` : "0.0%"}
-          </div>
-          <div style={{ fontSize: 11, color: "#61a87b", marginTop: 4 }}>18 controls tested · PASSED</div>
-        </div>
-
-        <div className="benchmark-metric-card" style={{
-          background: "#182026",
-          border: "1px solid #2d3b45",
-          borderRadius: 6,
-          padding: 16
-        }}>
-          <div style={{ fontSize: 11, color: "#7992a3", letterSpacing: 1 }}>SAM 3.1 SPATIAL GATE</div>
-          <div style={{ fontSize: 36, fontWeight: 700, color: "#93bada", marginTop: 4 }}>
-            10 / 10
-          </div>
-          <div style={{ fontSize: 11, color: "#61a87b", marginTop: 4 }}>&gt;99.9% pixel recall · PASSED</div>
-        </div>
-
-        <div className="benchmark-metric-card" style={{
-          background: "#182026",
-          border: "1px solid #2d3b45",
-          borderRadius: 6,
-          padding: 16
-        }}>
-          <div style={{ fontSize: 11, color: "#7992a3", letterSpacing: 1 }}>AUTOMATED TESTS</div>
-          <div style={{ fontSize: 36, fontWeight: 700, color: "#93bada", marginTop: 4 }}>
-            132 / 132
-          </div>
-          <div style={{ fontSize: 11, color: "#61a87b", marginTop: 4 }}>100% pytest suite · PASSED</div>
-        </div>
+      )}
+      <div className="benchmark-metrics-grid">
+        {metrics.map((m) => (
+          <article className={`benchmark-metric-card ${m.tone}`} key={m.label}>
+            <span className="micro-label">{m.label}</span>
+            <strong>{m.value}</strong>
+            <span>{m.note}</span>
+          </article>
+        ))}
       </div>
-
-      <div className="benchmark-table-controls" style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: 14,
-        flexWrap: "wrap",
-        gap: 12
-      }}>
-        <div style={{ display: "flex", gap: 8 }}>
-          <button
-            className={`mode-tab-btn ${filter === "all" ? "active" : ""}`}
-            style={{ fontSize: 11, padding: "6px 14px" }}
-            onClick={() => setFilter("all")}
-          >
-            All Cases (30)
-          </button>
-          <button
-            className={`mode-tab-btn ${filter === "omissions" ? "active" : ""}`}
-            style={{ fontSize: 11, padding: "6px 14px" }}
-            onClick={() => setFilter("omissions")}
-          >
-            Omission Tests (12)
-          </button>
-          <button
-            className={`mode-tab-btn ${filter === "benign" ? "active" : ""}`}
-            style={{ fontSize: 11, padding: "6px 14px" }}
-            onClick={() => setFilter("benign")}
-          >
-            Benign Controls (18)
-          </button>
+      <div className="evaluation-contract">
+        <div>
+          <span className="precision-dot" />
+          <strong>Frozen evaluation contract</strong>
+          <span>
+            Controlled CC0 benchmark recordings · not field performance
+          </span>
         </div>
-
-        <div style={{ display: "flex", gap: 10 }}>
-          <button
-            className="quiet"
-            style={{ fontSize: 12, padding: "6px 12px" }}
-            onClick={() => onLoadDemo("benchmark")}
-          >
-            Inspect Sort Omission in Comparator &rarr;
-          </button>
-          <button
-            className="quiet"
-            style={{ fontSize: 12, padding: "6px 12px" }}
-            onClick={() => onLoadDemo("crop")}
-          >
-            Inspect SAM 3.1 Spatial Crop &rarr;
-          </button>
+        <details>
+          <summary>Inspect scope & provenance</summary>
+          <p>
+            {data?.scope ||
+              "Scope will appear when the evaluation report is available."}
+          </p>
+          {data?.manifest_sha256 && (
+            <p className="hash-line">
+              MANIFEST SHA-256 / {data.manifest_sha256}
+            </p>
+          )}
+          <p>
+            SAM segmentation is a separate saved-response gate. This report
+            measures deleted media, not deceptive intent or model accuracy.
+          </p>
+        </details>
+      </div>
+      <div className="matrix-heading">
+        <div>
+          <span className="eyebrow">VERIFICATION MATRIX</span>
+          <h2>Every case, in the open.</h2>
+        </div>
+        <span className="micro-label">
+          {cases.filter((c) => matches(c, filter)).length} / {cases.length}{" "}
+          CASES
+        </span>
+      </div>
+      <div className="benchmark-table-controls">
+        <div className="filter-chips">
+          {filters.map(([key, label]) => (
+            <button
+              key={key}
+              aria-pressed={filter === key}
+              className={filter === key ? "active" : ""}
+              onClick={() => setFilter(key)}
+            >
+              {label}
+              <span>{cases.filter((c) => matches(c, key)).length}</span>
+            </button>
+          ))}
         </div>
       </div>
-
-      <div className="benchmark-table-wrapper" style={{
-        background: "#12171b",
-        border: "1px solid #2d3b45",
-        borderRadius: 6,
-        overflow: "hidden"
-      }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, textAlign: "left" }}>
+      <div className="benchmark-table-wrapper">
+        <table>
           <thead>
-            <tr style={{ background: "#1a2228", borderBottom: "1px solid #2d3b45", color: "#8ca0ad" }}>
-              <th style={{ padding: "10px 14px" }}>CASE IDENTIFIER</th>
-              <th style={{ padding: "10px 14px" }}>SOURCE</th>
-              <th style={{ padding: "10px 14px" }}>TRANSFORM</th>
-              <th style={{ padding: "10px 14px" }}>TYPE</th>
-              <th style={{ padding: "10px 14px" }}>EXPECTED</th>
-              <th style={{ padding: "10px 14px" }}>RECOVERED</th>
-              <th style={{ padding: "10px 14px" }}>STATUS</th>
+            <tr>
+              <th>Case / source</th>
+              <th>Transformation</th>
+              <th>Expected</th>
+              <th>Recovered</th>
+              <th>Boundary delta</th>
+              <th>Result</th>
+              <th>Evidence</th>
             </tr>
           </thead>
           <tbody>
-            {filtered.map((c, i) => {
-              const parts = c.id.split("-");
-              const source = parts[0];
-              const transform = parts.slice(1).join("-");
-              return (
-                <tr
-                  key={c.id}
-                  style={{
-                    borderBottom: "1px solid #1f272e",
-                    background: i % 2 === 0 ? "transparent" : "#141a20",
-                  }}
-                >
-                  <td style={{ padding: "9px 14px", fontFamily: "monospace", color: "#d8e4ed" }}>
-                    {c.id}
-                  </td>
-                  <td style={{ padding: "9px 14px", color: "#93bada" }}>{source}.mp4</td>
-                  <td style={{ padding: "9px 14px", color: "#c6d4dc" }}>{transform}</td>
-                  <td style={{ padding: "9px 14px" }}>
-                    {c.benign ? (
-                      <span style={{ color: "#77a5cd", fontSize: 11 }}>Benign Control</span>
-                    ) : (
-                      <span style={{ color: "#e6a06c", fontSize: 11 }}>Omission Test</span>
-                    )}
-                  </td>
-                  <td style={{ padding: "9px 14px", color: "#9cb2c0" }}>{c.expected}</td>
-                  <td style={{ padding: "9px 14px", fontWeight: 600, color: "#d8e4ed" }}>
-                    {c.recovered}
-                  </td>
-                  <td style={{ padding: "9px 14px" }}>
-                    {c.benign ? (
-                      <span style={{
-                        color: "#61a87b",
-                        background: "rgba(97, 168, 123, 0.12)",
-                        padding: "2px 8px",
-                        borderRadius: 3,
-                        fontSize: 10,
-                        fontWeight: 600
-                      }}>
-                        PASS · NO FALSE ALARM
+            {loading && (
+              <tr>
+                <td colSpan={7} className="matrix-empty">
+                  Loading frozen measurements…
+                </td>
+              </tr>
+            )}
+            {!loading && !cases.length && (
+              <tr>
+                <td colSpan={7} className="matrix-empty">
+                  No measurements available. No pass status inferred.
+                </td>
+              </tr>
+            )}
+            {cases
+              .filter((c) => matches(c, filter))
+              .map((c) => {
+                const passed = c.benign
+                  ? c.predicted === 0
+                  : c.recovered === c.expected && c.predicted === c.expected;
+                const transform = c.id.slice(c.id.indexOf("-") + 1);
+                const delta = c.boundary_errors_seconds.length
+                  ? (
+                      c.boundary_errors_seconds.reduce((a, b) => a + b, 0) /
+                      c.boundary_errors_seconds.length
+                    ).toFixed(3) + "s"
+                  : "—";
+                const replay =
+                  c.id === "sort-omission"
+                    ? "benchmark"
+                    : c.id === "cache-crop_omission"
+                      ? "crop"
+                      : null;
+                return (
+                  <tr
+                    key={c.id}
+                    className={expanded === c.id ? "expanded" : ""}
+                  >
+                    <td>
+                      <strong>{c.id}</strong>
+                      <small>
+                        {c.id.split("-")[0]}.mp4 ·{" "}
+                        {c.benign ? "benign control" : "positive case"}
+                      </small>
+                    </td>
+                    <td>{transform.replaceAll("_", " ")}</td>
+                    <td>{c.expected}</td>
+                    <td>{c.recovered}</td>
+                    <td>{delta}</td>
+                    <td>
+                      <span
+                        className={`result-pill ${passed ? "passed" : "failed"}`}
+                      >
+                        {passed ? "✓ PASS" : "× FAIL"}
                       </span>
-                    ) : (
-                      <span style={{
-                        color: "#e6a06c",
-                        background: "rgba(230, 160, 108, 0.12)",
-                        padding: "2px 8px",
-                        borderRadius: 3,
-                        fontSize: 10,
-                        fontWeight: 600
-                      }}>
-                        PASS · RECOVERED ({c.recovered}/{c.expected})
-                      </span>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
+                    </td>
+                    <td>
+                      {replay ? (
+                        <button
+                          className="quiet matrix-replay"
+                          onClick={() => onLoadDemo(replay)}
+                        >
+                          Replay evidence ↗
+                        </button>
+                      ) : (
+                        <button
+                          className="quiet"
+                          aria-expanded={expanded === c.id}
+                          onClick={() =>
+                            setExpanded(expanded === c.id ? null : c.id)
+                          }
+                        >
+                          {expanded === c.id
+                            ? "Close trace −"
+                            : "Inspect trace +"}
+                        </button>
+                      )}
+                      {expanded === c.id && (
+                        <div className="case-trace">
+                          Predicted: {c.predicted} · Expected: {c.expected} ·
+                          Recovered: {c.recovered}
+                          <br />
+                          Boundary errors:{" "}
+                          {c.boundary_errors_seconds.join(", ") ||
+                            "not applicable"}
+                          <br />
+                          Media replay is not exposed for this case.
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>
-
-      <div style={{ marginTop: 16, fontSize: 12, color: "#7992a3", lineHeight: 1.6 }}>
-        <strong>Reproducibility note:</strong> Raw evaluation manifest and benchmark cases are frozen in{" "}
-        <code style={{ background: "#1b2329", padding: "1px 5px", borderRadius: 3 }}>eval/execution-v1</code>.
-        Run <code style={{ background: "#1b2329", padding: "1px 5px", borderRadius: 3 }}>python scripts/run_execution_eval.py</code> to reproduce.
+      <div className="evaluation-footer">
+        <span>↳ Reproducible by design</span>
+        <code>eval/execution-v1</code>
+        <span>
+          Results reflect the saved execution report, not a live test run.
+        </span>
       </div>
     </section>
   );

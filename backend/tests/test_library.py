@@ -3,6 +3,8 @@ from context_core import api
 from context_core.library import add_source, list_sources, rank_sources
 from fastapi.testclient import TestClient
 
+pytestmark = pytest.mark.usefixtures("reviewed_clips")
+
 
 def test_index_dedup_and_search(clips, tmp_path):
     collection = tmp_path / "library"

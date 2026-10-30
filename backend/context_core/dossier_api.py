@@ -4,6 +4,7 @@ import csv
 import io
 import json
 import re
+import shutil
 from pathlib import Path
 from threading import Lock
 from typing import Annotated, Literal
@@ -13,6 +14,7 @@ from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, Uploa
 from fastapi.responses import FileResponse, JSONResponse, Response
 from starlette.concurrency import run_in_threadpool
 
+from .domain_policy import DomainAdmissionError, require_files
 from .dossier import (
     investigate,
     text_output,
@@ -21,7 +23,6 @@ from .dossier import (
     write,
 )
 from .library import add_source
-from .providers import configured
 from .retrieval import download_video
 
 
@@ -46,6 +47,19 @@ def router(data_root, lock: Lock):
                 if (target / "reference-library").is_dir()
                 else None,
             )
+        except DomainAdmissionError as exc:
+            write(
+                target,
+                {
+                    "id": target.name,
+                    "mode": "single_video",
+                    "status": "error",
+                    "stage": "error",
+                    "sources": [],
+                    "domain_admission": exc.report(),
+                    "error": str(exc),
+                },
+            )
         finally:
             lock.release()
 
@@ -61,11 +75,6 @@ def router(data_root, lock: Lock):
         if bool(video) == bool(url.strip()):
             raise HTTPException(
                 422, "Submit one video upload OR one supported direct-media URL"
-            )
-        if not configured():
-            raise HTTPException(
-                503,
-                "Meta credentials are unavailable; configure MODEL_API_KEY",
             )
         if not lock.acquire(blocking=False):
             raise HTTPException(429, "An investigation is already running")
@@ -88,6 +97,10 @@ def router(data_root, lock: Lock):
                 }
             else:
                 provenance = await download_video(url.strip(), target / "video.mp4")
+            admission = await run_in_threadpool(
+                require_files, {"submitted": target / "video.mp4"}
+            )
+            provenance["domain_admission"] = admission
             provenance["input_kind"] = "url" if url.strip() else input_kind
             if reference:
                 source_path = target / "supplied-source.mp4"
@@ -99,6 +112,10 @@ def router(data_root, lock: Lock):
                             if size > 200 * 1024 * 1024:
                                 raise ValueError("Source recording exceeds 200 MB")
                             out.write(block)
+                    reference_admission = await run_in_threadpool(
+                        require_files, {"source": source_path}
+                    )
+                    provenance["domain_admission"].update(reference_admission)
                     await run_in_threadpool(
                         add_source,
                         target / "reference-library",
@@ -118,6 +135,7 @@ def router(data_root, lock: Lock):
                     "stage": "queued",
                     "caption": caption,
                     "sources": [],
+                    "domain_admission": provenance["domain_admission"],
                 },
             )
             background.add_task(process, target, caption, provenance)
@@ -127,6 +145,7 @@ def router(data_root, lock: Lock):
                 "poll_url": f"/api/dossiers/{target.name}",
             }
         except Exception as exc:
+            shutil.rmtree(target, ignore_errors=True)
             lock.release()
             if isinstance(exc, ValueError):
                 raise HTTPException(422, str(exc)) from exc
@@ -153,13 +172,18 @@ def router(data_root, lock: Lock):
             report["assessment"] = validate_assessment(
                 assessment_text, report["analysis"], report.get("sources", [])
             )
-            if not report["analysis"]["observations"]:
+            if (
+                not report["analysis"]["observations"]
+                and report.get("pipeline") != "deterministic_first"
+            ):
                 report.update(
                     status="partial",
                     stage="partial",
                     error="No validated video observations are available; retained claims are limited to available evidence.",
                 )
-            report["validation_version"] = 3
+            report["validation_version"] = (
+                4 if report.get("pipeline") == "deterministic_first" else 3
+            )
         return report
 
     def read_report(target):
