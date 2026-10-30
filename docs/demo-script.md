@@ -1,7 +1,8 @@
 # CONTEXT demo script: Pre-Publication QA
 
 Voiceover for a human narrator. Narration is 264 words (limit 310); word counts are in each heading.
-Every number comes from `eval/hero-v1/results.json` or `eval/execution-v1/full-results/results.json`.
+Every number comes from `eval/hero-v1/results.json`,
+`eval/hero-v1/muse/response.json` (saved Muse observations) or `eval/execution-v1/full-results/results.json`.
 
 **Always on screen (corner badge):** "Controlled, authored case · Saved Muse response · Eval = scripted cuts". SAM 3.1 is not featured.
 
