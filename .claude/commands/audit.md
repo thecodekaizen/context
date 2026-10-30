@@ -4,7 +4,7 @@ model: opus
 ---
 Do a read-only audit. Do NOT modify code. Be blunt.
 1. Read CLAUDE.md and docs/HANDOFF.md. Run `git log --oneline -15` and `git status --short`.
-2. Run `bash scripts/t.sh` and `npm run build` once each. Record pass/fail only.
+2. Run `bash scripts/t.sh` and `cd web && npm run build` once each. Record pass/fail only.
 3. Locate the frozen eval results file; report recall, boundary error, benign false-alarm counts as stored.
 4. Find the demo path: how many commands from a clean clone to the hero clip result? Is `.env.example` present?
 5. Check what Muse Spark and SAM actually do on the hero clip (read code, do not call APIs unless I say so).

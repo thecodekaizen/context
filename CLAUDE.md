@@ -17,7 +17,7 @@ real public figures.
 5. Every number in the demo must exist in a committed results file. Disclose: evals are scripted cuts.
 
 ## Commands (VERIFY in the first session, then fix this section)
-- Tests: `bash scripts/t.sh`   Build: `npm run build`   Python: pytest
+- Tests: `bash scripts/t.sh`   Build: `cd web && npm run build`   Python: pytest
 - Secrets live in .env (never read, never commit).
 
 ## Working style (token discipline)

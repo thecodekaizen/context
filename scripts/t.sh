@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
-# Quiet test runner. Prints only the last lines. EDIT the cd/command to match the repo.
-set -uo pipefail
-[ -d backend ] && cd backend
-python -m pytest -q -x 2>&1 | tail -30
+# Quiet runner: last 30 lines only. Use -m to skip live/slow tests once you know the marker names.
+.venv/bin/python -m pytest -q -x "$@" 2>&1 | tail -30
