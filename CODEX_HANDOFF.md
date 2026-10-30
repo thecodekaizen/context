@@ -27,7 +27,7 @@ Do not rebuild the repository or revert to earlier ungrounded concepts. CONTEXT 
 | **Benign Controls** | **0.0% False Alarms** | (Included in eval suite) | 18 controls (speed, trims, subs) |
 | **SAM 3.1 Spatial Gate** | **10/10 Passed** | `python scripts/run_sam_gate.py` | >99.9% pixel recall, 84% IoU |
 | **Demo Composition** | **0 Errors, WCAG AA** | `cd demo-video && npm run check` | Checked across 599 crafts |
-| **3-Min Master MP4** | **Rendered (7.7 MB)** | `ffprobe demo-video/renders/context-demo-3min.mp4` | 180.00s, 1080p, 24fps, H.264/AAC |
+| **3-Min Master MP4** | **Rendered & Tracked (8.0 MB)** | `demo-video/renders/context-demo-3min.mp4` | 180.00s, 1080p, 24fps, H.264/AAC |
 | **Docker Packaging** | **Multi-stage Ready** | `docker build -t context .` | Node builder + Python runtime |
 
 ---

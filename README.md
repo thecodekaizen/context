@@ -9,6 +9,12 @@ Built for the Meta Global AI Developer Hackathon 2026.
 A local video evidence workstation. Trace a published edit to a provided source, reconstruct the sequence,
 reveal missing footage, and inspect timestamped Meta AI interpretation.
 
+> 🎬 **Watch the 3-Minute Master Demo Video:**  
+> - **In Repository:** [`demo-video/renders/context-demo-3min.mp4`](demo-video/renders/context-demo-3min.mp4) (180s, 1080p Full HD, 8.0 MB)  
+> - **GitHub Web Player:** [Watch on GitHub](https://github.com/thecodekaizen/context/blob/main/demo-video/renders/context-demo-3min.mp4)  
+> - **Direct Download (Release v1.0.0):** [context-demo-3min.mp4](https://github.com/thecodekaizen/context/releases/download/v1.0.0/context-demo-3min.mp4)  
+> - **Narration Script:** [`docs/demo-script.md`](docs/demo-script.md)
+
 ![Actual film investigation](docs/film-workstation.png)
 
 ## Architecture

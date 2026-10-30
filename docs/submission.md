@@ -5,7 +5,7 @@
 
 **Repository:** [https://github.com/thecodekaizen/context](https://github.com/thecodekaizen/context)  
 **License:** MIT / CC0 Benchmarks  
-**Demo Video:** `demo-video/renders/context-demo-3min.mp4` (180s, 1920×1080 Full HD)  
+**Demo Video:** [`demo-video/renders/context-demo-3min.mp4`](https://github.com/thecodekaizen/context/blob/main/demo-video/renders/context-demo-3min.mp4) (180.0s, 1920×1080 Full HD, 8.0 MB) · [Direct Download](https://github.com/thecodekaizen/context/releases/download/v1.0.0/context-demo-3min.mp4)  
 **Evaluation Status:** 100% Interval Recall · 0.0s Boundary Error · 0% Benign False Alarms · 133 Backend Tests Passing
 
 ---
