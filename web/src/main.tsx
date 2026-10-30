@@ -879,36 +879,108 @@ function App() {
                     <span>{e ? time(e[kind].duration) : "—"}</span>
                   </div>
                   {e ? (
-                    <video
-                      key={e.id + kind}
-                      ref={i ? source : published}
-                      src={e.media[kind]}
-                      controls
-                      playsInline
-                      muted={i === 1 && sync}
-                      onTimeUpdate={
-                        i
-                          ? () => {
-                              if (
-                                selected &&
-                                source.current &&
-                                source.current.currentTime >=
-                                  selected.source_end
-                              )
-                                source.current.pause();
-                            }
-                          : update
-                      }
-                      onPause={
-                        i
-                          ? undefined
-                          : () => {
-                              if (sync) source.current?.pause();
-                            }
-                      }
-                      onSeeked={i ? undefined : update}
-                      onPlay={i ? undefined : update}
-                    />
+                    <div style={{ position: "relative", width: "100%" }}>
+                      <video
+                        key={e.id + kind}
+                        ref={i ? source : published}
+                        src={e.media[kind]}
+                        controls
+                        playsInline
+                        muted={i === 1 && sync}
+                        onTimeUpdate={
+                          i
+                            ? () => {
+                                if (
+                                  selected &&
+                                  source.current &&
+                                  source.current.currentTime >=
+                                    selected.source_end
+                                )
+                                  source.current.pause();
+                              }
+                            : update
+                        }
+                        onPause={
+                          i
+                            ? undefined
+                            : () => {
+                                if (sync) source.current?.pause();
+                              }
+                        }
+                        onSeeked={i ? undefined : update}
+                        onPlay={i ? undefined : update}
+                      />
+                      {i === 1 &&
+                        e.crop_analysis?.detected &&
+                        e.crop_analysis.crop_box &&
+                        e.crop_analysis.source_resolution && (
+                          <svg
+                            viewBox={`0 0 ${e.crop_analysis.source_resolution[0]} ${e.crop_analysis.source_resolution[1]}`}
+                            style={{
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                              width: "100%",
+                              height: "100%",
+                              pointerEvents: "none",
+                            }}
+                            aria-hidden="true"
+                          >
+                            <rect
+                              x={e.crop_analysis.crop_box.x}
+                              y={e.crop_analysis.crop_box.y}
+                              width={e.crop_analysis.crop_box.width}
+                              height={e.crop_analysis.crop_box.height}
+                              fill="none"
+                              stroke="#22c55e"
+                              strokeWidth={4}
+                              strokeDasharray="8 6"
+                            />
+                            <text
+                              x={e.crop_analysis.crop_box.x + 12}
+                              y={e.crop_analysis.crop_box.y + 28}
+                              fill="#22c55e"
+                              fontSize="22"
+                              fontWeight="bold"
+                              style={{
+                                textShadow: "0 1px 3px rgba(0,0,0,0.8)",
+                              }}
+                            >
+                              RETAINED IN EDIT (
+                              {(
+                                (e.crop_analysis.area_retained_fraction || 0) *
+                                100
+                              ).toFixed(0)}
+                              %)
+                            </text>
+                            {e.crop_analysis.omitted_margins?.map((m, idx) => (
+                              <g key={idx}>
+                                <rect
+                                  x={m.x}
+                                  y={m.y}
+                                  width={m.width}
+                                  height={m.height}
+                                  fill="rgba(239, 68, 68, 0.35)"
+                                  stroke="rgba(239, 68, 68, 0.75)"
+                                  strokeWidth={2}
+                                />
+                                <text
+                                  x={m.x + 8}
+                                  y={m.y + 24}
+                                  fill="#fca5a5"
+                                  fontSize="18"
+                                  fontWeight="600"
+                                  style={{
+                                    textShadow: "0 1px 3px rgba(0,0,0,0.8)",
+                                  }}
+                                >
+                                  CUT OUT: {m.name.toUpperCase()}
+                                </text>
+                              </g>
+                            ))}
+                          </svg>
+                        )}
+                    </div>
                   ) : (
                     <div className="placeholder">
                       <span>{i ? "◫" : "▷"}</span>

@@ -15,6 +15,7 @@ from starlette.concurrency import run_in_threadpool
 
 from .alignment import analyze
 from .context_pack import build_pack
+from .crop_detector import detect_video_crop
 from .dossier_api import router as dossier_router
 from .fixtures import generate
 from .library import add_source, list_sources, rank_sources
@@ -51,7 +52,35 @@ async def local_origin(request: Request, call_next):
 
 
 def investigation(directory, source_name=None, edited_name=None):
-    result = analyze(directory / "original.mp4", directory / "edited.mp4")
+    orig = directory / "original.mp4"
+    edit = directory / "edited.mp4"
+    result = analyze(orig, edit)
+    try:
+        crop_res = detect_video_crop(orig, edit)
+        result["crop_analysis"] = crop_res
+        if crop_res.get("detected"):
+            result["status"] = "matched"
+            result["coverage"] = max(
+                result.get("coverage", 0.0),
+                crop_res.get("area_retained_fraction", 0.64),
+            )
+            result["findings"].append(
+                {
+                    "id": "spatial-crop-reframe",
+                    "kind": "spatial_crop_reframe",
+                    "modality": "visual",
+                    "source_start": 0.0,
+                    "source_end": result["source"]["duration"],
+                    "edited_start": 0.0,
+                    "edited_end": result["edited"]["duration"],
+                    "crop_box": crop_res.get("crop_box"),
+                    "area_omitted_fraction": crop_res.get("area_omitted_fraction"),
+                    "omitted_margins": crop_res.get("omitted_margins", []),
+                    "explanation": crop_res.get("explanation"),
+                }
+            )
+    except (OSError, ValueError, RuntimeError):
+        pass
     if source_name:
         result["source"]["name"] = Path(source_name).name[:120]
     if edited_name:

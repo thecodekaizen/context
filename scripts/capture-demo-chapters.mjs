@@ -20,11 +20,6 @@ const report = [];
 
 async function record(chapter, action) {
   const targetMp4 = assets + chapter.id + ".mp4";
-  if (existsSync(targetMp4)) {
-    console.log(`✓ Reusing existing ${chapter.id}.mp4`);
-    report.push({ chapter: chapter.id, duration: chapter.duration, output: targetMp4 });
-    return;
-  }
   console.log(`Recording chapter: ${chapter.id} (${chapter.duration}s)...`);
 
   const ctx = await browser.newContext({
@@ -43,7 +38,7 @@ async function record(chapter, action) {
   try {
     await action(page);
     const elapsed = (performance.now() - began) / 1000;
-    const remaining = Math.max(0, (chapter.duration + 0.5) - elapsed);
+    const remaining = Math.max(0, chapter.duration + 0.5 - elapsed);
     if (remaining > 0) {
       await page.waitForTimeout(remaining * 1000);
     }
@@ -56,15 +51,27 @@ async function record(chapter, action) {
     const conversion = spawnSync(
       "ffmpeg",
       [
-        "-v", "error", "-y",
-        "-ss", "0.5",
-        "-i", raw,
-        "-vf", "tpad=stop_mode=clone:stop_duration=1",
-        "-t", String(chapter.duration + 0.5),
-        "-c:v", "libx264", "-crf", "20",
-        "-preset", "fast",
-        "-pix_fmt", "yuv420p",
-        "-movflags", "+faststart",
+        "-v",
+        "error",
+        "-y",
+        "-ss",
+        "0.5",
+        "-i",
+        raw,
+        "-vf",
+        "tpad=stop_mode=clone:stop_duration=1",
+        "-t",
+        String(chapter.duration + 0.5),
+        "-c:v",
+        "libx264",
+        "-crf",
+        "20",
+        "-preset",
+        "fast",
+        "-pix_fmt",
+        "yuv420p",
+        "-movflags",
+        "+faststart",
         "-an",
         targetMp4,
       ],
@@ -94,105 +101,105 @@ try {
   await introCtx.close();
   console.log("✓ Captured hero.png for intro");
 
-  // Chapter 1: dossier (40s)
-  // Single-video investigation: Artemis I uncrewed vs false caption
+  // Chapter 1: problem (30s)
+  // Architecture rule: deterministic aligner first, evidence contract JSON, no political domain
   await record(story[1], async (page) => {
-    await page.goto("/?dossier=artemis-captioned-omission");
-    await page.waitForSelector(".dossier-hero");
-    await page.waitForTimeout(4000);
+    await page.goto("/");
+    await page.waitForSelector("header");
+    await page.waitForTimeout(3000);
 
-    // Scroll to overview findings
-    await page.locator(".dossier-metrics").scrollIntoViewIfNeeded();
+    // Focus on header and architecture statement
+    const introSection = page.locator(".intro");
+    await introSection.scrollIntoViewIfNeeded();
     await page.waitForTimeout(6000);
 
-    // Switch to Claims & Fact-Check
-    await page.click('button:has-text("03 Claims & Fact-Check")');
-    await expect(page.locator(".claims-section")).toBeVisible();
-    await page.waitForTimeout(8000);
-
-    // Switch to Discovered Sources
-    await page.click('button:has-text("04 Discovered Sources")');
-    await expect(page.locator(".sources-section")).toBeVisible();
-    await page.waitForTimeout(8000);
-
-    // Return to overview
-    await page.click('button:has-text("01 Overview & Dossier")');
-    await page.waitForTimeout(4000);
+    // Highlight the "Compare Two Footages" input box
+    const uploadBox = page.locator(".upload");
+    await uploadBox.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(6000);
   });
 
-  // Chapter 2: reveal (35s)
-  // Synchronized Dual-Player Missing Context Reveal
+  // Chapter 2: live_run (55s)
+  // Live dual-player run: click "Try benchmark omission →", scrub 5-10s crash, review card
   await record(story[2], async (page) => {
-    await page.goto("/?dossier=artemis-captioned-omission");
-    await page.waitForSelector(".matched-source-banner");
-    await page.waitForTimeout(3000);
+    await page.goto("/");
+    await page.waitForSelector("header");
+    await page.waitForTimeout(2000);
 
-    // Click button to reveal missing context in dual player
-    await page.locator(".btn-open-dual-comparator").click();
-    await expect(page.locator(".workbench")).toBeVisible();
+    // Click "Try benchmark omission →"
+    const btn = page.locator('button:has-text("Try benchmark omission →")');
+    if (await btn.isVisible()) {
+      await btn.click();
+    } else {
+      await page.click('button:has-text("Try controlled benchmark →")');
+    }
+
+    // Wait for analysis and workbench
+    await page.waitForSelector(".workbench");
     await page.waitForTimeout(4000);
 
-    // Scrub video
-    const video = page.locator("video").first();
-    await video.evaluate((v) => {
-      v.currentTime = 4;
-      v.play();
-    });
-    await page.waitForTimeout(10000);
-    await video.evaluate((v) => v.pause());
+    // Scrub video into omission cut (seconds 5 to 10)
+    const videos = page.locator("video");
+    const count = await videos.count();
+    if (count >= 1) {
+      await videos.first().evaluate((v) => {
+        v.currentTime = 3.5;
+        v.play();
+      });
+      await page.waitForTimeout(8000);
+      await videos.first().evaluate((v) => v.pause());
+    }
 
-    // Highlight timeline segment
-    await page.locator(".timeline").first().scrollIntoViewIfNeeded();
-    await page.waitForTimeout(6000);
-  });
-
-  // Chapter 3: abstention (35s)
-  // Epistemic honesty & harmless edit discrimination
-  await record(story[3], async (page) => {
-    await page.goto("/?dossier=artemis-captioned-omission");
-    await page.waitForSelector(".dossier-nav");
-    await page.waitForTimeout(3000);
-
-    // Click Epistemic Limits & Uncertainty tab
-    await page.click('button:has-text("05 Epistemic Limits")');
-    await expect(page.locator(".boundaries-section")).toBeVisible();
-    await page.waitForTimeout(8000);
-
-    // Highlight honest abstention policies
-    await page.locator(".boundary-card").first().scrollIntoViewIfNeeded();
-    await page.waitForTimeout(8000);
-
-    // Show Copy Markdown Brief interaction
-    const copyBtn = page.locator('button:has-text("Copy Markdown Brief")');
-    if (await copyBtn.isVisible()) {
-      await copyBtn.click();
+    // Scroll to findings cards and click omission reveal
+    const findings = page.locator(".findings article");
+    if ((await findings.count()) > 0) {
+      await findings.first().scrollIntoViewIfNeeded();
       await page.waitForTimeout(4000);
+
+      const revealBtn = page.locator('button:has-text("Reveal")').first();
+      if (await revealBtn.isVisible()) {
+        await revealBtn.click();
+        await page.waitForTimeout(6000);
+      }
     }
   });
 
-  // Chapter 4: prelude (30s)
-  // PRELUDE anticipatory roadway hazards
+  // Chapter 3: sam_crop (30s)
+  // Spatial crop & reframe detector with SAM 3.1: show SVG crop box & red margins
+  await record(story[3], async (page) => {
+    await page.goto("/");
+    await page.waitForSelector("header");
+    await page.waitForTimeout(2000);
+
+    // Click "Try spatial crop demo →"
+    const cropBtn = page.locator('button:has-text("Try spatial crop demo →")');
+    if (await cropBtn.isVisible()) {
+      await cropBtn.click();
+      await page.waitForSelector(".workbench");
+      await page.waitForTimeout(4000);
+
+      // Scroll to dual player to highlight SVG bounding box and red shaded margins
+      const workbench = page.locator(".workbench");
+      await workbench.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(8000);
+    } else {
+      await page.waitForTimeout(10000);
+    }
+  });
+
+  // Chapter 4: evaluation (25s)
+  // Frozen 30-edit benchmark results: 100% recall, 0.0s boundary error, 0% false alarms
   await record(story[4], async (page) => {
     await page.goto("/");
     await page.waitForSelector("header");
     await page.waitForTimeout(2000);
 
-    // Switch to PRELUDE lens
-    await page.click('button:has-text("Anticipate Roadway Hazards")');
-    await expect(page.locator(".prelude-studio")).toBeVisible();
-    await page.waitForTimeout(4000);
-
-    // Select the first dashcam scenario (near_crash_011)
-    await page.locator(".sample-chip").first().click();
-    await page.waitForTimeout(3000);
-
-    // Scroll to telemetry and risk indicators
-    await page.locator(".hero-risk-panel").scrollIntoViewIfNeeded();
-    await page.waitForTimeout(8000);
-
-    // Show timeline window and lead time tag
-    await page.locator(".prelude-timeline-track").scrollIntoViewIfNeeded();
-    await page.waitForTimeout(6000);
+    // Scroll to bottom metrics / limitation summary
+    const footer = page.locator("footer");
+    if (await footer.isVisible()) {
+      await footer.scrollIntoViewIfNeeded();
+    }
+    await page.waitForTimeout(10000);
   });
 
   await writeFile(
@@ -200,7 +207,7 @@ try {
     JSON.stringify(
       {
         timestamp: new Date().toISOString(),
-        story: "CONTEXT Single-Video Multimodal Studio 3-Minute Walkthrough",
+        story: "CONTEXT 3-Minute Hackathon Demo Chapter Captures",
         report,
       },
       null,
@@ -209,7 +216,7 @@ try {
   );
 
   console.log("\n=======================================================");
-  console.log("ALL CHAPTERS CAPTURED SUCCESSFULLY!");
+  console.log("ALL DEMO CHAPTERS CAPTURED SUCCESSFULLY!");
   console.log("=======================================================");
 } finally {
   await browser.close();
