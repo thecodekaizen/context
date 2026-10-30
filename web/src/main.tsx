@@ -72,8 +72,7 @@ function App() {
     const controller = new AbortController();
     fetch("/api/health", { signal: controller.signal })
       .then((r) => r.json())
-      .then((data) => {
-      })
+      .then((data) => {})
       .catch(() => {});
 
     loadRecentDossiers();
@@ -251,9 +250,7 @@ function App() {
   const source = useRef<HTMLVideoElement>(null);
   const published = useRef<HTMLVideoElement>(null);
 
-  async function analyze(
-    demo: false | true | "benchmark" | "crop" = false,
-  ) {
+  async function analyze(demo: false | true | "benchmark" | "crop" = false) {
     setReview(null);
     setReviewError("");
     setBusy(true);
