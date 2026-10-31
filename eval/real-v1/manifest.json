@@ -1,0 +1,2032 @@
+{
+  "contract_sha256": "314093957a81fe44aedf451d297519f7f25b4c6a3c15f4c0af7361ee4543ac82",
+  "sources_sha256": "c7e0d0cbd548d48b44a96b6ce4e5309a0aba8cfc5154737168caf6fda4b3336c",
+  "clip_sha256": {
+    "python_kafka": "d31249d4dd24732f7f1927a1e3df8e262101398e4727cc535144bc2e2dc31283",
+    "python_async_sqlalchemy": "7d695b9da4e986c50222537f7d130d593638f0a4189ff913638e5aaf2b8b6d10",
+    "python_concurrency_in_webapps": "889bb3593e007af23e6aee43b20cdc7819cedd67a20b39c2ea98a260595f5656",
+    "python_type_safety": "e43eb13a8ff9c3bcd28f6383d5a07c18e90675a192f23fc1e1cd5c1c2eb118a7",
+    "python_unicode": "516634703a81928e8e607c3a3e58052e03dde223bd596124c9262038040dc70c",
+    "python_spyql": "7dcc3a01d8041e86bfb8c72baa52608056113bef5bd448ff41717d21400d9028",
+    "python_mimics": "f5e88b83594f1be62e8d892898bf843959a2a14c586530cc98fdb8005a552ab9",
+    "python_feature_flags": "27bf855dfcf110827fc52c985cb590f9405e50b84d25e4cf207fa9cc9c86b59f",
+    "python_cubicweb": "23fb926c4390028e760e0daeeed658bab044409afc9f1f66c1cc41659b9913a2"
+  },
+  "code_sha256": {
+    "alignment.py": "f18648c0d9121aa80376ce4c16a7f71008ff051b6d4adadf9f1b003132b2e0f1",
+    "audio_alignment.py": "f8ca8e3463195656aa031da75acb45179479d1eb5d7e035dc821799828352ce8",
+    "grounded_omissions.py": "ed6d5acab39af25edece347e0fc83a9c9e898802a30d4394fb44c11a8a0d5608",
+    "media.py": "d42e1316b7608524135baa62d586109e8ed0b20c372d8e1994794a790e6cb514"
+  },
+  "python": "3.15.0",
+  "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+  "cases": [
+    {
+      "id": "python_kafka-middle_cut",
+      "source": "python_kafka",
+      "recipe": {
+        "name": "middle_cut",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_kafka-middle_cut.mp4",
+      "sha256": "5574810e0723e638c84681d2993f66cc151780e1522aeb60afcda59c485322f6",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_kafka-early_cut",
+      "source": "python_kafka",
+      "recipe": {
+        "name": "early_cut",
+        "intervals": [
+          [
+            0,
+            20
+          ],
+          [
+            50,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_kafka-early_cut.mp4",
+      "sha256": "7b7667b59247fc958031f5d62a7de87485644076827a171383bd20a0664bd8e2",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 20,
+          "source_end": 50,
+          "edit_position": 20.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_kafka-crop_omission",
+      "source": "python_kafka",
+      "recipe": {
+        "name": "crop_omission",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_kafka-crop_omission.mp4",
+      "sha256": "54d143b884cb0f100aa9e3aae14681137e5e9dd3f7a21cef5420d4c9d5d3d363",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_kafka-audio_only",
+      "source": "python_kafka",
+      "recipe": {
+        "name": "audio_only",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "audio_omission",
+        "audio_gap": [
+          100,
+          130
+        ],
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_kafka-audio_only.mp4",
+      "sha256": "e93332abc87bc0677354b9267a12f59c344532d5bb087af7237dc3f92e9e0eb8",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100,
+          "modality": "audio"
+        }
+      ]
+    },
+    {
+      "id": "python_kafka-reorder",
+      "source": "python_kafka",
+      "recipe": {
+        "name": "reorder",
+        "intervals": [
+          [
+            150,
+            270
+          ],
+          [
+            0,
+            75
+          ],
+          [
+            75,
+            150
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_kafka-reorder.mp4",
+      "sha256": "56cc44e09a718912fe5e2ec21eb8816377afb093f904c6c5678dacdbf5c7c628",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_kafka-speed_1_25",
+      "source": "python_kafka",
+      "recipe": {
+        "name": "speed_1_25",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "speed",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_kafka-speed_1_25.mp4",
+      "sha256": "55fe33170e67b61d787a8c62a52d7f1b6fb672e4c5d7fdfef77108c67d47fda1",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_kafka-crop_benign",
+      "source": "python_kafka",
+      "recipe": {
+        "name": "crop_benign",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_kafka-crop_benign.mp4",
+      "sha256": "8ced4b9be71bfe8ccbcf7876be6656fdc825392666ed4cc2397d64cc3c57bfa4",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_kafka-benign_trim",
+      "source": "python_kafka",
+      "recipe": {
+        "name": "benign_trim",
+        "intervals": [
+          [
+            5,
+            265
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_kafka-benign_trim.mp4",
+      "sha256": "7966d4d96ba7a5ca23efaa2942f0ae85605c973fa882d55233d09af16f83d60d",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_kafka-reencode",
+      "source": "python_kafka",
+      "recipe": {
+        "name": "reencode",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "reencode",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_kafka-reencode.mp4",
+      "sha256": "90a4816d314473aec1570bfca3a7ecccbf2ee9b8c687b9464d3030c74a8c780b",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_async_sqlalchemy-middle_cut",
+      "source": "python_async_sqlalchemy",
+      "recipe": {
+        "name": "middle_cut",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_async_sqlalchemy-middle_cut.mp4",
+      "sha256": "3e58af015d878fc9e07ce2803ed585e01ca94cce66456dbfbf959a31db24ab4f",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_async_sqlalchemy-early_cut",
+      "source": "python_async_sqlalchemy",
+      "recipe": {
+        "name": "early_cut",
+        "intervals": [
+          [
+            0,
+            20
+          ],
+          [
+            50,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_async_sqlalchemy-early_cut.mp4",
+      "sha256": "c5867f921212221432a1a310bc3b752d002db97d29bcbd248ce12d041bfcc636",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 20,
+          "source_end": 50,
+          "edit_position": 20.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_async_sqlalchemy-crop_omission",
+      "source": "python_async_sqlalchemy",
+      "recipe": {
+        "name": "crop_omission",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_async_sqlalchemy-crop_omission.mp4",
+      "sha256": "1538663288ec6cbe137b8985ba20a9ad3ab38c8bbdfce6441e0383bab42f92cd",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_async_sqlalchemy-audio_only",
+      "source": "python_async_sqlalchemy",
+      "recipe": {
+        "name": "audio_only",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "audio_omission",
+        "audio_gap": [
+          100,
+          130
+        ],
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_async_sqlalchemy-audio_only.mp4",
+      "sha256": "fb6261e0bba07ba9158c41ecd98f6096e300128c4eaae87f839c07d98db3a059",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100,
+          "modality": "audio"
+        }
+      ]
+    },
+    {
+      "id": "python_async_sqlalchemy-reorder",
+      "source": "python_async_sqlalchemy",
+      "recipe": {
+        "name": "reorder",
+        "intervals": [
+          [
+            150,
+            270
+          ],
+          [
+            0,
+            75
+          ],
+          [
+            75,
+            150
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_async_sqlalchemy-reorder.mp4",
+      "sha256": "0463effb77b2f8e0b6eb5c630c42620231dca3df494c649d99fbd8bd0a658f2f",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_async_sqlalchemy-speed_1_25",
+      "source": "python_async_sqlalchemy",
+      "recipe": {
+        "name": "speed_1_25",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "speed",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_async_sqlalchemy-speed_1_25.mp4",
+      "sha256": "6730d4c99c27d6ddd5f3c1daf82403247f034e169440e0136e6e9e6cf0de8757",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_async_sqlalchemy-crop_benign",
+      "source": "python_async_sqlalchemy",
+      "recipe": {
+        "name": "crop_benign",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_async_sqlalchemy-crop_benign.mp4",
+      "sha256": "1ce97e4aab700a2e37887175e7cec12980d2576199ef83bb4093c40c8b3ba553",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_async_sqlalchemy-benign_trim",
+      "source": "python_async_sqlalchemy",
+      "recipe": {
+        "name": "benign_trim",
+        "intervals": [
+          [
+            5,
+            265
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_async_sqlalchemy-benign_trim.mp4",
+      "sha256": "7e7582ecdba646a092aafc1b06288012244545457e081e5281e3929e4899b781",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_async_sqlalchemy-reencode",
+      "source": "python_async_sqlalchemy",
+      "recipe": {
+        "name": "reencode",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "reencode",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_async_sqlalchemy-reencode.mp4",
+      "sha256": "aa345c361647bf5a02d3275baa0c7b7735179a0a3d94959eab8070d1a30d47cb",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_concurrency_in_webapps-middle_cut",
+      "source": "python_concurrency_in_webapps",
+      "recipe": {
+        "name": "middle_cut",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_concurrency_in_webapps-middle_cut.mp4",
+      "sha256": "35ba251c3e02ef7e766cfd383c3ccb0966e08a98d5b5c2b655b9025a7748e0bf",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_concurrency_in_webapps-early_cut",
+      "source": "python_concurrency_in_webapps",
+      "recipe": {
+        "name": "early_cut",
+        "intervals": [
+          [
+            0,
+            20
+          ],
+          [
+            50,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_concurrency_in_webapps-early_cut.mp4",
+      "sha256": "fe06f46efcd8347114ba5953d0debc785dc1e8eece176421133897e06fa37cd9",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 20,
+          "source_end": 50,
+          "edit_position": 20.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_concurrency_in_webapps-crop_omission",
+      "source": "python_concurrency_in_webapps",
+      "recipe": {
+        "name": "crop_omission",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_concurrency_in_webapps-crop_omission.mp4",
+      "sha256": "2bd062ff40e4255c2911575fc6ae446055ee5f4fdbbad5e3247ca729f5c98f8c",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_concurrency_in_webapps-audio_only",
+      "source": "python_concurrency_in_webapps",
+      "recipe": {
+        "name": "audio_only",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "audio_omission",
+        "audio_gap": [
+          100,
+          130
+        ],
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_concurrency_in_webapps-audio_only.mp4",
+      "sha256": "00117144979d8f2754d9aaa63aa959f60da23074f811e6768861426625b9ad45",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100,
+          "modality": "audio"
+        }
+      ]
+    },
+    {
+      "id": "python_concurrency_in_webapps-reorder",
+      "source": "python_concurrency_in_webapps",
+      "recipe": {
+        "name": "reorder",
+        "intervals": [
+          [
+            150,
+            270
+          ],
+          [
+            0,
+            75
+          ],
+          [
+            75,
+            150
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_concurrency_in_webapps-reorder.mp4",
+      "sha256": "6533e2b141d4e57050b0568e71b722408efb2a414c93c6ae373e7260f9bd150b",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_concurrency_in_webapps-speed_1_25",
+      "source": "python_concurrency_in_webapps",
+      "recipe": {
+        "name": "speed_1_25",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "speed",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_concurrency_in_webapps-speed_1_25.mp4",
+      "sha256": "d227f65f523014537fc149b34e42c9fb9fd9af38f311ebd8b2abcb71cd9d325c",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_concurrency_in_webapps-crop_benign",
+      "source": "python_concurrency_in_webapps",
+      "recipe": {
+        "name": "crop_benign",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_concurrency_in_webapps-crop_benign.mp4",
+      "sha256": "0e261eb721da6cc9d94daf3b0021075c7e889aaa8b15cf5456a292d71466fc58",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_concurrency_in_webapps-benign_trim",
+      "source": "python_concurrency_in_webapps",
+      "recipe": {
+        "name": "benign_trim",
+        "intervals": [
+          [
+            5,
+            265
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_concurrency_in_webapps-benign_trim.mp4",
+      "sha256": "a74b32de33e48f869ea100805c169b7e5850f32b0c595fde4c50992599ac2c09",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_concurrency_in_webapps-reencode",
+      "source": "python_concurrency_in_webapps",
+      "recipe": {
+        "name": "reencode",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "reencode",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_concurrency_in_webapps-reencode.mp4",
+      "sha256": "2507df8610250544f9a7b2da5bc607f342e12a8dc482a493b408256d2455ffab",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_type_safety-middle_cut",
+      "source": "python_type_safety",
+      "recipe": {
+        "name": "middle_cut",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_type_safety-middle_cut.mp4",
+      "sha256": "8764c81516817107f938be6121d3f87bf4fe3f015f28d649ede80a16ff4d5f87",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_type_safety-early_cut",
+      "source": "python_type_safety",
+      "recipe": {
+        "name": "early_cut",
+        "intervals": [
+          [
+            0,
+            20
+          ],
+          [
+            50,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_type_safety-early_cut.mp4",
+      "sha256": "245f1d8bf97ebe0f36deb90a7ba2232340eb74822d2b30a087ea243bccd27ee2",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 20,
+          "source_end": 50,
+          "edit_position": 20.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_type_safety-crop_omission",
+      "source": "python_type_safety",
+      "recipe": {
+        "name": "crop_omission",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_type_safety-crop_omission.mp4",
+      "sha256": "f0aa5a3951c3eb183bddb232bdc9cdb527f329df46fd0a283531e3e047beeaee",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_type_safety-audio_only",
+      "source": "python_type_safety",
+      "recipe": {
+        "name": "audio_only",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "audio_omission",
+        "audio_gap": [
+          100,
+          130
+        ],
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_type_safety-audio_only.mp4",
+      "sha256": "30648d9a4be39c4a6063b30c452497ac7600f1cf49153bda4edb418de25665de",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100,
+          "modality": "audio"
+        }
+      ]
+    },
+    {
+      "id": "python_type_safety-reorder",
+      "source": "python_type_safety",
+      "recipe": {
+        "name": "reorder",
+        "intervals": [
+          [
+            150,
+            270
+          ],
+          [
+            0,
+            75
+          ],
+          [
+            75,
+            150
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_type_safety-reorder.mp4",
+      "sha256": "805a6071e602dec5268882190a72f0b27b54d970e1da782ceaa35ade333285ff",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_type_safety-speed_1_25",
+      "source": "python_type_safety",
+      "recipe": {
+        "name": "speed_1_25",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "speed",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_type_safety-speed_1_25.mp4",
+      "sha256": "b8c91bb524d9cdd853f4ba6297aac28d893e50e33f373b359a3cf19aea908025",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_type_safety-crop_benign",
+      "source": "python_type_safety",
+      "recipe": {
+        "name": "crop_benign",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_type_safety-crop_benign.mp4",
+      "sha256": "c2f78df6c21d3d2b5964c15ab17974ea72dd238b4338b35dcffd5e98f7c9bcd8",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_type_safety-benign_trim",
+      "source": "python_type_safety",
+      "recipe": {
+        "name": "benign_trim",
+        "intervals": [
+          [
+            5,
+            265
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_type_safety-benign_trim.mp4",
+      "sha256": "815b7d2d157a43b356fdb4b628a2fb58e0ae9f5267e2a7f0fce2706a4fdbf48c",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_type_safety-reencode",
+      "source": "python_type_safety",
+      "recipe": {
+        "name": "reencode",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "reencode",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_type_safety-reencode.mp4",
+      "sha256": "7a27cc1ee1c387b534b84cd743da105f648da113f41c3942824a3f951d49a1e9",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_unicode-middle_cut",
+      "source": "python_unicode",
+      "recipe": {
+        "name": "middle_cut",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_unicode-middle_cut.mp4",
+      "sha256": "b6162d406d2b6ea33228fd819eadd94f49f8e74da75e1520d598ee15a3ba6ca0",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_unicode-early_cut",
+      "source": "python_unicode",
+      "recipe": {
+        "name": "early_cut",
+        "intervals": [
+          [
+            0,
+            20
+          ],
+          [
+            50,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_unicode-early_cut.mp4",
+      "sha256": "eb64c5af609200ee93bc84f9f34fa4d52ea2c88891f3501a580f5993f8cc0d37",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 20,
+          "source_end": 50,
+          "edit_position": 20.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_unicode-crop_omission",
+      "source": "python_unicode",
+      "recipe": {
+        "name": "crop_omission",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_unicode-crop_omission.mp4",
+      "sha256": "7248940f2616017fdbc5c2fe27cb4fb9bc0e44569a609478650015ef75da1754",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_unicode-audio_only",
+      "source": "python_unicode",
+      "recipe": {
+        "name": "audio_only",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "audio_omission",
+        "audio_gap": [
+          100,
+          130
+        ],
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_unicode-audio_only.mp4",
+      "sha256": "fcf49f0bdcf138da8837f884d38888de4e15f9c22e9d70195f6024c7884467fb",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100,
+          "modality": "audio"
+        }
+      ]
+    },
+    {
+      "id": "python_unicode-reorder",
+      "source": "python_unicode",
+      "recipe": {
+        "name": "reorder",
+        "intervals": [
+          [
+            150,
+            270
+          ],
+          [
+            0,
+            75
+          ],
+          [
+            75,
+            150
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_unicode-reorder.mp4",
+      "sha256": "a0b7e8801c63fb747574ece1bf2f03e8833c63ae93195d0ecdc636b36a0a3493",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_unicode-speed_1_25",
+      "source": "python_unicode",
+      "recipe": {
+        "name": "speed_1_25",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "speed",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_unicode-speed_1_25.mp4",
+      "sha256": "48189fc1e5915c43f85f30963c62a9099494951e85789ba49e3f731813268b9f",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_unicode-crop_benign",
+      "source": "python_unicode",
+      "recipe": {
+        "name": "crop_benign",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_unicode-crop_benign.mp4",
+      "sha256": "a901697161c57eef4705998e15a398ec008a9b7753f5f4e170443f78d273cd3c",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_unicode-benign_trim",
+      "source": "python_unicode",
+      "recipe": {
+        "name": "benign_trim",
+        "intervals": [
+          [
+            5,
+            265
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_unicode-benign_trim.mp4",
+      "sha256": "533af369da53d58be5a65972375a47cc881011f77a67232e467ed27751467de3",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_unicode-reencode",
+      "source": "python_unicode",
+      "recipe": {
+        "name": "reencode",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "reencode",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_unicode-reencode.mp4",
+      "sha256": "b86dc11db793108b48a33054b7e1ae072ca36d172818ecae37b0f9e456502094",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_spyql-middle_cut",
+      "source": "python_spyql",
+      "recipe": {
+        "name": "middle_cut",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_spyql-middle_cut.mp4",
+      "sha256": "0dc6023e812c8a7056cf0041c743499343bcbeaa51e99245489eba5e8128065c",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_spyql-early_cut",
+      "source": "python_spyql",
+      "recipe": {
+        "name": "early_cut",
+        "intervals": [
+          [
+            0,
+            20
+          ],
+          [
+            50,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_spyql-early_cut.mp4",
+      "sha256": "e7ec6ea69714b9d43cb5c28404b7ddc0f430c97d28f823a7430d470fe3a8077d",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 20,
+          "source_end": 50,
+          "edit_position": 20.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_spyql-crop_omission",
+      "source": "python_spyql",
+      "recipe": {
+        "name": "crop_omission",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_spyql-crop_omission.mp4",
+      "sha256": "eea98b67c9d4a9f293920783333e7c08bbfb84af91cffa7b726c6970fcb83835",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_spyql-audio_only",
+      "source": "python_spyql",
+      "recipe": {
+        "name": "audio_only",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "audio_omission",
+        "audio_gap": [
+          100,
+          130
+        ],
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_spyql-audio_only.mp4",
+      "sha256": "055bdfe9eaaa560128fc1b7f930f9d2469db5debe3a2350b903be274cfa48256",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100,
+          "modality": "audio"
+        }
+      ]
+    },
+    {
+      "id": "python_spyql-reorder",
+      "source": "python_spyql",
+      "recipe": {
+        "name": "reorder",
+        "intervals": [
+          [
+            150,
+            270
+          ],
+          [
+            0,
+            75
+          ],
+          [
+            75,
+            150
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_spyql-reorder.mp4",
+      "sha256": "cc41d65083e1451133477580be4c3e9d7371beab83d7e5370b6c281a8d79b00f",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_spyql-speed_1_25",
+      "source": "python_spyql",
+      "recipe": {
+        "name": "speed_1_25",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "speed",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_spyql-speed_1_25.mp4",
+      "sha256": "66a4237a32b588ef1c2de28ee7a4ed1fe5fef5f46e5e28ee51f66fcba2476a12",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_spyql-crop_benign",
+      "source": "python_spyql",
+      "recipe": {
+        "name": "crop_benign",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_spyql-crop_benign.mp4",
+      "sha256": "7a190257e7f45bdc5ad8e3b2aaa3c363104745bb806c2f267d696253937aa557",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_spyql-benign_trim",
+      "source": "python_spyql",
+      "recipe": {
+        "name": "benign_trim",
+        "intervals": [
+          [
+            5,
+            265
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_spyql-benign_trim.mp4",
+      "sha256": "b47f2b80e88e398b2f9ed080640c8fc78438ea5967046286b3f9c8739e9089db",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_spyql-reencode",
+      "source": "python_spyql",
+      "recipe": {
+        "name": "reencode",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "reencode",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_spyql-reencode.mp4",
+      "sha256": "1886747953d671583cbf8ea2c0d8aa461bcf8853c36c5700acfb5d259852e964",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_mimics-middle_cut",
+      "source": "python_mimics",
+      "recipe": {
+        "name": "middle_cut",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_mimics-middle_cut.mp4",
+      "sha256": "d85f62b792a6e8ad1c2a09f071db7d99dcac8fb1d02645403afe87f06fa96e5f",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_mimics-early_cut",
+      "source": "python_mimics",
+      "recipe": {
+        "name": "early_cut",
+        "intervals": [
+          [
+            0,
+            20
+          ],
+          [
+            50,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_mimics-early_cut.mp4",
+      "sha256": "27e1aefa1af8beed7724bd17cdd23d02b3a5df08994ae74a10eeb3fe1e9999b5",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 20,
+          "source_end": 50,
+          "edit_position": 20.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_mimics-crop_omission",
+      "source": "python_mimics",
+      "recipe": {
+        "name": "crop_omission",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_mimics-crop_omission.mp4",
+      "sha256": "3e198cbe7ff5c3ac81c91291944cba6d08c066505e09fb345625eb225fe74512",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_mimics-audio_only",
+      "source": "python_mimics",
+      "recipe": {
+        "name": "audio_only",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "audio_omission",
+        "audio_gap": [
+          100,
+          130
+        ],
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_mimics-audio_only.mp4",
+      "sha256": "cf6839a7459229cdc55123818d5c41d18b7630c2df9aee8d60d9b29fccb03eab",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100,
+          "modality": "audio"
+        }
+      ]
+    },
+    {
+      "id": "python_mimics-reorder",
+      "source": "python_mimics",
+      "recipe": {
+        "name": "reorder",
+        "intervals": [
+          [
+            150,
+            270
+          ],
+          [
+            0,
+            75
+          ],
+          [
+            75,
+            150
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_mimics-reorder.mp4",
+      "sha256": "cb0d14e002ba2f2822627dfb56138a2008308357745742766d4d1fe38af95098",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_mimics-speed_1_25",
+      "source": "python_mimics",
+      "recipe": {
+        "name": "speed_1_25",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "speed",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_mimics-speed_1_25.mp4",
+      "sha256": "a98388bf9c42a06aa5ea8234f70202a1045c06dc8bed12d939cee8ed5490deb6",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_mimics-crop_benign",
+      "source": "python_mimics",
+      "recipe": {
+        "name": "crop_benign",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_mimics-crop_benign.mp4",
+      "sha256": "ff553be14bb1251d98fbb754c1b0daa0f4e587ebd787aa48ddad3a5e5d5d8ab7",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_mimics-benign_trim",
+      "source": "python_mimics",
+      "recipe": {
+        "name": "benign_trim",
+        "intervals": [
+          [
+            5,
+            265
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_mimics-benign_trim.mp4",
+      "sha256": "9ab30a49c0c51ecd232fc1ba8578a420f8d402d16f2f7c13be11cbb7d54a655f",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_mimics-reencode",
+      "source": "python_mimics",
+      "recipe": {
+        "name": "reencode",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "reencode",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_mimics-reencode.mp4",
+      "sha256": "e8acf8f3b3777b42a2df45de0c59825a31d06f118b86b67a33eb711b057bcbf3",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_feature_flags-middle_cut",
+      "source": "python_feature_flags",
+      "recipe": {
+        "name": "middle_cut",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_feature_flags-middle_cut.mp4",
+      "sha256": "84a0b8f4c7663f18041b20ac0985a57ea6bebd1c12c35f07cb146ebf78764a1c",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_feature_flags-early_cut",
+      "source": "python_feature_flags",
+      "recipe": {
+        "name": "early_cut",
+        "intervals": [
+          [
+            0,
+            20
+          ],
+          [
+            50,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_feature_flags-early_cut.mp4",
+      "sha256": "332103e579fc44e90898e556399a84493122ebd777030b524a9e772af339e098",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 20,
+          "source_end": 50,
+          "edit_position": 20.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_feature_flags-crop_omission",
+      "source": "python_feature_flags",
+      "recipe": {
+        "name": "crop_omission",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_feature_flags-crop_omission.mp4",
+      "sha256": "e9627201c58d86de23a1a99c0f8d69d2d871f90952798a16484180cb916422f2",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_feature_flags-audio_only",
+      "source": "python_feature_flags",
+      "recipe": {
+        "name": "audio_only",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "audio_omission",
+        "audio_gap": [
+          100,
+          130
+        ],
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_feature_flags-audio_only.mp4",
+      "sha256": "972c9c4486e89287cd29fa564434a749f699209caea5a93cffaae516e3158cb8",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100,
+          "modality": "audio"
+        }
+      ]
+    },
+    {
+      "id": "python_feature_flags-reorder",
+      "source": "python_feature_flags",
+      "recipe": {
+        "name": "reorder",
+        "intervals": [
+          [
+            150,
+            270
+          ],
+          [
+            0,
+            75
+          ],
+          [
+            75,
+            150
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_feature_flags-reorder.mp4",
+      "sha256": "e3f05d48417b65a654752897b576e0c1d4da412ab5bb72d04f3f3e9f14ae1c7c",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_feature_flags-speed_1_25",
+      "source": "python_feature_flags",
+      "recipe": {
+        "name": "speed_1_25",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "speed",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_feature_flags-speed_1_25.mp4",
+      "sha256": "8dc26fe849f4ce0398cb1797f2e412089ccee3c04842b684c0180ad23f0e53b3",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_feature_flags-crop_benign",
+      "source": "python_feature_flags",
+      "recipe": {
+        "name": "crop_benign",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_feature_flags-crop_benign.mp4",
+      "sha256": "f5e59d37b12beb6a98d075b1981ef6abf77b551887d47f583b416b3f60d76270",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_feature_flags-benign_trim",
+      "source": "python_feature_flags",
+      "recipe": {
+        "name": "benign_trim",
+        "intervals": [
+          [
+            5,
+            265
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_feature_flags-benign_trim.mp4",
+      "sha256": "4262c6e4f38fc0211447ccac8cd68b388e212fd1f8082183eff88a7aed3887d0",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_feature_flags-reencode",
+      "source": "python_feature_flags",
+      "recipe": {
+        "name": "reencode",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "reencode",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_feature_flags-reencode.mp4",
+      "sha256": "1f3d00925dc6f0d71e33b451610dc6f8cc2e1439a2c9a7072b4b7b08e18bbba7",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_cubicweb-middle_cut",
+      "source": "python_cubicweb",
+      "recipe": {
+        "name": "middle_cut",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_cubicweb-middle_cut.mp4",
+      "sha256": "8df4aaa12023ca5855a4bd47f2abef379d62dba363bce8d68c8cb97bdde4850f",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_cubicweb-early_cut",
+      "source": "python_cubicweb",
+      "recipe": {
+        "name": "early_cut",
+        "intervals": [
+          [
+            0,
+            20
+          ],
+          [
+            50,
+            270
+          ]
+        ],
+        "transform": "none",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_cubicweb-early_cut.mp4",
+      "sha256": "cf1311e01af4cbfca8be42af951786b3e58e47804be7439a6f2d254c9bc64206",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 20,
+          "source_end": 50,
+          "edit_position": 20.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_cubicweb-crop_omission",
+      "source": "python_cubicweb",
+      "recipe": {
+        "name": "crop_omission",
+        "intervals": [
+          [
+            0,
+            100
+          ],
+          [
+            130,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_cubicweb-crop_omission.mp4",
+      "sha256": "28c8b06eaa15e08de52088e37c0e5953c503d5026de22d7a6fc9b43e73fed963",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100.0,
+          "modality": "visual"
+        }
+      ]
+    },
+    {
+      "id": "python_cubicweb-audio_only",
+      "source": "python_cubicweb",
+      "recipe": {
+        "name": "audio_only",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "audio_omission",
+        "audio_gap": [
+          100,
+          130
+        ],
+        "benign": false
+      },
+      "video": "data/real-v1/edits/python_cubicweb-audio_only.mp4",
+      "sha256": "5add00c51571f1e1182f1248490624a735f2848faebe6ec75d9e16097b59a62b",
+      "benign": false,
+      "expected": [
+        {
+          "source_start": 100,
+          "source_end": 130,
+          "edit_position": 100,
+          "modality": "audio"
+        }
+      ]
+    },
+    {
+      "id": "python_cubicweb-reorder",
+      "source": "python_cubicweb",
+      "recipe": {
+        "name": "reorder",
+        "intervals": [
+          [
+            150,
+            270
+          ],
+          [
+            0,
+            75
+          ],
+          [
+            75,
+            150
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_cubicweb-reorder.mp4",
+      "sha256": "eac873c953a3dddd0713282fed9cc4b0d0adda98a5dd92df558bd8dfd87499ca",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_cubicweb-speed_1_25",
+      "source": "python_cubicweb",
+      "recipe": {
+        "name": "speed_1_25",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "speed",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_cubicweb-speed_1_25.mp4",
+      "sha256": "7db758064d053711ae5f88c3c51a1a2b4e9b45c0c33265bb62c9b776ab1bd351",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_cubicweb-crop_benign",
+      "source": "python_cubicweb",
+      "recipe": {
+        "name": "crop_benign",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "crop",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_cubicweb-crop_benign.mp4",
+      "sha256": "0a800111973d76c1d9b5567a69d7c6b8e741cc38e33bfc4ee1a746b1e6bdba40",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_cubicweb-benign_trim",
+      "source": "python_cubicweb",
+      "recipe": {
+        "name": "benign_trim",
+        "intervals": [
+          [
+            5,
+            265
+          ]
+        ],
+        "transform": "none",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_cubicweb-benign_trim.mp4",
+      "sha256": "718d93d60713fd8f8febe20cac8491a2881891e556fa8d7281dadc9f0f6f2164",
+      "benign": true,
+      "expected": []
+    },
+    {
+      "id": "python_cubicweb-reencode",
+      "source": "python_cubicweb",
+      "recipe": {
+        "name": "reencode",
+        "intervals": [
+          [
+            0,
+            270
+          ]
+        ],
+        "transform": "reencode",
+        "benign": true
+      },
+      "video": "data/real-v1/edits/python_cubicweb-reencode.mp4",
+      "sha256": "319256256228de7b0519005fba640cbb30456b21ac3607e6794d30d39d87361c",
+      "benign": true,
+      "expected": []
+    }
+  ]
+}
