@@ -1,5 +1,5 @@
 # HANDOFF (keep under 40 lines; update at end of every session)
-Updated: Sat Oct 31 2026 (Stage 1 of submission task done)
+Updated: Sat Oct 31 2026 ~11:15 IST (submission stages 1-3 + silent video done)
 ## Status
 - Phase: FIX
 - Decision: FIX. Claims audit fixes 1-9 applied (2018a22); real-v1 committed and pushed. Veil dropped (failed its own 90% gate; no rerun on adjusted labels).
@@ -40,3 +40,7 @@ Updated: Sat Oct 31 2026 (Stage 1 of submission task done)
 - gitleaks: 54 commits clean. Internal notes untracked + gitignored (still in history); checklist in docs/SUBMISSION_CHECKLIST.md (not SUBMISSION.md: case-collides with docs/submission.md).
 ## Video (Oct 31)
 - Silent cut built from the live app on :8010: demo-video/out/ (gitignored): context-demo-silent.mp4 (141 s), captions.srt, cue-sheet.md. Build script is in the session scratchpad, not committed. Awaiting narration.wav -> mux, loudness-normalize, <3:00.
+## Wrap (Oct 31)
+- Done: real-v2-muse 2/4 (target 3 missed, reported); README limitations; story.json=script (266 w); SUBMISSION_CHECKLIST.md; internal notes untracked; hero button click-tested (Playwright); silent cut 141 s in demo-video/out/.
+- Failing/open: Stage 1 target missed (hero stays honest case); user has not yet watched the silent cut; committed render in demo-video/renders is stale; README video size/link TBD.
+- Next: user reviews silent cut -> narration.wav -> mux/normalize (<3:00) -> human steps in docs/SUBMISSION_CHECKLIST.md. Deadline Wed Nov 4 22:30 IST.
