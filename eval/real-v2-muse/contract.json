@@ -1,0 +1,25 @@
+{
+  "version": "real-v2-muse",
+  "frozen_before_inference": true,
+  "disclosure": "Scripted cuts (eval/real-v1 recipes, ffmpeg), recorded Muse responses. Not a user study; four clips; n is too small for a rate estimate.",
+  "cases": [
+    "python_kafka-middle_cut",
+    "python_type_safety-middle_cut",
+    "python_unicode-middle_cut",
+    "python_spyql-middle_cut"
+  ],
+  "selection": "Four of the nine real-v1 talks, all with a recovered middle_cut (aligner passed). The three python_async_sqlalchemy misses are excluded as the aligner itself failed there. Chosen before any Muse call and before looking at any Muse output.",
+  "omitted_interval": "The omitted source interval is the aligner's grounded omission for the case (grounded_omissions), not the label. Expected ~100-130 s.",
+  "inputs": "Existing pipeline (backend/context_core/context_pack.py + meta.py, prompt context-review-v5-bounded-frames): source excerpt around the omitted interval (with audio), edited excerpt around the cut, up to three sampled frames per clip. No separate transcript source (Muse Voice returns segment-level timestamps only).",
+  "prompt_policy": "Prompt is not edited for these four clips. If it must change, that is disclosed and a NEW set of four clips is used; these four are then reported as the failed run.",
+  "api_budget": "One call per case (4 total). One retry only for a transport/HTTP error, never for content. Budget cap for the session: 20 calls.",
+  "pass_checks": {
+    "schema": "Response parses as the Interpretation schema with at least one observation.",
+    "timestamps_in_interval": "Every citation to the source clip, converted to source media time, lies inside the aligner's omitted interval (tolerance 0.5 s, the aligner's own timestamp tolerance), and at least one source citation exists. Citations to the edited clip must lie within that clip's bounds.",
+    "no_intent_claims": "No text field matches the intent/misleading pattern: misleading, deceiv*, decepti*, manipulat*, conceal*, hid(e|ing|den), cover(ing)? up, dishonest, intentional(ly), on purpose, agenda, propaganda.",
+    "abstain_when_ungrounded": "If the model cannot ground a claim it must return classification inconclusive; a classification of meaning_changed or harmless_edit without observations from both source and edited clips is downgraded by code and counted as a violation of this check.",
+    "case_pass": "All four checks hold AND the response contains a grounded explanation (at least one in-interval source observation). An honest 'inconclusive' with no grounded observation is recorded as abstained, not as a pass."
+  },
+  "target": "At least 3 of 4 cases pass. Misses reported plainly.",
+  "claims_allowed": "Muse output is a model interpretation with bounds-checked citations; citation content is not independently verified."
+}
