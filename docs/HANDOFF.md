@@ -26,5 +26,5 @@ Updated: Sat Oct 31 2026, ~02:25 IST
 - Option 3 deferred: NASA allowlist in retrieval.py, ablation scripts/docs; revisit after hero bundle if README links to them.
 ## real-v1 (Oct 31)
 - eval/real-v1: 9 FOSDEM 2022 talks, 81 cases. Recall 32/36 = 88.9% (>=80 pass); benign FA 0/45 = 0% (<10 pass). Misses: async_sqlalchemy middle_cut/crop_omission/audio_only, concurrency early_cut. Not pushed.
-- Muse Voice word-timestamp test NOT run: no MODEL_API_KEY in env (.env not read) and no known endpoint. Reports say Meta API gives turn-level only.
+- Muse Voice (POST api.meta.ai/v1/asr/transcribe, multipart request+audio, ENDPOINTING) on one 60 s clip (python_spyql): 2 turns with startMs/endMs only; no word-level fields. Transcript misheard 'SPyQL' as 'Spikewell'.
 - Veil-gate scratch in ~/veil-gate (labels.json frozen, not in repo). No API calls made.
