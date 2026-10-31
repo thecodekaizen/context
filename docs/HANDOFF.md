@@ -1,8 +1,8 @@
 # HANDOFF (keep under 40 lines; update at end of every session)
-Updated: Sat Oct 31 2026, ~02:25 IST
+Updated: Sat Oct 31 2026, ~10:20 IST (pushed: main 5d4b962 + this commit)
 ## Status
 - Phase: FIX
-- Decision: FIX (docs/AUDIT.md). G1/G2/G3/G5 now pass; G6 mostly fixed (README, prose docs, demo script done; story.json not yet). No pivot.
+- Decision: FIX. Claims audit fixes 1-9 applied (2018a22); real-v1 committed and pushed. Veil dropped (failed its own 90% gate; no rerun on adjusted labels).
 ## Done
 - Audit written (docs/AUDIT.md). Tests 172 pass, web build green, eval reproduces (ffmpeg 8.1.2 only).
 - Hero bundle committed (fe01363): eval/hero-v1/ (1.0 MB), results.json derived from fresh run; rebuild: scripts/build_hero_bundle.py.
@@ -15,15 +15,15 @@ Updated: Sat Oct 31 2026, ~02:25 IST
 - Terminal-abstain claim cut (46.3% only in prose docs). Render (11.5 MB) predates script edits: re-render before submit.
 - SAM gate: original run errored on mask parsing; passing figures are the rescored replay (disclosed in README).
 - Open: story.json still matches the old script; domain-admission.md, hero-validation.md, ANTIGRAVITY_HANDOFF.md may still mention hyperfine (unchecked).
-- Mock-judge review (Oct 31, no code change): Muse cites WARM CACHE ONLY at source-excerpt 2-5 s, "Python dictionary..." at 6-7 s. Verify excerpt offset vs demo-script 0:50 line "removed span shows warm cache only"; else reword.
-- Mock-judge: "Muse tied the removed seconds to the limit" overstates; response says "coincides" + "insufficient evidence". Soften in script.
+- Resolved: Muse excerpt offset OK (source excerpt = 4-12 s, so cited 2-5 s = source 6-9 s, inside the cut); script reworded to 'coincide' / 'generic conditions'.
+- Open: story.json narration still differs from docs/demo-script.md (264 words); README video size/release link are TBD until re-render.
 ## Next (ordered)
 1. Click-test hero button in a real browser.
-2. Verify/reword the two script claims above; align story.json to docs/demo-script.md (264 words, 7 segments), re-render video, check remaining hyperfine mentions.
-3. Optional: add one unscripted real clip with committed result; add 10 s abstention moment to demo.
+2. Align story.json to demo-script (264 words, 7 segments), re-render, then restore README video size/link; check remaining hyperfine mentions.
+3. Stopwatch run of script; narrated real clip; one live Muse call to confirm API; claim credits. Deadline Wed Nov 4 22:30 IST.
 ## Facts to not re-derive
 - Hero: eval/hero-v1 (omission found via AUDIO match; visual alone = insufficient_evidence; Muse saw panel text in source only). Clip: cache qualification, 18 s     - Cut interval(s): 6.0-10.0 s (edit at 6.0)     - Eval results file: eval/execution-v1/full-results/results.json
 - Option 3 deferred: NASA allowlist in retrieval.py, ablation scripts/docs; revisit after hero bundle if README links to them.
 ## real-v1 (Oct 31)
-- eval/real-v1: 9 FOSDEM 2022 talks, 81 cases. Recall 32/36 = 88.9% (>=80 pass); benign FA 0/45 = 0% (<10 pass). Misses: async_sqlalchemy middle_cut/crop_omission/audio_only, concurrency early_cut. Not pushed.
+- eval/real-v1: 9 FOSDEM 2022 talks, 81 cases. Recall 32/36 = 88.9% (>=80 pass); benign FA 0/45 = 0% (<10 pass). Misses: async_sqlalchemy middle_cut/crop_omission/audio_only, concurrency early_cut.
 - Muse Voice (POST api.meta.ai/v1/asr/transcribe, multipart request+audio, ENDPOINTING) on one 60 s clip (python_spyql): 2 turns with startMs/endMs only; no word-level fields. Transcript misheard 'SPyQL' as 'Spikewell'.
