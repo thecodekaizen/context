@@ -23,3 +23,13 @@ AUDIT_SUMMARY.md
 .claude/settings.local.json
 eval/real-v1/*.mp4
 eval/real-v1/cases/
+
+# internal notes (kept locally, not published)
+.hackathon/
+ANTIGRAVITY_HANDOFF.md
+CODEX_HANDOFF.md
+docs/ANTIGRAVITY-HANDOFF.md
+docs/CODEX_HANDOFF.md
+docs/handoff-followup.md
+docs/review/
+.claude/settings.local.json

@@ -14,7 +14,7 @@ Updated: Sat Oct 31 2026 (Stage 1 of submission task done)
 - Hero button only API-verified in Docker, never click-tested in a browser.
 - Terminal-abstain claim cut (46.3% only in prose docs). Render (11.5 MB) predates script edits: re-render before submit.
 - SAM gate: original run errored on mask parsing; passing figures are the rescored replay (disclosed in README).
-- Open: story.json still matches the old script; domain-admission.md, hero-validation.md, ANTIGRAVITY_HANDOFF.md may still mention hyperfine (unchecked).
+- (superseded) story.json now aligned in Stage 2.
 - Resolved: Muse excerpt offset OK (source excerpt = 4-12 s, so cited 2-5 s = source 6-9 s, inside the cut); script reworded to 'coincide' / 'generic conditions'.
 - Open: story.json narration still differs from docs/demo-script.md (264 words); README video size/release link are TBD until re-render.
 ## Next (ordered)
@@ -37,4 +37,4 @@ Updated: Sat Oct 31 2026 (Stage 1 of submission task done)
 - /claims: fixed crop attribution (separate fixture), Muse 'excerpt around' wording, README execution-v1 qualifier. No OVERCLAIM left known. Render still predates script: re-render before submit.
 ## Stage 3 (Oct 31)
 - Clean clone (origin 7ff90aa): cold docker build 111 s, ready 0.6 s, hero endpoint 200. Demo path = 2 commands (build, run) + open browser + click hero button (button still not click-tested in a browser).
-- gitleaks: 54 commits clean. Internal files still tracked (CLAUDE.md, .claude/, .hackathon/, handoffs, AUDIT): decision pending, see docs/SUBMISSION.md.
+- gitleaks: 54 commits clean. Internal notes untracked + gitignored (still in history); checklist in docs/SUBMISSION_CHECKLIST.md (not SUBMISSION.md: case-collides with docs/submission.md).
