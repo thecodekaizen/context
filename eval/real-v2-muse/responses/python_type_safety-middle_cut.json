@@ -1,0 +1,159 @@
+{
+  "case": "python_type_safety-middle_cut",
+  "model": "muse-spark-1.2",
+  "usage": {
+    "input_tokens": 14573,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 3725,
+    "output_tokens_details": {
+      "reasoning_tokens": 3338
+    },
+    "total_tokens": 18298
+  },
+  "omitted_interval": [
+    100.0,
+    130.9995
+  ],
+  "clips": [
+    {
+      "id": "source_context",
+      "media": "source",
+      "start": 98.0,
+      "end": 128.0,
+      "omitted_interval_fully_included": false,
+      "sha256": "f6f521d87894fc21b122b5730326410bfb562259f37dc25f62c18ec7357d6a8d",
+      "has_audio": true,
+      "frames": [
+        {
+          "clip_local_seconds": 7.5,
+          "media_seconds": 105.5,
+          "sha256": "b70a2b08f0dd19226a5c332370a98c0371396c48d6fb416f2549a239a71f3664"
+        },
+        {
+          "clip_local_seconds": 15.0,
+          "media_seconds": 113.0,
+          "sha256": "742712561030e862c5419673e2e5b4257dd9271f0b4dd38fe6057700ea055304"
+        },
+        {
+          "clip_local_seconds": 22.5,
+          "media_seconds": 120.5,
+          "sha256": "3fe543602d4dc1968eadd65150b727f8d9e790bf4020e9b4fcd2b4395a3b64c2"
+        }
+      ]
+    },
+    {
+      "id": "published_context",
+      "media": "edited",
+      "start": 97.0,
+      "end": 105.0,
+      "sha256": "4de2c88ae48959699f29aeb291a3988f1a339a045f0461a7ed3c1fa4558b09c5",
+      "has_audio": true,
+      "frames": [
+        {
+          "clip_local_seconds": 2.0,
+          "media_seconds": 99.0,
+          "sha256": "f4edbba4267945b638c27e27bd5ca5b7e6c9e7d4ee19cb0e1e9213eb2d7bb6cd"
+        },
+        {
+          "clip_local_seconds": 4.0,
+          "media_seconds": 101.0,
+          "sha256": "13a927c1c415612393410928c7a5d7293739d17a97db0a2c692e659d0abb76b4"
+        },
+        {
+          "clip_local_seconds": 6.0,
+          "media_seconds": 103.0,
+          "sha256": "80d9842d3c5e1f5774f7fe8aa760f993608a09c78ca021e6053599cdff012511"
+        }
+      ]
+    }
+  ],
+  "interpretation": {
+    "classification": "inconclusive",
+    "observations": [
+      {
+        "text": "Source excerpt shows a slide titled 'Motivation - wrong type' listing Sentry TypeError messages including count must be int and string indices must be integers",
+        "citations": [
+          {
+            "clip_id": "source_context",
+            "start": 7.0,
+            "end": 8.0,
+            "media": "source",
+            "media_start": 105.0,
+            "media_end": 106.0
+          },
+          {
+            "clip_id": "source_context",
+            "start": 15.0,
+            "end": 16.0,
+            "media": "source",
+            "media_start": 113.0,
+            "media_end": 114.0
+          }
+        ]
+      },
+      {
+        "text": "Published excerpt shows the same slide titled 'Motivation - wrong type' with the same Sentry TypeError listings",
+        "citations": [
+          {
+            "clip_id": "published_context",
+            "start": 2.0,
+            "end": 3.0,
+            "media": "edited",
+            "media_start": 99.0,
+            "media_end": 100.0
+          }
+        ]
+      },
+      {
+        "text": "Source excerpt shows a slide titled 'Motivation - None' listing Sentry errors about 'NoneType' and a graphic with text Wild 'NoneType' appeared!",
+        "citations": [
+          {
+            "clip_id": "source_context",
+            "start": 22.0,
+            "end": 23.0,
+            "media": "source",
+            "media_start": 120.0,
+            "media_end": 121.0
+          }
+        ]
+      },
+      {
+        "text": "Published excerpt shows the same slide titled 'Motivation - None' with the same 'NoneType' error listings and the same Wild 'NoneType' appeared! graphic",
+        "citations": [
+          {
+            "clip_id": "published_context",
+            "start": 4.0,
+            "end": 5.0,
+            "media": "edited",
+            "media_start": 101.0,
+            "media_end": 102.0
+          },
+          {
+            "clip_id": "published_context",
+            "start": 6.0,
+            "end": 7.0,
+            "media": "edited",
+            "media_start": 103.0,
+            "media_end": 104.0
+          }
+        ]
+      }
+    ],
+    "possible_effect": "The deterministically omitted audio interval might have contained spoken explanation that qualifies the wrong type examples as sharing an unexpected type. Its reduction to a brief retained segment might reduce explanatory context for a viewer relying on narration, but the visible slide titles, error texts, and peripheral panels appear unchanged in the sparse sampled frames, so a material change to an expressed claim or qualification cannot be grounded from the bounded excerpts alone.",
+    "uncertainty": "Sparse explicitly timed frames cannot prove presence or absence of a qualification throughout an entire clip, omitted interval is not fully included within the bounded source window, soundtrack correspondence alone does not establish identical images or editorial intent, and frame observations remain model interpretations not authenticated by acoustic grounding."
+  },
+  "checks": {
+    "schema": true,
+    "timestamps_in_interval": true,
+    "no_intent_claims": true,
+    "abstains_when_ungrounded": true,
+    "case_pass": true
+  },
+  "check_detail": {
+    "out_of_interval_citations": [],
+    "intent_matches": []
+  },
+  "disclosure": "scripted cuts, recorded responses"
+}

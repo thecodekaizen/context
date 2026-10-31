@@ -1,0 +1,189 @@
+{
+  "case": "python_kafka-middle_cut",
+  "model": "muse-spark-1.2",
+  "usage": {
+    "input_tokens": 14559,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 3706,
+    "output_tokens_details": {
+      "reasoning_tokens": 3282
+    },
+    "total_tokens": 18265
+  },
+  "omitted_interval": [
+    99.0,
+    130.0
+  ],
+  "clips": [
+    {
+      "id": "source_context",
+      "media": "source",
+      "start": 97.0,
+      "end": 127.0,
+      "omitted_interval_fully_included": false,
+      "sha256": "bb04c1a3416fe267dacddf50d08fcc992c56b299b11ddb8ba52d7e23e9cbe707",
+      "has_audio": true,
+      "frames": [
+        {
+          "clip_local_seconds": 7.5,
+          "media_seconds": 104.5,
+          "sha256": "5a02777efc87b2e3a86099843c92f18d3d0d0f6572013c94427545980a0a708e"
+        },
+        {
+          "clip_local_seconds": 15.0,
+          "media_seconds": 112.0,
+          "sha256": "c822eaa76c1d64563b1bd3d00f5424643da3038ea0b555c3435b7761ebaf0a35"
+        },
+        {
+          "clip_local_seconds": 22.5,
+          "media_seconds": 119.5,
+          "sha256": "b93352f12108df61ef295856abf65851182b0d5e090fe4f48d20ca8cd18f56b7"
+        }
+      ]
+    },
+    {
+      "id": "published_context",
+      "media": "edited",
+      "start": 96.0,
+      "end": 104.0,
+      "sha256": "7d655573d6a17f5afece9bbff634b1a120ef951758ae9497c85fe4a768bdf925",
+      "has_audio": true,
+      "frames": [
+        {
+          "clip_local_seconds": 2.0,
+          "media_seconds": 98.0,
+          "sha256": "b9d6cd7c85507847158fd55faa4d7fc98b887790d756f91a73ca90fad008db67"
+        },
+        {
+          "clip_local_seconds": 4.0,
+          "media_seconds": 100.0,
+          "sha256": "d2e3bdc3256db9285991307a2302c1fb062bae5287fb028d149c2a8b3eeab138"
+        },
+        {
+          "clip_local_seconds": 6.0,
+          "media_seconds": 102.0,
+          "sha256": "1f64234bb40b06922f0bae96880d234cefe098a0fb3d26317cd92ef75efce798"
+        }
+      ]
+    }
+  ],
+  "interpretation": {
+    "classification": "inconclusive",
+    "observations": [
+      {
+        "text": "Both bounded excerpts show a Jupyter notebook interface with a tab labeled Producer.ipynb and a placeholder for Untitled.ipynb and a footer URL and handle text in the lower margin",
+        "citations": [
+          {
+            "clip_id": "source_context",
+            "start": 7.0,
+            "end": 8.0,
+            "media": "source",
+            "media_start": 104.0,
+            "media_end": 105.0
+          },
+          {
+            "clip_id": "published_context",
+            "start": 2.0,
+            "end": 3.0,
+            "media": "edited",
+            "media_start": 98.0,
+            "media_end": 99.0
+          }
+        ]
+      },
+      {
+        "text": "Both bounded excerpts show a speaker inset in the lower right corner against a blue-purple background",
+        "citations": [
+          {
+            "clip_id": "source_context",
+            "start": 7.0,
+            "end": 8.0,
+            "media": "source",
+            "media_start": 104.0,
+            "media_end": 105.0
+          },
+          {
+            "clip_id": "published_context",
+            "start": 6.0,
+            "end": 7.0,
+            "media": "edited",
+            "media_start": 102.0,
+            "media_end": 103.0
+          }
+        ]
+      },
+      {
+        "text": "Source excerpt sparse frame shows a slide with heading Why Apache Kafka alongside a line drawing of a hand gesture",
+        "citations": [
+          {
+            "clip_id": "source_context",
+            "start": 15.0,
+            "end": 16.0,
+            "media": "source",
+            "media_start": 112.0,
+            "media_end": 113.0
+          }
+        ]
+      },
+      {
+        "text": "Published excerpt sparse frames show two stylized Python logos, one with yellow radiating lines and one with spider webs and spiders, not sampled in source excerpt sparse frames",
+        "citations": [
+          {
+            "clip_id": "published_context",
+            "start": 6.0,
+            "end": 7.0,
+            "media": "edited",
+            "media_start": 102.0,
+            "media_end": 103.0
+          }
+        ]
+      },
+      {
+        "text": "Audio track is present in both bounded windows but no complete claim or qualification text is legibly readable in the sampled frames to compare across both excerpts",
+        "citations": [
+          {
+            "clip_id": "source_context",
+            "start": 0.0,
+            "end": 1.0,
+            "media": "source",
+            "media_start": 97.0,
+            "media_end": 98.0
+          },
+          {
+            "clip_id": "published_context",
+            "start": 0.0,
+            "end": 1.0,
+            "media": "edited",
+            "media_start": 96.0,
+            "media_end": 97.0
+          }
+        ]
+      }
+    ],
+    "possible_effect": "The supplied audio omission covers part of the discussion about why to care about Apache Kafka and the two situations described, so removing it might change interpretation of a recommendation or its scope, but within these short bounded excerpts no material claim or qualification is fully visible in both videos to confirm a change, so any effect is speculative",
+    "uncertainty": "Omitted interval is not fully included within the provided windows, sampling is sparse and at low temporal density so absence in frames cannot be proven across entire clips, acoustic correspondence does not authenticate image content, and frame observations remain model interpretations; evidence is insufficient to determine harmless versus meaning change"
+  },
+  "checks": {
+    "schema": true,
+    "timestamps_in_interval": false,
+    "no_intent_claims": true,
+    "abstains_when_ungrounded": true,
+    "case_pass": false
+  },
+  "check_detail": {
+    "out_of_interval_citations": [
+      {
+        "clip_id": "source_context",
+        "start": 0.0,
+        "end": 1.0,
+        "media": "source",
+        "media_start": 97.0,
+        "media_end": 98.0
+      }
+    ],
+    "intent_matches": []
+  },
+  "disclosure": "scripted cuts, recorded responses"
+}

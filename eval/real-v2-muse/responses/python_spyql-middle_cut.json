@@ -1,0 +1,169 @@
+{
+  "case": "python_spyql-middle_cut",
+  "model": "muse-spark-1.2",
+  "usage": {
+    "input_tokens": 14557,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 3992,
+    "output_tokens_details": {
+      "reasoning_tokens": 3500
+    },
+    "total_tokens": 18549
+  },
+  "omitted_interval": [
+    100.0,
+    129.9995
+  ],
+  "clips": [
+    {
+      "id": "source_context",
+      "media": "source",
+      "start": 98.0,
+      "end": 128.0,
+      "omitted_interval_fully_included": false,
+      "sha256": "22028a81d9449fc60f266463376eec4ac42703b8b22b4819a2f578e400f0fe93",
+      "has_audio": true,
+      "frames": [
+        {
+          "clip_local_seconds": 7.5,
+          "media_seconds": 105.5,
+          "sha256": "bc5772d3154350c4ad3afe602cf37a910d591030595446b4848612ccac0d3e09"
+        },
+        {
+          "clip_local_seconds": 15.0,
+          "media_seconds": 113.0,
+          "sha256": "1c16da8cba10bc5ab23a8128cefa63ffffad83e6eb343bbeedc0018ed7757a91"
+        },
+        {
+          "clip_local_seconds": 22.5,
+          "media_seconds": 120.5,
+          "sha256": "cc78140b5919d2eecc6480221bd9739ce84cf50d8a8fcc552ed8378997e01340"
+        }
+      ]
+    },
+    {
+      "id": "published_context",
+      "media": "edited",
+      "start": 96.0,
+      "end": 104.0,
+      "sha256": "b75fb209a4be6d6a1ab76d9e19638229ab95c2385855ba5da1f895efc62bda9e",
+      "has_audio": true,
+      "frames": [
+        {
+          "clip_local_seconds": 2.0,
+          "media_seconds": 98.0,
+          "sha256": "ddbeaa2300216efcf3baf4da53d1cca9496ef7f9287566506c40c3be91f41f5a"
+        },
+        {
+          "clip_local_seconds": 4.0,
+          "media_seconds": 100.0,
+          "sha256": "4b6baad218fc408f2adaf5e89c2ada98a6bc3c4b96bac50d8c99de057d194202"
+        },
+        {
+          "clip_local_seconds": 6.0,
+          "media_seconds": 102.0,
+          "sha256": "44897e65a6cf8a308d4e499dd95d3a923648014f347fc51aad68d40282063e6e"
+        }
+      ]
+    }
+  ],
+  "interpretation": {
+    "classification": "inconclusive",
+    "observations": [
+      {
+        "text": "source excerpt shows slide titled 'SQL with Python in the Middle' with spyql command selecting getpass.getuser() as author, date.today() as date, 'FOSDEM' as conference to pretty and result row author dcmoura date 2022-02-06 conference FOSDEM",
+        "citations": [
+          {
+            "clip_id": "source_context",
+            "start": 7.0,
+            "end": 8.0,
+            "media": "source",
+            "media_start": 105.0,
+            "media_end": 106.0
+          }
+        ]
+      },
+      {
+        "text": "published excerpt shows same slide title and same spyql command with identical author/date/conference row",
+        "citations": [
+          {
+            "clip_id": "published_context",
+            "start": 2.0,
+            "end": 3.0,
+            "media": "edited",
+            "media_start": 98.0,
+            "media_end": 99.0
+          }
+        ]
+      },
+      {
+        "text": "source excerpt later shows shell pipeline http to fosdem event url piped through pup head meta name DC.Title attr content piped to spyql IMPORT getpass SELECT col1 AS title, getpass.getuser() AS author, date.today() AS date FROM text TO json piped to jq with JSON output containing title SPyQL - SQL with Python in the middle, author dcmoura, date 2022-02-06",
+        "citations": [
+          {
+            "clip_id": "source_context",
+            "start": 15.0,
+            "end": 16.0,
+            "media": "source",
+            "media_start": 113.0,
+            "media_end": 114.0
+          }
+        ]
+      },
+      {
+        "text": "published excerpt shows same http pup spyql jq pipeline and same JSON output with title, author and date fields",
+        "citations": [
+          {
+            "clip_id": "published_context",
+            "start": 6.0,
+            "end": 7.0,
+            "media": "edited",
+            "media_start": 102.0,
+            "media_end": 103.0
+          }
+        ]
+      },
+      {
+        "text": "source audio includes speaker describing getting the title from the FOSDEM page using http to fetch HTML and pup to extract the title before spyql",
+        "citations": [
+          {
+            "clip_id": "source_context",
+            "start": 5.0,
+            "end": 16.0,
+            "media": "source",
+            "media_start": 103.0,
+            "media_end": 114.0
+          }
+        ]
+      },
+      {
+        "text": "published audio within the overlapping window includes speaker referring to a query very similar to the one before",
+        "citations": [
+          {
+            "clip_id": "published_context",
+            "start": 0.0,
+            "end": 4.0,
+            "media": "edited",
+            "media_start": 96.0,
+            "media_end": 100.0
+          }
+        ]
+      }
+    ],
+    "possible_effect": "The omitted audio could contain further explanation of the pipeline steps; within the bounded excerpts no material claim or qualification is shown to be added or removed that would change interpretation of the demo, but evidence is insufficient to determine whether the unseen portion outside the short published window contained a qualifying statement",
+    "uncertainty": "omitted interval is not fully included in the source excerpt and published excerpt ends before most of the omitted interval; sparse frames cannot prove absence or presence of on-screen qualifications throughout entire clips; acoustic grounding establishes soundtrack correspondence only and does not authenticate images or editorial intent"
+  },
+  "checks": {
+    "schema": true,
+    "timestamps_in_interval": true,
+    "no_intent_claims": true,
+    "abstains_when_ungrounded": true,
+    "case_pass": true
+  },
+  "check_detail": {
+    "out_of_interval_citations": [],
+    "intent_matches": []
+  },
+  "disclosure": "scripted cuts, recorded responses"
+}

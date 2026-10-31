@@ -1,0 +1,62 @@
+{
+  "contract_sha256": "24495e28cee6e2ecd88731e8001c3e7092030b42abca32943bd97468c1acb4ed",
+  "disclosure": "scripted cuts, recorded responses; 4 clips, not a rate estimate",
+  "n_cases": 4,
+  "n_passed": 2,
+  "target": 3,
+  "target_met": false,
+  "cases": [
+    {
+      "id": "python_kafka-middle_cut",
+      "omitted_interval": [
+        99.0,
+        130.0
+      ],
+      "classification": "inconclusive",
+      "schema": true,
+      "timestamps_in_interval": false,
+      "no_intent_claims": true,
+      "abstains_when_ungrounded": true,
+      "case_pass": false
+    },
+    {
+      "id": "python_type_safety-middle_cut",
+      "omitted_interval": [
+        100.0,
+        130.9995
+      ],
+      "classification": "inconclusive",
+      "schema": true,
+      "timestamps_in_interval": true,
+      "no_intent_claims": true,
+      "abstains_when_ungrounded": true,
+      "case_pass": true
+    },
+    {
+      "id": "python_unicode-middle_cut",
+      "omitted_interval": [
+        100.0,
+        129.9995
+      ],
+      "classification": "inconclusive",
+      "schema": true,
+      "timestamps_in_interval": false,
+      "no_intent_claims": true,
+      "abstains_when_ungrounded": true,
+      "case_pass": false
+    },
+    {
+      "id": "python_spyql-middle_cut",
+      "omitted_interval": [
+        100.0,
+        129.9995
+      ],
+      "classification": "inconclusive",
+      "schema": true,
+      "timestamps_in_interval": true,
+      "no_intent_claims": true,
+      "abstains_when_ungrounded": true,
+      "case_pass": true
+    }
+  ]
+}

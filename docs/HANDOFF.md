@@ -1,5 +1,5 @@
 # HANDOFF (keep under 40 lines; update at end of every session)
-Updated: Sat Oct 31 2026, ~10:20 IST (pushed: main 5d4b962 + this commit)
+Updated: Sat Oct 31 2026 (Stage 1 of submission task done)
 ## Status
 - Phase: FIX
 - Decision: FIX. Claims audit fixes 1-9 applied (2018a22); real-v1 committed and pushed. Veil dropped (failed its own 90% gate; no rerun on adjusted labels).
@@ -27,3 +27,8 @@ Updated: Sat Oct 31 2026, ~10:20 IST (pushed: main 5d4b962 + this commit)
 ## real-v1 (Oct 31)
 - eval/real-v1: 9 FOSDEM 2022 talks, 81 cases. Recall 32/36 = 88.9% (>=80 pass); benign FA 0/45 = 0% (<10 pass). Misses: async_sqlalchemy middle_cut/crop_omission/audio_only, concurrency early_cut.
 - Muse Voice (POST api.meta.ai/v1/asr/transcribe, multipart request+audio, ENDPOINTING) on one 60 s clip (python_spyql): 2 turns with startMs/endMs only; no word-level fields. Transcript misheard 'SPyQL' as 'Spikewell'.
+## real-v2-muse (Stage 1, Oct 31; scripted cuts, recorded responses)
+- Contract frozen first (b3df6e5). 4 middle_cut cases, 4 Muse calls total (0 retries), prompt unchanged. Operator (Vishnu Sharma) reviewed the 8 files; reviews recorded via review_content.py.
+- Result: 2/4 pass (target 3 NOT met). Passed: type_safety, spyql. Missed: kafka (cited source 97-98 s, in the 2 s margin before the omitted 99-130 s), unicode (cited the whole 98-128 s excerpt, outside 100-130). All 4 classified inconclusive; no intent claims.
+- Muse Voice: segment-level startMs/endMs only, no word timestamps; not wired.
+- Next: Stage 2. Hero stays honest (do not claim Stage 1 passed). Any prompt change needs 4 NEW clips + disclosure.

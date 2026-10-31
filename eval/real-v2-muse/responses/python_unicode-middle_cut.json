@@ -1,0 +1,194 @@
+{
+  "case": "python_unicode-middle_cut",
+  "model": "muse-spark-1.2",
+  "usage": {
+    "input_tokens": 14578,
+    "input_tokens_details": {
+      "cached_tokens": 227
+    },
+    "output_tokens": 4046,
+    "output_tokens_details": {
+      "reasoning_tokens": 3541
+    },
+    "total_tokens": 18624
+  },
+  "omitted_interval": [
+    100.0,
+    129.9995
+  ],
+  "clips": [
+    {
+      "id": "source_context",
+      "media": "source",
+      "start": 98.0,
+      "end": 128.0,
+      "omitted_interval_fully_included": false,
+      "sha256": "4b8e58b51b27e5acc76e23f4b7783d08f4e90914d687766e180f5aa59c83b268",
+      "has_audio": true,
+      "frames": [
+        {
+          "clip_local_seconds": 7.5,
+          "media_seconds": 105.5,
+          "sha256": "6c4a03b9d89d892c8c50ddfbe22b8abcb40e242b0f9a61d3c1499a7e592e7f39"
+        },
+        {
+          "clip_local_seconds": 15.0,
+          "media_seconds": 113.0,
+          "sha256": "3bd2f95de0097ffc772f020f9fad9d68522da3d9b7bd9009a779ccad7c55e90d"
+        },
+        {
+          "clip_local_seconds": 22.5,
+          "media_seconds": 120.5,
+          "sha256": "0a9535069842ae346a59307b4ea810b03f4bfe3eaf5e27336abc07dd34bd6266"
+        }
+      ]
+    },
+    {
+      "id": "published_context",
+      "media": "edited",
+      "start": 96.0,
+      "end": 104.0,
+      "sha256": "de53bf8fc9f8c6f617aa8358e794fc41618625b4c84f8f3c965f83dc7e7ed80f",
+      "has_audio": true,
+      "frames": [
+        {
+          "clip_local_seconds": 2.0,
+          "media_seconds": 98.0,
+          "sha256": "b5342e02528616778754e3514045df2e304dfbeca35a0a392be2ffd1f8981da1"
+        },
+        {
+          "clip_local_seconds": 4.0,
+          "media_seconds": 100.0,
+          "sha256": "6514822b87a88171b6fc014e2575de06a4f1ea42231a74d31ea1ed3fef94d907"
+        },
+        {
+          "clip_local_seconds": 6.0,
+          "media_seconds": 102.0,
+          "sha256": "b6b1680fc83da0d59e291f4dfd473835554a6c4014d49868bc1e1d7657e89cf8"
+        }
+      ]
+    }
+  ],
+  "interpretation": {
+    "classification": "inconclusive",
+    "observations": [
+      {
+        "text": "Source excerpt displays an Outline slide titled Outline with three lines Glyphs, Bidi and Mitigation and page number 2 in the corner",
+        "citations": [
+          {
+            "clip_id": "source_context",
+            "start": 7.5,
+            "end": 8.5,
+            "media": "source",
+            "media_start": 105.5,
+            "media_end": 106.5
+          },
+          {
+            "clip_id": "source_context",
+            "start": 15.0,
+            "end": 16.0,
+            "media": "source",
+            "media_start": 113.0,
+            "media_end": 114.0
+          }
+        ]
+      },
+      {
+        "text": "Published excerpt displays the same Outline slide with identical three lines Glyphs, Bidi and Mitigation and page number 2",
+        "citations": [
+          {
+            "clip_id": "published_context",
+            "start": 2.0,
+            "end": 3.0,
+            "media": "edited",
+            "media_start": 98.0,
+            "media_end": 99.0
+          },
+          {
+            "clip_id": "published_context",
+            "start": 4.0,
+            "end": 5.0,
+            "media": "edited",
+            "media_start": 100.0,
+            "media_end": 101.0
+          }
+        ]
+      },
+      {
+        "text": "Source excerpt later displays a Homoglyphs slide featuring cartoon characters and large text about replacing semicolons with Greek question marks and watching the programmer go crazy, with caption That's the evilest thing I can imagine",
+        "citations": [
+          {
+            "clip_id": "source_context",
+            "start": 22.5,
+            "end": 23.5,
+            "media": "source",
+            "media_start": 120.5,
+            "media_end": 121.5
+          }
+        ]
+      },
+      {
+        "text": "Published excerpt also displays the same Homoglyphs meme slide with identical text and caption",
+        "citations": [
+          {
+            "clip_id": "published_context",
+            "start": 6.0,
+            "end": 7.0,
+            "media": "edited",
+            "media_start": 102.0,
+            "media_end": 103.0
+          }
+        ]
+      },
+      {
+        "text": "Source excerpt audio contains a hedged qualification describing mitigation approaches as ways which can be of some possible help to identify special characters that can make text look like something it is not, followed by an introduction to the Glyphs section",
+        "citations": [
+          {
+            "clip_id": "source_context",
+            "start": 0.0,
+            "end": 30.0,
+            "media": "source",
+            "media_start": 98.0,
+            "media_end": 128.0
+          }
+        ]
+      },
+      {
+        "text": "Within the bounded published excerpt the audio at the corresponding position does not contain that hedged qualification and proceeds directly from outline-related speech to discussion of Greek question marks and the meme",
+        "citations": [
+          {
+            "clip_id": "published_context",
+            "start": 0.0,
+            "end": 8.0,
+            "media": "edited",
+            "media_start": 96.0,
+            "media_end": 104.0
+          }
+        ]
+      }
+    ],
+    "possible_effect": "If the hedged qualification that mitigation is only some possible help is not presented, the mitigation portion of the outline could be interpreted as more definitive or guaranteed rather than limited and partial, but the bounded excerpts do not show whether that qualification reappears elsewhere.",
+    "uncertainty": "Omitted interval is not fully included in the provided bounded clips, durations are short, sparse frames cannot prove absence throughout an entire clip, and soundtrack correspondence does not establish identical images or editorial intent, so evidence is insufficient to confirm a persistent material change."
+  },
+  "checks": {
+    "schema": true,
+    "timestamps_in_interval": false,
+    "no_intent_claims": true,
+    "abstains_when_ungrounded": true,
+    "case_pass": false
+  },
+  "check_detail": {
+    "out_of_interval_citations": [
+      {
+        "clip_id": "source_context",
+        "start": 0.0,
+        "end": 30.0,
+        "media": "source",
+        "media_start": 98.0,
+        "media_end": 128.0
+      }
+    ],
+    "intent_matches": []
+  },
+  "disclosure": "scripted cuts, recorded responses"
+}
