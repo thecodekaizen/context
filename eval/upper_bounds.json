@@ -1,0 +1,17 @@
+{
+  "method": "Rule of three: with 0 false alarms in n benign cases, the 95% upper bound on the false-alarm rate is about 3/n. Scripted edits only; assumes independent cases, which these (several recipes per source) are not, so treat as indicative.",
+  "suites": {
+    "execution-v1": {
+      "results_file": "eval/execution-v1/full-results/results.json",
+      "benign_cases": 18,
+      "false_alarms": 0,
+      "upper_bound_95": 0.1667
+    },
+    "real-v1": {
+      "results_file": "eval/real-v1/results.json",
+      "benign_cases": 45,
+      "false_alarms": 0,
+      "upper_bound_95": 0.0667
+    }
+  }
+}

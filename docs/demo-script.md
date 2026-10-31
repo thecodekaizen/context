@@ -16,15 +16,15 @@ Every number comes from `eval/hero-v1/results.json`,
 
 > CONTEXT lines the two recordings up and finds a gap: four seconds, from six to ten. It found the cut by matching the audio. Matching the picture alone wasn't enough on this clip. The boundary error against the known cut is zero seconds.
 
-## 0:50–1:30 | See what was removed (42 words)
-**On screen:** Dual player locked. Click the finding; source plays 6–10 s with the full conditions panel: "WARM CACHE ONLY", "COLD-START SETUP IS EXCLUDED", "Cold setup: 0.83 ms". Then the edit's sampled frames, showing only a shorter conditions panel.
+## 0:50–1:30 | See what was removed (40 words)
+**On screen:** Dual player locked. Click the finding; source plays 6–10 s with the full conditions panel: "WARM CACHE ONLY", "COLD-START SETUP IS EXCLUDED", "Cold setup: 0.83 ms". Then the edit's sampled frames, showing only generic conditions.
 
-> Both players move together. Click the finding, and the raw recording plays the missing four seconds. On screen there: warm cache only, cold-start setup excluded, cold setup zero point eight three milliseconds. The edit's sampled frames show only a shorter conditions panel.
+> Both players move together. Click the finding, and the raw recording plays the missing four seconds. On screen there: warm cache only, cold-start setup excluded, cold setup zero point eight three milliseconds. The edit's sampled frames show only generic conditions.
 
-## 1:30–2:00 | Muse reads it, the human decides (59 words)
+## 1:30–2:00 | Muse reads it, the human decides (61 words)
 **On screen:** Muse panel labeled "Saved response, not re-run": observation, possible effect, classification **inconclusive**. Then a reviewer-decision row.
 
-> Meta's Muse Spark 1.2 reads the frames in that matched interval. Alignment and crop measurement are deterministic. Muse tied the removed seconds to the warm-cache-only limit. If that qualification is missing, it says the zero point zero zero nine microsecond figure could read as a general, end-to-end speedup. It reports inconclusive. Saved response, not run live. The human decides.
+> Meta's Muse Spark 1.2 reads the frames in that matched interval. Alignment and crop measurement are deterministic. Muse notes that the removed seconds coincide with the warm-cache-only qualification. If that qualification is missing, it says the zero point zero zero nine microsecond figure could read as a general, end-to-end speedup. It reports inconclusive. Saved response, not run live. The human decides.
 
 ## 2:00–2:25 | The crop (33 words)
 **On screen:** Calipers: 1280×720 source, 960×720 retained, right margin shaded. "25% of frame removed · OpenCV geometry".

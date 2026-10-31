@@ -10,16 +10,15 @@ A local video evidence workstation. Trace a published edit to a provided source,
 reveal missing footage, and inspect timestamped Meta AI interpretation.
 
 > 🎬 **Watch the 3-Minute Master Demo Video:**  
-> - **In Repository:** [`demo-video/renders/context-demo-3min.mp4`](demo-video/renders/context-demo-3min.mp4) (180 s, 1080p, 11.5 MB)  
-> - **GitHub Web Player:** [Watch on GitHub](https://github.com/thecodekaizen/context/blob/main/demo-video/renders/context-demo-3min.mp4)  
-> - **Direct Download (Release v1.0.0):** [context-demo-3min.mp4](https://github.com/thecodekaizen/context/releases/download/v1.0.0/context-demo-3min.mp4)  
+> - **In Repository:** [`demo-video/renders/context-demo-3min.mp4`](demo-video/renders/context-demo-3min.mp4) (render predates the latest script edits; size TBD, re-render pending)  
+> - **Release download:** TBD (no release published yet)  
 > - **Narration Script:** [`docs/demo-script.md`](docs/demo-script.md)
 
 ![CONTEXT Dual-Player Evidence Workstation](docs/screenshots/02-dual-player-omission.png)
 
 ## Architecture
 
-Deterministic first. The aligner (4 Hz spatial color sequence matching via `spatial-color-sequence-v2` and normalized acoustic cross-correlation) finds and timestamps the omissions it can align. The Meta model may **ONLY** explain an omission tied to a matched source interval. If the aligner finds no correspondence, the output is strictly `"no material omission"` with an abstention limitation. The model never discovers or invents an omission independently of grounding.
+Deterministic first. The aligner (4 Hz spatial color sequence matching via `spatial-color-sequence-v2` and normalized acoustic cross-correlation) finds and timestamps the omissions it can align. The Meta model may **ONLY** explain an omission tied to a matched source interval. If the aligner finds no correspondence, the output is strictly `"no material omission"` with an abstention limitation. The model is not asked to discover omissions, and its output is rejected if it cites anything outside the grounded evidence.
 
 Output evidence JSON per omission:
 `{source_start, source_end, edit_position, confidence, matched_evidence, explanation}`.
@@ -81,7 +80,7 @@ flowchart TD
   - *The Footage:* Authored technical illustration displaying actual local microtimings (cold setup 0.83 ms; dictionary lookup 0.009 µs). A conditions panel at seconds 6–10 explicitly discloses `"WARM CACHE ONLY"`, `"COLD-START SETUP IS EXCLUDED"`, and `"Not an end-to-end speedup claim"`.
   - *The Temporal Edit:* Excises source seconds `00:06.000` to `00:10.000`, removing the qualification while leaving the measured lookup figure intact.
   - *The Detection:* The aligner recovers the exact 6–10 s deletion at edit position 6.000 s through **audio matching**; visual matching alone returned `insufficient_evidence` (`eval/hero-v1/results.json`). The soundtrack is a synthetic tone, so audio correspondence does not authenticate images.
-  - *The Interpretation:* Sampled frames from the bounded source and edit excerpts went to **Meta Muse Spark 1.2**. The committed response is a **saved recording** (`eval/hero-v1/muse/response.json`), not a live re-run. Muse reads the qualification in source frames only, notes generic conditions in edited samples, and reports `inconclusive` on whether the qualification disappeared.
+  - *The Interpretation:* Bounded video excerpts of the source and edit, plus sparse timed frames from the same windows, went to **Meta Muse Spark 1.2**. The committed response is a **saved recording** (`eval/hero-v1/muse/response.json`), not a live re-run. Muse reads the qualification in source frames only, notes generic conditions in edited samples, and reports `inconclusive` on whether the qualification disappeared.
 
 ---
 
@@ -89,7 +88,7 @@ flowchart TD
 ![Spatial Crop Calipers (OpenCV geometry)](docs/screenshots/03-spatial-crop-sam.png)
 
 - **Purpose:** Detects spatial reframing, aspect-ratio crops, and peripheral panel omissions.
-- **Real Run / Real Use Case:** **Cache Conditions Panel Spatial Cut**
+- **Real Run / Authored Case:** **Cache Conditions Panel Spatial Cut**
   - *The Edit:* Retains `[0, 0, 960, 720]` of a `1280×720` frame, shaving off the rightmost 25% margin containing the test conditions panel.
   - *The Detection:* Deterministic OpenCV multi-scale template matching identifies the exact retained box and highlights omitted margins with HUD calipers.
   - *Meta SAM 3.1 Status:* SAM 3.1 is an experimental segmentation model. A frozen 10-crop chart-bar experiment passes on replay of saved responses (mean pixel recall 0.9995, mean IoU 0.844; `eval/execution-v1/sam-gate/rescored-results/results.json`); the original scoring run errored on mask parsing (`sam-gate/results/results.json`). On the cache qualification hero clip SAM returned zero masks (`eval/hero-v1/results.json`). Operational margin shading is computed strictly by deterministic OpenCV geometry.
@@ -100,7 +99,7 @@ flowchart TD
 ![Evaluation Matrix Hub](docs/screenshots/04-evaluation-matrix.png)
 
 - **Purpose:** Transparency and reproducibility scorecard for frozen fixtures.
-- **Real Run / Real Use Case:** **30-Edit Benchmark Suite & 18 Benign Controls** (`eval/execution-v1/full-results/results.json`)
+- **Real Run / Authored Case:** **30-Edit Scripted Benchmark Suite & 18 Benign Controls** (`eval/execution-v1/full-results/results.json`)
   - Evaluates 30 scripted FFmpeg edits across 3 CC0 benchmark videos (`sort.mp4`, `cache.mp4`, `serialize.mp4`) across 10 recipes.
   - **Empirical Results:** `100% Interval Recall` (15/15 intervals recovered across 12 positive cases), `0.0s Boundary Error`, `0.0% Benign False Alarms` across 18 benign controls (speedups, trims, subtitles, compression, reorder, benign crop). All edits are scripted cuts of authored benchmark recordings, not field footage.
   - **Scope disclosed:** results say nothing about unscripted edits; real-world noise differs from scripted cuts.
@@ -111,7 +110,7 @@ flowchart TD
 ![Workbench Intake Surface](docs/screenshots/01-workbench-intake.png)
 
 - **Purpose:** Single-input intake for candidate published edits, operator-reviewed technical catalog lookup, and domain policy enforcement.
-- **Real Run / Real Use Case:** **Single-Edit Investigation**
+- **Real Run / Authored Case:** **Single-Edit Investigation**
   - Users submit an edited video. The pipeline verifies content admission against the domain policy (developer tutorials, benchmarks, product claims).
   - Catalog retrieval compares admitted candidates deterministically.
   - Presets allow instant inspection of verified evidence cases and saved dossiers.
@@ -248,7 +247,7 @@ npm --prefix web run format:check
 
 CONTEXT strictly separates deterministic measurement from language model reasoning:
 
-1. **Meta Muse Spark 1.2**: receives bounded video clips ($\le 30$ seconds) corresponding strictly to deterministic omission intervals found by the aligner. If the aligner has no match, the model is never invoked. Any model explanation citing timestamps outside the grounded evidence window is rejected by `validate_explanation()`.
+1. **Meta Muse Spark 1.2**: receives bounded video excerpts ($\le 30$ seconds, plus sparse timed frames from the same windows) corresponding strictly to deterministic omission intervals found by the aligner. If the aligner has no match, the model is never invoked. Any model explanation citing timestamps outside the grounded evidence window is rejected by `validate_explanation()`.
 2. **SAM 3.1 (experimental, not in the core pipeline)**: passes only the frozen chart-bar replay and returned zero masks on the hero clip. Crop margins come from OpenCV geometry.
 3. **Response Caching**: all model interpretations are hashed and cached against media bytes, prompt version, and finding ID, so the hero demo replays a recorded response.
 
@@ -267,7 +266,10 @@ CONTEXT strictly separates deterministic measurement from language model reasoni
 
 ## Real-speech evaluation (eval/real-v1)
 
-Nine FOSDEM 2022 Python-devroom talks (CC BY 2.0 BE; clipped and edited: first 270 s each), nine scripted edit recipes, 81 cases. Contract, sources and labels were committed before the pipeline ran; `eval/real-v1/results.json` is committed as produced. Evals are scripted cuts. Run: `scripts/fetch_real_v1.py`, then `scripts/real_v1_eval.py prepare|run`.
+Nine FOSDEM 2022 Python-devroom talks (CC BY 2.0 BE; clipped and edited: first 270 s each), nine scripted edit recipes, 81 cases. Contract, sources and labels were committed before the pipeline ran; `eval/real-v1/results.json` is committed as produced. All edits are scripted cuts. Run: `scripts/fetch_real_v1.py`, then `scripts/real_v1_eval.py prepare|run`.
 
-- Deterministic aligner only: no Muse calls, no API cost. SAM is not used.
+- **Result (scripted cuts):** interval recall 32/36 = 88.9% (threshold 80%, pass); benign false alarms 0/45 = 0% (threshold under 10%, pass); mean boundary error 0.125 s. Scored separately. The "0.0 s boundary error" figures elsewhere in this README apply to execution-v1 only.
+- **Four misses, reported as produced:** three on one talk (middle cut, crop+cut, audio-only) where the unmatched gap on the edited side was 1.5 s against the aligner's 1.0 s limit (`grounded_omissions.py`), and one early cut on a talk whose first ~50 s have no audio match, so the cut read as a leading trim.
+- **Upper bound:** with 0 false alarms in 45 benign cases, the rule-of-three 95% upper bound is about 6.7% (execution-v1: 0/18, about 16.7%), derived in `eval/upper_bounds.json` by `scripts/derive_upper_bounds.py`. Suites are not pooled.
+- Deterministic aligner only: no Muse calls, no API cost. SAM is not used. A single Muse Voice Transcribe test on one clip returned turn-level timestamps (`startMs`/`endMs`) only, no word-level timing.
 - Domain-admission gate (`domain_policy.py`) is a local, offline check of a byte-bound review (no API). The eval calls `analyze()` and `grounded_omissions()` directly and never invokes the gate, so it cannot reject cases. Product paths still require admission; these clips have no operator review on file.

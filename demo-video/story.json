@@ -42,7 +42,7 @@
     "eyebrow": "04 / FROZEN EVALUATION SUITE",
     "title": "Frozen benchmark evaluation.",
     "summary": "15/15 intervals recovered across 12 positive cases; 0 benign alarms.",
-    "narration": "Every metric is evaluated on a frozen contract: thirty scripted FFmpeg scenarios across three benchmark sources. It recovered all fifteen labeled omission intervals across twelve positive cases with zero boundary error, and produced zero false alarms across eighteen benign controls—a 95% upper bound under 17% on a scripted set, by the rule of three."
+    "narration": "Every metric is evaluated on a frozen contract: thirty scripted FFmpeg scenarios across three benchmark sources. It recovered all fifteen labeled omission intervals across twelve positive cases with zero boundary error, and produced zero false alarms across eighteen benign controls—a 95% upper bound under 17% on this scripted set, by the rule of three (eval/upper_bounds.json)."
   },
   {
     "id": "attribution_wrap",
