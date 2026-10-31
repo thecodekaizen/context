@@ -264,3 +264,10 @@ CONTEXT strictly separates deterministic measurement from language model reasoni
 - **Track**: Solo / Indie Track
 - **Submission Deadline**: November 4, 2026, 9:00 PM ET (November 5, 7:30 AM IST)
 - **Primary Artifact**: 3-minute video demonstration (`docs/demo-script.md`) backed by reproducible benchmarks.
+
+## Real-speech evaluation (eval/real-v1)
+
+Nine FOSDEM 2022 Python-devroom talks (CC BY 2.0 BE; clipped and edited: first 270 s each), nine scripted edit recipes, 81 cases. Contract, sources and labels were committed before the pipeline ran; `eval/real-v1/results.json` is committed as produced. Evals are scripted cuts. Run: `scripts/fetch_real_v1.py`, then `scripts/real_v1_eval.py prepare|run`.
+
+- Deterministic aligner only: no Muse calls, no API cost. SAM is not used.
+- Domain-admission gate (`domain_policy.py`) is a local, offline check of a byte-bound review (no API). The eval calls `analyze()` and `grounded_omissions()` directly and never invokes the gate, so it cannot reject cases. Product paths still require admission; these clips have no operator review on file.

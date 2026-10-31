@@ -1,0 +1,897 @@
+{
+  "manifest_sha256": "bab7f5c84091d4e1867b62befbe0ae352a2f82fb76da387c2137be8f6e6f1396",
+  "n_cases": 81,
+  "n_errors": 0,
+  "interval_recall": 0.8888888888888888,
+  "interval_recall_threshold": 0.8,
+  "recall_passed": true,
+  "benign_false_alarm_rate": 0.0,
+  "false_alarm_threshold_exclusive": 0.1,
+  "false_alarm_passed": true,
+  "boundary_error_seconds": 0.12522656249999864,
+  "kill_switch": false,
+  "by_recipe": {
+    "middle_cut": {
+      "cases": 9,
+      "expected": 9,
+      "recovered": 8,
+      "predicted_cases": 8
+    },
+    "early_cut": {
+      "cases": 9,
+      "expected": 9,
+      "recovered": 8,
+      "predicted_cases": 8
+    },
+    "crop_omission": {
+      "cases": 9,
+      "expected": 9,
+      "recovered": 8,
+      "predicted_cases": 8
+    },
+    "audio_only": {
+      "cases": 9,
+      "expected": 9,
+      "recovered": 8,
+      "predicted_cases": 8
+    },
+    "reorder": {
+      "cases": 9,
+      "expected": 0,
+      "recovered": 0,
+      "predicted_cases": 0
+    },
+    "speed_1_25": {
+      "cases": 9,
+      "expected": 0,
+      "recovered": 0,
+      "predicted_cases": 0
+    },
+    "crop_benign": {
+      "cases": 9,
+      "expected": 0,
+      "recovered": 0,
+      "predicted_cases": 0
+    },
+    "benign_trim": {
+      "cases": 9,
+      "expected": 0,
+      "recovered": 0,
+      "predicted_cases": 0
+    },
+    "reencode": {
+      "cases": 9,
+      "expected": 0,
+      "recovered": 0,
+      "predicted_cases": 0
+    }
+  },
+  "cases": [
+    {
+      "id": "python_kafka-middle_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "id": "python_kafka-early_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0005000000000023874
+      ]
+    },
+    {
+      "id": "python_kafka-crop_omission",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "id": "python_kafka-audio_only",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "id": "python_kafka-reorder",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_kafka-speed_1_25",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_kafka-crop_benign",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_kafka-benign_trim",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_kafka-reencode",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_async_sqlalchemy-middle_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_async_sqlalchemy-early_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.4960000000000022
+      ]
+    },
+    {
+      "id": "python_async_sqlalchemy-crop_omission",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_async_sqlalchemy-audio_only",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_async_sqlalchemy-reorder",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_async_sqlalchemy-speed_1_25",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_async_sqlalchemy-crop_benign",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_async_sqlalchemy-benign_trim",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_async_sqlalchemy-reencode",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_concurrency_in_webapps-middle_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "id": "python_concurrency_in_webapps-early_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_concurrency_in_webapps-crop_omission",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "id": "python_concurrency_in_webapps-audio_only",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "python_concurrency_in_webapps-reorder",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_concurrency_in_webapps-speed_1_25",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_concurrency_in_webapps-crop_benign",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_concurrency_in_webapps-benign_trim",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_concurrency_in_webapps-reencode",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_type_safety-middle_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.9995000000000118
+      ]
+    },
+    {
+      "id": "python_type_safety-early_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.003500000000002501
+      ]
+    },
+    {
+      "id": "python_type_safety-crop_omission",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.9995000000000118
+      ]
+    },
+    {
+      "id": "python_type_safety-audio_only",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "python_type_safety-reorder",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_type_safety-speed_1_25",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_type_safety-crop_benign",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_type_safety-benign_trim",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_type_safety-reencode",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_unicode-middle_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0004999999999881766
+      ]
+    },
+    {
+      "id": "python_unicode-early_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.003500000000002501
+      ]
+    },
+    {
+      "id": "python_unicode-crop_omission",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0004999999999881766
+      ]
+    },
+    {
+      "id": "python_unicode-audio_only",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "python_unicode-reorder",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_unicode-speed_1_25",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_unicode-crop_benign",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_unicode-benign_trim",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_unicode-reencode",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_spyql-middle_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0004999999999881766
+      ]
+    },
+    {
+      "id": "python_spyql-early_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0030000000000001137
+      ]
+    },
+    {
+      "id": "python_spyql-crop_omission",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0004999999999881766
+      ]
+    },
+    {
+      "id": "python_spyql-audio_only",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "python_spyql-reorder",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_spyql-speed_1_25",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_spyql-crop_benign",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_spyql-benign_trim",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_spyql-reencode",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_mimics-middle_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0004999999999881766
+      ]
+    },
+    {
+      "id": "python_mimics-early_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.003500000000002501
+      ]
+    },
+    {
+      "id": "python_mimics-crop_omission",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0004999999999881766
+      ]
+    },
+    {
+      "id": "python_mimics-audio_only",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "python_mimics-reorder",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_mimics-speed_1_25",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_mimics-crop_benign",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_mimics-benign_trim",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_mimics-reencode",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_feature_flags-middle_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0004999999999881766
+      ]
+    },
+    {
+      "id": "python_feature_flags-early_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0024999999999977263
+      ]
+    },
+    {
+      "id": "python_feature_flags-crop_omission",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0004999999999881766
+      ]
+    },
+    {
+      "id": "python_feature_flags-audio_only",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "python_feature_flags-reorder",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_feature_flags-speed_1_25",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_feature_flags-crop_benign",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_feature_flags-benign_trim",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_feature_flags-reencode",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_cubicweb-middle_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0004999999999881766
+      ]
+    },
+    {
+      "id": "python_cubicweb-early_cut",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.49799999999999756
+      ]
+    },
+    {
+      "id": "python_cubicweb-crop_omission",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0004999999999881766
+      ]
+    },
+    {
+      "id": "python_cubicweb-audio_only",
+      "benign": false,
+      "error": null,
+      "expected": 1,
+      "recovered": 1,
+      "predicted": 1,
+      "boundary_errors_seconds": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "python_cubicweb-reorder",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_cubicweb-speed_1_25",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_cubicweb-crop_benign",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_cubicweb-benign_trim",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    },
+    {
+      "id": "python_cubicweb-reencode",
+      "benign": true,
+      "error": null,
+      "expected": 0,
+      "recovered": 0,
+      "predicted": 0,
+      "boundary_errors_seconds": []
+    }
+  ],
+  "passed": true
+}

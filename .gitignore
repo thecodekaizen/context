@@ -22,3 +22,4 @@ AUDIT_SUMMARY.md
 *.mp4.tmp
 .claude/settings.local.json
 eval/real-v1/*.mp4
+eval/real-v1/cases/
