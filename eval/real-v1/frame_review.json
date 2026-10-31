@@ -1,0 +1,11 @@
+{
+  "python_kafka": {"frame_at_seconds": 120, "slide_or_screen_content": "weak", "note": "Nearly blank slide with Twitter handles and webcam overlay at 120 s; kept (no post-hoc dropping)."},
+  "python_async_sqlalchemy": {"frame_at_seconds": 120, "slide_or_screen_content": "yes", "note": "Slide text with webcam overlay."},
+  "python_concurrency_in_webapps": {"frame_at_seconds": 120, "slide_or_screen_content": "yes", "note": "Slide text with webcam overlay."},
+  "python_type_safety": {"frame_at_seconds": 120, "slide_or_screen_content": "yes", "note": "Slide with chat screenshots and webcam overlay."},
+  "python_unicode": {"frame_at_seconds": 120, "slide_or_screen_content": "yes", "note": "Slide with meme image and webcam overlay."},
+  "python_spyql": {"frame_at_seconds": 120, "slide_or_screen_content": "yes", "note": "Terminal/code screen with webcam overlay."},
+  "python_mimics": {"frame_at_seconds": 120, "slide_or_screen_content": "yes", "note": "Code slide."},
+  "python_feature_flags": {"frame_at_seconds": 120, "slide_or_screen_content": "yes", "note": "Product screenshot slide with webcam overlay."},
+  "python_cubicweb": {"frame_at_seconds": 120, "slide_or_screen_content": "yes", "note": "Slide with webcam overlay."}
+}

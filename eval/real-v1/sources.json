@@ -1,0 +1,248 @@
+{
+  "fetched_at": "2026-10-31T04:08:39.526355+00:00",
+  "sources": {
+    "python_kafka": {
+      "title": "Get to know Apache Kafka with Jupyter Notebooks",
+      "speaker": "Francesco Tisiot",
+      "event": "FOSDEM 2022, Python devroom, 6 Feb 2022",
+      "page_url": "https://archive.fosdem.org/2022/schedule/event/python_kafka/",
+      "download_url": "https://video.fosdem.org/2022/D.python/python_kafka.mp4",
+      "license": "CC-BY-2.0-BE",
+      "license_url": "http://creativecommons.org/licenses/by/2.0/be/deed.en",
+      "license_verified_on_page": true,
+      "attribution": "\"Get to know Apache Kafka with Jupyter Notebooks\", Francesco Tisiot, FOSDEM 2022, CC BY 2.0 BE (http://creativecommons.org/licenses/by/2.0/be/deed.en). Clipped and edited: first 270 s, re-encoded.",
+      "raw_sha256": "fd7ece9aa1e0f9c5d464f3c86143b16e8661e1953e63c36c5c4d8d8ff02d2186",
+      "clip_path": "data/real-v1/python_kafka.mp4",
+      "clip_sha256": "d31249d4dd24732f7f1927a1e3df8e262101398e4727cc535144bc2e2dc31283",
+      "clip": {
+        "start": 0,
+        "seconds": 270,
+        "has_audio": true,
+        "has_video": true,
+        "duration_seconds": 270.003
+      },
+      "frame_check": {
+        "frame_at_seconds": 120,
+        "slide_or_screen_content": "weak",
+        "note": "Nearly blank slide with Twitter handles and webcam overlay at 120 s; kept (no post-hoc dropping)."
+      },
+      "excluded": null
+    },
+    "python_async_sqlalchemy": {
+      "title": "Introducing Asynchronous SQLAlchemy",
+      "speaker": "Sebastiaan Zeeff",
+      "event": "FOSDEM 2022, Python devroom, 6 Feb 2022",
+      "page_url": "https://archive.fosdem.org/2022/schedule/event/python_async_sqlalchemy/",
+      "download_url": "https://video.fosdem.org/2022/D.python/python_async_sqlalchemy.mp4",
+      "license": "CC-BY-2.0-BE",
+      "license_url": "http://creativecommons.org/licenses/by/2.0/be/deed.en",
+      "license_verified_on_page": true,
+      "attribution": "\"Introducing Asynchronous SQLAlchemy\", Sebastiaan Zeeff, FOSDEM 2022, CC BY 2.0 BE (http://creativecommons.org/licenses/by/2.0/be/deed.en). Clipped and edited: first 270 s, re-encoded.",
+      "raw_sha256": "3a51a7435d76aa902963474fd440340eccc0ca1f55ed06f07829930fa1f6af6a",
+      "clip_path": "data/real-v1/python_async_sqlalchemy.mp4",
+      "clip_sha256": "7d695b9da4e986c50222537f7d130d593638f0a4189ff913638e5aaf2b8b6d10",
+      "clip": {
+        "start": 0,
+        "seconds": 270,
+        "has_audio": true,
+        "has_video": true,
+        "duration_seconds": 270.002
+      },
+      "frame_check": {
+        "frame_at_seconds": 120,
+        "slide_or_screen_content": "yes",
+        "note": "Slide text with webcam overlay."
+      },
+      "excluded": null
+    },
+    "python_concurrency_in_webapps": {
+      "title": "Handling Concurrency in Web Application",
+      "speaker": "Haki Benita",
+      "event": "FOSDEM 2022, Python devroom, 6 Feb 2022",
+      "page_url": "https://archive.fosdem.org/2022/schedule/event/python_concurrency_in_webapps/",
+      "download_url": "https://video.fosdem.org/2022/D.python/python_concurrency_in_webapps.mp4",
+      "license": "CC-BY-2.0-BE",
+      "license_url": "http://creativecommons.org/licenses/by/2.0/be/deed.en",
+      "license_verified_on_page": true,
+      "attribution": "\"Handling Concurrency in Web Application\", Haki Benita, FOSDEM 2022, CC BY 2.0 BE (http://creativecommons.org/licenses/by/2.0/be/deed.en). Clipped and edited: first 270 s, re-encoded.",
+      "raw_sha256": "a1fe951b6a7ffd646b16e303d80e79c1b9031e5e66b5d47ad4197094e8d0df8d",
+      "clip_path": "data/real-v1/python_concurrency_in_webapps.mp4",
+      "clip_sha256": "889bb3593e007af23e6aee43b20cdc7819cedd67a20b39c2ea98a260595f5656",
+      "clip": {
+        "start": 0,
+        "seconds": 270,
+        "has_audio": true,
+        "has_video": true,
+        "duration_seconds": 270.003
+      },
+      "frame_check": {
+        "frame_at_seconds": 120,
+        "slide_or_screen_content": "yes",
+        "note": "Slide text with webcam overlay."
+      },
+      "excluded": null
+    },
+    "python_type_safety": {
+      "title": "Sleep better with type-safe Python",
+      "speaker": "Jerry Pussinen",
+      "event": "FOSDEM 2022, Python devroom, 6 Feb 2022",
+      "page_url": "https://archive.fosdem.org/2022/schedule/event/python_type_safety/",
+      "download_url": "https://video.fosdem.org/2022/D.python/python_type_safety.mp4",
+      "license": "CC-BY-2.0-BE",
+      "license_url": "http://creativecommons.org/licenses/by/2.0/be/deed.en",
+      "license_verified_on_page": true,
+      "attribution": "\"Sleep better with type-safe Python\", Jerry Pussinen, FOSDEM 2022, CC BY 2.0 BE (http://creativecommons.org/licenses/by/2.0/be/deed.en). Clipped and edited: first 270 s, re-encoded.",
+      "raw_sha256": "114c791c1edb22f68fa8bf556da5d243bbb311c07ab47ca552bba507bd09e9e9",
+      "clip_path": "data/real-v1/python_type_safety.mp4",
+      "clip_sha256": "e43eb13a8ff9c3bcd28f6383d5a07c18e90675a192f23fc1e1cd5c1c2eb118a7",
+      "clip": {
+        "start": 0,
+        "seconds": 270,
+        "has_audio": true,
+        "has_video": true,
+        "duration_seconds": 270.002
+      },
+      "frame_check": {
+        "frame_at_seconds": 120,
+        "slide_or_screen_content": "yes",
+        "note": "Slide with chat screenshots and webcam overlay."
+      },
+      "excluded": null
+    },
+    "python_unicode": {
+      "title": "Messing with unicode",
+      "speaker": "Julin Shaji",
+      "event": "FOSDEM 2022, Python devroom, 6 Feb 2022",
+      "page_url": "https://archive.fosdem.org/2022/schedule/event/python_unicode/",
+      "download_url": "https://video.fosdem.org/2022/D.python/python_unicode.mp4",
+      "license": "CC-BY-2.0-BE",
+      "license_url": "http://creativecommons.org/licenses/by/2.0/be/deed.en",
+      "license_verified_on_page": true,
+      "attribution": "\"Messing with unicode\", Julin Shaji, FOSDEM 2022, CC BY 2.0 BE (http://creativecommons.org/licenses/by/2.0/be/deed.en). Clipped and edited: first 270 s, re-encoded.",
+      "raw_sha256": "c5263967ba1ebd66e93915d9eae4e3061785aca3bfa6e694c42bb54c6cbb28f3",
+      "clip_path": "data/real-v1/python_unicode.mp4",
+      "clip_sha256": "516634703a81928e8e607c3a3e58052e03dde223bd596124c9262038040dc70c",
+      "clip": {
+        "start": 0,
+        "seconds": 270,
+        "has_audio": true,
+        "has_video": true,
+        "duration_seconds": 270.003
+      },
+      "frame_check": {
+        "frame_at_seconds": 120,
+        "slide_or_screen_content": "yes",
+        "note": "Slide with meme image and webcam overlay."
+      },
+      "excluded": null
+    },
+    "python_spyql": {
+      "title": "SPyQL - SQL with Python in the middle",
+      "speaker": "Daniel Moura",
+      "event": "FOSDEM 2022, Python devroom, 6 Feb 2022",
+      "page_url": "https://archive.fosdem.org/2022/schedule/event/python_spyql/",
+      "download_url": "https://video.fosdem.org/2022/D.python/python_spyql.mp4",
+      "license": "CC-BY-2.0-BE",
+      "license_url": "http://creativecommons.org/licenses/by/2.0/be/deed.en",
+      "license_verified_on_page": true,
+      "attribution": "\"SPyQL - SQL with Python in the middle\", Daniel Moura, FOSDEM 2022, CC BY 2.0 BE (http://creativecommons.org/licenses/by/2.0/be/deed.en). Clipped and edited: first 270 s, re-encoded.",
+      "raw_sha256": "8a5ed35bdd2c96d5f71ec154c591967566b9b4fca7e5715d02bfb7dbb137a7d6",
+      "clip_path": "data/real-v1/python_spyql.mp4",
+      "clip_sha256": "7dcc3a01d8041e86bfb8c72baa52608056113bef5bd448ff41717d21400d9028",
+      "clip": {
+        "start": 0,
+        "seconds": 270,
+        "has_audio": true,
+        "has_video": true,
+        "duration_seconds": 270.003
+      },
+      "frame_check": {
+        "frame_at_seconds": 120,
+        "slide_or_screen_content": "yes",
+        "note": "Terminal/code screen with webcam overlay."
+      },
+      "excluded": null
+    },
+    "python_mimics": {
+      "title": "Mimics - Records operations to replay them later",
+      "speaker": "Maarten De Paepe",
+      "event": "FOSDEM 2022, Python devroom, 6 Feb 2022",
+      "page_url": "https://archive.fosdem.org/2022/schedule/event/python_mimics/",
+      "download_url": "https://video.fosdem.org/2022/D.python/python_mimics.mp4",
+      "license": "CC-BY-2.0-BE",
+      "license_url": "http://creativecommons.org/licenses/by/2.0/be/deed.en",
+      "license_verified_on_page": true,
+      "attribution": "\"Mimics - Records operations to replay them later\", Maarten De Paepe, FOSDEM 2022, CC BY 2.0 BE (http://creativecommons.org/licenses/by/2.0/be/deed.en). Clipped and edited: first 270 s, re-encoded.",
+      "raw_sha256": "af2f1398fca0a5dcd310337621ccf85d75ed454a6f2aac5c7d6176768225c4af",
+      "clip_path": "data/real-v1/python_mimics.mp4",
+      "clip_sha256": "f5e88b83594f1be62e8d892898bf843959a2a14c586530cc98fdb8005a552ab9",
+      "clip": {
+        "start": 0,
+        "seconds": 270,
+        "has_audio": true,
+        "has_video": true,
+        "duration_seconds": 270.003
+      },
+      "frame_check": {
+        "frame_at_seconds": 120,
+        "slide_or_screen_content": "yes",
+        "note": "Code slide."
+      },
+      "excluded": null
+    },
+    "python_feature_flags": {
+      "title": "Implementing and managing feature flags",
+      "speaker": "Mehdi Raddadi",
+      "event": "FOSDEM 2022, Python devroom, 6 Feb 2022",
+      "page_url": "https://archive.fosdem.org/2022/schedule/event/python_feature_flags/",
+      "download_url": "https://video.fosdem.org/2022/D.python/python_feature_flags.mp4",
+      "license": "CC-BY-2.0-BE",
+      "license_url": "http://creativecommons.org/licenses/by/2.0/be/deed.en",
+      "license_verified_on_page": true,
+      "attribution": "\"Implementing and managing feature flags\", Mehdi Raddadi, FOSDEM 2022, CC BY 2.0 BE (http://creativecommons.org/licenses/by/2.0/be/deed.en). Clipped and edited: first 270 s, re-encoded.",
+      "raw_sha256": "c1c39b8b309d319571b495ec26f87ccea43ee14b91634b3a5bd4e76aca81a5ed",
+      "clip_path": "data/real-v1/python_feature_flags.mp4",
+      "clip_sha256": "27bf855dfcf110827fc52c985cb590f9405e50b84d25e4cf207fa9cc9c86b59f",
+      "clip": {
+        "start": 0,
+        "seconds": 270,
+        "has_audio": true,
+        "has_video": true,
+        "duration_seconds": 270.002
+      },
+      "frame_check": {
+        "frame_at_seconds": 120,
+        "slide_or_screen_content": "yes",
+        "note": "Product screenshot slide with webcam overlay."
+      },
+      "excluded": null
+    },
+    "python_cubicweb": {
+      "title": "CubicWeb: bootstraping a web-application from RDF data",
+      "speaker": "Fabien Amarger",
+      "event": "FOSDEM 2022, Python devroom, 6 Feb 2022",
+      "page_url": "https://archive.fosdem.org/2022/schedule/event/python_cubicweb/",
+      "download_url": "https://video.fosdem.org/2022/D.python/python_cubicweb.mp4",
+      "license": "CC-BY-2.0-BE",
+      "license_url": "http://creativecommons.org/licenses/by/2.0/be/deed.en",
+      "license_verified_on_page": true,
+      "attribution": "\"CubicWeb: bootstraping a web-application from RDF data\", Fabien Amarger, FOSDEM 2022, CC BY 2.0 BE (http://creativecommons.org/licenses/by/2.0/be/deed.en). Clipped and edited: first 270 s, re-encoded.",
+      "raw_sha256": "054376c11685e70bc4ca7aa878437c08e85342a1f715ef767f3ac9f587e72216",
+      "clip_path": "data/real-v1/python_cubicweb.mp4",
+      "clip_sha256": "23fb926c4390028e760e0daeeed658bab044409afc9f1f66c1cc41659b9913a2",
+      "clip": {
+        "start": 0,
+        "seconds": 270,
+        "has_audio": true,
+        "has_video": true,
+        "duration_seconds": 270.003
+      },
+      "frame_check": {
+        "frame_at_seconds": 120,
+        "slide_or_screen_content": "yes",
+        "note": "Slide with webcam overlay."
+      },
+      "excluded": null
+    }
+  }
+}
