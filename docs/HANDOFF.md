@@ -32,3 +32,6 @@ Updated: Sat Oct 31 2026 (Stage 1 of submission task done)
 - Result: 2/4 pass (target 3 NOT met). Passed: type_safety, spyql. Missed: kafka (cited source 97-98 s, in the 2 s margin before the omitted 99-130 s), unicode (cited the whole 98-128 s excerpt, outside 100-130). All 4 classified inconclusive; no intent claims.
 - Muse Voice: segment-level startMs/endMs only, no word timestamps; not wired.
 - Next: Stage 2. Hero stays honest (do not claim Stage 1 passed). Any prompt change needs 4 NEW clips + disclosure.
+## Stage 2 (Oct 31)
+- README: real-v2 section, Limitations; story.json aligned to demo-script (266 words). Hero stays the honest inconclusive case (Stage 1 was 2/4).
+- /claims: fixed crop attribution (separate fixture), Muse 'excerpt around' wording, README execution-v1 qualifier. No OVERCLAIM left known. Render still predates script: re-render before submit.

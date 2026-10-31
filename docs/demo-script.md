@@ -1,6 +1,6 @@
 # CONTEXT demo script: Pre-Publication QA
 
-Voiceover for a human narrator. Narration is 264 words (limit 310); word counts are in each heading.
+Voiceover for a human narrator. Narration is 266 words (limit 310); word counts are in each heading.
 Every number comes from `eval/hero-v1/results.json`,
 `eval/hero-v1/muse/response.json` (saved Muse observations) or `eval/execution-v1/full-results/results.json`.
 
@@ -24,12 +24,12 @@ Every number comes from `eval/hero-v1/results.json`,
 ## 1:30–2:00 | Muse reads it, the human decides (61 words)
 **On screen:** Muse panel labeled "Saved response, not re-run": observation, possible effect, classification **inconclusive**. Then a reviewer-decision row.
 
-> Meta's Muse Spark 1.2 reads the frames in that matched interval. Alignment and crop measurement are deterministic. Muse notes that the removed seconds coincide with the warm-cache-only qualification. If that qualification is missing, it says the zero point zero zero nine microsecond figure could read as a general, end-to-end speedup. It reports inconclusive. Saved response, not run live. The human decides.
+> Meta's Muse Spark 1.2 reads an excerpt around that matched interval. Alignment and crop measurement are deterministic. Muse notes that the removed seconds coincide with the warm-cache-only qualification. If that qualification is missing, it says the zero point zero zero nine microsecond figure could read as a general, end-to-end speedup. It reports inconclusive. Saved response, not run live. The human decides.
 
-## 2:00–2:25 | The crop (33 words)
-**On screen:** Calipers: 1280×720 source, 960×720 retained, right margin shaded. "25% of frame removed · OpenCV geometry".
+## 2:00–2:25 | The crop (35 words)
+**On screen:** Calipers: 1280×720 source, 960×720 retained, right margin shaded. "Separate crop-detection fixture · 25% of frame removed · OpenCV geometry".
 
-> The edit also cropped the frame, from twelve eighty by seven twenty to nine sixty by seven twenty. That's a quarter of the picture, removed from the right side, measured with OpenCV geometry.
+> Separately, a crop-detection fixture shows a frame cropped from twelve eighty by seven twenty to nine sixty by seven twenty. That's a quarter of the picture, removed from the right side, measured with OpenCV geometry.
 
 ## 2:25–2:50 | How far to trust it (39 words)
 **On screen:** Table: 30 scripted cuts, 12 with omissions, 15/15 intervals recovered, 0.0 s boundary error, 0/18 benign controls flagged. Banner: "Scripted cuts of authored recordings. Not field footage." Footnotes: "Hero clip: visual matching alone returned insufficient_evidence; the cut was found by audio." "SAM 3.1: experimental, not featured."

@@ -2,55 +2,55 @@
   {
     "id": "intro",
     "start": 0,
-    "duration": 25,
+    "duration": 20,
     "eyebrow": "CONTEXT / PRE-PUBLICATION QA",
     "title": "Pre-publication QA. Missing context.",
     "summary": "Four-second deletion recovered and inspected side by side.",
-    "narration": "Before publishing a benchmark demo or technical highlight, how does an engineering team verify what the video edit cut out? An editor tightening a recording might trim four seconds to hit a runtime target without realizing those seconds carried an essential caveat. CONTEXT finds the excised interval and lets your team inspect the evidence before you publish."
+    "narration": "The edited highlight runs fourteen seconds. The raw recording runs eighteen. What is missing? A team about to publish a benchmark demo needs that answer first, so it checks what the edit removed."
   },
   {
     "id": "problem",
-    "start": 25,
+    "start": 20,
     "duration": 30,
     "eyebrow": "01 / ARCHITECTURE CONTRACT",
     "title": "Deterministic alignment first.",
     "summary": "Raw vs. highlight comparison; measured correspondence establishes matches.",
-    "narration": "Here is the workflow. The reviewer submits the cut highlight alongside the raw recording. CONTEXT matches the soundtracks by acoustic cross-correlation—no model guessing—and flags the exact four-second omission from seconds six to ten. Visual matching alone was not enough on this clip."
+    "narration": "CONTEXT lines the two recordings up and finds a gap: four seconds, from six to ten. It found the cut by matching the audio. Matching the picture alone wasn't enough on this clip. The boundary error against the known cut is zero seconds."
   },
   {
     "id": "live_run",
-    "start": 55,
-    "duration": 55,
+    "start": 50,
+    "duration": 70,
     "eyebrow": "02 / DUAL-PLAYER WORKSTATION",
     "title": "Synchronized feeds & 'WARM CACHE' reveal.",
-    "summary": "Dual-player uncovers excised disclaimer; Muse Spark reads text.",
-    "narration": "Notice our synchronized dual player: scrubbing the edit drives the raw source in lockstep. When we click the omission card, the source exposes the excised footage. And here is the discovery: during those four missing seconds, the source displayed 'WARM CACHE ONLY' and 'COLD-START SETUP IS EXCLUDED'—which do not appear in the edited sample frames. A saved response from Meta Muse Spark 1.2 reads the qualification text and explains its potential interpretive impact, while honestly reporting inconclusive on whether meaning changed throughout the clip. The team catches the unintended omission before publishing."
+    "summary": "Dual-player shows the removed seconds; Muse reads the matched interval (saved response).",
+    "narration": "Both players move together. Click the finding, and the raw recording plays the missing four seconds. On screen there: warm cache only, cold-start setup excluded, cold setup zero point eight three milliseconds. The edit's sampled frames show only generic conditions. Meta's Muse Spark 1.2 reads an excerpt around that matched interval. Alignment and crop measurement are deterministic. Muse notes that the removed seconds coincide with the warm-cache-only qualification. If that qualification is missing, it says the zero point zero zero nine microsecond figure could read as a general, end-to-end speedup. It reports inconclusive. Saved response, not run live. The human decides."
   },
   {
     "id": "sam_crop",
-    "start": 110,
-    "duration": 30,
+    "start": 120,
+    "duration": 25,
     "eyebrow": "03 / SPATIAL REFRAME DETECTION",
-    "title": "Geometric crop & experimental SAM.",
-    "summary": "Measured crop calipers; SAM evaluated separately on chart bars.",
-    "narration": "Spatial changes are audited separately. When a widescreen recording is reframed, OpenCV geometry measures the exact retained box—here, 25% of the frame was cropped out, removing the entire right-side conditions panel. Separately, we evaluated Meta SAM 3.1: it passed a replay on ten frozen chart-bar crops, but returned zero masks on the live conditions panel. So the live margin overlay is strictly geometric evidence, not an AI claim."
+    "title": "Geometric crop.",
+    "summary": "Measured crop calipers (OpenCV geometry); SAM does not appear.",
+    "narration": "Separately, a crop-detection fixture shows a frame cropped from twelve eighty by seven twenty to nine sixty by seven twenty. That's a quarter of the picture, removed from the right side, measured with OpenCV geometry."
   },
   {
     "id": "evaluation",
-    "start": 140,
+    "start": 145,
     "duration": 25,
     "eyebrow": "04 / FROZEN EVALUATION SUITE",
     "title": "Frozen benchmark evaluation.",
     "summary": "15/15 intervals recovered across 12 positive cases; 0 benign alarms.",
-    "narration": "Every metric is evaluated on a frozen contract: thirty scripted FFmpeg scenarios across three benchmark sources. It recovered all fifteen labeled omission intervals across twelve positive cases with zero boundary error, and produced zero false alarms across eighteen benign controls—a 95% upper bound under 17% on this scripted set, by the rule of three (eval/upper_bounds.json)."
+    "narration": "On a frozen set of thirty scripted edits, it found all fifteen removed intervals, with zero seconds of boundary error. It raised no alarm on eighteen harmless edits. These are scripted cuts of recordings we authored, not field footage."
   },
   {
     "id": "attribution_wrap",
-    "start": 165,
-    "duration": 15,
-    "eyebrow": "05 / META MODELS & REPRODUCIBILITY",
-    "title": "Inspectable evidence & honest boundaries.",
-    "summary": "Limits disclosed: scripted set, saved Muse response, SAM experimental.",
-    "narration": "Here is where the evidence stops: scripted cuts of authored clips, a saved Muse response, and SAM as an experiment. Deterministic evidence first, bounded model review second, and honest limits throughout."
+    "start": 170,
+    "duration": 10,
+    "eyebrow": "05 / HONEST BOUNDARIES",
+    "title": "The team decides.",
+    "summary": "Limits disclosed: scripted cuts, saved Muse response.",
+    "narration": "CONTEXT doesn't judge the cut. It shows the evidence, so the team decides before publishing."
   }
 ]

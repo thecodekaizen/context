@@ -236,7 +236,7 @@ npm --prefix web run format:check
 ## Evidence Engine Modules
 
 - `media.py`: media probing, audio waveform extraction, and timestamped 4 Hz RGB feature sampling.
-- `audio_alignment.py`: normalized acoustic cross-correlation running at 2 kHz, detecting soundtrack discontinuities with 0.0 s boundary error on the scripted eval cuts.
+- `audio_alignment.py`: normalized acoustic cross-correlation running at 2 kHz, detecting soundtrack discontinuities with 0.0 s boundary error on the execution-v1 scripted eval cuts (real-v1 mean 0.125 s).
 - `alignment.py`: conservative sequence matching, ambiguity rejection, supported cuts, omissions, reordering, and repetition.
 - `crop_detector.py`: multi-scale OpenCV template matching for crop/reframe detection (SAM 3.1 is experimental and not used for margins).
 - `grounded_omissions.py`: strict verification enforcing that omissions must be grounded by deterministic matches on both sides.
@@ -274,9 +274,26 @@ Nine FOSDEM 2022 Python-devroom talks (CC BY 2.0 BE; clipped and edited: first 2
 - Deterministic aligner only: no Muse calls, no API cost. SAM is not used. A single Muse Voice Transcribe test on one clip returned turn-level timestamps (`startMs`/`endMs`) only, no word-level timing.
 - Domain-admission gate (`domain_policy.py`) is a local, offline check of a byte-bound review (no API). The eval calls `analyze()` and `grounded_omissions()` directly and never invokes the gate, so it cannot reject cases. Product paths still require admission; these clips have no operator review on file.
 
+## Muse on real speech (eval/real-v2-muse)
+
+Four real-v1 talks (middle cut), one Muse call each, checked in code against `eval/real-v2-muse/contract.json` (frozen before any call). Scripted cuts, recorded responses; four clips is not a rate estimate.
+
+- **Result: 2 of 4 pass; the target of 3 was not met.** Passing needs cited source timestamps inside the aligner's omitted interval, no intent claims, and a grounded observation. All four responses were `inconclusive`.
+- **Misses:** `python_kafka` cited source 97–98 s, in the 2 s margin before the omitted 99–130 s; `python_unicode` cited the whole 98–128 s excerpt. Responses are in `eval/real-v2-muse/responses/`.
+- Prompt unchanged. Because this did not pass, the demo keeps the authored hero case rather than a real-talk Muse result.
+
 ## Built during the hackathon
 
-- Repo history starts 2026-10-29; all 49 commits fall between 2026-10-29 and 2026-10-31, inside the Oct 27–Nov 4 window.
+- Repo history starts 2026-10-29; every commit falls inside the Oct 27–Nov 4 window.
 - Third-party tools and assets: FFmpeg and OpenCV (media and crop geometry); FOSDEM 2022 Python-devroom talks used as eval clips under CC BY 2.0 BE, with attribution in `eval/real-v1/sources.json` (clipped and edited; video files are not committed).
 - Meta Muse Spark 1.2 API for bounded explanations (the hero response is a saved recording); Meta SAM 3.1 is experimental and not part of the core pipeline.
 - The wider "universal video intelligence" vision (CONTEXT / CONTROL / PRELUDE / VEIL) is a concept, not built. Only CONTEXT exists in this repo.
+
+## Limitations
+
+- All evaluation edits are scripted cuts (ffmpeg); labels are exact by construction and measure deleted media, not changed meaning.
+- Boundary-gap misses: 4 of 36 real-v1 intervals were not recovered (three on one talk with a 1.5 s unmatched gap against the aligner's 1.0 s limit).
+- The demo hero is a synthetic, authored recording with a saved Muse response, not field footage; visual matching alone was insufficient there.
+- Muse on real talks: 2 of 4 grounded explanations passed; the model often abstains.
+- SAM 3.1 is experimental (passes only a frozen chart-bar replay) and is not part of the core pipeline.
+- The problem has not been validated with users.
