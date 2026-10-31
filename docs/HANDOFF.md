@@ -38,3 +38,5 @@ Updated: Sat Oct 31 2026 (Stage 1 of submission task done)
 ## Stage 3 (Oct 31)
 - Clean clone (origin 7ff90aa): cold docker build 111 s, ready 0.6 s, hero endpoint 200. Demo path = 2 commands (build, run) + open browser + click hero button (button still not click-tested in a browser).
 - gitleaks: 54 commits clean. Internal notes untracked + gitignored (still in history); checklist in docs/SUBMISSION_CHECKLIST.md (not SUBMISSION.md: case-collides with docs/submission.md).
+## Video (Oct 31)
+- Silent cut built from the live app on :8010: demo-video/out/ (gitignored): context-demo-silent.mp4 (141 s), captions.srt, cue-sheet.md. Build script is in the session scratchpad, not committed. Awaiting narration.wav -> mux, loudness-normalize, <3:00.

@@ -33,3 +33,6 @@ docs/CODEX_HANDOFF.md
 docs/handoff-followup.md
 docs/review/
 .claude/settings.local.json
+
+# submission video outputs (not committed)
+demo-video/out/
