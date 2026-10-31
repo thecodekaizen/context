@@ -69,7 +69,7 @@ CONTEXT has achieved:
 ```
 =============================== test session starts ===============================
 platform darwin -- Python 3.15.0, pytest-9.2.0, pluggy-1.7.0
-rootdir: /Users/thecodekaizen/Code/Projects/hackathons/context
+rootdir: <repo>
 plugins: anyio-4.15.1
 collected 132 items
 

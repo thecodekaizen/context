@@ -91,13 +91,13 @@ Gate Result:                PASSED (10 / 10 cases)
 To re-run the frozen evaluation benchmark locally:
 
 ```bash
-cd /Users/thecodekaizen/Code/Projects/hackathons/context
+cd <repo>
 PYTHONPATH=backend .venv/bin/python scripts/run_execution_eval.py
 ```
 
 To run the SAM 3.1 spatial crop pixel recall gate:
 
 ```bash
-cd /Users/thecodekaizen/Code/Projects/hackathons/context
+cd <repo>
 PYTHONPATH=backend .venv/bin/python scripts/run_sam_gate.py
 ```
