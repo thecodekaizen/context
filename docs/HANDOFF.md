@@ -15,9 +15,12 @@ Updated: Sat Oct 31 2026, ~02:25 IST
 - Terminal-abstain claim cut (46.3% only in prose docs). Render (11.5 MB) predates script edits: re-render before submit.
 - SAM gate: original run errored on mask parsing; passing figures are the rescored replay (disclosed in README).
 - Open: story.json still matches the old script; domain-admission.md, hero-validation.md, ANTIGRAVITY_HANDOFF.md may still mention hyperfine (unchecked).
+- Mock-judge review (Oct 31, no code change): Muse cites WARM CACHE ONLY at source-excerpt 2-5 s, "Python dictionary..." at 6-7 s. Verify excerpt offset vs demo-script 0:50 line "removed span shows warm cache only"; else reword.
+- Mock-judge: "Muse tied the removed seconds to the limit" overstates; response says "coincides" + "insufficient evidence". Soften in script.
 ## Next (ordered)
 1. Click-test hero button in a real browser.
-2. Align story.json to docs/demo-script.md (264 words, 7 segments), re-render video, check remaining hyperfine mentions.
+2. Verify/reword the two script claims above; align story.json to docs/demo-script.md (264 words, 7 segments), re-render video, check remaining hyperfine mentions.
+3. Optional: add one unscripted real clip with committed result; add 10 s abstention moment to demo.
 ## Facts to not re-derive
 - Hero: eval/hero-v1 (omission found via AUDIO match; visual alone = insufficient_evidence; Muse saw panel text in source only). Clip: cache qualification, 18 s     - Cut interval(s): 6.0-10.0 s (edit at 6.0)     - Eval results file: eval/execution-v1/full-results/results.json
 - Option 3 deferred: NASA allowlist in retrieval.py, ablation scripts/docs; revisit after hero bundle if README links to them.
