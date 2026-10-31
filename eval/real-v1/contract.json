@@ -1,0 +1,28 @@
+{
+  "version": "real-v1",
+  "frozen_before_inference": true,
+  "minimum_interval_recall": 0.8,
+  "maximum_benign_false_alarm_rate_exclusive": 0.1,
+  "kill_below_interval_recall": 0.5,
+  "minimum_interval_iou": 0.5,
+  "maximum_edit_position_error_seconds": 1.0,
+  "scoring": "Interval recall (non-benign cases only) and benign false-alarm rate (benign cases only) are scored separately, each against its own threshold. Both must pass; neither can offset the other. Scoring logic is imported unchanged from scripts/execution_eval.py (score, expected_omissions).",
+  "interval_recall": "Recovered expected omission intervals divided by all expected omission intervals. Temporal IoU >= 0.5 and edit-position error <= 1 second, one-to-one matching. Audio-only deletions require audio matches.",
+  "benign_false_alarm_rate": "Benign edits with at least one predicted internal omission divided by all benign edits. Boundary-only trims are benign.",
+  "scope": "Nine CC BY 2.0 BE FOSDEM 2022 Python-devroom talks (real speech with slides/screen content), first 270 s of each, clipped and edited. Edits are scripted by ffmpeg from the recipes below, so labels are exact by construction. They measure deleted media, not whether a deletion changes meaning. Deterministic aligner only: no Muse calls, no API cost. The domain-admission gate (backend/context_core/domain_policy.py) is not part of this path: the eval imports analyze() and grounded_omissions() directly. SAM is not used and contributes nothing.",
+  "sources_file": "eval/real-v1/sources.json",
+  "duration_seconds": 270,
+  "exclusion_policy": "Sources may be excluded only before any pipeline run, for technical reasons (no audio/video stream or corrupt file), recorded in sources.json. No source or case is dropped after a pipeline run.",
+  "crop_note": "A pure crop (crop_benign) removes no time and is labelled benign, matching execution-v1: the temporal aligner must not report an omission. crop_omission combines a cut with a crop.",
+  "recipes": [
+    {"name": "middle_cut", "intervals": [[0, 100], [130, 270]], "transform": "none", "benign": false},
+    {"name": "early_cut", "intervals": [[0, 20], [50, 270]], "transform": "none", "benign": false},
+    {"name": "crop_omission", "intervals": [[0, 100], [130, 270]], "transform": "crop", "benign": false},
+    {"name": "audio_only", "intervals": [[0, 270]], "transform": "audio_omission", "audio_gap": [100, 130], "benign": false},
+    {"name": "reorder", "intervals": [[150, 270], [0, 75], [75, 150]], "transform": "none", "benign": true},
+    {"name": "speed_1_25", "intervals": [[0, 270]], "transform": "speed", "benign": true},
+    {"name": "crop_benign", "intervals": [[0, 270]], "transform": "crop", "benign": true},
+    {"name": "benign_trim", "intervals": [[5, 265]], "transform": "none", "benign": true},
+    {"name": "reencode", "intervals": [[0, 270]], "transform": "reencode", "benign": true}
+  ]
+}
