@@ -35,3 +35,6 @@ Updated: Sat Oct 31 2026 (Stage 1 of submission task done)
 ## Stage 2 (Oct 31)
 - README: real-v2 section, Limitations; story.json aligned to demo-script (266 words). Hero stays the honest inconclusive case (Stage 1 was 2/4).
 - /claims: fixed crop attribution (separate fixture), Muse 'excerpt around' wording, README execution-v1 qualifier. No OVERCLAIM left known. Render still predates script: re-render before submit.
+## Stage 3 (Oct 31)
+- Clean clone (origin 7ff90aa): cold docker build 111 s, ready 0.6 s, hero endpoint 200. Demo path = 2 commands (build, run) + open browser + click hero button (button still not click-tested in a browser).
+- gitleaks: 54 commits clean. Internal files still tracked (CLAUDE.md, .claude/, .hackathon/, handoffs, AUDIT): decision pending, see docs/SUBMISSION.md.
