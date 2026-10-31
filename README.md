@@ -273,3 +273,10 @@ Nine FOSDEM 2022 Python-devroom talks (CC BY 2.0 BE; clipped and edited: first 2
 - **Upper bound:** with 0 false alarms in 45 benign cases, the rule-of-three 95% upper bound is about 6.7% (execution-v1: 0/18, about 16.7%), derived in `eval/upper_bounds.json` by `scripts/derive_upper_bounds.py`. Suites are not pooled.
 - Deterministic aligner only: no Muse calls, no API cost. SAM is not used. A single Muse Voice Transcribe test on one clip returned turn-level timestamps (`startMs`/`endMs`) only, no word-level timing.
 - Domain-admission gate (`domain_policy.py`) is a local, offline check of a byte-bound review (no API). The eval calls `analyze()` and `grounded_omissions()` directly and never invokes the gate, so it cannot reject cases. Product paths still require admission; these clips have no operator review on file.
+
+## Built during the hackathon
+
+- Repo history starts 2026-10-29; all 49 commits fall between 2026-10-29 and 2026-10-31, inside the Oct 27–Nov 4 window.
+- Third-party tools and assets: FFmpeg and OpenCV (media and crop geometry); FOSDEM 2022 Python-devroom talks used as eval clips under CC BY 2.0 BE, with attribution in `eval/real-v1/sources.json` (clipped and edited; video files are not committed).
+- Meta Muse Spark 1.2 API for bounded explanations (the hero response is a saved recording); Meta SAM 3.1 is experimental and not part of the core pipeline.
+- The wider "universal video intelligence" vision (CONTEXT / CONTROL / PRELUDE / VEIL) is a concept, not built. Only CONTEXT exists in this repo.
